@@ -111,7 +111,7 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
 
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
-<https://github.com/truonghh99/Kitchen-Assistant/blob/master/Wireframes%202.png" width=600>
+<src="https://github.com/truonghh99/Kitchen-Assistant/blob/master/Wireframes%202.png" width=600>
 
 ## Detail plan: 
 
