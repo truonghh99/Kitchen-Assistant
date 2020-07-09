@@ -115,19 +115,10 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
 ## Wireframes
 <img src="https://github.com/truonghh99/Kitchen-Assistant/blob/master/Wireframes%202.png" width=600>
 
-## Action plan: 
+## Schema & Action plan: 
 
 https://docs.google.com/document/d/16sKpI7_NuL9bB57lofKlBzqmXrVLnfgtCZSrUolncIQ/edit?usp=sharing
 
 ### [BONUS] Digital Wireframes & Mockups
 
 ### [BONUS] Interactive Prototype
-
-## Schema 
-[This section will be completed in Unit 9]
-### Models
-[Add table of models]
-### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
