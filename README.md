@@ -52,6 +52,8 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
 * Have a newsfeed screen for users to share their recipes & food-related posts
 * Allow users to like, comment, and share newsfeed post
 * Allow users to add other's recipes to their recipe list
+* Get suggested recipe from external databse
+* Allow users to login using Facebook & Google account
 
 ### 2. Screen Archetypes
 
