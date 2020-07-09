@@ -54,6 +54,7 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
 * Allow users to add other's recipes to their recipe list
 * Get suggested recipe from external databse
 * Allow users to login using Facebook & Google account
+* Have a daily calorie tracking screen
 
 ### 2. Screen Archetypes
 
