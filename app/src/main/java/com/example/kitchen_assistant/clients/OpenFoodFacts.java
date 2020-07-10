@@ -13,15 +13,16 @@ public class OpenFoodFacts {
 
     public static String TAG = "OpenFoodFacts";
 
-    public static String GET_PRODUCT_INFO_URL = "https://world.openfoodfacts.org/api/v0/product/";
+    public static String GET_PRODUCT_INFO_URL = "https://us.openfoodfacts.org/api/v0/product/";
+    public static String HEADER = "KitchenAssistant - Android - Version 1.0 - https://github.com/truonghh99/Kitchen-Assistant/blob/master/README.md";
 
     public static Product getProductInfo(String productCode) {
         Product product = new Product();
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        String url = GET_PRODUCT_INFO_URL + productCode;
 
-        client.get("https://api.thecatapi.com/v1/images/search", params, new JsonHttpResponseHandler() {
+        String url = GET_PRODUCT_INFO_URL + productCode;
+        client.get(url, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, json.toString());
