@@ -1,5 +1,6 @@
 package com.example.kitchen_assistant.models;
 
+import android.text.format.DateUtils;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -9,28 +10,29 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class Product {
 
     private static final String TAG = "product";
+    private static final String DEFAULT_IMG = "https://cdn.dribbble.com/users/67525/screenshots/4517042/agarey_grocerydribbble.png";
 
     private static final String PRODUCT_INFO = "product";
     private static final String BARCODE = "code";
     private static final String NAME = "product_name";
     private static final String QUANTITY = "quantity";
     private static final String IMAGE_URL = "image_thumb_url";
-    private static final String EXPIRATION_DATE = "expiration_date";
 
     private String productId;
     private String productName;
-    private String quantity;
+    private int quantity;
     private String quantityUnit;
     private String imgUrl;
     private Date expirationDate;
     private Date purchaseDate;
-    private String relativeDate;
+    private String foodStatus;
     private User owner;
     private FoodItem foodItem;
 
@@ -38,32 +40,57 @@ public class Product {
     }
 
     public Product (JSONObject json) throws JSONException, ParseException {
+        Log.e(TAG, "START INIT");
         JSONObject product = json.getJSONObject(PRODUCT_INFO);
 
         productId = json.getString(BARCODE);
         productName = product.getString(NAME);
-        quantity = product.getString(QUANTITY);
-        imgUrl = product.getString(IMAGE_URL);
-        expirationDate = convertToDate(product.getString(EXPIRATION_DATE));
+        try {
+            String quantityStr = product.getString(QUANTITY);
+            quantity = extractQuantityVal(quantityStr);
+            quantityUnit = extractQuantityUnit(quantityStr);
+        } catch (JSONException e) {
+            quantity = 0;
+            quantityUnit = null;
+        }
+        try {
+            imgUrl = product.getString(IMAGE_URL);
+        } catch (JSONException e) {
+            imgUrl = DEFAULT_IMG;
+        }
         purchaseDate = new Date();
 
         Log.e(TAG, productId);
-        Log.e(TAG, product.toString());
         Log.e(TAG, productName);
-        Log.e(TAG, quantity);
+        Log.e(TAG, "" + quantity + " " + quantityUnit);
         Log.e(TAG, imgUrl);
-        Log.e(TAG, String.valueOf(expirationDate));
         Log.e(TAG, String.valueOf(purchaseDate));
     }
 
-    private Date convertToDate(String str) throws ParseException {
-        Date date = new Date();
-        DateFormat format = new SimpleDateFormat("DD/MM/YYYY", Locale.ENGLISH);
-        if (str.isEmpty()) {
-            return new Date(9000);
+    private String extractQuantityUnit(String quantityStr) {
+        if (quantityStr.isEmpty()) {
+            return null;
         }
-        date = format.parse(str);
-        return date;
+        int i = 0;
+        while (quantityStr.charAt(i) <= '9' && quantityStr.charAt(i) >= '0') ++i;
+        ++i;
+        String unit = "";
+        while (i < quantityStr.length() && quantityStr.charAt(i) != ' ') {
+            unit += quantityStr.charAt(i);
+            ++i;
+        }
+        return unit;
+    }
+
+    private int extractQuantityVal(String quantityStr) {
+        if (quantityStr.isEmpty()) {
+            return 0;
+        }
+        int quantityVal = 0;
+        for (int i = 0; quantityStr.charAt(i) <= '9' && quantityStr.charAt(i) >= '0'; ++i) {
+            quantityVal = quantityVal * 10 + (int) (quantityStr.charAt(i) - '0');
+        }
+        return quantityVal;
     }
 
     public String getProductId() {
@@ -82,11 +109,11 @@ public class Product {
         this.productName = productName;
     }
 
-    public String getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 

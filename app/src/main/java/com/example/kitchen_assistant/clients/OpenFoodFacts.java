@@ -30,6 +30,7 @@ public class OpenFoodFacts {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 try {
+                    Log.e(TAG, "On success to query product info from Open Food Facts");
                     product[0] = new Product(json.jsonObject);
                 } catch (JSONException | ParseException e) {
                     e.printStackTrace();
