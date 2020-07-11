@@ -7,6 +7,10 @@ import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.kitchen_assistant.models.Product;
 
+import org.json.JSONException;
+
+import java.text.ParseException;
+
 import okhttp3.Headers;
 
 public class OpenFoodFacts {
@@ -17,7 +21,7 @@ public class OpenFoodFacts {
     public static String HEADER = "KitchenAssistant - Android - Version 1.0 - https://github.com/truonghh99/Kitchen-Assistant/blob/master/README.md";
 
     public static Product getProductInfo(String productCode) {
-        Product product = new Product();
+        final Product[] product = {new Product()};
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
 
@@ -25,6 +29,11 @@ public class OpenFoodFacts {
         client.get(url, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
+                try {
+                    product[0] = new Product(json.jsonObject);
+                } catch (JSONException | ParseException e) {
+                    e.printStackTrace();
+                }
                 Log.d(TAG, json.toString());
             }
 
@@ -34,6 +43,6 @@ public class OpenFoodFacts {
             }
         });
 
-        return product;
+        return product[0];
     }
 }

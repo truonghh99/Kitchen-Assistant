@@ -19,6 +19,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        OpenFoodFacts.getProductInfo("04963406");
+        OpenFoodFacts.getProductInfo("737628064502");
     }
 }
