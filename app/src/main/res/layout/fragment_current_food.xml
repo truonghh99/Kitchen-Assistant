@@ -5,10 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".fragments.CurrentFoodFragment">
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add New Product" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:background="@color/colorPrimary"
+        android:contentDescription="Log Out"
+        android:src="@drawable/ic_add" />
 
 </RelativeLayout>

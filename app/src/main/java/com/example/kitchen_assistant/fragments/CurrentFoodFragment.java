@@ -23,6 +23,7 @@ import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 
@@ -35,7 +36,7 @@ public class CurrentFoodFragment extends Fragment {
     File photoFile;
 
     private FragmentCurrentFoodBinding fragmentCurrentFoodBinding;
-    private Button btAdd;
+    private FloatingActionButton btAdd;
 
     public CurrentFoodFragment() {
     }
