@@ -101,11 +101,18 @@ public class CurrentFoodFragment extends Fragment {
                 String code = BarcodeReader.getCodeFromImg(takenImage, getActivity().getApplicationContext());
                 if (code == null) {
                     Toast.makeText(getActivity(), "Couldn't identify barcode, please scan again", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 Log.e(TAG, String.valueOf(code));
+                goToNewProductDetail();
             } else {
                 Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void goToNewProductDetail() {
+        Fragment newProductDetailFragment = NewProductDetailFragment.newInstance();
+        MainActivity.switchFragment(newProductDetailFragment);
     }
 }

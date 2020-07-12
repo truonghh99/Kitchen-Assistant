@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding activityMainBinding;
     private BottomNavigationView bottomNavigation;
-    private FragmentManager fragmentManager;
+    private static FragmentManager fragmentManager;
     private Toolbar toolbar;
     private ImageView ivLogOut;
 
@@ -116,5 +116,9 @@ public class MainActivity extends AppCompatActivity {
     private void goLogIn() {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    public static void switchFragment(Fragment fragment) {
+        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
     }
 }
