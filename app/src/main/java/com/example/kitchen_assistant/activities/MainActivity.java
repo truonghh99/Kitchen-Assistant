@@ -2,6 +2,7 @@ package com.example.kitchen_assistant.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -28,6 +29,9 @@ import com.example.kitchen_assistant.fragments.RecipeFragment;
 import com.example.kitchen_assistant.fragments.ToDoListFragment;
 import com.google.android.gms.ads.doubleclick.CustomRenderedAd;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.io.File;
 
@@ -39,9 +43,15 @@ public class MainActivity extends AppCompatActivity {
     public String photoFileName = "barcode_photo.jpg";
     File photoFile;
 
+    final Fragment currentFoodFragment = CurrentFoodFragment.newInstance();
+    final Fragment recipeFragment = RecipeFragment.newInstance();
+    final Fragment toDoListFragment = ToDoListFragment.newInstance();
+
     private ActivityMainBinding activityMainBinding;
     private BottomNavigationView bottomNavigation;
     private FragmentManager fragmentManager;
+    private Toolbar toolbar;
+    private ImageView ivLogOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +60,13 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
-        final Fragment currentFoodFragment = CurrentFoodFragment.newInstance();
-        final Fragment recipeFragment = RecipeFragment.newInstance();
-        final Fragment toDoListFragment = ToDoListFragment.newInstance();
+        setUpBottomBar();
+        setUpToolBar();
+    }
 
+    private void setUpBottomBar() {
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContainer, currentFoodFragment).commit();
-
         bottomNavigation = activityMainBinding.bottomNavigation;
         bottomNavigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -80,5 +90,31 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
+    }
+    private void setUpToolBar() {
+        toolbar = activityMainBinding.toolbar;
+        ivLogOut = activityMainBinding.ivLogOut;
+        ivLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser.logOutInBackground(new LogOutCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Log.i(TAG, String.valueOf(e));
+                            return;
+                        }
+                        Log.i(TAG, "Logged out!");
+                        Toast.makeText(MainActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+                        goLogIn();
+                    }
+                });
+            }
+        });
+    }
+
+    private void goLogIn() {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 }
