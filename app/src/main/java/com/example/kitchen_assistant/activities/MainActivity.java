@@ -1,5 +1,6 @@
 package com.example.kitchen_assistant.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -22,6 +24,8 @@ import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.databinding.ActivityMainBinding;
 import com.example.kitchen_assistant.fragments.CurrentFoodFragment;
+import com.example.kitchen_assistant.fragments.RecipeFragment;
+import com.example.kitchen_assistant.fragments.ToDoListFragment;
 import com.google.android.gms.ads.doubleclick.CustomRenderedAd;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -47,32 +51,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(activityMainBinding.getRoot());
 
         final Fragment currentFoodFragment = CurrentFoodFragment.newInstance();
+        final Fragment recipeFragment = RecipeFragment.newInstance();
+        final Fragment toDoListFragment = ToDoListFragment.newInstance();
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContainer, currentFoodFragment).commit();
 
-//        bottomNavigation = activityMainBinding.bottomNavigation;
-//        bottomNavigation.setOnNavigationItemSelectedListener(
-//                new BottomNavigationView.OnNavigationItemSelectedListener() {
-//                    @Override
-//                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                        Fragment fragment;
-//                        switch (item.getItemId()) {
-//                            case R.id.miHome:
-//                                fragment = newsfeedFragment;
-//                                break;
-//                            case R.id.miCompose:
-//                                fragment = composeFragment;
-//                                break;
-//                            case R.id.miProfile:
-//                            default:
-//                                fragment = profileFragment;
-//                                break;
-//                        }
-//                        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-//                        return true;
-//                    }
-//                });
-//        bottomNavigation.setSelectedItemId(R.id.miHome);
+        bottomNavigation = activityMainBinding.bottomNavigation;
+        bottomNavigation.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        Fragment fragment;
+                        switch (item.getItemId()) {
+                            case R.id.miCurrentFood:
+                                fragment = currentFoodFragment;
+                                break;
+                            case R.id.miRecipe:
+                                fragment = recipeFragment;
+                                break;
+                            case R.id.miToDoList:
+                            default:
+                                fragment = toDoListFragment;
+                                break;
+                        }
+                        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                        return true;
+                    }
+                });
+        bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
     }
 }
