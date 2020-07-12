@@ -16,7 +16,8 @@ public class BarcodeReader {
     private static final String TAG = "BarcodeReader";
 
     public static String getCodeFromImg(Bitmap myBitmap, Context context) {
-        Barcode thisCode = null;
+        Log.e(TAG, "Start extracting code");
+        Barcode resultCode = null;
         try {
             BarcodeDetector detector =
                     new BarcodeDetector.Builder(context)
@@ -25,12 +26,11 @@ public class BarcodeReader {
 
             Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
             SparseArray<Barcode> barcodes = detector.detect(frame);
-            thisCode = barcodes.valueAt(0);
-
-            Log.e(TAG, thisCode.rawValue);
+            resultCode = barcodes.valueAt(0);
         } catch (Exception e) {
             Log.e(TAG, "Cannot identify barcode");
+            return null;
         }
-        return thisCode.rawValue;
+        return resultCode.rawValue;
     }
 }

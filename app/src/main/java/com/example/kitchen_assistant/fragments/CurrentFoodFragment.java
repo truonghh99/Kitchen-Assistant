@@ -29,6 +29,7 @@ import java.io.File;
 public class CurrentFoodFragment extends Fragment {
 
     private static final String TAG = "CurrentFood";
+    private static final String AUTHORITY = "com.codepath.fileprovider.kitchenassistant";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "barcode_photo.jpg";
     File photoFile;
@@ -53,32 +54,27 @@ public class CurrentFoodFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentCurrentFoodBinding = FragmentCurrentFoodBinding.inflate(getLayoutInflater());
-        Log.e(TAG, "ON CREATE VIEW");
         btAdd = fragmentCurrentFoodBinding.btAdd;
-        Log.e(TAG, "GOT BUTTON");
-        btAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.e(TAG, "CLICKED");
-                onLaunchCamera();
-            }
-        });
-        Log.e(TAG, "set listenter");
-        //setUpView();
+        setUpView();
 
         return fragmentCurrentFoodBinding.getRoot();
     }
 
     private void setUpView() {
-
+        btAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onLaunchCamera();
+            }
+        });
+        Log.e(TAG, "set listenter");
     }
 
     public void onLaunchCamera() {
-        Log.e(TAG, "ON LAUNCH CAMERA");
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         photoFile = getPhotoFileUri(photoFileName);
 
-        Uri fileProvider = FileProvider.getUriForFile(getActivity(), "com.codepath.fileprovider.kitchenassistant", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(getActivity(), AUTHORITY, photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -89,11 +85,9 @@ public class CurrentFoodFragment extends Fragment {
     public File getPhotoFileUri(String fileName) {
         File mediaStorageDir = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-            Log.d(TAG, "failed to create directory");
+            Log.d(TAG, "ailed to create directory");
         }
-
         File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
-
         return file;
     }
 
@@ -104,8 +98,11 @@ public class CurrentFoodFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 String code = BarcodeReader.getCodeFromImg(takenImage, getActivity().getApplicationContext());
-                Log.e(TAG, code);
-            } else { // Result was a failure
+                if (code == null) {
+                    Toast.makeText(getActivity(), "Couldn't identify barcode, please scan again", Toast.LENGTH_SHORT).show();
+                }
+                Log.e(TAG, String.valueOf(code));
+            } else {
                 Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
