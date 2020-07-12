@@ -15,8 +15,7 @@ public class BarcodeReader {
 
     private static final String TAG = "BarcodeReader";
 
-    public static String getCodeFromImg(String pathName, Context context) {
-        Bitmap myBitmap = BitmapFactory.decodeFile(pathName);
+    public static String getCodeFromImg(Bitmap myBitmap, Context context) {
         Barcode thisCode = null;
         try {
             BarcodeDetector detector =
