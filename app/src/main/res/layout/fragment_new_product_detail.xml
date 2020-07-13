@@ -22,8 +22,8 @@
             android:layout_marginTop="15dp"
             app:srcCompat="@drawable/upc" />
 
-        <TextView
-            android:id="@+id/tvName"
+        <EditText
+            android:id="@+id/etName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/ivImg"
@@ -39,7 +39,7 @@
             android:id="@+id/rlFoodType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvName"
+            android:layout_below="@+id/etName"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp">
 

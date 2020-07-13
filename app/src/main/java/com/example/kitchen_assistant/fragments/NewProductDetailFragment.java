@@ -34,7 +34,7 @@ public class NewProductDetailFragment extends Fragment {
     private static final String TAG = "NewProductDetail";
     private FragmentNewProductDetailBinding fragmentNewProductDetailBinding;
     private Product product;
-    private TextView tvName;
+    private TextView etName;
     private EditText etFoodType;
     private EditText etOriginalQuantity;
     private EditText etCurrentQuantity;
@@ -70,7 +70,7 @@ public class NewProductDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentNewProductDetailBinding = FragmentNewProductDetailBinding.inflate(getLayoutInflater());
-        tvName = fragmentNewProductDetailBinding.tvName;
+        etName = fragmentNewProductDetailBinding.etName;
         etFoodType = fragmentNewProductDetailBinding.etFoodType;
         etOriginalQuantity = fragmentNewProductDetailBinding.etOriginalQuantity;
         etCurrentQuantity = fragmentNewProductDetailBinding.etQuantity;
@@ -84,7 +84,7 @@ public class NewProductDetailFragment extends Fragment {
         spinnerStatus = fragmentNewProductDetailBinding.spinnerStatus;
 
         Log.e(TAG, "START BINDING VIEW");
-        tvName.setText(product.getProductName());
+        etName.setText(product.getProductName());
         etFoodType.setText("Undefined");
         etOriginalQuantity.setText(String.valueOf(product.getOriginalQuantity()));
         etCurrentQuantity.setText(String.valueOf(product.getCurrentQuantity()));
