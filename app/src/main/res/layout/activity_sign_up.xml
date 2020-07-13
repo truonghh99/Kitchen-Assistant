@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff1e6"
+    android:background="@color/beige"
     android:foregroundTint="#FFFFFF"
     tools:context=".activities.LoginActivity">
 
     <TextView
-        android:id="@+id/etName"
+        android:id="@+id/etAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="50dp"
         android:ems="10"
         android:fontFamily="@font/poiret_one"
         android:text="Kitchen Assistant"
@@ -22,16 +22,45 @@
         android:textSize="45dp"
         android:textStyle="bold" />
 
+    <ImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/etAppName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        tools:srcCompat="@tools:sample/avatars" />
+
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/etName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivAvatar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/etEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/etName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
         android:ems="10"
-        android:hint="Username"
+        android:hint="Email"
         android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etEmail"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Username" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -44,22 +73,20 @@
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etPassword"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
-        android:background="@color/colorPrimary"
-        android:text="Log In" />
-
-
+        android:layout_marginTop="15dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="Sign up" />
 
     <RelativeLayout
         android:id="@+id/rlSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnLogin"
+        android:layout_below="@+id/btnSignup"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp">
 
@@ -67,8 +94,9 @@
             android:id="@+id/tvSignUpDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ems="10"
             android:fontFamily="@font/poiret_one"
-            android:text="New to Kitchen Assistant?"
+            android:text="Already had an account?"
             android:textColor="@color/black" />
 
         <TextView
@@ -77,13 +105,15 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tvSignUpDescription"
             android:fontFamily="@font/poiret_one"
-            android:layout_marginStart="5dp"
-            android:text="Sign up here!"
+            android:text="Sign in here!"
             android:textAlignment="viewStart"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
 
     </RelativeLayout>
+
+
+
 
 
 </RelativeLayout>

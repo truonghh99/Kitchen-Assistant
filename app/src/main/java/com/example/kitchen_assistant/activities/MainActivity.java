@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         ivLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showProgressBar();
                 ParseUser.logOutInBackground(new LogOutCallback() {
                     @Override
                     public void done(ParseException e) {
