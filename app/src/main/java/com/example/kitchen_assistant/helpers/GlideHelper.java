@@ -7,7 +7,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.module.AppGlideModule;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.kitchen_assistant.R;
 
 public class GlideHelper {
@@ -20,10 +22,14 @@ public class GlideHelper {
             return;
         }
         if (url != "default") {
-            Glide.with(context)
-                    .load(url.replaceAll("http", "https"))
-                    .circleCrop()
-                    .into(imgView);
+            try {
+                Glide.with(context)
+                        .load(url.replaceAll("http", "https"))
+                        .circleCrop()
+                        .into(imgView);
+            } catch (Exception e) {
+                loadDefaultImage(context, imgView);
+            }
         } else {
             loadDefaultAvatar(context, imgView);
         }
@@ -35,10 +41,15 @@ public class GlideHelper {
             return;
         }
         if (url != "default") {
-            Glide.with(context)
-                    .load(url.replaceAll("http", "https"))
-                    .circleCrop()
-                    .into(imgView);
+            try {
+                Glide.with(context)
+                        .load(url.replaceAll("http", "https"))
+                        .override(350, 350)
+                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(50)))
+                        .into(imgView);
+            } catch (Exception e) {
+                loadDefaultImage(context, imgView);
+            }
         } else {
             loadDefaultImage(context, imgView);
         }

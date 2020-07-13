@@ -73,18 +73,15 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView ivProductItem;
-
         public ViewHolder(@NonNull ItemProductBinding itemProductBinding) {
 
             super(itemProductBinding.getRoot());
-            ivProductItem = itemProductBinding.ivProductItem;
         }
 
         public void bind(final Product product) {
             String url = product.getImgUrl();
             //GlideHelper.loadImage(url, context, ivProductItem);
-            GlideHelper.loadImage("default", context, ivProductItem);
+            //GlideHelper.loadImage("http://static.openfoodfacts.org/images/products/000/980/089/5007/front_en.12.100.jpg", context, ivProductItem);
         }
     }
 

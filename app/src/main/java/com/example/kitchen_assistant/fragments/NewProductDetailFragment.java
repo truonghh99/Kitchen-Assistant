@@ -10,11 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.clients.OpenFoodFacts;
 import com.example.kitchen_assistant.databinding.FragmentNewProductDetailBinding;
+import com.example.kitchen_assistant.helpers.GlideHelper;
+import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.Product;
 
 import org.parceler.Parcels;
@@ -37,6 +41,11 @@ public class NewProductDetailFragment extends Fragment {
     private EditText etPurchaseDate;
     private EditText etDuration;
     private EditText etExpirationDate;
+    private ImageView ivImg;
+    private Spinner spinnerOriginalQuantityUnit;
+    private Spinner spinnerCurrentQuantityUnit;
+    private Spinner spinnerDurationUnit;
+    private Spinner spinnerStatus;
 
     public NewProductDetailFragment() {
     }
@@ -68,16 +77,27 @@ public class NewProductDetailFragment extends Fragment {
         etPurchaseDate = fragmentNewProductDetailBinding.etPurchaseDate;
         etDuration = fragmentNewProductDetailBinding.etDuration;
         etExpirationDate = fragmentNewProductDetailBinding.etExpirationDate;
+        ivImg = fragmentNewProductDetailBinding.ivImg;
+        spinnerCurrentQuantityUnit = fragmentNewProductDetailBinding.spinnerQuantityUnit;
+        spinnerOriginalQuantityUnit = fragmentNewProductDetailBinding.spinnerOriginalQuantityUnit;
+        spinnerDurationUnit = fragmentNewProductDetailBinding.spinnerDurationUnit;
+        spinnerStatus = fragmentNewProductDetailBinding.spinnerStatus;
 
         Log.e(TAG, "START BINDING VIEW");
         tvName.setText(product.getProductName());
         etFoodType.setText("Undefined");
-        etOriginalQuantity.setText(String.valueOf(product.getQuantity()));
-        etCurrentQuantity.setText(String.valueOf(product.getQuantity()));
+        etOriginalQuantity.setText(String.valueOf(product.getOriginalQuantity()));
+        etCurrentQuantity.setText(String.valueOf(product.getCurrentQuantity()));
         etPurchaseDate.setText(String.valueOf(product.getPurchaseDate()));
-        etDuration.setText("Undefined");
-        etExpirationDate.setText("Undefined");
+        etDuration.setText(String.valueOf(product.getDuration()));
+        etExpirationDate.setText(String.valueOf(product.getExpirationDate()));
+        GlideHelper.loadImage("default", getContext(), ivImg);
 
-       return fragmentNewProductDetailBinding.getRoot();
+        SpinnerHelper.setUpSpinner(spinnerCurrentQuantityUnit, product.getQuantityUnit(), getContext());
+        SpinnerHelper.setUpSpinner(spinnerOriginalQuantityUnit, product.getQuantityUnit(), getContext());
+        SpinnerHelper.setUpSpinner(spinnerDurationUnit, product.getDurationUnit(), getContext());
+        SpinnerHelper.setUpSpinner(spinnerStatus, product.getFoodStatus(), getContext());
+
+        return fragmentNewProductDetailBinding.getRoot();
     }
 }

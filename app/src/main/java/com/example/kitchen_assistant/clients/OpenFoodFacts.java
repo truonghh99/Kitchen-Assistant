@@ -56,6 +56,7 @@ public class OpenFoodFacts {
                         } else {
                             Log.e(TAG, "Successfully extracted");
                             String jsonData = response.body().string();
+                            Log.e(TAG, jsonData);
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonData);
                                 product = new Product(jsonObject);

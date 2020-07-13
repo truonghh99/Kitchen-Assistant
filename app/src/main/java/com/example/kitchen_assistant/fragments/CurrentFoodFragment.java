@@ -127,6 +127,7 @@ public class CurrentFoodFragment extends Fragment {
                 String code = BarcodeReader.getCodeFromImg(takenImage, getActivity().getApplicationContext());
                 if (code == null) {
                     Toast.makeText(getActivity(), "Couldn't identify barcode, please scan again", Toast.LENGTH_SHORT).show();
+                    code = "009800895007";
                     //return;
                 }
                 Log.e(TAG, String.valueOf(code));
