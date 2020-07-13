@@ -1,4 +1,4 @@
-package com.example.kitchen_assistant;
+package com.example.kitchen_assistant.applications;
 
 import android.app.Application;
 

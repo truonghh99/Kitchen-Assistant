@@ -67,7 +67,7 @@
             android:id="@+id/tvSignUpDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poiret_one"
+            android:fontFamily="@font/scope_one"
             android:text="New to Kitchen Assistant?"
             android:textColor="@color/black" />
 
@@ -75,9 +75,9 @@
             android:id="@+id/tvSignUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tvSignUpDescription"
-            android:fontFamily="@font/poiret_one"
             android:layout_marginStart="5dp"
+            android:layout_toRightOf="@+id/tvSignUpDescription"
+            android:fontFamily="@font/scope_one"
             android:text="Sign up here!"
             android:textAlignment="viewStart"
             android:textColor="@color/colorPrimaryDark"

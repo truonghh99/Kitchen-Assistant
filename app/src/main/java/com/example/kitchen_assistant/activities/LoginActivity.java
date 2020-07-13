@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.kitchen_assistant.databinding.ActivityLoginBinding;
@@ -24,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etUsername;
     private EditText etPassword;
     private Button btnLogin;
-    private Button btnSignup;
+    private RelativeLayout rlSignup;
     private String email;
     private String password;
 
@@ -43,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         etUsername = activityLoginBinding.etUsername;
         etPassword = activityLoginBinding.etPassword;
         btnLogin = activityLoginBinding.btnLogin;
-        btnSignup = activityLoginBinding.btnSignup;
+        rlSignup = activityLoginBinding.rlSignUp;
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,16 +59,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
+        rlSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                email = etUsername.getText().toString();
-                password = etPassword.getText().toString();
-                if (email == null || password == null || email.length() == 0 || password.length() == 0) {
-                    Toast.makeText(getApplicationContext(), "Email and password cannot be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                registerUser(email, password);
+                goSignUpActivity();
             }
         });
     }
@@ -88,26 +83,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void registerUser(String username, String password) {
-        Log.e(TAG, "Attempt to register");
-        ParseUser user = new ParseUser();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    ParseUser.logOut();
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-                Toast.makeText(getApplicationContext(), "Successfully Signed Up!", Toast.LENGTH_SHORT);
-                goMainActivity();
-            }
-        });
-    }
-
     private void goMainActivity() {
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
+    }
+
+    private void goSignUpActivity() {
+        startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
         finish();
     }
 }

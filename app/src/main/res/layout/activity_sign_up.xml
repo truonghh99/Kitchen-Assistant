@@ -79,11 +79,11 @@
         android:layout_below="@+id/etPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimary"
         android:text="Sign up" />
 
     <RelativeLayout
-        android:id="@+id/rlSignUp"
+        android:id="@+id/rlLogIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnSignup"
@@ -91,20 +91,20 @@
         android:layout_marginTop="30dp">
 
         <TextView
-            android:id="@+id/tvSignUpDescription"
+            android:id="@+id/tvLogInDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:fontFamily="@font/poiret_one"
+            android:fontFamily="@font/scope_one"
             android:text="Already had an account?"
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/tvSignUp"
+            android:id="@+id/tvLogIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tvSignUpDescription"
-            android:fontFamily="@font/poiret_one"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@+id/tvLogInDescription"
+            android:fontFamily="@font/scope_one"
             android:text="Sign in here!"
             android:textAlignment="viewStart"
             android:textColor="@color/colorPrimaryDark"
