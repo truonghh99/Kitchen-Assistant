@@ -11,6 +11,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
+import android.os.Parcel;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,10 +23,16 @@ import android.widget.Toast;
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.clients.BarcodeReader;
+import com.example.kitchen_assistant.clients.OpenFoodFacts;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodBinding;
+import com.example.kitchen_assistant.models.Product;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.parceler.Parcels;
+
 import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class CurrentFoodFragment extends Fragment {
 
@@ -101,18 +108,25 @@ public class CurrentFoodFragment extends Fragment {
                 String code = BarcodeReader.getCodeFromImg(takenImage, getActivity().getApplicationContext());
                 if (code == null) {
                     Toast.makeText(getActivity(), "Couldn't identify barcode, please scan again", Toast.LENGTH_SHORT).show();
-                    return;
+                    //return;
                 }
                 Log.e(TAG, String.valueOf(code));
-                goToNewProductDetail();
+                goToNewProductDetail(code);
             } else {
                 Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void goToNewProductDetail() {
-        Fragment newProductDetailFragment = NewProductDetailFragment.newInstance();
+    private void goToNewProductDetail(String code) {
+        Log.e(TAG, "go to new product detail");
+        Product product = null;
+        try {
+            product = OpenFoodFacts.getProductInfo(code);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        Fragment newProductDetailFragment = NewProductDetailFragment.newInstance(Parcels.wrap(product));
         MainActivity.switchFragment(newProductDetailFragment);
     }
 }

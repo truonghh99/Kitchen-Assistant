@@ -8,10 +8,18 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.kitchen_assistant.models.Product;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.ParseException;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class OpenFoodFacts {
 
@@ -19,31 +27,50 @@ public class OpenFoodFacts {
 
     public static String GET_PRODUCT_INFO_URL = "https://us.openfoodfacts.org/api/v0/product/";
     public static String HEADER = "KitchenAssistant - Android - Version 1.0 - https://github.com/truonghh99/Kitchen-Assistant/blob/master/README.md";
+    private static Product product = new Product();
 
-    public static Product getProductInfo(String productCode) {
-        final Product[] product = {new Product()};
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
+    public static Product getProductInfo(String productCode) throws IOException, InterruptedException {
+        Log.e(TAG, "START FINDING INFO OF PRODUCT " + productCode);
 
         String url = GET_PRODUCT_INFO_URL + productCode;
-        client.get(url, params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                try {
-                    Log.e(TAG, "On success to query product info from Open Food Facts");
-                    product[0] = new Product(json.jsonObject);
-                } catch (JSONException | ParseException e) {
-                    e.printStackTrace();
-                }
-                Log.d(TAG, json.toString());
-            }
+        Log.e(TAG, url);
+        Log.e(TAG, Thread.currentThread().getName());
 
-            @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Authorization", HEADER)
+                .build();
 
-            }
-        });
+        client.newCall(request)
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
 
-        return product[0];
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+                        if (!response.isSuccessful()) {
+                            throw new IOException("Unexpected code " + response);
+                        } else {
+                            Log.e(TAG, "Successfully extracted");
+                            String jsonData = response.body().string();
+                            try {
+                                JSONObject jsonObject = new JSONObject(jsonData);
+                                product = new Product(jsonObject);
+                                Log.e(TAG, Thread.currentThread().getName());
+                                Log.e(TAG, jsonObject.toString());
+                            } catch (JSONException | ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+
+        while (product.getProductName() == null) {
+            Thread.currentThread().sleep(10);
+        }
+        return product;
     }
 }

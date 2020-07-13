@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private static FragmentManager fragmentManager;
     private Toolbar toolbar;
     private ImageView ivLogOut;
+    private static ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         setUpBottomBar();
         setUpToolBar();
+        setUpProgressBar();
     }
 
     private void setUpBottomBar() {
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 });
         bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
     }
+
     private void setUpToolBar() {
         toolbar = activityMainBinding.toolbar;
         ivLogOut = activityMainBinding.ivLogOut;
@@ -111,6 +115,20 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+        progressBar = activityMainBinding.progressBar;
+        hideProgressBar();
+    }
+
+    public void setUpProgressBar() {
+        progressBar = activityMainBinding.progressBar;
+    }
+
+    public static void showProgressBar() {
+        progressBar.setVisibility(ProgressBar.VISIBLE);
+    }
+
+    public static void hideProgressBar() {
+        progressBar.setVisibility(ProgressBar.INVISIBLE);
     }
 
     private void goLogIn() {

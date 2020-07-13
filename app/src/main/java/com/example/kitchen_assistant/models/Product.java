@@ -6,6 +6,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -14,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+@Parcel
 public class Product {
 
     private static final String TAG = "product";
@@ -31,6 +33,15 @@ public class Product {
     private String quantityUnit;
     private String imgUrl;
     private Date expirationDate;
+
+    public Date getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(Date purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
     private Date purchaseDate;
     private String foodStatus;
     private User owner;
