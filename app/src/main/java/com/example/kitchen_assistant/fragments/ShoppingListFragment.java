@@ -12,10 +12,10 @@ import com.example.kitchen_assistant.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ToDoListFragment#newInstance} factory method to
+ * Use the {@link ShoppingListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ToDoListFragment extends Fragment {
+public class ShoppingListFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,13 +26,13 @@ public class ToDoListFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ToDoListFragment() {
+    public ShoppingListFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static ToDoListFragment newInstance() {
-        ToDoListFragment fragment = new ToDoListFragment();
+    public static ShoppingListFragment newInstance() {
+        ShoppingListFragment fragment = new ShoppingListFragment();
         return fragment;
     }
 
@@ -49,6 +49,6 @@ public class ToDoListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_to_do_list, container, false);
+        return inflater.inflate(R.layout.fragment_shopping_list, container, false);
     }
 }

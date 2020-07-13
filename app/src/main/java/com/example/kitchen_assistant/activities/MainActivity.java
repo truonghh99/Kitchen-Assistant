@@ -3,18 +3,11 @@ package com.example.kitchen_assistant.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,12 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
-import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.databinding.ActivityMainBinding;
 import com.example.kitchen_assistant.fragments.CurrentFoodFragment;
 import com.example.kitchen_assistant.fragments.RecipeFragment;
-import com.example.kitchen_assistant.fragments.ToDoListFragment;
-import com.google.android.gms.ads.doubleclick.CustomRenderedAd;
+import com.example.kitchen_assistant.fragments.ShoppingListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -46,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     final Fragment currentFoodFragment = CurrentFoodFragment.newInstance();
     final Fragment recipeFragment = RecipeFragment.newInstance();
-    final Fragment toDoListFragment = ToDoListFragment.newInstance();
+    final Fragment toDoListFragment = ShoppingListFragment.newInstance();
 
     private ActivityMainBinding activityMainBinding;
     private BottomNavigationView bottomNavigation;
