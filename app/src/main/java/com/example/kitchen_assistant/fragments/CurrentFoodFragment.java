@@ -9,6 +9,8 @@ import android.os.Bundle;
 
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
 import android.os.Parcel;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
+import com.example.kitchen_assistant.adapters.CurrentFoodAdapter;
 import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.clients.OpenFoodFacts;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodBinding;
@@ -32,6 +35,8 @@ import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class CurrentFoodFragment extends Fragment {
@@ -40,10 +45,14 @@ public class CurrentFoodFragment extends Fragment {
     private static final String AUTHORITY = "com.codepath.fileprovider.kitchenassistant";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "barcode_photo.jpg";
-    File photoFile;
+    private File photoFile;
 
+    private List<Product> products;
     private FragmentCurrentFoodBinding fragmentCurrentFoodBinding;
     private FloatingActionButton btAdd;
+    private FloatingActionButton btSearch;
+    private RecyclerView rvCurrentFood;
+    private CurrentFoodAdapter adapter;
 
     public CurrentFoodFragment() {
     }
@@ -63,6 +72,16 @@ public class CurrentFoodFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentCurrentFoodBinding = FragmentCurrentFoodBinding.inflate(getLayoutInflater());
         btAdd = fragmentCurrentFoodBinding.btAdd;
+        btSearch = fragmentCurrentFoodBinding.btSearch;
+        rvCurrentFood = fragmentCurrentFoodBinding.rvCurrentFood;
+        products = new ArrayList<Product>();
+        for (int i = 0; i < 20; ++i) {
+            products.add(new Product());
+        }
+        adapter = new CurrentFoodAdapter(getActivity(), products);
+        rvCurrentFood.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        rvCurrentFood.setAdapter(adapter);
+
         setUpView();
 
         return fragmentCurrentFoodBinding.getRoot();

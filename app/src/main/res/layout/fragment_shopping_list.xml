@@ -30,7 +30,6 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="end|bottom"
         android:layout_margin="12dp"
-        android:background="@color/colorPrimary"
         android:contentDescription="Add new product"
         app:borderWidth="0dp"
         android:src="@drawable/ic_search" />
