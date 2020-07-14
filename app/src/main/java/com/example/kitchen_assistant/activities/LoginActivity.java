@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.kitchen_assistant.databinding.ActivityLoginBinding;
 import com.example.kitchen_assistant.models.User;
+import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;

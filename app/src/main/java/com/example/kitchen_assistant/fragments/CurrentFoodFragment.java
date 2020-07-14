@@ -53,7 +53,7 @@ public class CurrentFoodFragment extends Fragment {
     private FloatingActionButton btAdd;
     private FloatingActionButton btSearch;
     private RecyclerView rvCurrentFood;
-    private CurrentFoodAdapter adapter;
+    private static CurrentFoodAdapter adapter;
 
     public CurrentFoodFragment() {
     }
@@ -71,11 +71,14 @@ public class CurrentFoodFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        MainActivity.showProgressBar();
         fragmentCurrentFoodBinding = FragmentCurrentFoodBinding.inflate(getLayoutInflater());
         btAdd = fragmentCurrentFoodBinding.btAdd;
         btSearch = fragmentCurrentFoodBinding.btSearch;
         rvCurrentFood = fragmentCurrentFoodBinding.rvCurrentFood;
+
         products = CurrentProducts.products;
+        Log.e(TAG, String.valueOf(products.size()));
 
         adapter = new CurrentFoodAdapter(getActivity(), products);
         rvCurrentFood.setLayoutManager(new GridLayoutManager(getActivity(), 3));
@@ -147,5 +150,10 @@ public class CurrentFoodFragment extends Fragment {
         }
         Fragment newProductDetailFragment = NewProductDetailFragment.newInstance(Parcels.wrap(product));
         MainActivity.switchFragment(newProductDetailFragment);
+    }
+
+    public static void notifyDataChange() {
+        adapter.notifyDataSetChanged();
+        MainActivity.hideProgressBar();
     }
 }

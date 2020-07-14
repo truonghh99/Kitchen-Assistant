@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (CurrentProducts.products == null) {
+            CurrentProducts.fetchProductInBackground();
+        }
+
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
@@ -131,11 +135,5 @@ public class MainActivity extends AppCompatActivity {
 
     public static void switchFragment(Fragment fragment) {
         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        CurrentProducts.saveAllProducts();
     }
 }

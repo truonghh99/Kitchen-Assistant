@@ -8,6 +8,7 @@ import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.google.android.gms.maps.internal.IGoogleMapDelegate;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,20 +41,22 @@ public class Product extends ParseObject implements Parcelable {
     private static final String QUANTITY = "quantity";
     private static final String IMAGE_URL = "image_thumb_url";
 
-    private String productCode;
-    private String productName;
-    private float originalQuantity;
-    private float currentQuantity;
-    private String quantityUnit;
-    private float numProducts;
-    private String imgUrl;
-    private Date purchaseDate;
-    private float duration;
-    private String durationUnit;
-    private Date expirationDate;
-    private String foodStatus;
-    private User owner;
-    private FoodItem foodItem;
+    private static final String KEY_ID = "objectId";
+    private static final String KEY_CREATED_AT = "createdAt";
+    private static final String KEY_CODE = "productCode";
+    private static final String KEY_NAME = "productName";
+    private static final String KEY_ORIGINAL_QUANTITY = "originalQuantiy";
+    private static final String KEY_CURRENT_QUANTITY = "currentQuantity";
+    private static final String KEY_QUANTITY_UNIT = "quantityUnit";
+    private static final String KEY_NUM_PRODUCTS = "numProducts";
+    private static final String KEY_IMG_URL = "imageUrl";
+    private static final String KEY_PURCHASE_DATE = "purchaseDate";
+    private static final String KEY_DURATION = "duration";
+    private static final String KEY_DURATION_UNIT = "durationUnit";
+    private static final String KEY_EXPIRATION_DATE = "expirationDate";
+    private static final String KEY_FOOD_STATUS = "foodStatus";
+    private static final String KEY_OWNER = "owner";
+    private static final String KEY_FOOD_TYPE = "foodType";
 
     public Product () {
     }
@@ -62,26 +65,26 @@ public class Product extends ParseObject implements Parcelable {
         Log.e(TAG, "START INIT");
         JSONObject product = json.getJSONObject(PRODUCT_INFO);
 
-        productCode = json.getString(BARCODE);
-        productName = product.getString(NAME);
+        setProductCode(json.getString(BARCODE));
+        setProductName( product.getString(NAME));
         try {
             String quantityStr = product.getString(QUANTITY);
-            originalQuantity = extractQuantityVal(quantityStr);
-            quantityUnit = extractQuantityUnit(quantityStr);
+            setOriginalQuantity(extractQuantityVal(quantityStr));
+            setQuantityUnit(extractQuantityUnit(quantityStr));
         } catch (JSONException e) {
-            originalQuantity = 0;
-            quantityUnit = "g";
+            setOriginalQuantity(0);
+            setQuantityUnit("g");
         }
         try {
-            imgUrl = product.getString(IMAGE_URL);
+            setImgUrl(product.getString(IMAGE_URL));
         } catch (JSONException e) {
-            imgUrl = DEFAULT_IMG;
+            setImgUrl(DEFAULT_IMG);
         }
-        purchaseDate = new Date();
-        numProducts = 1;
+        setPurchaseDate(new Date());
+        setNumProducts(1);
         updateCurrentQuantity();
-        duration = 1;
-        durationUnit = "year";
+        setDuration(1);
+        setDurationUnit("year");
         updateExpirationDate();
         updateFoodStatus();
 
@@ -89,61 +92,61 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void printOutValues() {
-        Log.i(TAG, "Product code: " + productCode);
-        Log.i(TAG, "Product name: " + productName);
-        Log.i(TAG, "Original quantity: " + originalQuantity + " " + quantityUnit);
-        Log.i(TAG, "Number of items: " + numProducts);
-        Log.i(TAG, "Current quantity: " + currentQuantity + " " + quantityUnit);
-        Log.i(TAG, "Duration: " + duration + " " + durationUnit);
-        Log.i(TAG, "Purchase date: "  + String.valueOf(purchaseDate));
-        Log.i(TAG, "Expiration date: " + String.valueOf(expirationDate));
-        Log.i(TAG, "Food status: " + foodStatus);
-        Log.i(TAG, "Image url: " + imgUrl);
+        Log.i(TAG, "Product code: " + getProductCode());
+        Log.i(TAG, "Product name: " + getProductName());
+        Log.i(TAG, "Original quantity: " + getOriginalQuantity() + " " + getQuantityUnit());
+        Log.i(TAG, "Number of items: " + getNumProducts());
+        Log.i(TAG, "Current quantity: " + getCurrentQuantity() + " " + getQuantityUnit());
+        Log.i(TAG, "Duration: " + getDuration() + " " + getDurationUnit());
+        Log.i(TAG, "Purchase date: "  + String.valueOf(getPurchaseDate()));
+        Log.i(TAG, "Expiration date: " + String.valueOf(getExpirationDate()));
+        Log.i(TAG, "Food status: " + getFoodStatus());
+        Log.i(TAG, "Image url: " + getImgUrl());
     }
 
     public void updateFoodStatus() {
         Date today = new Date();
-        long difference = expirationDate.getTime() - today.getTime();
+        long difference = getExpirationDate().getTime() - today.getTime();
         long numDaysLeft = difference / (1000 * 60 * 60 * 24);
-        long numDaysSafe = (long) MetricConversionHelper.convertTime(duration, durationUnit, "day");
+        long numDaysSafe = (long) MetricConversionHelper.convertTime(getDuration(), getDurationUnit(), "day");
         long ratio = numDaysLeft / numDaysSafe;
         if (ratio > 0.8) {
-            foodStatus = STATUS_BEST;
+            setFoodStatus(STATUS_BEST);
             return;
         }
         if (ratio > 0.6) {
-            foodStatus = STATUS_GOOD;
+            setFoodStatus(STATUS_GOOD);
             return;
         }
         if (ratio > 0.4) {
-            foodStatus = STATUS_SAFE;
+            setFoodStatus(STATUS_SAFE);
             return;
         }
         if (ratio > 0.2) {
-            foodStatus = STATUS_CLOSE;
+            setFoodStatus(STATUS_CLOSE);
             return;
         }
-        foodStatus = STATUS_BAD;
+        setFoodStatus(STATUS_BAD);
     }
 
     public void updateExpirationDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar c = Calendar.getInstance();
-        c.setTime(purchaseDate);
-        switch (durationUnit) {
+        c.setTime(getPurchaseDate());
+        switch (getDurationUnit()) {
             case "year":
-                c.add(Calendar.YEAR, (int) duration);
+                c.add(Calendar.YEAR, (int) getDuration());
             case "month":
-                c.add(Calendar.MONTH, (int) duration);
+                c.add(Calendar.MONTH, (int) getDuration());
             case "day":
-                c.add(Calendar.DATE, (int) duration);
+                c.add(Calendar.DATE, (int) getDuration());
         }
-        expirationDate = c.getTime();
+        setExpirationDate(c.getTime());
         return;
     }
 
     public void updateCurrentQuantity() {
-        currentQuantity = numProducts * originalQuantity;
+        setCurrentQuantity(getNumProducts() * getOriginalQuantity());
     }
 
     private String extractQuantityUnit(String quantityStr) {
@@ -173,115 +176,115 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public String getProductCode() {
-        return productCode;
+        return getString(KEY_CODE);
     }
 
     public void setProductCode(String productCode) {
-        this.productCode = productCode;
+        put(KEY_CODE, productCode);
     }
 
     public String getProductName() {
-        return productName;
+        return getString(KEY_NAME);
     }
 
     public void setProductName(String productName) {
-        this.productName = productName;
+        put(KEY_NAME, productName);
     }
 
     public float getOriginalQuantity() {
-        return originalQuantity;
+        return getNumber(KEY_ORIGINAL_QUANTITY).floatValue();
     }
 
     public void setOriginalQuantity(float originalQuantity) {
-        this.originalQuantity = originalQuantity;
+        put(KEY_ORIGINAL_QUANTITY, originalQuantity);
     }
 
     public float getCurrentQuantity() {
-        return currentQuantity;
+        return getNumber(KEY_CURRENT_QUANTITY).floatValue();
     }
 
     public void setCurrentQuantity(float currentQuantity) {
-        this.currentQuantity = currentQuantity;
+        put(KEY_CURRENT_QUANTITY, currentQuantity);
     }
 
     public String getQuantityUnit() {
-        return quantityUnit;
+        return getString(KEY_QUANTITY_UNIT);
     }
 
     public void setQuantityUnit(String quantityUnit) {
-        this.quantityUnit = quantityUnit;
+        put(KEY_QUANTITY_UNIT, quantityUnit);
     }
 
     public float getNumProducts() {
-        return numProducts;
+        return getNumber(KEY_NUM_PRODUCTS).floatValue();
     }
 
     public void setNumProducts(float numProducts) {
-        this.numProducts = numProducts;
+        put(KEY_NUM_PRODUCTS, numProducts);
     }
 
     public String getImgUrl() {
-        return imgUrl;
+        return getString(KEY_IMG_URL);
     }
 
     public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+        put(KEY_IMG_URL, imgUrl);
     }
 
     public Date getPurchaseDate() {
-        return purchaseDate;
+        return getDate(KEY_PURCHASE_DATE);
     }
 
     public void setPurchaseDate(Date purchaseDate) {
-        this.purchaseDate = purchaseDate;
+        put(KEY_PURCHASE_DATE, purchaseDate);
     }
 
     public float getDuration() {
-        return duration;
+        return getNumber(KEY_DURATION).floatValue();
     }
 
     public void setDuration(float duration) {
-        this.duration = duration;
+        put(KEY_DURATION, duration);
     }
 
     public String getDurationUnit() {
-        return durationUnit;
+        return getString(KEY_DURATION_UNIT);
     }
 
     public void setDurationUnit(String durationUnit) {
-        this.durationUnit = durationUnit;
+       put(KEY_DURATION_UNIT, durationUnit);
     }
 
     public Date getExpirationDate() {
-        return expirationDate;
+        return getDate(KEY_EXPIRATION_DATE);
     }
 
     public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
+        put(KEY_EXPIRATION_DATE, expirationDate);
     }
 
     public String getFoodStatus() {
-        return foodStatus;
+        return getString(KEY_FOOD_STATUS);
     }
 
     public void setFoodStatus(String foodStatus) {
-        this.foodStatus = foodStatus;
+        put(KEY_FOOD_STATUS, foodStatus);
     }
 
-    public User getOwner() {
-        return owner;
+    public ParseUser getOwner() {
+        return getParseUser(KEY_OWNER);
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setOwner(ParseUser owner) {
+        put(KEY_OWNER, owner);
     }
 
-    public FoodItem getFoodItem() {
-        return foodItem;
+    public ParseObject getFoodItem() {
+        return getParseObject(KEY_FOOD_TYPE);
     }
 
-    public void setFoodItem(FoodItem foodItem) {
-        this.foodItem = foodItem;
+    public void setFoodItem(ParseObject foodItem) {
+        put(KEY_FOOD_TYPE, foodItem);
     }
 
 }
