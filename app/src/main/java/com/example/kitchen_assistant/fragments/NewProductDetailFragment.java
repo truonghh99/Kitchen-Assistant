@@ -27,6 +27,7 @@ import com.example.kitchen_assistant.databinding.FragmentNewProductDetailBinding
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
+import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 
@@ -172,6 +173,13 @@ public class NewProductDetailFragment extends Fragment {
                 product.updateExpirationDate();
                 product.setFoodStatus(foodStatus);
                 product.printOutValues();
+
+                FoodItem foodItem = new FoodItem();
+                foodItem.setName(foodType);
+                foodItem.setQuantity(currentQuantity);
+                foodItem.setQuantityUnit(quantityUnit);
+
+                product.setFoodItem(foodItem);
 
                 CurrentProducts.addProduct(product);
                 goToCurrentFood();

@@ -32,10 +32,10 @@ public class FoodItem extends ParseObject implements Parcelable {
     public void setName(String name) {
         put(KEY_NAME, name);
     }
-    public void setquantity(float quantity) {
+    public void setQuantity(float quantity) {
         put(KEY_QUANTITY, quantity);
     }
-    public void setQuantityUnit(float quantityUnit) {
+    public void setQuantityUnit(String quantityUnit) {
         put(KEY_QUANTITY_UNIT, quantityUnit);
     }
     public void setOwner(ParseUser owner) {
