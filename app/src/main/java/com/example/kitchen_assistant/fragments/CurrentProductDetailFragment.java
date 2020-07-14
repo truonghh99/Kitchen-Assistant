@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodDetailBinding;
@@ -165,8 +166,7 @@ public class CurrentProductDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    List<Recipe> recipes = Spoonacular.getByIngredients(new ArrayList<FoodItem>());
-                    CurrentRecipes.recipes.addAll(recipes);
+                    queryRecipes();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -174,6 +174,20 @@ public class CurrentProductDetailFragment extends Fragment {
         });
 
         return fragmentCurrentFoodDetailBinding.getRoot();
+    }
+
+    private void queryRecipes() throws InterruptedException {
+        List<Recipe> recipes = Spoonacular.getByIngredients(new ArrayList<FoodItem>());
+        Log.i(TAG, "Received " + recipes.size() + " recipes");
+        for (Recipe recipe: recipes) {
+            Log.e(TAG, recipe.getName());
+        }
+        CurrentRecipes.addAllRecipes(recipes);
+        goToRecipe();
+    }
+
+    private void goToRecipe() {
+        MainActivity.bottomNavigation.setSelectedItemId(R.id.miRecipe);
     }
 
     private void saveInfo() {
@@ -215,7 +229,5 @@ public class CurrentProductDetailFragment extends Fragment {
     }
 
     private void goToCurrentFood() {
-        Log.e(TAG, "Go to current food fragment");
-        Fragment currentFoodFragment = CurrentProductFragment.newInstance();
-        MainActivity.switchFragment(currentFoodFragment);
+        MainActivity.bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
     }}

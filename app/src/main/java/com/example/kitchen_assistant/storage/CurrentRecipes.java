@@ -18,12 +18,18 @@ import java.util.List;
 public class CurrentRecipes {
 
     private static final String TAG = "CurrentRecipes";
-    public static List<Recipe> recipes;
+    public static List<Recipe> recipes = new ArrayList<>();
 
-    public static void addRecipe (Recipe recipe) {
+    public static void addAllRecipes(List<Recipe> recipes) {
+        for (Recipe recipe : recipes) {
+            Log.e(TAG, recipe.getName());
+            addRecipe(recipe);
+        }
+    }
+    public static void addRecipe(Recipe recipe) {
         recipes.add(recipe);
         saveRecipeInBackGround(recipe);
-        RecipeFragment.notifyDataChange();
+        //RecipeFragment.notifyDataChange();
     }
     public static void saveAllRecipes() {
         Log.e(TAG, "Start saving all recipes");

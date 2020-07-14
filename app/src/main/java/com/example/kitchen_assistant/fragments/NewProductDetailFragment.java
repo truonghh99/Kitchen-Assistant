@@ -189,7 +189,5 @@ public class NewProductDetailFragment extends Fragment {
     }
 
     private void goToCurrentFood() {
-        Log.e(TAG, "Go to current food fragment");
-        Fragment currentProductFragment = CurrentProductFragment.newInstance();
-        MainActivity.switchFragment(currentProductFragment);
+        MainActivity.bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
     }}

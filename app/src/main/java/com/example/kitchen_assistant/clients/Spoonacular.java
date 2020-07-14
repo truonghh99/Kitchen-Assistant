@@ -64,14 +64,14 @@ public class Spoonacular {
                         if (!response.isSuccessful()) {
                             throw new IOException("Unexpected code " + response);
                         } else {
-                            Log.e(TAG, "Successfully extracted recipes");
                             String jsonData = response.body().string();
                             Log.e(TAG, jsonData);
                             try {
                                 JSONArray jsonArray = new JSONArray(jsonData);
                                 //product = new Product(jsonObject);
                                 //Log.e(TAG, "Created new product object");
-                                Recipe.extractFromJsonArray(jsonArray);
+                                recipes = Recipe.extractFromJsonArray(jsonArray);
+                                Log.e(TAG, "Successfully extracted " + recipes.size() + " recipes");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -82,6 +82,7 @@ public class Spoonacular {
         while (recipes.size() == 0) {
             Thread.currentThread().sleep(10);
         }
+        Log.e(TAG, "GOT " + recipes.size() + " recipes");
         return recipes;
     }
 

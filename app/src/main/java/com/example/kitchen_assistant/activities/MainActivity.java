@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     final Fragment toDoListFragment = ShoppingListFragment.newInstance();
 
     private ActivityMainBinding activityMainBinding;
-    private BottomNavigationView bottomNavigation;
+    public static BottomNavigationView bottomNavigation;
     private static FragmentManager fragmentManager;
     private Toolbar toolbar;
     private ImageView ivLogOut;

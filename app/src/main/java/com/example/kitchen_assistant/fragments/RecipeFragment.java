@@ -61,8 +61,8 @@ public class RecipeFragment extends Fragment {
     public RecipeFragment () {
     }
 
-    public static CurrentProductFragment newInstance() {
-        CurrentProductFragment fragment = new CurrentProductFragment();
+    public static RecipeFragment newInstance() {
+        RecipeFragment fragment = new RecipeFragment();
         return fragment;
     }
 
