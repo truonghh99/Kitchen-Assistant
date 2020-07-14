@@ -30,6 +30,7 @@ import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.storage.CurrentProducts;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 import org.w3c.dom.Text;
@@ -174,10 +175,13 @@ public class NewProductDetailFragment extends Fragment {
                 product.setFoodStatus(foodStatus);
                 product.printOutValues();
 
+                // TODO: Check if such item exists before creating a new one
+
                 FoodItem foodItem = new FoodItem();
                 foodItem.setName(foodType);
                 foodItem.setQuantity(currentQuantity);
                 foodItem.setQuantityUnit(quantityUnit);
+                foodItem.setOwner(ParseUser.getCurrentUser());
 
                 product.setFoodItem(foodItem);
 

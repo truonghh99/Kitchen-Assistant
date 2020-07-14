@@ -28,9 +28,11 @@ import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+import java.sql.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -113,7 +115,11 @@ public class CurrentProductDetailFragment extends Fragment {
 
         Log.e(TAG, "START BINDING VIEW");
         etName.setText(product.getProductName());
-        etFoodType.setText("Undefined");
+        try {
+            etFoodType.setText(product.getFoodItem().getName());
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+        }
         etOriginalQuantity.setText(String.valueOf(product.getOriginalQuantity()));
         etCurrentQuantity.setText(String.valueOf(product.getCurrentQuantity()));
         etPurchaseDate.setText(parseDate(product.getPurchaseDate(), DATE_FORMAT));
@@ -167,7 +173,7 @@ public class CurrentProductDetailFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     queryRecipes();
-                } catch (InterruptedException e) {
+                } catch (InterruptedException | com.parse.ParseException e) {
                     e.printStackTrace();
                 }
             }
@@ -176,8 +182,14 @@ public class CurrentProductDetailFragment extends Fragment {
         return fragmentCurrentFoodDetailBinding.getRoot();
     }
 
-    private void queryRecipes() throws InterruptedException {
-        List<Recipe> recipes = Spoonacular.getByIngredients(new ArrayList<FoodItem>());
+    private void queryRecipes() throws InterruptedException, com.parse.ParseException {
+        List<FoodItem> ingredients = new ArrayList<FoodItem>() {
+            {
+                Log.e(TAG, "Find recipes with " + product.getFoodItem().getName());
+                add(product.getFoodItem());
+            }
+        };
+        List<Recipe> recipes = Spoonacular.getByIngredients(ingredients);
         Log.i(TAG, "Received " + recipes.size() + " recipes");
         for (Recipe recipe: recipes) {
             Log.e(TAG, recipe.getName());
@@ -217,6 +229,16 @@ public class CurrentProductDetailFragment extends Fragment {
         product.updateExpirationDate();
         product.setFoodStatus(foodStatus);
         product.printOutValues();
+
+        // TODO: Check if such item exists before creating a new one
+
+        FoodItem foodItem = new FoodItem();
+        foodItem.setName(foodType);
+        foodItem.setQuantity(currentQuantity);
+        foodItem.setQuantityUnit(quantityUnit);
+        foodItem.setOwner(ParseUser.getCurrentUser());
+
+        product.setFoodItem(foodItem);
 
         CurrentProducts.saveProductInBackGround(product);
         CurrentProductFragment.notifyDataChange();

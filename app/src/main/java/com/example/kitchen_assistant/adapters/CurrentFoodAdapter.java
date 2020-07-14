@@ -110,6 +110,7 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.bad));
                     break;
             }
+            MainActivity.hideProgressBar();
         }
     }
 

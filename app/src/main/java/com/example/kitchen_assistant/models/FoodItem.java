@@ -3,6 +3,7 @@ package com.example.kitchen_assistant.models;
 import android.os.Parcelable;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -14,10 +15,10 @@ public class FoodItem extends ParseObject implements Parcelable {
     private static final String KEY_NAME = "foodName";
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_QUANTITY_UNIT = "quantityUnit";
-    private static final String KEY_OWNER = "foodName";
+    private static final String KEY_OWNER = "owner";
 
-    public String getName() {
-        return getString(KEY_NAME);
+    public String getName() throws ParseException {
+        return fetchIfNeeded().getString(KEY_NAME);
     }
     public float getquantity() {
         return getNumber(KEY_QUANTITY).floatValue();

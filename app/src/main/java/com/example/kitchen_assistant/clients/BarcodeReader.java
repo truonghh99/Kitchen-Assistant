@@ -7,6 +7,7 @@ import android.util.Log;
 import android.util.SparseArray;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
@@ -27,6 +28,7 @@ public class BarcodeReader {
             Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
             SparseArray<Barcode> barcodes = detector.detect(frame);
             resultCode = barcodes.valueAt(0);
+            MainActivity.hideProgressBar();
         } catch (Exception e) {
             Log.e(TAG, "Cannot identify barcode");
             return null;

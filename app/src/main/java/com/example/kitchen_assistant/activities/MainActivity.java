@@ -117,11 +117,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         progressBar = activityMainBinding.progressBar;
-        hideProgressBar();
     }
 
     public void setUpProgressBar() {
         progressBar = activityMainBinding.progressBar;
+        showProgressBar();
     }
 
     public static void showProgressBar() {

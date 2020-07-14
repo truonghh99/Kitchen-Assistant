@@ -272,8 +272,8 @@ public class Product extends ParseObject implements Parcelable {
         put(KEY_OWNER, owner);
     }
 
-    public ParseObject getFoodItem() {
-        return getParseObject(KEY_FOOD_TYPE);
+    public FoodItem getFoodItem() {
+        return (FoodItem) getParseObject(KEY_FOOD_TYPE);
     }
 
     public void setFoodItem(ParseObject foodItem) {

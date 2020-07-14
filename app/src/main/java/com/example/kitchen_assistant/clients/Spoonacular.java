@@ -2,16 +2,17 @@ package com.example.kitchen_assistant.clients;
 
 import android.util.Log;
 
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
+import com.parse.ParseException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,12 +33,12 @@ public class Spoonacular {
 
     private static List<Recipe> recipes;
 
-    public static List<Recipe> getByIngredients(List<FoodItem> foodItems) throws InterruptedException {
+    public static List<Recipe> getByIngredients(List<FoodItem> foodItems) throws InterruptedException, ParseException {
         Log.e(TAG, "Start querying recipes");
         recipes = new ArrayList<>();
 
-        //String ingredientsList = generateList(foodItems);
-        String ingredientsList = "apples,flour,sugar";
+        String ingredientsList = generateList(foodItems);
+        Log.e(TAG, "Ingredient list: " + ingredientsList);
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(GET_BY_INGREDIENTS_URL).newBuilder();
@@ -72,6 +73,7 @@ public class Spoonacular {
                                 //Log.e(TAG, "Created new product object");
                                 recipes = Recipe.extractFromJsonArray(jsonArray);
                                 Log.e(TAG, "Successfully extracted " + recipes.size() + " recipes");
+                                MainActivity.hideProgressBar();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -86,7 +88,7 @@ public class Spoonacular {
         return recipes;
     }
 
-    private static String generateList(List<FoodItem> foodItems) {
+    private static String generateList(List<FoodItem> foodItems) throws ParseException {
         if (foodItems.size() == 0) return "";
         String result = foodItems.get(0).getName();
         for (int i = 1; i < foodItems.size(); ++i) {

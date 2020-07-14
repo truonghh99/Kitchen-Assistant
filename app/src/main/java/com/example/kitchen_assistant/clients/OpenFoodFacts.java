@@ -5,6 +5,7 @@ import android.util.Log;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.models.Product;
 
 import org.json.JSONException;
@@ -58,6 +59,7 @@ public class OpenFoodFacts {
                                 JSONObject jsonObject = new JSONObject(jsonData);
                                 product = new Product(jsonObject);
                                 Log.i(TAG, jsonObject.toString());
+                                MainActivity.hideProgressBar();
                             } catch (JSONException | ParseException e) {
                                 e.printStackTrace();
                             }
