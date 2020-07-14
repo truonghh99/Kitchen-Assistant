@@ -1,13 +1,10 @@
 package com.example.kitchen_assistant.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,20 +12,12 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemProductBinding;
-import com.example.kitchen_assistant.fragments.CurrentFoodDetailFragment;
+import com.example.kitchen_assistant.fragments.CurrentProductDetailFragment;
 import com.example.kitchen_assistant.fragments.NewProductDetailFragment;
-import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.models.Product;
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseRelation;
-import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -114,13 +103,7 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
                 case Product.STATUS_BEST:
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.best));
                     break;
-                case Product.STATUS_GOOD:
-                    cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.best));
-                    break;
                 case Product.STATUS_SAFE:
-                    cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.fair));
-                    break;
-                case Product.STATUS_CLOSE:
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.fair));
                     break;
                 case Product.STATUS_BAD:
@@ -132,7 +115,7 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
 
     private void goToCurrentProductDetail(Product product) {
         Log.e(TAG, "Go to current product detail");
-        Fragment currentFoodDetailFragment = CurrentFoodDetailFragment.newInstance(Parcels.wrap(product));
+        Fragment currentFoodDetailFragment = CurrentProductDetailFragment.newInstance(Parcels.wrap(product));
         MainActivity.switchFragment(currentFoodDetailFragment);
     }
 

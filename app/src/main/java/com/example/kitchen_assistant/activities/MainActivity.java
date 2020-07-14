@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.databinding.ActivityMainBinding;
-import com.example.kitchen_assistant.fragments.CurrentFoodFragment;
+import com.example.kitchen_assistant.fragments.CurrentProductFragment;
 import com.example.kitchen_assistant.fragments.RecipeFragment;
 import com.example.kitchen_assistant.fragments.ShoppingListFragment;
 import com.example.kitchen_assistant.storage.CurrentProducts;
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     public String photoFileName = "barcode_photo.jpg";
     File photoFile;
 
-    final Fragment currentFoodFragment = CurrentFoodFragment.newInstance();
+    final Fragment currentFoodFragment = CurrentProductFragment.newInstance();
     final Fragment recipeFragment = RecipeFragment.newInstance();
     final Fragment toDoListFragment = ShoppingListFragment.newInstance();
 

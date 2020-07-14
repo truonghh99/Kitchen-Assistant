@@ -68,9 +68,7 @@ public class SpinnerHelper {
         List<String> categories = new ArrayList<String>(){
             {
                 add(Product.STATUS_BEST);
-                add(Product.STATUS_GOOD);
                 add(Product.STATUS_SAFE);
-                add(Product.STATUS_CLOSE);
                 add(Product.STATUS_BAD);
             }
         };

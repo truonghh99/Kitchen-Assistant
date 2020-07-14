@@ -1,6 +1,5 @@
 package com.example.kitchen_assistant.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,34 +11,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
-import com.example.kitchen_assistant.clients.OpenFoodFacts;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
-import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.parceler.Parcels;
-import org.w3c.dom.Text;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -47,7 +36,7 @@ import java.util.Locale;
  * Use the {@link NewProductDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CurrentFoodDetailFragment extends Fragment {
+public class CurrentProductDetailFragment extends Fragment {
 
     private static final String PRODUCT = "Product";
     private static final String TAG = "CurrentFoodDetail";
@@ -74,11 +63,11 @@ public class CurrentFoodDetailFragment extends Fragment {
     private FloatingActionButton btCook;
 
 
-    public CurrentFoodDetailFragment() {
+    public CurrentProductDetailFragment() {
     }
 
-    public static CurrentFoodDetailFragment newInstance(Parcelable product) {
-        CurrentFoodDetailFragment fragment = new CurrentFoodDetailFragment();
+    public static CurrentProductDetailFragment newInstance(Parcelable product) {
+        CurrentProductDetailFragment fragment = new CurrentProductDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(PRODUCT, product);
         fragment.setArguments(args);
@@ -198,7 +187,7 @@ public class CurrentFoodDetailFragment extends Fragment {
         product.printOutValues();
 
         CurrentProducts.saveProductInBackGround(product);
-        CurrentFoodFragment.notifyDataChange();
+        CurrentProductFragment.notifyDataChange();
     }
 
     public static String parseDate(Date date, SimpleDateFormat outputDateFormat) {
@@ -209,6 +198,6 @@ public class CurrentFoodDetailFragment extends Fragment {
 
     private void goToCurrentFood() {
         Log.e(TAG, "Go to current food fragment");
-        Fragment currentFoodFragment = CurrentFoodFragment.newInstance();
+        Fragment currentFoodFragment = CurrentProductFragment.newInstance();
         MainActivity.switchFragment(currentFoodFragment);
     }}

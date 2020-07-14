@@ -190,6 +190,6 @@ public class NewProductDetailFragment extends Fragment {
 
     private void goToCurrentFood() {
         Log.e(TAG, "Go to current food fragment");
-        Fragment currentFoodFragment = CurrentFoodFragment.newInstance();
-        MainActivity.switchFragment(currentFoodFragment);
+        Fragment currentProductFragment = CurrentProductFragment.newInstance();
+        MainActivity.switchFragment(currentProductFragment);
     }}

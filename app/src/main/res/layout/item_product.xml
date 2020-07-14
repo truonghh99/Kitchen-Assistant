@@ -9,7 +9,7 @@
     android:layout_margin="8dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/fair"
+    app:cardBackgroundColor="@color/best"
     app:cardCornerRadius="10dp">
 
     <RelativeLayout
@@ -26,7 +26,7 @@
             android:fontFamily="@font/scope_one"
             android:text="Chicken Noodles"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/pastelPink2"
             android:textSize="18sp"
             android:textStyle="bold" />
 

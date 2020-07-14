@@ -4,7 +4,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.kitchen_assistant.activities.MainActivity;
-import com.example.kitchen_assistant.fragments.CurrentFoodFragment;
+import com.example.kitchen_assistant.fragments.CurrentProductFragment;
 import com.example.kitchen_assistant.models.Product;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -62,7 +62,7 @@ public class CurrentProducts {
                     return;
                 }
                 products.addAll(newProducts);
-                CurrentFoodFragment.notifyDataChange();
+                CurrentProductFragment.notifyDataChange();
                 Log.i(TAG, "Query completed, got " + products.size() + " products");
             }
         });
@@ -72,6 +72,6 @@ public class CurrentProducts {
         products.remove(product);
         ParseObject productParse = ParseObject.createWithoutData("Product", product.getObjectId());
         productParse.deleteEventually();
-        CurrentFoodFragment.notifyDataChange();
+        CurrentProductFragment.notifyDataChange();
     }
 }

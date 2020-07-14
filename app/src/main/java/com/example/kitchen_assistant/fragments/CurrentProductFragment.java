@@ -40,9 +40,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class CurrentFoodFragment extends Fragment {
+public class CurrentProductFragment extends Fragment {
 
-    private static final String TAG = "CurrentFood";
+    private static final String TAG = "CurrentProductFragment";
     private static final String AUTHORITY = "com.codepath.fileprovider.kitchenassistant";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "barcode_photo.jpg";
@@ -55,11 +55,11 @@ public class CurrentFoodFragment extends Fragment {
     private RecyclerView rvCurrentFood;
     private static CurrentFoodAdapter adapter;
 
-    public CurrentFoodFragment() {
+    public CurrentProductFragment() {
     }
 
-    public static CurrentFoodFragment newInstance() {
-        CurrentFoodFragment fragment = new CurrentFoodFragment();
+    public static CurrentProductFragment newInstance() {
+        CurrentProductFragment fragment = new CurrentProductFragment();
         return fragment;
     }
 

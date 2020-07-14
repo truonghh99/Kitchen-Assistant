@@ -29,18 +29,19 @@ public class Product extends ParseObject implements Parcelable {
     private static final String TAG = "product";
     private static final String DEFAULT_IMG = "https://cdn.dribbble.com/users/67525/screenshots/4517042/agarey_grocerydribbble.png";
 
+    // Values of food status
     public static final String STATUS_BEST = "New & fresh";
-    public static final String STATUS_GOOD = "Good to use";
     public static final String STATUS_SAFE = "Safe to use";
-    public static final String STATUS_CLOSE = "Consume quickly!";
     public static final String STATUS_BAD = "Not safe to use";
 
+    // Keyword for Open Food Facts json response
     private static final String PRODUCT_INFO = "product";
     private static final String BARCODE = "code";
     private static final String NAME = "product_name";
     private static final String QUANTITY = "quantity";
     private static final String IMAGE_URL = "image_thumb_url";
 
+    // Keyword for Parse columns
     private static final String KEY_ID = "objectId";
     private static final String KEY_CREATED_AT = "createdAt";
     private static final String KEY_CODE = "productCode";
@@ -110,20 +111,12 @@ public class Product extends ParseObject implements Parcelable {
         long numDaysLeft = difference / (1000 * 60 * 60 * 24);
         long numDaysSafe = (long) MetricConversionHelper.convertTime(getDuration(), getDurationUnit(), "day");
         long ratio = numDaysLeft / numDaysSafe;
-        if (ratio > 0.8) {
-            setFoodStatus(STATUS_BEST);
-            return;
-        }
         if (ratio > 0.6) {
-            setFoodStatus(STATUS_GOOD);
+            setFoodStatus(STATUS_BEST);
             return;
         }
         if (ratio > 0.4) {
             setFoodStatus(STATUS_SAFE);
-            return;
-        }
-        if (ratio > 0.2) {
-            setFoodStatus(STATUS_CLOSE);
             return;
         }
         setFoodStatus(STATUS_BAD);
