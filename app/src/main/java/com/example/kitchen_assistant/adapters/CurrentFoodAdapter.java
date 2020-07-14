@@ -1,6 +1,7 @@
 package com.example.kitchen_assistant.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemProductBinding;
 import com.example.kitchen_assistant.fragments.CurrentFoodDetailFragment;
@@ -81,7 +83,7 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private RelativeLayout rlProduct;
+        private CardView cvProduct;
         private TextView tvName;
         private TextView tvQuantity;
         private TextView tvExpirationDate;
@@ -94,19 +96,37 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
             tvName = itemProductBinding.tvName;
             tvQuantity = itemProductBinding.tvQuantity;
             tvExpirationDate = itemProductBinding.tvExpirationDate;
-            rlProduct = itemProductBinding.rlProduct;
+            cvProduct = itemProductBinding.cvProduct;
         }
 
         public void bind(final Product product) {
             tvName.setText(product.getProductName());
             tvQuantity.setText("" + product.getCurrentQuantity() + " " + product.getQuantityUnit());
             tvExpirationDate.setText("Expiration date: " + NewProductDetailFragment.parseDate(product.getExpirationDate(), NewProductDetailFragment.DATE_FORMAT));
-            rlProduct.setOnClickListener(new View.OnClickListener() {
+            cvProduct.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     goToCurrentProductDetail(products.get(getAdapterPosition()));
                 }
             });
+            Log.e(TAG, product.getFoodStatus());
+            switch (product.getFoodStatus()) {
+                case Product.STATUS_BEST:
+                    cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.best));
+                    break;
+                case Product.STATUS_GOOD:
+                    cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.best));
+                    break;
+                case Product.STATUS_SAFE:
+                    cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.fair));
+                    break;
+                case Product.STATUS_CLOSE:
+                    cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.fair));
+                    break;
+                case Product.STATUS_BAD:
+                    cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.bad));
+                    break;
+            }
         }
     }
 

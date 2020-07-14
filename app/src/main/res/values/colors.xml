@@ -13,8 +13,12 @@
     <color name="pastelPink2">#E5989B</color>
     <color name="pastelPink3">#CD8E94</color>
 
-    <color name="pastelBlue">#d8e2dc</color>
-    <color name="pastelYellow">#ffe5d9</color>
+    <color name="pastelGreen">#cbdfbd</color>
+    <color name="pastelYellow">#fdffb6</color>
     <color name="pastelPink">#ffcad4</color>
+
+    <color name="best">#fdffb6</color>
+    <color name="fair">#d0f4de</color>
+    <color name="bad">#ffe3e0</color>
 
 </resources>
