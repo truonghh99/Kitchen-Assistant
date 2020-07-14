@@ -6,6 +6,7 @@ import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,7 +32,7 @@ public class Spoonacular {
 
     private static List<Recipe> recipes;
 
-    public static List<Recipe> getByIngredients(List<FoodItem> foodItems) {
+    public static List<Recipe> getByIngredients(List<FoodItem> foodItems) throws InterruptedException {
         Log.e(TAG, "Start querying recipes");
         recipes = new ArrayList<>();
 
@@ -49,6 +50,8 @@ public class Spoonacular {
                 .url(url)
                 .build();
 
+        Log.e(TAG, url);
+
         client.newCall(request)
                 .enqueue(new Callback() {
                     @Override
@@ -61,10 +64,24 @@ public class Spoonacular {
                         if (!response.isSuccessful()) {
                             throw new IOException("Unexpected code " + response);
                         } else {
-                            Log.e(TAG, response.body().string());
+                            Log.e(TAG, "Successfully extracted recipes");
+                            String jsonData = response.body().string();
+                            Log.e(TAG, jsonData);
+                            try {
+                                JSONArray jsonArray = new JSONArray(jsonData);
+                                //product = new Product(jsonObject);
+                                //Log.e(TAG, "Created new product object");
+                                Recipe.extractFromJsonArray(jsonArray);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
+
+        while (recipes.size() == 0) {
+            Thread.currentThread().sleep(10);
+        }
         return recipes;
     }
 

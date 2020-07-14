@@ -23,6 +23,7 @@ import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
+import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -32,6 +33,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -161,7 +163,11 @@ public class CurrentProductDetailFragment extends Fragment {
         btCook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Spoonacular.getByIngredients(new ArrayList<FoodItem>());
+                try {
+                    List<Recipe> recipes = Spoonacular.getByIngredients(new ArrayList<FoodItem>());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

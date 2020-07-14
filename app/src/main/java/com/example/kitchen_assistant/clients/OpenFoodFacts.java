@@ -52,21 +52,18 @@ public class OpenFoodFacts {
                         if (!response.isSuccessful()) {
                             throw new IOException("Unexpected code " + response);
                         } else {
-                            Log.e(TAG, "Successfully extracted");
+                            Log.e(TAG, "Successfully extracted product info");
                             String jsonData = response.body().string();
-                            Log.e(TAG, jsonData);
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonData);
                                 product = new Product(jsonObject);
-                                Log.e(TAG, "Created new product object");
-                                Log.e(TAG, jsonObject.toString());
+                                Log.i(TAG, jsonObject.toString());
                             } catch (JSONException | ParseException e) {
                                 e.printStackTrace();
                             }
                         }
                     }
                 });
-
         while (product.getProductName() == null) {
             Thread.currentThread().sleep(10);
         }
