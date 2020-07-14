@@ -21,16 +21,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.clients.OpenFoodFacts;
 import com.example.kitchen_assistant.databinding.FragmentNewProductDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.Product;
+import com.example.kitchen_assistant.storage.CurrentProducts;
 
 import org.parceler.Parcels;
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,7 +50,7 @@ public class NewProductDetailFragment extends Fragment {
 
     private static final String PRODUCT = "Product";
     private static final String TAG = "NewProductDetail";
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 
     private FragmentNewProductDetailBinding fragmentNewProductDetailBinding;
     private Product product;
@@ -114,7 +117,8 @@ public class NewProductDetailFragment extends Fragment {
         etDuration.setText(String.valueOf(product.getDuration()));
         etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
         etNumProducts.setText(String.valueOf(product.getNumProducts()));
-        GlideHelper.loadImage("default", getContext(), ivImg);
+        GlideHelper.loadImage(product.getImgUrl(), getContext(), ivImg);
+        Log.e(TAG, product.getImgUrl());
 
         SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, product.getQuantityUnit(), getContext(), etCurrentQuantity, (float) product.getCurrentQuantity(), spinnerOriginalQuantityUnit);
         SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, product.getQuantityUnit(), getContext(), etOriginalQuantity, (float) product.getOriginalQuantity(), spinnerCurrentQuantityUnit);
@@ -167,6 +171,11 @@ public class NewProductDetailFragment extends Fragment {
                 product.setDurationUnit(durationUnit);
                 product.updateExpirationDate();
                 product.setFoodStatus(foodStatus);
+                product.printOutValues();
+
+                CurrentProducts.products.add(product);
+                goToCurrentFood();
+
             }
         });
 
@@ -178,4 +187,9 @@ public class NewProductDetailFragment extends Fragment {
         outputDateString = outputDateFormat.format(date);
         return outputDateString;
     }
-}
+
+    private void goToCurrentFood() {
+        Log.e(TAG, "Go to current food fragment");
+        Fragment currentFoodFragment = CurrentFoodFragment.newInstance();
+        MainActivity.switchFragment(currentFoodFragment);
+    }}

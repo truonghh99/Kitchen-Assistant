@@ -24,7 +24,7 @@ public class GlideHelper {
         if (url != "default") {
             try {
                 Glide.with(context)
-                        .load(url.replaceAll("http", "https"))
+                        .load(url.replaceAll("http:", "https:"))
                         .circleCrop()
                         .into(imgView);
             } catch (Exception e) {
@@ -43,7 +43,7 @@ public class GlideHelper {
         if (url != "default") {
             try {
                 Glide.with(context)
-                        .load(url.replaceAll("http", "https"))
+                        .load(url.replaceAll("http:", "https:"))
                         .override(350, 350)
                         .apply(RequestOptions.bitmapTransform(new RoundedCorners(50)))
                         .into(imgView);

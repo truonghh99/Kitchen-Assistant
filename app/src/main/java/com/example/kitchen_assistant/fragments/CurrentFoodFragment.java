@@ -29,6 +29,7 @@ import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.clients.OpenFoodFacts;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodBinding;
 import com.example.kitchen_assistant.models.Product;
+import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.parceler.Parcels;
@@ -74,10 +75,8 @@ public class CurrentFoodFragment extends Fragment {
         btAdd = fragmentCurrentFoodBinding.btAdd;
         btSearch = fragmentCurrentFoodBinding.btSearch;
         rvCurrentFood = fragmentCurrentFoodBinding.rvCurrentFood;
-        products = new ArrayList<Product>();
-        for (int i = 0; i < 20; ++i) {
-            products.add(new Product());
-        }
+        products = CurrentProducts.products;
+
         adapter = new CurrentFoodAdapter(getActivity(), products);
         rvCurrentFood.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         rvCurrentFood.setAdapter(adapter);
@@ -112,7 +111,7 @@ public class CurrentFoodFragment extends Fragment {
     public File getPhotoFileUri(String fileName) {
         File mediaStorageDir = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-            Log.d(TAG, "ailed to create directory");
+            Log.d(TAG, "Failed to create directory");
         }
         File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
         return file;

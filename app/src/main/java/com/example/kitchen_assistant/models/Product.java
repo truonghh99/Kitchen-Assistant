@@ -82,9 +82,14 @@ public class Product {
         updateExpirationDate();
         updateFoodStatus();
 
+        printOutValues();
+    }
+
+    public void printOutValues() {
         Log.i(TAG, "Product code: " + productCode);
         Log.i(TAG, "Product name: " + productName);
         Log.i(TAG, "Original quantity: " + originalQuantity + " " + quantityUnit);
+        Log.i(TAG, "Number of items: " + numProducts);
         Log.i(TAG, "Current quantity: " + currentQuantity + " " + quantityUnit);
         Log.i(TAG, "Duration: " + duration + " " + durationUnit);
         Log.i(TAG, "Purchase date: "  + String.valueOf(purchaseDate));

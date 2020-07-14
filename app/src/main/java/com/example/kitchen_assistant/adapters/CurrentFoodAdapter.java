@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.kitchen_assistant.databinding.ItemProductBinding;
+import com.example.kitchen_assistant.fragments.NewProductDetailFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.models.Product;
 import com.parse.Parse;
@@ -24,7 +25,9 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.ViewHolder> {
 
@@ -73,15 +76,25 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(@NonNull ItemProductBinding itemProductBinding) {
+        private TextView tvName;
+        private TextView tvQuantity;
+        private TextView tvExpirationDate;
+        private ItemProductBinding itemProductBinding;
+        private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 
+        public ViewHolder(@NonNull ItemProductBinding itemProductBinding) {
             super(itemProductBinding.getRoot());
+            this.itemProductBinding = itemProductBinding;
+            tvName = itemProductBinding.tvName;
+            tvQuantity = itemProductBinding.tvQuantity;
+            tvExpirationDate = itemProductBinding.tvExpirationDate;
+
         }
 
         public void bind(final Product product) {
-            String url = product.getImgUrl();
-            //GlideHelper.loadImage(url, context, ivProductItem);
-            //GlideHelper.loadImage("http://static.openfoodfacts.org/images/products/000/980/089/5007/front_en.12.100.jpg", context, ivProductItem);
+            tvName.setText(product.getProductName());
+            tvQuantity.setText("" + product.getCurrentQuantity() + " " + product.getQuantityUnit());
+            tvExpirationDate.setText("Expiration date: " + NewProductDetailFragment.parseDate(product.getExpirationDate(), NewProductDetailFragment.DATE_FORMAT));
         }
     }
 
