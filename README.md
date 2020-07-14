@@ -30,12 +30,12 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
 
 **Required Must-have Stories**
 
-* Allow user to register, login and logout
-* Be able to read food information via QR code
-* Be able to store food list of each user
-* Be able to store recipe list of each user
+[x] Allow user to register, login and logout
+[x] Be able to read food information via barcode
+[x] Be able to store food list of each user
+[x] Be able to store recipe list of each user
 * Be able to store shopping list of each user
-* Allow user to update their current food (add, delete, edit)
+[x] Allow user to update their current food (add, delete, edit)
 * Allow user to update their recipes (add, delete, edit)
 * Allow user to update their shopping list items (add, delete, edit)
 * Automatically update food status over time and after each input meal
