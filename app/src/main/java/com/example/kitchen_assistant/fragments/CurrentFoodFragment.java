@@ -139,7 +139,7 @@ public class CurrentFoodFragment extends Fragment {
 
     private void goToNewProductDetail(String code) {
         Log.e(TAG, "go to new product detail");
-        Product product = null;
+        Product product = new Product();
         try {
             product = OpenFoodFacts.getProductInfo(code);
         } catch (IOException | InterruptedException e) {

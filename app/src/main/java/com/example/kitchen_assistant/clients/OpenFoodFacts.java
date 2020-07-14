@@ -27,19 +27,17 @@ public class OpenFoodFacts {
 
     public static String GET_PRODUCT_INFO_URL = "https://us.openfoodfacts.org/api/v0/product/";
     public static String HEADER = "KitchenAssistant - Android - Version 1.0 - https://github.com/truonghh99/Kitchen-Assistant/blob/master/README.md";
-    private static Product product = new Product();
+    private static Product product;
 
     public static Product getProductInfo(String productCode) throws IOException, InterruptedException {
-        Log.e(TAG, "START FINDING INFO OF PRODUCT " + productCode);
-
+        Log.e(TAG, "Start querying product info " + productCode);
+        product = new Product();
         String url = GET_PRODUCT_INFO_URL + productCode;
-        Log.e(TAG, url);
-        Log.e(TAG, Thread.currentThread().getName());
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
-                .header("Authorization", HEADER)
+                .header("UserAgent", HEADER)
                 .build();
 
         client.newCall(request)
@@ -60,7 +58,7 @@ public class OpenFoodFacts {
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonData);
                                 product = new Product(jsonObject);
-                                Log.e(TAG, Thread.currentThread().getName());
+                                Log.e(TAG, "Created new product object");
                                 Log.e(TAG, jsonObject.toString());
                             } catch (JSONException | ParseException e) {
                                 e.printStackTrace();

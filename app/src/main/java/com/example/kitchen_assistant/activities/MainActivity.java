@@ -131,4 +131,9 @@ public class MainActivity extends AppCompatActivity {
     public static void switchFragment(Fragment fragment) {
         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
