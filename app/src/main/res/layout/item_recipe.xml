@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cvRecipe"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/recipe_demo"/>
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ivImage"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/scope_one"
+            android:text="Apple Pie"
+            android:textAlignment="center"
+            android:textColor="@color/pastelPink2"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvName"
+            android:layout_toRightOf="@id/ivImage"
+            android:layout_marginStart="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/scope_one"
+            android:text="You have enough ingredient to cook this recipe!"
+            android:textColor="@color/grey"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

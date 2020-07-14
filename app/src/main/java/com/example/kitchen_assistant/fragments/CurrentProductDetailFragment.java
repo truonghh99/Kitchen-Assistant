@@ -25,6 +25,7 @@ import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentProducts;
+import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.parceler.Parcels;
@@ -165,6 +166,7 @@ public class CurrentProductDetailFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     List<Recipe> recipes = Spoonacular.getByIngredients(new ArrayList<FoodItem>());
+                    CurrentRecipes.recipes.addAll(recipes);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

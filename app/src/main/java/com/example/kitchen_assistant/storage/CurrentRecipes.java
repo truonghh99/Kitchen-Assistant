@@ -3,6 +3,7 @@ package com.example.kitchen_assistant.storage;
 import android.util.Log;
 
 import com.example.kitchen_assistant.fragments.CurrentProductFragment;
+import com.example.kitchen_assistant.fragments.RecipeFragment;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 import com.parse.FindCallback;
@@ -22,6 +23,7 @@ public class CurrentRecipes {
     public static void addRecipe (Recipe recipe) {
         recipes.add(recipe);
         saveRecipeInBackGround(recipe);
+        RecipeFragment.notifyDataChange();
     }
     public static void saveAllRecipes() {
         Log.e(TAG, "Start saving all recipes");
@@ -58,7 +60,7 @@ public class CurrentRecipes {
                     return;
                 }
                 recipes.addAll(newRecipe);
-                CurrentProductFragment.notifyDataChange();
+                RecipeFragment.notifyDataChange();
                 Log.i(TAG, "Query completed, got " + recipes.size() + " recipes");
             }
         });
@@ -68,7 +70,7 @@ public class CurrentRecipes {
         recipes.remove(recipe);
         ParseObject productParse = ParseObject.createWithoutData("Recipe", recipe.getObjectId());
         productParse.deleteEventually();
-        CurrentProductFragment.notifyDataChange();
+        RecipeFragment.notifyDataChange();
     }
 
 }
