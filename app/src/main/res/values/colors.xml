@@ -8,4 +8,13 @@
     <color name="beige">#fff1e6</color>
     <color name="black">#000000</color>
     <color name="grey">#686565</color>
+
+    <color name="pastelPink1">#F2A69F</color>
+    <color name="pastelPink2">#E5989B</color>
+    <color name="pastelPink3">#CD8E94</color>
+
+    <color name="pastelBlue">#d8e2dc</color>
+    <color name="pastelYellow">#ffe5d9</color>
+    <color name="pastelPink">#ffcad4</color>
+
 </resources>

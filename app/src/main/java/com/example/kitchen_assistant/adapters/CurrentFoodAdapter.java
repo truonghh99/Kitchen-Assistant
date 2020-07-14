@@ -6,13 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemProductBinding;
+import com.example.kitchen_assistant.fragments.CurrentFoodDetailFragment;
 import com.example.kitchen_assistant.fragments.NewProductDetailFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.models.Product;
@@ -76,6 +81,7 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        private RelativeLayout rlProduct;
         private TextView tvName;
         private TextView tvQuantity;
         private TextView tvExpirationDate;
@@ -88,14 +94,26 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
             tvName = itemProductBinding.tvName;
             tvQuantity = itemProductBinding.tvQuantity;
             tvExpirationDate = itemProductBinding.tvExpirationDate;
-
+            rlProduct = itemProductBinding.rlProduct;
         }
 
         public void bind(final Product product) {
             tvName.setText(product.getProductName());
             tvQuantity.setText("" + product.getCurrentQuantity() + " " + product.getQuantityUnit());
             tvExpirationDate.setText("Expiration date: " + NewProductDetailFragment.parseDate(product.getExpirationDate(), NewProductDetailFragment.DATE_FORMAT));
+            rlProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goToCurrentProductDetail(products.get(getAdapterPosition()));
+                }
+            });
         }
+    }
+
+    private void goToCurrentProductDetail(Product product) {
+        Log.e(TAG, "Go to current product detail");
+        Fragment currentFoodDetailFragment = CurrentFoodDetailFragment.newInstance(Parcels.wrap(product));
+        MainActivity.switchFragment(currentFoodDetailFragment);
     }
 
 }

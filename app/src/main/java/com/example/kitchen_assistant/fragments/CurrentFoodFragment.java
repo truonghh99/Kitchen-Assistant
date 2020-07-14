@@ -71,7 +71,6 @@ public class CurrentFoodFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        MainActivity.showProgressBar();
         fragmentCurrentFoodBinding = FragmentCurrentFoodBinding.inflate(getLayoutInflater());
         btAdd = fragmentCurrentFoodBinding.btAdd;
         btSearch = fragmentCurrentFoodBinding.btSearch;
@@ -141,7 +140,7 @@ public class CurrentFoodFragment extends Fragment {
     }
 
     private void goToNewProductDetail(String code) {
-        Log.e(TAG, "go to new product detail");
+        Log.e(TAG, "Go to new product detail");
         Product product = new Product();
         try {
             product = OpenFoodFacts.getProductInfo(code);
@@ -154,6 +153,5 @@ public class CurrentFoodFragment extends Fragment {
 
     public static void notifyDataChange() {
         adapter.notifyDataSetChanged();
-        MainActivity.hideProgressBar();
     }
 }
