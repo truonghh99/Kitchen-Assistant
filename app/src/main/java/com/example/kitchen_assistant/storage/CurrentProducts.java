@@ -24,7 +24,7 @@ public class CurrentProducts {
     public static List<Product> products;
 
     public static void addProduct(Product product) {
-        products.add(product);
+        products.add(0, product);
         saveProductInBackGround(product);
     }
     public static void saveAllProducts() {
@@ -64,6 +64,7 @@ public class CurrentProducts {
                 products.addAll(newProducts);
                 CurrentProductFragment.notifyDataChange();
                 Log.i(TAG, "Query completed, got " + products.size() + " products");
+                MainActivity.hideProgressBar();
             }
         });
     }

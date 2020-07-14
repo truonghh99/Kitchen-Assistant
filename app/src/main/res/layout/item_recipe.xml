@@ -31,7 +31,6 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/scope_one"
             android:text="Apple Pie"
-            android:textAlignment="center"
             android:textColor="@color/pastelPink2"
             android:textSize="18sp"
             android:textStyle="bold" />

@@ -27,7 +27,7 @@ public class CurrentRecipes {
         }
     }
     public static void addRecipe(Recipe recipe) {
-        recipes.add(recipe);
+        recipes.add(0, recipe);
         saveRecipeInBackGround(recipe);
         //RecipeFragment.notifyDataChange();
     }
@@ -56,7 +56,7 @@ public class CurrentRecipes {
 
         recipes = new ArrayList<>();
         ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);
-        query.addAscendingOrder("createdAt");
+        query.addDescendingOrder("createdAt");
 
         query.findInBackground(new FindCallback<Recipe>() {
             @Override
