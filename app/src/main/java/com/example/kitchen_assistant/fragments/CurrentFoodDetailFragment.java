@@ -29,6 +29,7 @@ import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.storage.CurrentProducts;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.parceler.Parcels;
 import org.w3c.dom.Text;
@@ -67,6 +68,10 @@ public class CurrentFoodDetailFragment extends Fragment {
     private Spinner spinnerDurationUnit;
     private Spinner spinnerStatus;
     private EditText etNumProducts;
+    private FloatingActionButton btApprove;
+    private FloatingActionButton btRemove;
+    private FloatingActionButton btShop;
+    private FloatingActionButton btCook;
 
 
     public CurrentFoodDetailFragment() {
@@ -105,6 +110,10 @@ public class CurrentFoodDetailFragment extends Fragment {
         spinnerDurationUnit = fragmentCurrentFoodDetailBinding.spinnerDurationUnit;
         spinnerStatus = fragmentCurrentFoodDetailBinding.spinnerStatus;
         etNumProducts = fragmentCurrentFoodDetailBinding.etNumProducts;
+        btApprove = fragmentCurrentFoodDetailBinding.btApprove;
+        btRemove =fragmentCurrentFoodDetailBinding.btRemove;
+        btCook = fragmentCurrentFoodDetailBinding.btCook;
+        btShop = fragmentCurrentFoodDetailBinding.btShop;
 
         Log.e(TAG, "START BINDING VIEW");
         etName.setText(product.getProductName());
@@ -141,7 +150,55 @@ public class CurrentFoodDetailFragment extends Fragment {
             }
         });
 
+        btApprove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveInfo();
+                goToCurrentFood();
+            }
+        });
+
+        btRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CurrentProducts.removeProduct(product);
+                goToCurrentFood();
+            }
+        });
+
         return fragmentCurrentFoodDetailBinding.getRoot();
+    }
+
+    private void saveInfo() {
+        String productName = etName.getText().toString();
+        String foodType = etFoodType.getText().toString();
+        Float originalQuantity = Float.parseFloat(etOriginalQuantity.getText().toString());
+        String quantityUnit = spinnerOriginalQuantityUnit.getSelectedItem().toString();
+        Float currentQuantity = Float.parseFloat(etCurrentQuantity.getText().toString());
+        Date purchaseDate = product.getPurchaseDate();
+        try {
+            purchaseDate = DATE_FORMAT.parse(etPurchaseDate.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Float duration = Float.parseFloat(etDuration.getText().toString());
+        String durationUnit = spinnerDurationUnit.getSelectedItem().toString();
+        String foodStatus = spinnerStatus.getSelectedItem().toString();
+
+        product.setProductName(productName);
+        product.setOriginalQuantity(originalQuantity);
+        product.setQuantityUnit(quantityUnit);
+        product.setCurrentQuantity(currentQuantity);
+        product.setNumProducts(currentQuantity / originalQuantity);
+        product.setPurchaseDate(purchaseDate);
+        product.setDuration(duration);
+        product.setDurationUnit(durationUnit);
+        product.updateExpirationDate();
+        product.setFoodStatus(foodStatus);
+        product.printOutValues();
+
+        CurrentProducts.saveProductInBackGround(product);
+        CurrentFoodFragment.notifyDataChange();
     }
 
     public static String parseDate(Date date, SimpleDateFormat outputDateFormat) {

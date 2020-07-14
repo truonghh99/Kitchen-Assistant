@@ -313,6 +313,21 @@
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btApprove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btShop"
+        android:layout_alignParentRight="true"
+        android:layout_margin="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/pastelPink0"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_approve" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btShop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

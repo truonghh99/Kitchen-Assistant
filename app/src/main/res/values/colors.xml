@@ -9,6 +9,7 @@
     <color name="black">#000000</color>
     <color name="grey">#686565</color>
 
+    <color name="pastelPink0">#FFBBA6</color>
     <color name="pastelPink1">#F2A69F</color>
     <color name="pastelPink2">#E5989B</color>
     <color name="pastelPink3">#CD8E94</color>
@@ -17,8 +18,8 @@
     <color name="pastelYellow">#fdffb6</color>
     <color name="pastelPink">#ffcad4</color>
 
-    <color name="best">#fdffb6</color>
-    <color name="fair">#d0f4de</color>
+    <color name="best">#d0f4de</color>
+    <color name="fair">#fdffb6</color>
     <color name="bad">#ffe3e0</color>
 
 </resources>

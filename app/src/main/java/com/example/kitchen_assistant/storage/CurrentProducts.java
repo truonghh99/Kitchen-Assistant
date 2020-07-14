@@ -7,7 +7,9 @@ import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.fragments.CurrentFoodFragment;
 import com.example.kitchen_assistant.models.Product;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -32,7 +34,7 @@ public class CurrentProducts {
         }
     }
 
-    private static void saveProductInBackGround(Product product) {
+    public static void saveProductInBackGround(Product product) {
         product.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -64,5 +66,12 @@ public class CurrentProducts {
                 Log.i(TAG, "Query completed, got " + products.size() + " products");
             }
         });
+    }
+
+    public static void removeProduct(Product product) {
+        products.remove(product);
+        ParseObject productParse = ParseObject.createWithoutData("Product", product.getObjectId());
+        productParse.deleteEventually();
+        CurrentFoodFragment.notifyDataChange();
     }
 }
