@@ -173,7 +173,7 @@ public class NewProductDetailFragment extends Fragment {
                 product.setFoodStatus(foodStatus);
                 product.printOutValues();
 
-                CurrentProducts.products.add(product);
+                CurrentProducts.addProduct(product);
                 goToCurrentFood();
 
             }

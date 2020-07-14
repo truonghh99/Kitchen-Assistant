@@ -2,7 +2,9 @@ package com.example.kitchen_assistant.applications;
 
 import android.app.Application;
 
+import com.example.kitchen_assistant.models.Product;
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -12,7 +14,7 @@ public class ParseApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // Use for troubleshooting -- remove this line for production
+        ParseObject.registerSubclass(Product.class);
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
 
         // Use for monitoring Parse OkHttp traffic

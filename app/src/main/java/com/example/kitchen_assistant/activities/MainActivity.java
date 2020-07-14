@@ -20,6 +20,7 @@ import com.example.kitchen_assistant.databinding.ActivityMainBinding;
 import com.example.kitchen_assistant.fragments.CurrentFoodFragment;
 import com.example.kitchen_assistant.fragments.RecipeFragment;
 import com.example.kitchen_assistant.fragments.ShoppingListFragment;
+import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -133,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
+        CurrentProducts.saveAllProducts();
     }
 }

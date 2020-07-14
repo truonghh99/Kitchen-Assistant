@@ -1,10 +1,13 @@
 package com.example.kitchen_assistant.models;
 
+import android.os.Parcelable;
 import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.google.android.gms.maps.internal.IGoogleMapDelegate;
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,8 +22,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-@Parcel
-public class Product {
+@ParseClassName("Product")
+public class Product extends ParseObject implements Parcelable {
 
     private static final String TAG = "product";
     private static final String DEFAULT_IMG = "https://cdn.dribbble.com/users/67525/screenshots/4517042/agarey_grocerydribbble.png";
