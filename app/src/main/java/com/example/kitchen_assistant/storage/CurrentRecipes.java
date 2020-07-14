@@ -18,7 +18,7 @@ import java.util.List;
 public class CurrentRecipes {
 
     private static final String TAG = "CurrentRecipes";
-    public static List<Recipe> recipes = new ArrayList<>();
+    public static List<Recipe> recipes;
 
     public static void addAllRecipes(List<Recipe> recipes) {
         for (Recipe recipe : recipes) {
@@ -66,7 +66,7 @@ public class CurrentRecipes {
                     return;
                 }
                 recipes.addAll(newRecipe);
-                RecipeFragment.notifyDataChange();
+                //RecipeFragment.notifyDataChange();
                 Log.i(TAG, "Query completed, got " + recipes.size() + " recipes");
             }
         });

@@ -89,8 +89,8 @@ public class Spoonacular {
     private static String generateList(List<FoodItem> foodItems) {
         if (foodItems.size() == 0) return "";
         String result = foodItems.get(0).getName();
-        for (FoodItem food : foodItems) {
-            result += ',' + food.getName();
+        for (int i = 1; i < foodItems.size(); ++i) {
+            result += ',' + foodItems.get(i).getName();
         }
         return result;
     }

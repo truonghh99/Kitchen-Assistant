@@ -18,8 +18,8 @@
     <color name="pastelYellow">#fdffb6</color>
     <color name="pastelPink">#ffcad4</color>
 
-    <color name="best">#d0f4de</color>
+    <color name="best">#d7f9ff</color>
     <color name="fair">#fdffb6</color>
-    <color name="bad">#ffe3e0</color>
+    <color name="bad">#ffede1</color>
 
 </resources>
