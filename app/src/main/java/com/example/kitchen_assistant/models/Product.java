@@ -3,6 +3,7 @@ package com.example.kitchen_assistant.models;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.google.android.gms.maps.internal.IGoogleMapDelegate;
 
 import org.json.JSONArray;
@@ -23,11 +24,11 @@ public class Product {
     private static final String TAG = "product";
     private static final String DEFAULT_IMG = "https://cdn.dribbble.com/users/67525/screenshots/4517042/agarey_grocerydribbble.png";
 
-    private static final String STATUS_BEST = "New & fresh";
-    private static final String STATUS_GOOD = "Good to use";
-    private static final String STATUS_SAFE = "Safe to use";
-    private static final String STATUS_CLOSE = "Consume quickly!";
-    private static final String STATUS_BAD = "Not safe to use";
+    public static final String STATUS_BEST = "New & fresh";
+    public static final String STATUS_GOOD = "Good to use";
+    public static final String STATUS_SAFE = "Safe to use";
+    public static final String STATUS_CLOSE = "Consume quickly!";
+    public static final String STATUS_BAD = "Not safe to use";
 
     private static final String PRODUCT_INFO = "product";
     private static final String BARCODE = "code";
@@ -37,13 +38,13 @@ public class Product {
 
     private String productCode;
     private String productName;
-    private int originalQuantity;
-    private int currentQuantity;
+    private float originalQuantity;
+    private float currentQuantity;
     private String quantityUnit;
     private int numProducts;
     private String imgUrl;
     private Date purchaseDate;
-    private int duration;
+    private float duration;
     private String durationUnit;
     private Date expirationDate;
     private String foodStatus;
@@ -65,7 +66,7 @@ public class Product {
             quantityUnit = extractQuantityUnit(quantityStr);
         } catch (JSONException e) {
             originalQuantity = 0;
-            quantityUnit = null;
+            quantityUnit = "g";
         }
         try {
             imgUrl = product.getString(IMAGE_URL);
@@ -80,6 +81,7 @@ public class Product {
         updateExpirationDate();
         updateFoodStatus();
 
+        Log.e("UNITTT", quantityUnit);
         Log.e(TAG, productCode);
         Log.e(TAG, productName);
         Log.e(TAG, "" + originalQuantity + " " + quantityUnit);
@@ -95,7 +97,7 @@ public class Product {
         Date today = new Date();
         long difference = expirationDate.getTime() - today.getTime();
         long numDaysLeft = difference / (1000*60*60*24);
-        long numDaysSafe = convertDurationToDays();
+        long numDaysSafe = (long) MetricConversionHelper.convertTime(duration, durationUnit, "day");
         long ratio = numDaysLeft / numDaysSafe;
         if (ratio > 0.8) {
             foodStatus = STATUS_BEST;
@@ -116,20 +118,6 @@ public class Product {
         foodStatus = STATUS_BAD;
     }
 
-    private long convertDurationToDays() {
-        long result = 0;
-        switch (durationUnit) {
-            case "year":
-                Log.e(TAG, "YEAR");
-                result = duration * 365;
-            case "month":
-                result = duration * 30;
-            case "day":
-                result = duration;
-        }
-        return result;
-    }
-
     public void updateExpirationDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar c = Calendar.getInstance();
@@ -137,11 +125,11 @@ public class Product {
         switch (durationUnit) {
             case "year":
                 Log.e(TAG, "YEAR");
-                c.add(Calendar.YEAR, duration);
+                c.add(Calendar.YEAR, (int) duration);
             case "month":
-                c.add(Calendar.MONTH, duration);
+                c.add(Calendar.MONTH, (int) duration);
             case "day":
-                c.add(Calendar.DATE, duration);
+                c.add(Calendar.DATE, (int) duration);
         }
         expirationDate = c.getTime();
         return;
@@ -153,7 +141,7 @@ public class Product {
 
     private String extractQuantityUnit(String quantityStr) {
         if (quantityStr.isEmpty()) {
-            return null;
+            return "g";
         }
         int i = 0;
         while (quantityStr.charAt(i) <= '9' && quantityStr.charAt(i) >= '0') ++i;
@@ -193,19 +181,19 @@ public class Product {
         this.productName = productName;
     }
 
-    public int getOriginalQuantity() {
+    public float getOriginalQuantity() {
         return originalQuantity;
     }
 
-    public void setOriginalQuantity(int originalQuantity) {
+    public void setOriginalQuantity(float originalQuantity) {
         this.originalQuantity = originalQuantity;
     }
 
-    public int getCurrentQuantity() {
+    public float getCurrentQuantity() {
         return currentQuantity;
     }
 
-    public void setCurrentQuantity(int currentQuantity) {
+    public void setCurrentQuantity(float currentQuantity) {
         this.currentQuantity = currentQuantity;
     }
 
@@ -241,11 +229,11 @@ public class Product {
         this.purchaseDate = purchaseDate;
     }
 
-    public int getDuration() {
+    public float getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(float duration) {
         this.duration = duration;
     }
 

@@ -1,6 +1,8 @@
 package com.example.kitchen_assistant.helpers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MetricConversionHelper {
     public static final HashMap<String, Float> volumne = new HashMap<String, Float>(){
@@ -35,6 +37,38 @@ public class MetricConversionHelper {
         }
     };
 
+    public static List<String> volumneCategories = new ArrayList<String>(){
+        {
+            add("oz");
+            add("ml");
+            add("l");
+            add("cup");
+            add("gallon");
+            add("tbsp");
+            add("tsp");
+        }
+    };
+
+    public static List<String> weightCategories = new ArrayList<String>(){
+        {
+            add("oz");
+            add("lbs");
+            add("g");
+            add("kg");
+            add("cup");
+            add("tbsp");
+            add("tsp");
+        }
+    };
+
+    public static List<String> timeCategories = new ArrayList<String>(){
+        {
+            add("day");
+            add("month");
+            add("year");
+        }
+    };
+
     public static float convertVolume(float quantity, String unitFrom, String unitTo) {
         float result = 0;
         result = quantity * volumne.get(unitFrom)/volumne.get(unitTo);
@@ -49,6 +83,12 @@ public class MetricConversionHelper {
 
     public static float convertTime(float quantity, String unitFrom, String unitTo) {
         float result = 0;
+        if (unitFrom == "year" && unitTo == "month") {
+            return quantity * 12;
+        }
+        if (unitTo == "month" && unitTo == "year") {
+            return quantity / 12;
+        }
         result = quantity * time.get(unitFrom)/time.get(unitTo);
         return result;
     }
