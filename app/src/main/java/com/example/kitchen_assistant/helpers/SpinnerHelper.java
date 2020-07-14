@@ -21,7 +21,7 @@ public class SpinnerHelper {
     private static final String TAG = "SpinnerHelper";
     private static String newText;
 
-    public static void setUpMetricSpinner(Spinner spinner, final String selectedItem, Context context, final EditText editText, final Float currentVal) {
+    public static void setUpMetricSpinner(Spinner spinner, final String selectedItem, Context context, final EditText editText, final Float currentVal, final Spinner attachedSpinner) {
         List<String> categories = new ArrayList<String>();
         if (editText != null) newText = editText.getText().toString();
         if (MetricConversionHelper.weight.containsKey(selectedItem)) {
@@ -48,12 +48,12 @@ public class SpinnerHelper {
                 @Override
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                     String newUnit = (String) parentView.getItemAtPosition(position);
-                    Log.e(TAG, selectedItem + " " + newUnit);
                     DecimalFormat df = new DecimalFormat("##.##");
                     df.setRoundingMode(RoundingMode.DOWN);
                     Float convertedValue = convertGeneral(currentVal, selectedItem, newUnit);
                     newText = String.valueOf(df.format(convertedValue));
                     editText.setText(newText);
+                    if (attachedSpinner != null) attachedSpinner.setSelection(position);
                 }
 
                 @Override

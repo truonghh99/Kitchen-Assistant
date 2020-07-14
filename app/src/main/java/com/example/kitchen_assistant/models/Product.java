@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @Parcel
@@ -41,7 +42,7 @@ public class Product {
     private float originalQuantity;
     private float currentQuantity;
     private String quantityUnit;
-    private int numProducts;
+    private float numProducts;
     private String imgUrl;
     private Date purchaseDate;
     private float duration;
@@ -81,22 +82,21 @@ public class Product {
         updateExpirationDate();
         updateFoodStatus();
 
-        Log.e("UNITTT", quantityUnit);
-        Log.e(TAG, productCode);
-        Log.e(TAG, productName);
-        Log.e(TAG, "" + originalQuantity + " " + quantityUnit);
-        Log.e(TAG, "" + currentQuantity + " " + quantityUnit);
-        Log.e(TAG, "" + duration + " " + durationUnit);
-        Log.e(TAG, String.valueOf(purchaseDate));
-        Log.e(TAG, String.valueOf(expirationDate));
-        Log.e(TAG, foodStatus);
-        Log.e(TAG, imgUrl);
+        Log.i(TAG, "Product code: " + productCode);
+        Log.i(TAG, "Product name: " + productName);
+        Log.i(TAG, "Original quantity: " + originalQuantity + " " + quantityUnit);
+        Log.i(TAG, "Current quantity: " + currentQuantity + " " + quantityUnit);
+        Log.i(TAG, "Duration: " + duration + " " + durationUnit);
+        Log.i(TAG, "Purchase date: "  + String.valueOf(purchaseDate));
+        Log.i(TAG, "Expiration date: " + String.valueOf(expirationDate));
+        Log.i(TAG, "Food status: " + foodStatus);
+        Log.i(TAG, "Image url: " + imgUrl);
     }
 
     public void updateFoodStatus() {
         Date today = new Date();
         long difference = expirationDate.getTime() - today.getTime();
-        long numDaysLeft = difference / (1000*60*60*24);
+        long numDaysLeft = difference / (1000 * 60 * 60 * 24);
         long numDaysSafe = (long) MetricConversionHelper.convertTime(duration, durationUnit, "day");
         long ratio = numDaysLeft / numDaysSafe;
         if (ratio > 0.8) {
@@ -124,7 +124,6 @@ public class Product {
         c.setTime(purchaseDate);
         switch (durationUnit) {
             case "year":
-                Log.e(TAG, "YEAR");
                 c.add(Calendar.YEAR, (int) duration);
             case "month":
                 c.add(Calendar.MONTH, (int) duration);
@@ -205,11 +204,11 @@ public class Product {
         this.quantityUnit = quantityUnit;
     }
 
-    public int getNumProducts() {
+    public float getNumProducts() {
         return numProducts;
     }
 
-    public void setNumProducts(int numProducts) {
+    public void setNumProducts(float numProducts) {
         this.numProducts = numProducts;
     }
 

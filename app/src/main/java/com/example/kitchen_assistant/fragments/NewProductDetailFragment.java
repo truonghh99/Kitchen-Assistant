@@ -6,12 +6,15 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -26,9 +29,14 @@ import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.Product;
 
 import org.parceler.Parcels;
+import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,6 +47,8 @@ public class NewProductDetailFragment extends Fragment {
 
     private static final String PRODUCT = "Product";
     private static final String TAG = "NewProductDetail";
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+
     private FragmentNewProductDetailBinding fragmentNewProductDetailBinding;
     private Product product;
     private TextView etName;
@@ -54,6 +64,8 @@ public class NewProductDetailFragment extends Fragment {
     private Spinner spinnerDurationUnit;
     private Spinner spinnerStatus;
     private EditText etNumProducts;
+    private Button btAdd;
+
 
     public NewProductDetailFragment() {
     }
@@ -91,32 +103,79 @@ public class NewProductDetailFragment extends Fragment {
         spinnerDurationUnit = fragmentNewProductDetailBinding.spinnerDurationUnit;
         spinnerStatus = fragmentNewProductDetailBinding.spinnerStatus;
         etNumProducts = fragmentNewProductDetailBinding.etNumProducts;
+        btAdd = fragmentNewProductDetailBinding.btAdd;
 
         Log.e(TAG, "START BINDING VIEW");
         etName.setText(product.getProductName());
         etFoodType.setText("Undefined");
         etOriginalQuantity.setText(String.valueOf(product.getOriginalQuantity()));
         etCurrentQuantity.setText(String.valueOf(product.getCurrentQuantity()));
-        etPurchaseDate.setText(String.valueOf(product.getPurchaseDate()));
+        etPurchaseDate.setText(parseDate(product.getPurchaseDate(), DATE_FORMAT));
         etDuration.setText(String.valueOf(product.getDuration()));
-        etExpirationDate.setText(String.valueOf(product.getExpirationDate()));
+        etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
         etNumProducts.setText(String.valueOf(product.getNumProducts()));
         GlideHelper.loadImage("default", getContext(), ivImg);
 
-        SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, product.getQuantityUnit(), getContext(), etCurrentQuantity, (float) product.getCurrentQuantity());
-        SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, product.getQuantityUnit(), getContext(), etOriginalQuantity, (float) product.getOriginalQuantity());
-        SpinnerHelper.setUpMetricSpinner(spinnerDurationUnit, product.getDurationUnit(), getContext(), etDuration, (float) product.getDuration());
+        SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, product.getQuantityUnit(), getContext(), etCurrentQuantity, (float) product.getCurrentQuantity(), spinnerOriginalQuantityUnit);
+        SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, product.getQuantityUnit(), getContext(), etOriginalQuantity, (float) product.getOriginalQuantity(), spinnerCurrentQuantityUnit);
+        SpinnerHelper.setUpMetricSpinner(spinnerDurationUnit, product.getDurationUnit(), getContext(), etDuration, (float) product.getDuration(), null);
         SpinnerHelper.setUpStatusSpinner(spinnerStatus, product.getFoodStatus(), getContext());
 
-        etNumProducts.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etNumProducts.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View view, boolean b) {
-                int numProducts = Integer.parseInt(etNumProducts.getText().toString());
-                int newQuantity = Integer.parseInt(etOriginalQuantity.getText().toString()) * numProducts;
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (etNumProducts.getText().toString().isEmpty()) return;
+                float numProducts = Float.parseFloat(etNumProducts.getText().toString());
+                float newQuantity = Float.parseFloat(etOriginalQuantity.getText().toString()) * numProducts;
                 etCurrentQuantity.setText(String.valueOf(newQuantity));
             }
         });
 
+        btAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String productName = etName.getText().toString();
+                String foodType = etFoodType.getText().toString();
+                Float originalQuantity = Float.parseFloat(etOriginalQuantity.getText().toString());
+                String quantityUnit = spinnerOriginalQuantityUnit.getSelectedItem().toString();
+                Float currentQuantity = Float.parseFloat(etCurrentQuantity.getText().toString());
+                Date purchaseDate = product.getPurchaseDate();
+                try {
+                    purchaseDate = DATE_FORMAT.parse(etPurchaseDate.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Float duration = Float.parseFloat(etDuration.getText().toString());
+                String durationUnit = spinnerDurationUnit.getSelectedItem().toString();
+                String foodStatus = spinnerStatus.getSelectedItem().toString();
+
+                product.setProductName(productName);
+                product.setOriginalQuantity(originalQuantity);
+                product.setQuantityUnit(quantityUnit);
+                product.setCurrentQuantity(currentQuantity);
+                product.setNumProducts(currentQuantity / originalQuantity);
+                product.setPurchaseDate(purchaseDate);
+                product.setDuration(duration);
+                product.setDurationUnit(durationUnit);
+                product.updateExpirationDate();
+                product.setFoodStatus(foodStatus);
+            }
+        });
+
         return fragmentNewProductDetailBinding.getRoot();
+    }
+
+    public static String parseDate(Date date, SimpleDateFormat outputDateFormat) {
+        String outputDateString = null;
+        outputDateString = outputDateFormat.format(date);
+        return outputDateString;
     }
 }
