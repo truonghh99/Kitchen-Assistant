@@ -2,6 +2,7 @@ package com.example.kitchen_assistant.applications;
 
 import android.app.Application;
 
+import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 import com.parse.Parse;
@@ -17,6 +18,7 @@ public class ParseApplication extends Application {
 
         ParseObject.registerSubclass(Product.class);
         ParseObject.registerSubclass(Recipe.class);
+        ParseObject.registerSubclass(FoodItem.class);
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
 
         // Use for monitoring Parse OkHttp traffic
