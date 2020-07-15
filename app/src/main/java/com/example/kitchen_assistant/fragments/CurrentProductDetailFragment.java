@@ -2,7 +2,9 @@ package com.example.kitchen_assistant.fragments;
 
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Parcelable;
 import android.text.Editable;
@@ -109,7 +111,7 @@ public class CurrentProductDetailFragment extends Fragment {
         spinnerStatus = fragmentCurrentFoodDetailBinding.spinnerStatus;
         etNumProducts = fragmentCurrentFoodDetailBinding.etNumProducts;
         btApprove = fragmentCurrentFoodDetailBinding.btApprove;
-        btRemove =fragmentCurrentFoodDetailBinding.btRemove;
+        btRemove = fragmentCurrentFoodDetailBinding.btRemove;
         btCook = fragmentCurrentFoodDetailBinding.btCook;
         btShop = fragmentCurrentFoodDetailBinding.btShop;
 
@@ -179,6 +181,13 @@ public class CurrentProductDetailFragment extends Fragment {
             }
         });
 
+        btShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToPreviewShoppingItem();
+            }
+        });
+
         return fragmentCurrentFoodDetailBinding.getRoot();
     }
 
@@ -191,7 +200,7 @@ public class CurrentProductDetailFragment extends Fragment {
         };
         List<Recipe> recipes = Spoonacular.getByIngredients(ingredients);
         Log.i(TAG, "Received " + recipes.size() + " recipes");
-        for (Recipe recipe: recipes) {
+        for (Recipe recipe : recipes) {
             Log.e(TAG, recipe.getName());
         }
         CurrentRecipes.addAllRecipes(recipes);
@@ -252,4 +261,11 @@ public class CurrentProductDetailFragment extends Fragment {
 
     private void goToCurrentFood() {
         MainActivity.bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
-    }}
+    }
+
+
+    private void goToPreviewShoppingItem() {
+        DialogFragment dialogFragment = PreviewShoppingItemFragment.newInstance(Parcels.wrap(product.getFoodItem()));
+        dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
+    }
+}

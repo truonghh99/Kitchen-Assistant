@@ -56,7 +56,7 @@ public class NewProductDetailFragment extends Fragment {
 
     private FragmentNewProductDetailBinding fragmentNewProductDetailBinding;
     private Product product;
-    private TextView etName;
+    private EditText etName;
     private EditText etFoodType;
     private EditText etOriginalQuantity;
     private EditText etCurrentQuantity;
