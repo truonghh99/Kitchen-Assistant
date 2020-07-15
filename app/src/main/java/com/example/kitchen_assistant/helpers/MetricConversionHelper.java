@@ -19,7 +19,6 @@ public class MetricConversionHelper {
 
     public static final HashMap<String, Float> weight = new HashMap<String, Float>(){
         {
-            put("oz", (float) 1);
             put("lbs", (float) 16);
             put("g", (float) 0.035);
             put("kg", (float) 35.27);
@@ -71,13 +70,13 @@ public class MetricConversionHelper {
 
     public static float convertVolume(float quantity, String unitFrom, String unitTo) {
         float result = 0;
-        result = quantity * volumne.get(unitFrom)/volumne.get(unitTo);
+        result = quantity * volumne.get(unitFrom) / volumne.get(unitTo);
         return result;
     }
 
     public static float convertWeight(float quantity, String unitFrom, String unitTo) {
         float result = 0;
-        result = quantity * weight.get(unitFrom)/weight.get(unitTo);
+        result = quantity * weight.get(unitFrom) / weight.get(unitTo);
         return result;
     }
 
@@ -89,7 +88,27 @@ public class MetricConversionHelper {
         if (unitTo == "month" && unitTo == "year") {
             return quantity / 12;
         }
-        result = quantity * time.get(unitFrom)/time.get(unitTo);
+        result = quantity * time.get(unitFrom) / time.get(unitTo);
+        return result;
+    }
+
+    // Convert unit of any type (volume, weight, or time)
+    public static float convertGeneral(float currentVal, String selectedItem, String newUnit) {
+        float result = 0;
+
+        if (MetricConversionHelper.volumne.containsKey(selectedItem)) {
+            result = MetricConversionHelper.convertVolume(currentVal, selectedItem, newUnit);
+            return result;
+        }
+
+        if (MetricConversionHelper.weight.containsKey(selectedItem)) {
+            result = MetricConversionHelper.convertWeight(currentVal, selectedItem, newUnit);
+            return result;
+        }
+
+        if (MetricConversionHelper.time.containsKey(selectedItem)) {
+            result = MetricConversionHelper.convertTime(currentVal, selectedItem, newUnit);
+        }
         return result;
     }
 }

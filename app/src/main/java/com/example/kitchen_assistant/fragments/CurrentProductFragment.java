@@ -77,27 +77,20 @@ public class CurrentProductFragment extends Fragment {
         rvCurrentFood = fragmentCurrentFoodBinding.rvCurrentFood;
 
         products = CurrentProducts.products;
-        Log.e(TAG, String.valueOf(products.size()));
-
         adapter = new CurrentFoodAdapter(getActivity(), products);
         rvCurrentFood.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         rvCurrentFood.setAdapter(adapter);
 
-        setUpView();
-
-        return fragmentCurrentFoodBinding.getRoot();
-    }
-
-    private void setUpView() {
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onLaunchCamera();
             }
         });
-        Log.e(TAG, "set listenter");
+        return fragmentCurrentFoodBinding.getRoot();
     }
 
+    // Allow user to take photo using their camera
     public void onLaunchCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         photoFile = getPhotoFileUri(photoFileName);
@@ -110,6 +103,7 @@ public class CurrentProductFragment extends Fragment {
         }
     }
 
+    // Helper function to create storing directory for taken image
     public File getPhotoFileUri(String fileName) {
         File mediaStorageDir = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
@@ -119,6 +113,7 @@ public class CurrentProductFragment extends Fragment {
         return file;
     }
 
+    // Use Google Barcode API to extract code from taken image & process information from there
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -128,10 +123,9 @@ public class CurrentProductFragment extends Fragment {
                 String code = BarcodeReader.getCodeFromImg(takenImage, getActivity().getApplicationContext());
                 if (code == null) {
                     Toast.makeText(getActivity(), "Couldn't identify barcode, please scan again", Toast.LENGTH_SHORT).show();
-                    code = "009800895007";
-                    //return;
+                    return;
                 }
-                Log.e(TAG, String.valueOf(code));
+                Log.i(TAG, "Got product with code: " + code);
                 goToNewProductDetail(code);
             } else {
                 Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
@@ -139,8 +133,9 @@ public class CurrentProductFragment extends Fragment {
         }
     }
 
+    // Passing taken product's code to product detail for user to edit information & confirm insertion to current product list
     private void goToNewProductDetail(String code) {
-        Log.e(TAG, "Go to new product detail");
+        Log.i(TAG, "Go to new product detail");
         Product product = new Product();
         try {
             product = OpenFoodFacts.getProductInfo(code);
@@ -151,6 +146,7 @@ public class CurrentProductFragment extends Fragment {
         MainActivity.switchFragment(newProductDetailFragment);
     }
 
+    // Allow other classes to notify changes of product list to update view
     public static void notifyDataChange() {
         if (adapter != null) {
             adapter.notifyDataSetChanged();

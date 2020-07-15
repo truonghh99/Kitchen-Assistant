@@ -11,23 +11,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kitchen_assistant.R;
-import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemShoppingBinding;
-import com.example.kitchen_assistant.fragments.NewProductDetailFragment;
-import com.example.kitchen_assistant.helpers.GlideHelper;
-import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.ShoppingItem;
 import com.parse.ParseException;
 
-import org.parceler.Parcels;
-
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
 
@@ -61,17 +51,6 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     @Override
     public int getItemCount() {
         return items.size();
-    }
-
-    // Clean all elements of the recycler
-    public void clear() {
-        items.clear();
-    }
-
-    // Add a list of items -- change to type used
-    public void addAll(List<ShoppingItem> list) {
-        items.addAll(list);
-        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

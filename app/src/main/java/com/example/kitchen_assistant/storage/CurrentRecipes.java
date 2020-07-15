@@ -27,6 +27,7 @@ public class CurrentRecipes {
         }
         RecipeFragment.notifyDataChange();
     }
+
     public static void addRecipe(Recipe recipe) {
         recipes.add(0, recipe);
         saveRecipeInBackGround(recipe);
@@ -34,13 +35,13 @@ public class CurrentRecipes {
     }
 
     public static void saveAllRecipes() {
-        Log.e(TAG, "Start saving all recipes");
         for (Recipe recipe : recipes) {
             saveRecipeInBackGround(recipe);
         }
     }
 
     public static void saveRecipeInBackGround(Recipe recipe) {
+        Log.i(TAG, "Start saving recipe");
         recipe.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -54,7 +55,7 @@ public class CurrentRecipes {
     }
 
     public static void fetchRecipeInBackground() {
-        Log.i(TAG, "Start querying for current products");
+        Log.i(TAG, "Start querying for current recipes");
 
         recipes = new ArrayList<>();
         ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);

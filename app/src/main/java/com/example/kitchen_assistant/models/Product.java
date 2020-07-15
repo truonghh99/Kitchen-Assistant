@@ -62,8 +62,9 @@ public class Product extends ParseObject implements Parcelable {
     public Product () {
     }
 
-    public Product (JSONObject json) throws JSONException, ParseException {
-        Log.e(TAG, "START INIT");
+    // Extract product information from json returned by OpenFoodFacts
+    public Product (JSONObject json) throws JSONException {
+        Log.i(TAG, "Start extracting product information");
         JSONObject product = json.getJSONObject(PRODUCT_INFO);
 
         setProductCode(json.getString(BARCODE));

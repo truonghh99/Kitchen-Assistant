@@ -35,9 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     public final String APP_TAG = "MyCustomApp";
-    public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
-    public String photoFileName = "barcode_photo.jpg";
-    File photoFile;
 
     final Fragment currentFoodFragment = CurrentProductFragment.newInstance();
     final Fragment recipeFragment = RecipeFragment.newInstance();
@@ -54,24 +51,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (CurrentProducts.products == null) {
-            CurrentProducts.fetchProductInBackground();
-        }
-        if (CurrentRecipes.recipes == null) {
-            CurrentRecipes.fetchRecipeInBackground();
-        }
-        if (CurrentShoppingList.items == null) {
-            CurrentShoppingList.fetchItemsInBackground();
-        }
-
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
+        fetchInfoFromLastUse();
         setUpBottomBar();
         setUpToolBar();
         setUpProgressBar();
     }
 
+    // Switch between different screens using the same bottom bar
     private void setUpBottomBar() {
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContainer, currentFoodFragment).commit();
@@ -100,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
     }
 
+    // Allow user to log out via toolbar
+    // TODO: allow user to view & edit profile via toolbar
     private void setUpToolBar() {
         toolbar = activityMainBinding.toolbar;
         ivLogOut = activityMainBinding.ivLogOut;
@@ -124,24 +115,37 @@ public class MainActivity extends AppCompatActivity {
         progressBar = activityMainBinding.progressBar;
     }
 
+    // Retrieve saved information about products, recipes, and shopping list from Parse
+    private void fetchInfoFromLastUse() {
+        CurrentProducts.fetchProductInBackground();
+        CurrentRecipes.fetchRecipeInBackground();
+        CurrentShoppingList.fetchItemsInBackground();
+    }
+
+    // Show progress bar while loading. This progress bar is used throughout all other screens
     public void setUpProgressBar() {
         progressBar = activityMainBinding.progressBar;
         showProgressBar();
     }
 
+    // Allow other fragments to show progress bar while needed
     public static void showProgressBar() {
         progressBar.setVisibility(ProgressBar.VISIBLE);
     }
 
+    // Allow other fragments to hide progress bar while needed
     public static void hideProgressBar() {
         progressBar.setVisibility(ProgressBar.INVISIBLE);
     }
 
+    // Go to log in activity when use logged out
     private void goLogIn() {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
+    // Allow other fragments to call each other for flexibility, yet each action must be done via MainActivity
+    // to avoid re-initializing fragments (improve speed & memory usage)
     public static void switchFragment(Fragment fragment) {
         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
     }

@@ -34,6 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
     private String email;
     private String password;
     private ActivitySignUpBinding activitySignUpBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -34,7 +34,7 @@ public class CurrentFoodTypes {
                     Log.e(TAG, "Error while saving food item", e);
                     return;
                 }
-                Log.e(TAG,"Done");
+                Log.i(TAG,"Saved food item to Parse");
             }
         });
     }
@@ -54,7 +54,7 @@ public class CurrentFoodTypes {
                     return;
                 }
                 foodItems.addAll(newFoodItems);
-                Log.i(TAG, "Query completed, got " + foodItems.size() + " recipes");
+                Log.i(TAG, "Query completed, got " + foodItems.size() + " food items");
             }
         });
     }

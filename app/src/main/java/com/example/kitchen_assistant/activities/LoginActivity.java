@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         activityLoginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(activityLoginBinding.getRoot());
 
-
+        // Allow previously logged in user to skip the log in screen
         if (ParseUser.getCurrentUser() != null) {
             goMainActivity();
         }

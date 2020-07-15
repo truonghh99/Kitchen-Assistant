@@ -75,6 +75,7 @@ public class NewProductDetailFragment extends Fragment {
     public NewProductDetailFragment() {
     }
 
+    // Initialize with a product to display
     public static NewProductDetailFragment newInstance(Parcelable product) {
         NewProductDetailFragment fragment = new NewProductDetailFragment();
         Bundle args = new Bundle();
@@ -110,9 +111,8 @@ public class NewProductDetailFragment extends Fragment {
         etNumProducts = fragmentNewProductDetailBinding.etNumProducts;
         btAdd = fragmentNewProductDetailBinding.btAdd;
 
-        Log.e(TAG, "START BINDING VIEW");
         etName.setText(product.getProductName());
-        etFoodType.setText("Undefined");
+        etFoodType.setText("Undefined"); // Wait for user to identify product's food type. TODO: Check if such product ever existed to retrieve saved info before asking
         etOriginalQuantity.setText(String.valueOf(product.getOriginalQuantity()));
         etCurrentQuantity.setText(String.valueOf(product.getCurrentQuantity()));
         etPurchaseDate.setText(parseDate(product.getPurchaseDate(), DATE_FORMAT));
@@ -120,13 +120,13 @@ public class NewProductDetailFragment extends Fragment {
         etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
         etNumProducts.setText(String.valueOf(product.getNumProducts()));
         GlideHelper.loadImage(product.getImgUrl(), getContext(), ivImg);
-        Log.e(TAG, product.getImgUrl());
 
         SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, product.getQuantityUnit(), getContext(), etCurrentQuantity, (float) product.getCurrentQuantity(), spinnerOriginalQuantityUnit);
         SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, product.getQuantityUnit(), getContext(), etOriginalQuantity, (float) product.getOriginalQuantity(), spinnerCurrentQuantityUnit);
         SpinnerHelper.setUpMetricSpinner(spinnerDurationUnit, product.getDurationUnit(), getContext(), etDuration, (float) product.getDuration(), null);
         SpinnerHelper.setUpStatusSpinner(spinnerStatus, product.getFoodStatus(), getContext());
 
+        // Automatically update current quantity according to number of products
         etNumProducts.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -194,12 +194,14 @@ public class NewProductDetailFragment extends Fragment {
         return fragmentNewProductDetailBinding.getRoot();
     }
 
+    // Parse Date values to proper string format (MM/dd/yyyy). TODO: Is it better to create another helper class to handle those toString format?
     public static String parseDate(Date date, SimpleDateFormat outputDateFormat) {
         String outputDateString = null;
         outputDateString = outputDateFormat.format(date);
         return outputDateString;
     }
 
+    // Go to current food fragment using the initialized instance in MainActivity
     private void goToCurrentFood() {
         MainActivity.bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
     }}

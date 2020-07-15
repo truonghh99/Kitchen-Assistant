@@ -21,15 +21,9 @@ import com.example.kitchen_assistant.models.Product;
 
 import org.parceler.Parcels;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.ViewHolder> {
-
-    public interface OnClickListener {
-        void onClickListener(int position);
-    }
 
     private final String TAG = "CurrentFoodAdapter";
     private Context context;
@@ -59,29 +53,15 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
         return products.size();
     }
 
-    // Clean all elements of the recycler
-    public void clear() {
-        products.clear();
-    }
-
-    // Add a list of items -- change to type used
-    public void addAll(List<Product> list) {
-        products.addAll(list);
-        notifyDataSetChanged();
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private CardView cvProduct;
         private TextView tvName;
         private TextView tvQuantity;
         private TextView tvExpirationDate;
-        private ItemProductBinding itemProductBinding;
-        private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 
         public ViewHolder(@NonNull ItemProductBinding itemProductBinding) {
             super(itemProductBinding.getRoot());
-            this.itemProductBinding = itemProductBinding;
             tvName = itemProductBinding.tvName;
             tvQuantity = itemProductBinding.tvQuantity;
             tvExpirationDate = itemProductBinding.tvExpirationDate;
@@ -98,7 +78,8 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
                     goToCurrentProductDetail(products.get(getAdapterPosition()));
                 }
             });
-            Log.e(TAG, product.getFoodStatus());
+
+            // Change card background to indicate current status of products
             switch (product.getFoodStatus()) {
                 case Product.STATUS_BEST:
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.best));
@@ -110,10 +91,10 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.bad));
                     break;
             }
-            MainActivity.hideProgressBar();
         }
     }
 
+    // Allow user to view details of selected product by calling a child fragment via MainActivity
     private void goToCurrentProductDetail(Product product) {
         Log.e(TAG, "Go to current product detail");
         Fragment currentFoodDetailFragment = CurrentProductDetailFragment.newInstance(Parcels.wrap(product));

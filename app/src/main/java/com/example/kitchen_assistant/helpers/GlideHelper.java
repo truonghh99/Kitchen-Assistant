@@ -15,42 +15,21 @@ import com.example.kitchen_assistant.R;
 public class GlideHelper {
 
     private static final String TAG = "Glide";
+    private static final int IMAGE_WIDTH = 350;
+    private static final int IMAGE_HEIGHT = 350;
 
     public static void loadAvatar(String url, Context context, ImageView imgView) {
-        if (url == null) {
-            Log.e(TAG, "Couldn't load image");
-            return;
-        }
-        if (url != "default") {
-            try {
-                Glide.with(context)
-                        .load(url.replaceAll("http:", "https:"))
-                        .circleCrop()
-                        .into(imgView);
-            } catch (Exception e) {
-                loadDefaultImage(context, imgView);
-            }
-        } else {
+        if (url == null || url == "default") {
             loadDefaultAvatar(context, imgView);
-        }
-    }
-
-    public static void loadImage(String url, Context context, ImageView imgView) {
-        if (url == null) {
             Log.e(TAG, "Couldn't load image");
             return;
         }
-        if (url != "default") {
-            try {
-                Glide.with(context)
-                        .load(url.replaceAll("http:", "https:"))
-                        .override(350, 350)
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(50)))
-                        .into(imgView);
-            } catch (Exception e) {
-                loadDefaultImage(context, imgView);
-            }
-        } else {
+        try {
+            Glide.with(context)
+                    .load(url.replaceAll("http:", "https:"))
+                    .circleCrop()
+                    .into(imgView);
+        } catch (Exception e) {
             loadDefaultImage(context, imgView);
         }
     }
@@ -62,10 +41,27 @@ public class GlideHelper {
                 .into(imgView);
     }
 
+    public static void loadImage(String url, Context context, ImageView imgView) {
+        if (url == null || url == "default") {
+            loadDefaultImage(context, imgView);
+            Log.e(TAG, "Couldn't load image");
+            return;
+        }
+        try {
+            Glide.with(context)
+                    .load(url.replaceAll("http:", "https:"))
+                    .override(IMAGE_WIDTH, IMAGE_HEIGHT)
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(50)))
+                    .into(imgView);
+        } catch (Exception e) {
+            loadDefaultImage(context, imgView);
+        }
+    }
+
     private static void loadDefaultImage(Context context, ImageView imgView) {
         Glide.with(context)
                 .load(R.drawable.default_food)
-                .override(350,350)
+                .override(IMAGE_WIDTH, IMAGE_HEIGHT)
                 .into(imgView);
     }
 }

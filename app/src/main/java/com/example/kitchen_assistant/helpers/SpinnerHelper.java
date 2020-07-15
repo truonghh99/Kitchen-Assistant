@@ -20,37 +20,37 @@ public class SpinnerHelper {
 
     private static final String TAG = "SpinnerHelper";
     private static String newText;
+    private static final String DECIMAL_FORMAT = "##.##";
 
+    // Set up spinners to deal with metric data (including metric conversion & modifying attached spinner. Eg: all the quantity attributes
+    // belong to the same object should always be converted to the same unit)
     public static void setUpMetricSpinner(Spinner spinner, final String selectedItem, Context context, final EditText editText, final Float currentVal, final Spinner attachedSpinner) {
         List<String> categories = new ArrayList<String>();
         if (editText != null) newText = editText.getText().toString();
+
+        // Identify which metric category this spinner belongs to
         if (MetricConversionHelper.weight.containsKey(selectedItem)) {
             categories = MetricConversionHelper.weightCategories;
         }
-
         if (MetricConversionHelper.volumne.containsKey(selectedItem)) {
             categories = MetricConversionHelper.volumneCategories;
         }
-
         if (MetricConversionHelper.time.containsKey(selectedItem)) {
             categories = MetricConversionHelper.timeCategories;
         }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, categories);
-
         spinner.setAdapter(dataAdapter);
-
         spinner.setSelection(categories.indexOf(selectedItem));
 
         if (editText != null) {
-            Log.e(TAG, editText.getText().toString());
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                     String newUnit = (String) parentView.getItemAtPosition(position);
-                    DecimalFormat df = new DecimalFormat("##.##");
+                    DecimalFormat df = new DecimalFormat(DECIMAL_FORMAT);
                     df.setRoundingMode(RoundingMode.DOWN);
-                    Float convertedValue = convertGeneral(currentVal, selectedItem, newUnit);
+                    Float convertedValue = MetricConversionHelper.convertGeneral(currentVal, selectedItem, newUnit);
                     newText = String.valueOf(df.format(convertedValue));
                     editText.setText(newText);
                     if (attachedSpinner != null) attachedSpinner.setSelection(position);
@@ -64,6 +64,7 @@ public class SpinnerHelper {
         }
     }
 
+    // Status spinner includes only 3 values and should not affect any other spinner / text view
     public static void setUpStatusSpinner(Spinner spinner, final String selectedItem, Context context) {
         List<String> categories = new ArrayList<String>(){
             {
@@ -77,22 +78,4 @@ public class SpinnerHelper {
         spinner.setSelection(categories.indexOf(selectedItem));
     }
 
-    private static float convertGeneral(float currentVal, String selectedItem, String newUnit) {
-        float result = 0;
-
-        if (MetricConversionHelper.volumne.containsKey(selectedItem)) {
-            result = MetricConversionHelper.convertVolume(currentVal, selectedItem, newUnit);
-            return result;
-        }
-
-        if (MetricConversionHelper.weight.containsKey(selectedItem)) {
-            result = MetricConversionHelper.convertWeight(currentVal, selectedItem, newUnit);
-            return result;
-        }
-
-        if (MetricConversionHelper.time.containsKey(selectedItem)) {
-            result = MetricConversionHelper.convertTime(currentVal, selectedItem, newUnit);
-        }
-        return result;
-    }
 }

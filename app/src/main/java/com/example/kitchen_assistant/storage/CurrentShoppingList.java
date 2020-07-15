@@ -29,19 +29,20 @@ public class CurrentShoppingList {
         }
         ShoppingListFragment.notifyDataChange();
     }
+
     public static void addItem(ShoppingItem item) {
         items.add(0, item);
         saveItemInBackGround(item);
         ShoppingListFragment.notifyDataChange();
     }
     public static void saveAllItems() {
-        Log.e(TAG, "Start saving all shopping items");
         for (ShoppingItem item : items) {
             saveItemInBackGround(item);
         }
     }
 
     public static void saveItemInBackGround(ShoppingItem item) {
+        Log.e(TAG, "Start saving shopping items");
         item.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -70,7 +71,7 @@ public class CurrentShoppingList {
                 }
                 items.addAll(newItems);
                 ShoppingListFragment.notifyDataChange();
-                Log.i(TAG, "Query completed, got " + items.size() + " recipes");
+                Log.i(TAG, "Query completed, got " + items.size() + " shopping items");
             }
         });
     }

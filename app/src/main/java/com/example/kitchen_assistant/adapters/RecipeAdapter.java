@@ -10,22 +10,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kitchen_assistant.R;
-import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemRecipeBinding;
-import com.example.kitchen_assistant.fragments.NewProductDetailFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
-import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 
-import org.parceler.Parcels;
-
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
@@ -55,17 +46,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return recipes.size();
-    }
-
-    // Clean all elements of the recycler
-    public void clear() {
-        recipes.clear();
-    }
-
-    // Add a list of items -- change to type used
-    public void addAll(List<Recipe> list) {
-        recipes.addAll(list);
-        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

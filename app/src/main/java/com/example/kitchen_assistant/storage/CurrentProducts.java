@@ -28,8 +28,9 @@ public class CurrentProducts {
         saveProductInBackGround(product);
         CurrentProductFragment.notifyDataChange();
     }
+
     public static void saveAllProducts() {
-        Log.e(TAG, "Start saving");
+        Log.i(TAG, "Start saving product info");
         for (Product product : products) {
             saveProductInBackGround(product);
         }

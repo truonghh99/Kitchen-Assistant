@@ -34,7 +34,6 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
-import java.sql.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,11 +41,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link NewProductDetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CurrentProductDetailFragment extends Fragment {
 
     private static final String PRODUCT = "Product";
@@ -77,6 +71,7 @@ public class CurrentProductDetailFragment extends Fragment {
     public CurrentProductDetailFragment() {
     }
 
+    // Take product information to display in details
     public static CurrentProductDetailFragment newInstance(Parcelable product) {
         CurrentProductDetailFragment fragment = new CurrentProductDetailFragment();
         Bundle args = new Bundle();
@@ -96,6 +91,7 @@ public class CurrentProductDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         fragmentCurrentFoodDetailBinding = FragmentCurrentFoodDetailBinding.inflate(getLayoutInflater());
         etName = fragmentCurrentFoodDetailBinding.etName;
         etFoodType = fragmentCurrentFoodDetailBinding.etFoodType;
@@ -115,7 +111,7 @@ public class CurrentProductDetailFragment extends Fragment {
         btCook = fragmentCurrentFoodDetailBinding.btCook;
         btShop = fragmentCurrentFoodDetailBinding.btShop;
 
-        Log.e(TAG, "START BINDING VIEW");
+        // Assign values to views using product's info
         etName.setText(product.getProductName());
         try {
             etFoodType.setText(product.getFoodItem().getName());
@@ -129,13 +125,13 @@ public class CurrentProductDetailFragment extends Fragment {
         etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
         etNumProducts.setText(String.valueOf(product.getNumProducts()));
         GlideHelper.loadImage(product.getImgUrl(), getContext(), ivImg);
-        Log.e(TAG, product.getImgUrl());
 
         SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, product.getQuantityUnit(), getContext(), etCurrentQuantity, (float) product.getCurrentQuantity(), spinnerOriginalQuantityUnit);
         SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, product.getQuantityUnit(), getContext(), etOriginalQuantity, (float) product.getOriginalQuantity(), spinnerCurrentQuantityUnit);
         SpinnerHelper.setUpMetricSpinner(spinnerDurationUnit, product.getDurationUnit(), getContext(), etDuration, (float) product.getDuration(), null);
         SpinnerHelper.setUpStatusSpinner(spinnerStatus, product.getFoodStatus(), getContext());
 
+        // Automatically update current quantity according to number of products
         etNumProducts.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -154,6 +150,7 @@ public class CurrentProductDetailFragment extends Fragment {
             }
         });
 
+        // Save changes
         btApprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,6 +159,7 @@ public class CurrentProductDetailFragment extends Fragment {
             }
         });
 
+        // Remove product
         btRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,6 +168,7 @@ public class CurrentProductDetailFragment extends Fragment {
             }
         });
 
+        // Fetch recipes containing this food type
         btCook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,6 +180,7 @@ public class CurrentProductDetailFragment extends Fragment {
             }
         });
 
+        // Allow user to add this product to shopping list after previewing and editing information (if wished)
         btShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,26 +191,22 @@ public class CurrentProductDetailFragment extends Fragment {
         return fragmentCurrentFoodDetailBinding.getRoot();
     }
 
+    // Query recipes containing this current product
     private void queryRecipes() throws InterruptedException, com.parse.ParseException {
+        // Create a one-element list contains only this current food item to fit query's format
         List<FoodItem> ingredients = new ArrayList<FoodItem>() {
             {
-                Log.e(TAG, "Find recipes with " + product.getFoodItem().getName());
                 add(product.getFoodItem());
             }
         };
+        Log.i(TAG, "Asking for recipes with " + product.getFoodItem().getName());
         List<Recipe> recipes = Spoonacular.getByIngredients(ingredients);
         Log.i(TAG, "Received " + recipes.size() + " recipes");
-        for (Recipe recipe : recipes) {
-            Log.e(TAG, recipe.getName());
-        }
         CurrentRecipes.addAllRecipes(recipes);
         goToRecipe();
     }
 
-    private void goToRecipe() {
-        MainActivity.bottomNavigation.setSelectedItemId(R.id.miRecipe);
-    }
-
+    // Save all changes of current product before closing edit screen
     private void saveInfo() {
         String productName = etName.getText().toString();
         String foodType = etFoodType.getText().toString();
@@ -248,24 +244,30 @@ public class CurrentProductDetailFragment extends Fragment {
         foodItem.setOwner(ParseUser.getCurrentUser());
 
         product.setFoodItem(foodItem);
-
         CurrentProducts.saveProductInBackGround(product);
         CurrentProductFragment.notifyDataChange();
     }
 
+    // Parse Date values to proper string format (MM/dd/yyyy)
     public static String parseDate(Date date, SimpleDateFormat outputDateFormat) {
         String outputDateString = null;
         outputDateString = outputDateFormat.format(date);
         return outputDateString;
     }
 
+    // Go to current food fragment using the initialized instance in MainActivity
     private void goToCurrentFood() {
         MainActivity.bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
     }
 
+    // Go to recipe fragment using the initialized instance in MainActivity
+    private void goToRecipe() {
+        MainActivity.bottomNavigation.setSelectedItemId(R.id.miRecipe);
+    }
 
+    // Allow user to add this product to shopping list after previewing and editing information (if wished)
     private void goToPreviewShoppingItem() {
-        DialogFragment dialogFragment = PreviewShoppingItemFragment.newInstance(Parcels.wrap(product.getFoodItem()));
+        DialogFragment dialogFragment = PreviewShoppingItemFragment.newInstance(Parcels.wrap(product));
         dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 }

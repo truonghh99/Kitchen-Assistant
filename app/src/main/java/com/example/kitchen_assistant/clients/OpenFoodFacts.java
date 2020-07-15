@@ -25,13 +25,12 @@ import okhttp3.Response;
 public class OpenFoodFacts {
 
     public static String TAG = "OpenFoodFacts";
-
     public static String GET_PRODUCT_INFO_URL = "https://us.openfoodfacts.org/api/v0/product/";
     public static String HEADER = "KitchenAssistant - Android - Version 1.0 - https://github.com/truonghh99/Kitchen-Assistant/blob/master/README.md";
     private static Product product;
 
     public static Product getProductInfo(String productCode) throws IOException, InterruptedException {
-        Log.e(TAG, "Start querying product info " + productCode);
+        Log.i(TAG, "Start querying product info. Product code: " + productCode);
         product = new Product();
         String url = GET_PRODUCT_INFO_URL + productCode;
 
@@ -41,6 +40,7 @@ public class OpenFoodFacts {
                 .header("UserAgent", HEADER)
                 .build();
 
+        // Request product info from OpenFoodFacts GET API
         client.newCall(request)
                 .enqueue(new Callback() {
                     @Override
@@ -53,22 +53,23 @@ public class OpenFoodFacts {
                         if (!response.isSuccessful()) {
                             throw new IOException("Unexpected code " + response);
                         } else {
-                            Log.e(TAG, "Successfully extracted product info");
                             String jsonData = response.body().string();
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonData);
                                 product = new Product(jsonObject);
-                                Log.i(TAG, jsonObject.toString());
-                                MainActivity.hideProgressBar();
-                            } catch (JSONException | ParseException e) {
+                                Log.i(TAG, "Successfully extracted product info");
+                            } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
                     }
                 });
+
+        // Wait for async request to complete
         while (product.getProductName() == null) {
             Thread.currentThread().sleep(10);
         }
+
         return product;
     }
 }

@@ -34,7 +34,7 @@ public class Spoonacular {
     private static List<Recipe> recipes;
 
     public static List<Recipe> getByIngredients(List<FoodItem> foodItems) throws InterruptedException, ParseException {
-        Log.e(TAG, "Start querying recipes");
+        Log.i(TAG, "Start querying recipes");
         recipes = new ArrayList<>();
 
         String ingredientsList = generateList(foodItems);
@@ -50,8 +50,6 @@ public class Spoonacular {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
-
-        Log.e(TAG, url);
 
         client.newCall(request)
                 .enqueue(new Callback() {
@@ -69,10 +67,8 @@ public class Spoonacular {
                             Log.e(TAG, jsonData);
                             try {
                                 JSONArray jsonArray = new JSONArray(jsonData);
-                                //product = new Product(jsonObject);
-                                //Log.e(TAG, "Created new product object");
                                 recipes = Recipe.extractFromJsonArray(jsonArray);
-                                Log.e(TAG, "Successfully extracted " + recipes.size() + " recipes");
+                                Log.i(TAG, "Successfully extracted " + recipes.size() + " recipes");
                                 MainActivity.hideProgressBar();
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -84,10 +80,10 @@ public class Spoonacular {
         while (recipes.size() == 0) {
             Thread.currentThread().sleep(10);
         }
-        Log.e(TAG, "Got " + recipes.size() + " recipes");
         return recipes;
     }
 
+    // Generate ingredient list to fit Spoonacular's required format
     private static String generateList(List<FoodItem> foodItems) throws ParseException {
         if (foodItems.size() == 0) return "";
         String result = foodItems.get(0).getName();
