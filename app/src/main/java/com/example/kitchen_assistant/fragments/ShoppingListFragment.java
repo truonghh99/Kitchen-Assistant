@@ -95,6 +95,8 @@ public class ShoppingListFragment extends Fragment {
 
 
     public static void notifyDataChange() {
-        adapter.notifyDataSetChanged();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 }

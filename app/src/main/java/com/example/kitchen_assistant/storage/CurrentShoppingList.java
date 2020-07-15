@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.kitchen_assistant.fragments.CurrentProductFragment;
 import com.example.kitchen_assistant.fragments.RecipeFragment;
+import com.example.kitchen_assistant.fragments.ShoppingListFragment;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.ShoppingItem;
@@ -26,10 +27,12 @@ public class CurrentShoppingList {
             Log.e(TAG, item.getName());
             addItem(item);
         }
+        ShoppingListFragment.notifyDataChange();
     }
     public static void addItem(ShoppingItem item) {
         items.add(0, item);
         saveItemInBackGround(item);
+        ShoppingListFragment.notifyDataChange();
     }
     public static void saveAllItems() {
         Log.e(TAG, "Start saving all shopping items");
@@ -66,7 +69,7 @@ public class CurrentShoppingList {
                     return;
                 }
                 items.addAll(newItems);
-                //RecipeFragment.notifyDataChange();
+                ShoppingListFragment.notifyDataChange();
                 Log.i(TAG, "Query completed, got " + items.size() + " recipes");
             }
         });
@@ -76,7 +79,7 @@ public class CurrentShoppingList {
         items.remove(item);
         ParseObject productParse = ParseObject.createWithoutData("ShoppingItem", item.getObjectId());
         productParse.deleteEventually();
-        RecipeFragment.notifyDataChange();
+        ShoppingListFragment.notifyDataChange();
     }
 
 }

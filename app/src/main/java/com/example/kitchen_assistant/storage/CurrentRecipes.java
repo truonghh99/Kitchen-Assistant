@@ -25,12 +25,14 @@ public class CurrentRecipes {
             Log.e(TAG, recipe.getName());
             addRecipe(recipe);
         }
+        RecipeFragment.notifyDataChange();
     }
     public static void addRecipe(Recipe recipe) {
         recipes.add(0, recipe);
         saveRecipeInBackGround(recipe);
-        //RecipeFragment.notifyDataChange();
+        RecipeFragment.notifyDataChange();
     }
+
     public static void saveAllRecipes() {
         Log.e(TAG, "Start saving all recipes");
         for (Recipe recipe : recipes) {
@@ -66,7 +68,7 @@ public class CurrentRecipes {
                     return;
                 }
                 recipes.addAll(newRecipe);
-                //RecipeFragment.notifyDataChange();
+                RecipeFragment.notifyDataChange();
                 Log.i(TAG, "Query completed, got " + recipes.size() + " recipes");
             }
         });

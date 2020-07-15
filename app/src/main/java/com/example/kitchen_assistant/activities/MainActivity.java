@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.miRecipe:
                                 fragment = recipeFragment;
                                 break;
-                            case R.id.miToDoList:
+                            case R.id.miShoppingList:
                             default:
                                 fragment = toDoListFragment;
                                 break;

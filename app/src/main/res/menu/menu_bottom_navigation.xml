@@ -14,7 +14,7 @@
         android:title="HOME"
         app:showAsAction="always" />
     <item
-        android:id="@+id/miToDoList"
+        android:id="@+id/miShoppingList"
         android:enabled="true"
         android:icon="@drawable/ic_shopping_list"
         android:title="MY PROFILE"

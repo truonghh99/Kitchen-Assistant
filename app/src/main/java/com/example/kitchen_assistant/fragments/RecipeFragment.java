@@ -91,6 +91,8 @@ public class RecipeFragment extends Fragment {
 
 
     public static void notifyDataChange() {
-        adapter.notifyDataSetChanged();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 }

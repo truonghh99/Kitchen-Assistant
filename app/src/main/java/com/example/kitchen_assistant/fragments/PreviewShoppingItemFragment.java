@@ -146,11 +146,10 @@ public class PreviewShoppingItemFragment extends DialogFragment {
         shoppingItem.setQuantityUnit(quantityUnit);
         shoppingItem.setOwner(ParseUser.getCurrentUser());
 
-        CurrentShoppingList.saveItemInBackGround(item);
-        //ShoppingListFragment.notifyDataChange();
+        CurrentShoppingList.addItem(item);
     }
 
     private void goToCurrentShoppingList() {
-        MainActivity.bottomNavigation.setSelectedItemId(R.id.miToDoList);
+        MainActivity.bottomNavigation.setSelectedItemId(R.id.miShoppingList);
     }
 }

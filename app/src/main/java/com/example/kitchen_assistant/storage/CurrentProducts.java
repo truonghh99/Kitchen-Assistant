@@ -26,6 +26,7 @@ public class CurrentProducts {
     public static void addProduct(Product product) {
         products.add(0, product);
         saveProductInBackGround(product);
+        CurrentProductFragment.notifyDataChange();
     }
     public static void saveAllProducts() {
         Log.e(TAG, "Start saving");
