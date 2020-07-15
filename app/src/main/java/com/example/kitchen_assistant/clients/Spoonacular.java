@@ -84,7 +84,7 @@ public class Spoonacular {
         while (recipes.size() == 0) {
             Thread.currentThread().sleep(10);
         }
-        Log.e(TAG, "GOT " + recipes.size() + " recipes");
+        Log.e(TAG, "Got " + recipes.size() + " recipes");
         return recipes;
     }
 

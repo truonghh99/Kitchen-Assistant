@@ -20,7 +20,7 @@ public class ShoppingItem extends ParseObject implements Parcelable {
     public String getName() throws ParseException {
         return fetchIfNeeded().getString(KEY_NAME);
     }
-    public float getquantity() {
+    public float getQuantity() {
         return getNumber(KEY_QUANTITY).floatValue();
     }
     public String getQuantityUnit() {

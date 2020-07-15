@@ -23,6 +23,7 @@ import com.example.kitchen_assistant.fragments.ShoppingListFragment;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
+import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -59,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
         if (CurrentRecipes.recipes == null) {
             CurrentRecipes.fetchRecipeInBackground();
         }
+        if (CurrentShoppingList.items == null) {
+            CurrentShoppingList.fetchItemsInBackground();
+        }
+
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
