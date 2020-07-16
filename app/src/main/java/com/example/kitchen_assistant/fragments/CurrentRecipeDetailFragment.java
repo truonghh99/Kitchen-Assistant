@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.databinding.FragmentCurrentRecipeDetailBinding;
 import com.example.kitchen_assistant.databinding.FragmentNewRecipeDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.models.Recipe;
@@ -23,22 +24,22 @@ import org.parceler.Parcels;
  * Use the {@link NewRecipeDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NewRecipeDetailFragment extends Fragment {
+public class CurrentRecipeDetailFragment extends Fragment {
 
     private static final String KEY_RECIPE = "Key Recipe";
-    public static final String title = "New Recipe Detail";
+    public static final String title = "Your Recipe Detail";
 
     private Recipe recipe;
-    private FragmentNewRecipeDetailBinding fragmentNewRecipeDetailBinding;
+    private FragmentCurrentRecipeDetailBinding fragmentCurrentRecipeDetailBinding;
     private ImageView ivImage;
     private TextView tvName;
 
-    public NewRecipeDetailFragment() {
+    public CurrentRecipeDetailFragment() {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static NewRecipeDetailFragment newInstance(Parcelable recipe) {
-        NewRecipeDetailFragment fragment = new NewRecipeDetailFragment();
+    public static CurrentRecipeDetailFragment newInstance(Parcelable recipe) {
+        CurrentRecipeDetailFragment fragment = new CurrentRecipeDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(KEY_RECIPE, recipe);
         fragment.setArguments(args);
@@ -56,13 +57,13 @@ public class NewRecipeDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentNewRecipeDetailBinding = FragmentNewRecipeDetailBinding.inflate(getLayoutInflater());
-        ivImage = fragmentNewRecipeDetailBinding.ivImage;
-        tvName = fragmentNewRecipeDetailBinding.tvName;
+        fragmentCurrentRecipeDetailBinding = FragmentCurrentRecipeDetailBinding.inflate(getLayoutInflater());
+        ivImage = fragmentCurrentRecipeDetailBinding.ivImage;
+        tvName = fragmentCurrentRecipeDetailBinding.tvName;
 
         GlideHelper.loadImage(recipe.getImageUrl(), getContext(), ivImage);
         tvName.setText(recipe.getName());
 
-        return fragmentNewRecipeDetailBinding.getRoot();
+        return fragmentCurrentRecipeDetailBinding.getRoot();
     }
 }

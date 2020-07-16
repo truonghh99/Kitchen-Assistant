@@ -14,9 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemRecipeBinding;
+import com.example.kitchen_assistant.fragments.CurrentProductDetailFragment;
+import com.example.kitchen_assistant.fragments.CurrentRecipeDetailFragment;
 import com.example.kitchen_assistant.fragments.NewRecipeDetailFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.storage.CurrentRecipes;
 
 import org.parceler.Parcels;
 
@@ -77,8 +80,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 public void onClick(View view) {
                     // TODO: GO TO DETAIL
                     Recipe recipe = recipes.get(getAdapterPosition());
-                    NewRecipeDetailFragment newRecipeDetailFragment = NewRecipeDetailFragment.newInstance(Parcels.wrap(recipe));
-                    MainActivity.switchFragment(newRecipeDetailFragment, NewRecipeDetailFragment.title);
+                    if (CurrentRecipes.recipeHashMap.containsKey(recipe.getCode())) {
+                        CurrentRecipeDetailFragment currentRecipeDetailFragment = CurrentRecipeDetailFragment.newInstance(Parcels.wrap(recipe));
+                        MainActivity.switchFragment(currentRecipeDetailFragment, CurrentRecipeDetailFragment.title);
+                    } else {
+                        NewRecipeDetailFragment newRecipeDetailFragment = NewRecipeDetailFragment.newInstance(Parcels.wrap(recipe));
+                        MainActivity.switchFragment(newRecipeDetailFragment, NewRecipeDetailFragment.title);
+                    }
                 }
             });
         }
