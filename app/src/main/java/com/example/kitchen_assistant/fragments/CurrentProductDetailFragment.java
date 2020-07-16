@@ -48,6 +48,7 @@ public class CurrentProductDetailFragment extends Fragment {
     private static final String PRODUCT = "Product";
     private static final String TAG = "CurrentFoodDetail";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+    public static final String title = "Product Details";
 
     private FragmentCurrentFoodDetailBinding fragmentCurrentFoodDetailBinding;
     private Product product;

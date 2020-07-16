@@ -22,6 +22,7 @@ import java.util.List;
 public class RecipeFragment extends Fragment {
 
     private static final String TAG = "RecipeFragment";
+    public static final String title = "My Recipes";
 
     private FragmentRecipeBinding fragmentRecipeBinding;
     private RecyclerView rvRecipe;

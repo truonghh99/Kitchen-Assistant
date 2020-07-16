@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
@@ -44,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding activityMainBinding;
     public static BottomNavigationView bottomNavigation;
     private static FragmentManager fragmentManager;
-    private Toolbar toolbar;
+    private static Toolbar toolbar;
+    private static TextView tvTitle;
     private ImageView ivLogOut;
     private static ProgressBar progressBar;
 
@@ -56,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(activityMainBinding.getRoot());
 
         fetchInfoFromLastUse();
-        setUpBottomBar();
         setUpToolBar();
+        setUpBottomBar();
         setUpProgressBar();
     }
 
@@ -71,18 +73,23 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         Fragment fragment;
+                        String title;
                         switch (item.getItemId()) {
                             case R.id.miCurrentFood:
+                                title = CurrentProductFragment.title;
                                 fragment = currentFoodFragment;
                                 break;
                             case R.id.miRecipe:
+                                title = RecipeFragment.title;
                                 fragment = recipeFragment;
                                 break;
                             case R.id.miShoppingList:
                             default:
+                                title = ShoppingListFragment.title;
                                 fragment = toDoListFragment;
                                 break;
                         }
+                        tvTitle.setText(title);
                         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                         return true;
                     }
@@ -94,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
     // TODO: allow user to view & edit profile via toolbar
     private void setUpToolBar() {
         toolbar = activityMainBinding.toolbar;
+        tvTitle = activityMainBinding.title;
         ivLogOut = activityMainBinding.ivLogOut;
         ivLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +155,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Allow other fragments to call each other for flexibility, yet each action must be done via MainActivity
     // to avoid re-initializing fragments (improve speed & memory usage)
-    public static void switchFragment(Fragment fragment) {
+    public static void switchFragment(Fragment fragment, String title) {
+        tvTitle.setText(title);
         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
     }
 }

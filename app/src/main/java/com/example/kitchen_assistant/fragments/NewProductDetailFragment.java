@@ -56,6 +56,7 @@ public class NewProductDetailFragment extends Fragment {
     private static final String PRODUCT = "Product";
     private static final String TAG = "NewProductDetail";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+    public static final String title = "Add New Product";
 
     private FragmentNewProductDetailBinding fragmentNewProductDetailBinding;
     private Product product;

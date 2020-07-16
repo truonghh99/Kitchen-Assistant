@@ -48,6 +48,7 @@ public class CurrentProductFragment extends Fragment {
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "barcode_photo.jpg";
     private File photoFile;
+    public static String title = "Current Products";
 
     private List<Product> products;
     private FragmentCurrentFoodBinding fragmentCurrentFoodBinding;
@@ -146,7 +147,7 @@ public class CurrentProductFragment extends Fragment {
             Toast.makeText(getContext(), "We remember this one! Edit details here.", Toast.LENGTH_LONG).show();
         } else {
             Fragment newProductDetailFragment = NewProductDetailFragment.newInstance(Parcels.wrap(product));
-            MainActivity.switchFragment(newProductDetailFragment);
+            MainActivity.switchFragment(newProductDetailFragment, NewProductDetailFragment.title);
         }
     }
 

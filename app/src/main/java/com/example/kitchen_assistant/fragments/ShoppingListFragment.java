@@ -21,6 +21,7 @@ import java.util.List;
 public class ShoppingListFragment extends Fragment {
 
     private static final String TAG = "ShoppingListFragment";
+    public static final String title = "Shopping List";
 
     private FragmentShoppingListBinding fragmentShoppingListBinding;
     private RecyclerView rvShoppingList;
