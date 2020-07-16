@@ -30,6 +30,7 @@ public class MatchingHelper {
             Log.e(TAG, "Product exists!");
             product = CurrentProducts.productHashMap.get(code);
         } else {
+            Log.e(TAG, "Create new product");
             try {
                 product = OpenFoodFacts.getProductInfo(code);
             } catch (IOException | InterruptedException e) {

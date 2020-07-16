@@ -5,6 +5,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.example.kitchen_assistant.helpers.MetricConversionHelper;
+import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.google.android.gms.maps.internal.IGoogleMapDelegate;
 import com.parse.Parse;
 import com.parse.ParseClassName;
@@ -226,6 +227,7 @@ public class Product extends ParseObject implements Parcelable {
         Log.e(TAG, "Start detaching");
         FoodItem foodItem = getFoodItem();
         foodItem.increaseQuantity(getCurrentQuantity() * -1, getQuantityUnit());
+        CurrentFoodTypes.saveFoodItemInBackGround(foodItem);
     }
 
     public String getProductName() {
