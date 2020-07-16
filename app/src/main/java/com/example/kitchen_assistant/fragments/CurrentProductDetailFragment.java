@@ -148,6 +148,24 @@ public class CurrentProductDetailFragment extends Fragment {
             }
         });
 
+        etOriginalQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (etOriginalQuantity.getText().toString().isEmpty()) return;
+                float numProducts = Float.parseFloat(etNumProducts.getText().toString());
+                float newQuantity = Float.parseFloat(etOriginalQuantity.getText().toString()) * numProducts;
+                etCurrentQuantity.setText(String.valueOf(newQuantity));
+            }
+        });
+
         // Save changes
         btApprove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,6 +241,7 @@ public class CurrentProductDetailFragment extends Fragment {
         String foodStatus = spinnerStatus.getSelectedItem().toString();
 
         product.detachFoodItem();
+
         Log.e(TAG, "New quantity: " + currentQuantity);
         product.setProductName(productName);
         product.setOriginalQuantity(originalQuantity);

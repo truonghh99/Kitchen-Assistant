@@ -115,7 +115,7 @@ public class NewProductDetailFragment extends Fragment {
         btAdd = fragmentNewProductDetailBinding.btAdd;
 
         etName.setText(product.getProductName());
-        etFoodType.setText( product.getFoodTypeString());
+        etFoodType.setText(product.getProductName());
         etOriginalQuantity.setText(String.valueOf(product.getOriginalQuantity()));
         etCurrentQuantity.setText(String.valueOf(product.getCurrentQuantity()));
         etPurchaseDate.setText(parseDate(product.getPurchaseDate(), DATE_FORMAT));
