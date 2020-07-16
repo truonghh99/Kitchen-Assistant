@@ -58,7 +58,6 @@ public class OpenFoodFacts {
                     }
                 });
 
-        // Wait for async request to complete
         while (product.getProductName() == null) {
             Thread.currentThread().sleep(10);
         }

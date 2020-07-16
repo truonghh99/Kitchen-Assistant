@@ -226,7 +226,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setProductName(String productName) {
-        productName = productName;
+        this.productName = productName;
     }
 
     public String getProductCode() {
@@ -234,7 +234,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setProductCode(String productCode) {
-        productCode = productCode;
+        this.productCode = productCode;
     }
 
     public float getOriginalQuantity() {
@@ -242,7 +242,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setOriginalQuantity(float originalQuantity) {
-        originalQuantity = originalQuantity;
+        this.originalQuantity = originalQuantity;
     }
 
     public float getCurrentQuantity() {

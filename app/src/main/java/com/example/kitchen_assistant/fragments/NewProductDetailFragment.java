@@ -26,6 +26,7 @@ import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.clients.OpenFoodFacts;
 import com.example.kitchen_assistant.databinding.FragmentNewProductDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
+import com.example.kitchen_assistant.helpers.MatchingHelper;
 import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
@@ -150,6 +151,7 @@ public class NewProductDetailFragment extends Fragment {
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Get attributes from user input
                 String productName = etName.getText().toString();
                 String foodType = etFoodType.getText().toString();
                 Float originalQuantity = Float.parseFloat(etOriginalQuantity.getText().toString());
@@ -165,6 +167,7 @@ public class NewProductDetailFragment extends Fragment {
                 String durationUnit = spinnerDurationUnit.getSelectedItem().toString();
                 String foodStatus = spinnerStatus.getSelectedItem().toString();
 
+                // Assign attributes to product object
                 product.setProductName(productName);
                 product.setOriginalQuantity(originalQuantity);
                 product.setQuantityUnit(quantityUnit);
@@ -177,22 +180,15 @@ public class NewProductDetailFragment extends Fragment {
                 product.setFoodStatus(foodStatus);
                 product.printOutValues();
 
+                // Create corresponding foodItem
                 FoodItem foodItem = new FoodItem();
-                if (CurrentFoodTypes.foodItems.containsKey(foodType)) { // If such food type exists, increase quantity
-                    Log.e(TAG, "Food type exist!");
-                    foodItem = CurrentFoodTypes.foodItems.get(foodType);
-                    foodItem.increaseQuantity(currentQuantity, quantityUnit);
-                    product.setFoodItem(foodItem);
-                    Log.e(TAG, String.valueOf(product.getFoodItem().getQuantity()));
-                } else { // If such food type doesn't exist, create new one
-                    foodItem.setName(foodType);
-                    foodItem.setQuantity(currentQuantity);
-                    foodItem.setQuantityUnit(quantityUnit);
-                    foodItem.setOwner(ParseUser.getCurrentUser());
-                    CurrentFoodTypes.addFoodItem(foodItem);
-                }
-                product.setFoodItem(foodItem);
+                foodItem.setName(foodType);
+                foodItem.setQuantity(currentQuantity);
+                foodItem.setQuantityUnit(quantityUnit);
+                foodItem.setOwner(ParseUser.getCurrentUser());
 
+                // Attach foodItem & add product
+                MatchingHelper.attemptToAttachFoodItem(foodItem, product);
                 CurrentProducts.addProduct(product);
                 goToCurrentFood();
 
