@@ -25,7 +25,7 @@ import java.util.List;
 
 public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.ViewHolder> {
 
-    private final String TAG = "CurrentFoodAdapter";
+    private static final String TAG = "CurrentFoodAdapter";
     private Context context;
     private List<Product> products;
 
@@ -95,7 +95,7 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
     }
 
     // Allow user to view details of selected product by calling a child fragment via MainActivity
-    private void goToCurrentProductDetail(Product product) {
+    public static void goToCurrentProductDetail(Product product) {
         Log.e(TAG, "Go to current product detail");
         Fragment currentFoodDetailFragment = CurrentProductDetailFragment.newInstance(Parcels.wrap(product));
         MainActivity.switchFragment(currentFoodDetailFragment);

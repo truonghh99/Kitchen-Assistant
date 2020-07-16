@@ -7,6 +7,7 @@ import android.util.Log;
 import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.google.android.gms.maps.internal.IGoogleMapDelegate;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -16,7 +17,6 @@ import org.json.JSONObject;
 import org.parceler.Parcel;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -281,4 +281,15 @@ public class Product extends ParseObject implements Parcelable {
         put(KEY_FOOD_TYPE, foodItem);
     }
 
+    public String getFoodTypeString() {
+        try {
+            if (getFoodItem() != null) {
+                return getFoodItem().getName();
+            } else {
+                return "undefined";
+            }
+        } catch (ParseException e) {
+            return "undefined";
+        }
+    }
 }

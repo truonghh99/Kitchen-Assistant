@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
@@ -113,7 +114,7 @@ public class NewProductDetailFragment extends Fragment {
         btAdd = fragmentNewProductDetailBinding.btAdd;
 
         etName.setText(product.getProductName());
-        etFoodType.setText("Undefined"); // Wait for user to identify product's food type. TODO: Check if such product ever existed to retrieve saved info before asking
+        etFoodType.setText( product.getFoodTypeString());
         etOriginalQuantity.setText(String.valueOf(product.getOriginalQuantity()));
         etCurrentQuantity.setText(String.valueOf(product.getCurrentQuantity()));
         etPurchaseDate.setText(parseDate(product.getPurchaseDate(), DATE_FORMAT));
@@ -178,7 +179,7 @@ public class NewProductDetailFragment extends Fragment {
 
                 FoodItem foodItem = new FoodItem();
                 if (CurrentFoodTypes.foodItems.containsKey(foodType)) { // If such food type exists, increase quantity
-                    Log.e(TAG, "Exist!");
+                    Log.e(TAG, "Food type exist!");
                     foodItem = CurrentFoodTypes.foodItems.get(foodType);
                     foodItem.increaseQuantity(currentQuantity, quantityUnit);
                     product.setFoodItem(foodItem);

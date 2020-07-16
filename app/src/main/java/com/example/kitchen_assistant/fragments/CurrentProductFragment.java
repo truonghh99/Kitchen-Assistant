@@ -122,11 +122,14 @@ public class CurrentProductFragment extends Fragment {
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 String code = BarcodeReader.getCodeFromImg(takenImage, getActivity().getApplicationContext());
                 if (code == null) {
+                    Log.e(TAG, "Couldn't identify barcode");
                     Toast.makeText(getActivity(), "Couldn't identify barcode, please scan again", Toast.LENGTH_SHORT).show();
+                    goToNewProductDetail("0041789002519");
                     return;
+                } else {
+                    Log.i(TAG, "Got product with code: " + code);
+                    goToNewProductDetail(code);
                 }
-                Log.i(TAG, "Got product with code: " + code);
-                goToNewProductDetail(code);
             } else {
                 Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
@@ -137,13 +140,21 @@ public class CurrentProductFragment extends Fragment {
     private void goToNewProductDetail(String code) {
         Log.i(TAG, "Go to new product detail");
         Product product = new Product();
-        try {
-            product = OpenFoodFacts.getProductInfo(code);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        if (CurrentProducts.productHashMap.containsKey(code)) {
+            Log.e(TAG, "Product exists!");
+            product = CurrentProducts.productHashMap.get(code);
+            CurrentFoodAdapter.goToCurrentProductDetail(product);
+            Toast.makeText(getContext(), "We remember this one! Edit details here.", Toast.LENGTH_LONG).show();
+            return;
+        } else {
+            try {
+                product = OpenFoodFacts.getProductInfo(code);
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+            Fragment newProductDetailFragment = NewProductDetailFragment.newInstance(Parcels.wrap(product));
+            MainActivity.switchFragment(newProductDetailFragment);
         }
-        Fragment newProductDetailFragment = NewProductDetailFragment.newInstance(Parcels.wrap(product));
-        MainActivity.switchFragment(newProductDetailFragment);
     }
 
     // Allow other classes to notify changes of product list to update view

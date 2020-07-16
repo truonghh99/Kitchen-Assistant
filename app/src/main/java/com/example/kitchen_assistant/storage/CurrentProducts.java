@@ -16,17 +16,21 @@ import com.parse.SaveCallback;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CurrentProducts {
 
     private static final String TAG = "CurrentProduct";
     public static List<Product> products;
+    public static HashMap<String, Product> productHashMap;
 
     public static void addProduct(Product product) {
         products.add(0, product);
         saveProductInBackGround(product);
         CurrentProductFragment.notifyDataChange();
+        productHashMap.put(product.getProductCode(), product);
+        Log.e(TAG, "GOT CODE: " + product.getProductCode());
     }
 
     public static void saveAllProducts() {
@@ -53,6 +57,7 @@ public class CurrentProducts {
         Log.i(TAG, "Start querying for current products");
 
         products = new ArrayList<>();
+        productHashMap = new HashMap<>();
         ParseQuery<Product> query = ParseQuery.getQuery(Product.class);
         query.addDescendingOrder("createdAt");
 
@@ -63,7 +68,7 @@ public class CurrentProducts {
                     Log.e(TAG, "Error when querying new posts");
                     return;
                 }
-                products.addAll(newProducts);
+                addAllProducts(newProducts);
                 CurrentProductFragment.notifyDataChange();
                 Log.i(TAG, "Query completed, got " + products.size() + " products");
                 MainActivity.hideProgressBar();
@@ -71,8 +76,15 @@ public class CurrentProducts {
         });
     }
 
+    private static void addAllProducts(List<Product> newProducts) {
+        for (Product product : newProducts) {
+            addProduct(product);
+        }
+    }
+
     public static void removeProduct(Product product) {
         products.remove(product);
+        //TODO: reduce quantity to 0 instead of removing
         ParseObject productParse = ParseObject.createWithoutData("Product", product.getObjectId());
         productParse.deleteEventually();
         CurrentProductFragment.notifyDataChange();
