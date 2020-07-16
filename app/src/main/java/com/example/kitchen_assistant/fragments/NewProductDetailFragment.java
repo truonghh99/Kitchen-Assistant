@@ -121,7 +121,7 @@ public class NewProductDetailFragment extends Fragment {
         etDuration.setText(String.valueOf(product.getDuration()));
         etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
         etNumProducts.setText(String.valueOf(product.getNumProducts()));
-        GlideHelper.loadImage(product.getImgUrl(), getContext(), ivImg);
+        GlideHelper.loadImage(product.getImageUrl(), getContext(), ivImg);
 
         SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, product.getQuantityUnit(), getContext(), etCurrentQuantity, (float) product.getCurrentQuantity(), spinnerOriginalQuantityUnit);
         SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, product.getQuantityUnit(), getContext(), etOriginalQuantity, (float) product.getOriginalQuantity(), spinnerCurrentQuantityUnit);

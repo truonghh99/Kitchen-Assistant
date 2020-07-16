@@ -66,11 +66,7 @@ public class PreviewShoppingItemFragment extends DialogFragment {
         spinnerQuantityUnit = fragmentPreviewShoppingItemBinding.spinnerQuantityUnit;
         btAdd = fragmentPreviewShoppingItemBinding.btAdd;
 
-        try {
-            etName.setText(product.getFoodItem().getName());
-        } catch (com.parse.ParseException e) {
-            e.printStackTrace();
-        }
+        etName.setText(product.getFoodItem().getName());
 
         etQuantity.setText(String.valueOf(product.getOriginalQuantity()));
 

@@ -113,18 +113,14 @@ public class CurrentProductDetailFragment extends Fragment {
 
         // Assign values to views using product's info
         etName.setText(product.getProductName());
-        try {
-            etFoodType.setText(product.getFoodItem().getName());
-        } catch (com.parse.ParseException e) {
-            e.printStackTrace();
-        }
+        etFoodType.setText(product.getFoodItem().getName());
         etOriginalQuantity.setText(String.valueOf(product.getOriginalQuantity()));
         etCurrentQuantity.setText(String.valueOf(product.getCurrentQuantity()));
         etPurchaseDate.setText(parseDate(product.getPurchaseDate(), DATE_FORMAT));
         etDuration.setText(String.valueOf(product.getDuration()));
         etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
         etNumProducts.setText(String.valueOf(product.getNumProducts()));
-        GlideHelper.loadImage(product.getImgUrl(), getContext(), ivImg);
+        GlideHelper.loadImage(product.getImageUrl(), getContext(), ivImg);
 
         SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, product.getQuantityUnit(), getContext(), etCurrentQuantity, (float) product.getCurrentQuantity(), spinnerOriginalQuantityUnit);
         SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, product.getQuantityUnit(), getContext(), etOriginalQuantity, (float) product.getOriginalQuantity(), spinnerCurrentQuantityUnit);

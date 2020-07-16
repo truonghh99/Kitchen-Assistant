@@ -13,28 +13,30 @@ import org.parceler.Parcel;
 @ParseClassName("FoodItem")
 public class FoodItem extends ParseObject implements Parcelable {
 
+    // Key for Parse
     private static final String KEY_NAME = "foodName";
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_QUANTITY_UNIT = "quantityUnit";
     private static final String KEY_OWNER = "owner";
 
+    // Local values
     private String name;
     private float quantity;
     private String quantityUnit;
-    private String ownerId;
+    private ParseUser owner;
 
-    public void fetchInfo() throws ParseException {
-        name = fetchIfNeeded().getString(KEY_NAME);
-        quantity = fetchIfNeeded().getNumber(KEY_QUANTITY).floatValue();
-        quantityUnit = fetchIfNeeded().getString(KEY_QUANTITY_UNIT);
-        ownerId = fetchIfNeeded().getParseUser(KEY_OWNER).getObjectId();
+    public void fetchInfo() {
+        name = getString(KEY_NAME);
+        quantity = getNumber(KEY_QUANTITY).floatValue();
+        quantityUnit = getString(KEY_QUANTITY_UNIT);
+        owner = getParseUser(KEY_OWNER);
     }
 
     public void saveInfo() {
         put(KEY_NAME, name);
         put(KEY_QUANTITY, quantity);
         put(KEY_QUANTITY_UNIT, quantityUnit);
-        saveInBackground();
+        put(KEY_OWNER, ParseUser.getCurrentUser());
     }
 
     public String getName() {
@@ -61,12 +63,16 @@ public class FoodItem extends ParseObject implements Parcelable {
         this.quantityUnit = quantityUnit;
     }
 
-    public String getOwnerId() {
-        return ownerId;
+    public ParseUser getOwner() {
+        return owner;
     }
 
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
+    public void setOwner(ParseUser owner) {
+        this.owner = owner;
     }
 
+    public void increaseQuantity(Float currentQuantity, String quantityUnit) {
+        float toIncrease = MetricConversionHelper.convertGeneral(currentQuantity, getQuantityUnit(), quantityUnit);
+        setQuantity(getQuantity() + toIncrease);
+    }
 }

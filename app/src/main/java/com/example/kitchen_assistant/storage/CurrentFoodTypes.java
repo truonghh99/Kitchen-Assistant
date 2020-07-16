@@ -23,11 +23,8 @@ public class CurrentFoodTypes {
     public static HashMap<String, FoodItem> foodItems;
 
     public static void addFoodItem(FoodItem foodItem) {
-        try {
-            foodItems.put(foodItem.getName(), foodItem);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        foodItem.saveInfo();
+        foodItems.put(foodItem.getName(), foodItem);
         saveFoodItemInBackGround(foodItem);
     }
 
@@ -58,15 +55,20 @@ public class CurrentFoodTypes {
                     Log.e(TAG, "Error when querying new posts");
                     return;
                 }
-                addAllFoodItems(newFoodItems);
+                initalize(newFoodItems);
+                for (FoodItem foodItem : newFoodItems) {
+                    foodItem.fetchInfo();
+                    addFoodItem(foodItem);
+                }
                 Log.i(TAG, "Query completed, got " + foodItems.size() + " food items");
             }
         });
     }
 
-    private static void addAllFoodItems(List<FoodItem> newFoodItems) {
+    private static void initalize(List<FoodItem> newFoodItems) {
         for (FoodItem foodItem : newFoodItems) {
-            addFoodItem(foodItem);
+            foodItem.fetchInfo();
+            foodItems.put(foodItem.getName(), foodItem);
         }
     }
 

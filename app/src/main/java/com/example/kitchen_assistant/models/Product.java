@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.google.android.gms.maps.internal.IGoogleMapDelegate;
+import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -16,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
+import java.security.acl.Owner;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -59,7 +61,59 @@ public class Product extends ParseObject implements Parcelable {
     private static final String KEY_OWNER = "owner";
     private static final String KEY_FOOD_TYPE = "foodType";
 
+    // Local values
+    private String productName;
+    private String productCode;
+    private float originalQuantity;
+    private float currentQuantity;
+    private String quantityUnit;
+    private float numProducts;
+    private String imageUrl;
+    private Date purchaseDate;
+    private float duration;
+    private String durationUnit;
+    private Date expirationDate;
+    private String foodStatus;
+    private ParseUser owner;
+    private FoodItem foodItem;
+
     public Product () {
+    }
+
+    public void fetchInfo() {
+        fetchInBackground();
+        productName = getString(KEY_NAME);
+        productCode = getString(KEY_CODE);
+        originalQuantity = getNumber(KEY_ORIGINAL_QUANTITY).floatValue();
+        currentQuantity = getNumber(KEY_CURRENT_QUANTITY).floatValue();
+        quantityUnit = getString(KEY_QUANTITY_UNIT);
+        numProducts = getNumber(KEY_NUM_PRODUCTS).floatValue();
+        imageUrl = getString(KEY_IMG_URL);
+        purchaseDate = getDate(KEY_PURCHASE_DATE);
+        duration = getNumber(KEY_DURATION).floatValue();
+        durationUnit = getString(KEY_DURATION_UNIT);
+        expirationDate = getDate(KEY_EXPIRATION_DATE);
+        foodStatus = getString(KEY_FOOD_STATUS);
+        owner = getParseUser(KEY_OWNER);
+        foodItem = (FoodItem) getParseObject(KEY_FOOD_TYPE);
+    }
+
+    public void saveInfo() {
+        put(KEY_NAME, productName);
+        put(KEY_CODE, productCode);
+        put(KEY_ORIGINAL_QUANTITY, originalQuantity);
+        put(KEY_CURRENT_QUANTITY, currentQuantity);
+        put(KEY_QUANTITY_UNIT, quantityUnit);
+        put(KEY_NUM_PRODUCTS, numProducts);
+        put(KEY_IMG_URL, imageUrl);
+        put(KEY_PURCHASE_DATE, purchaseDate);
+        put(KEY_DURATION, duration);
+        put(KEY_DURATION_UNIT, durationUnit);
+        put(KEY_EXPIRATION_DATE, expirationDate);
+        put(KEY_FOOD_STATUS, foodStatus);
+        put(KEY_FOOD_TYPE, foodItem);
+        put(KEY_OWNER, ParseUser.getCurrentUser());
+
     }
 
     // Extract product information from json returned by OpenFoodFacts
@@ -78,9 +132,9 @@ public class Product extends ParseObject implements Parcelable {
             setQuantityUnit("g");
         }
         try {
-            setImgUrl(product.getString(IMAGE_URL));
+            setImageUrl(product.getString(IMAGE_URL));
         } catch (JSONException e) {
-            setImgUrl(DEFAULT_IMG);
+            setImageUrl(DEFAULT_IMG);
         }
         setPurchaseDate(new Date());
         setNumProducts(1);
@@ -103,7 +157,7 @@ public class Product extends ParseObject implements Parcelable {
         Log.i(TAG, "Purchase date: "  + String.valueOf(getPurchaseDate()));
         Log.i(TAG, "Expiration date: " + String.valueOf(getExpirationDate()));
         Log.i(TAG, "Food status: " + getFoodStatus());
-        Log.i(TAG, "Image url: " + getImgUrl());
+        Log.i(TAG, "Image url: " + getImageUrl());
     }
 
     public void updateFoodStatus() {
@@ -168,127 +222,122 @@ public class Product extends ParseObject implements Parcelable {
         }
         return quantityVal;
     }
-
-    public String getProductCode() {
-        return getString(KEY_CODE);
-    }
-
-    public void setProductCode(String productCode) {
-        put(KEY_CODE, productCode);
-    }
-
     public String getProductName() {
-        return getString(KEY_NAME);
+        return productName;
     }
 
     public void setProductName(String productName) {
-        put(KEY_NAME, productName);
+        productName = productName;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        productCode = productCode;
     }
 
     public float getOriginalQuantity() {
-        return getNumber(KEY_ORIGINAL_QUANTITY).floatValue();
+        return originalQuantity;
     }
 
     public void setOriginalQuantity(float originalQuantity) {
-        put(KEY_ORIGINAL_QUANTITY, originalQuantity);
+        originalQuantity = originalQuantity;
     }
 
     public float getCurrentQuantity() {
-        return getNumber(KEY_CURRENT_QUANTITY).floatValue();
+        return currentQuantity;
     }
 
     public void setCurrentQuantity(float currentQuantity) {
-        put(KEY_CURRENT_QUANTITY, currentQuantity);
+        currentQuantity = currentQuantity;
     }
 
     public String getQuantityUnit() {
-        return getString(KEY_QUANTITY_UNIT);
+        return quantityUnit;
     }
 
     public void setQuantityUnit(String quantityUnit) {
-        put(KEY_QUANTITY_UNIT, quantityUnit);
+        quantityUnit = quantityUnit;
     }
 
     public float getNumProducts() {
-        return getNumber(KEY_NUM_PRODUCTS).floatValue();
+        return numProducts;
     }
 
     public void setNumProducts(float numProducts) {
-        put(KEY_NUM_PRODUCTS, numProducts);
+        numProducts = numProducts;
     }
 
-    public String getImgUrl() {
-        return getString(KEY_IMG_URL);
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImgUrl(String imgUrl) {
-        put(KEY_IMG_URL, imgUrl);
+    public void setImageUrl(String imageUrl) {
+        imageUrl = imageUrl;
     }
 
     public Date getPurchaseDate() {
-        return getDate(KEY_PURCHASE_DATE);
+        return purchaseDate;
     }
 
     public void setPurchaseDate(Date purchaseDate) {
-        put(KEY_PURCHASE_DATE, purchaseDate);
+        purchaseDate = purchaseDate;
     }
 
     public float getDuration() {
-        return getNumber(KEY_DURATION).floatValue();
+        return duration;
     }
 
     public void setDuration(float duration) {
-        put(KEY_DURATION, duration);
+        duration = duration;
     }
 
     public String getDurationUnit() {
-        return getString(KEY_DURATION_UNIT);
+        return durationUnit;
     }
 
     public void setDurationUnit(String durationUnit) {
-       put(KEY_DURATION_UNIT, durationUnit);
+        durationUnit = durationUnit;
     }
 
     public Date getExpirationDate() {
-        return getDate(KEY_EXPIRATION_DATE);
+        return expirationDate;
     }
 
     public void setExpirationDate(Date expirationDate) {
-        put(KEY_EXPIRATION_DATE, expirationDate);
+        expirationDate = expirationDate;
     }
 
     public String getFoodStatus() {
-        return getString(KEY_FOOD_STATUS);
+        return foodStatus;
     }
 
     public void setFoodStatus(String foodStatus) {
-        put(KEY_FOOD_STATUS, foodStatus);
+        foodStatus = foodStatus;
     }
 
     public ParseUser getOwner() {
-        return getParseUser(KEY_OWNER);
+        return owner;
     }
 
-    public void setOwner(ParseUser owner) {
-        put(KEY_OWNER, owner);
+    public void setOwnerId(ParseUser owner) {
+        owner = owner;
     }
 
     public FoodItem getFoodItem() {
-        return (FoodItem) getParseObject(KEY_FOOD_TYPE);
+        return foodItem;
     }
 
-    public void setFoodItem(ParseObject foodItem) {
-        put(KEY_FOOD_TYPE, foodItem);
+    public void setFoodItem(FoodItem foodType) {
+        foodItem = foodType;
     }
 
     public String getFoodTypeString() {
-        try {
-            if (getFoodItem() != null) {
-                return getFoodItem().getName();
-            } else {
-                return "undefined";
-            }
-        } catch (ParseException e) {
+        if (getFoodItem() != null) {
+            return getFoodItem().getName();
+        } else {
             return "undefined";
         }
     }

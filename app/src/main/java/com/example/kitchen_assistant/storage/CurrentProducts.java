@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.fragments.CurrentProductFragment;
+import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -27,10 +28,11 @@ public class CurrentProducts {
 
     public static void addProduct(Product product) {
         products.add(0, product);
-        saveProductInBackGround(product);
         CurrentProductFragment.notifyDataChange();
         productHashMap.put(product.getProductCode(), product);
-        Log.e(TAG, "GOT CODE: " + product.getProductCode());
+
+        product.saveInfo();
+        saveProductInBackGround(product);
     }
 
     public static void saveAllProducts() {
@@ -68,7 +70,7 @@ public class CurrentProducts {
                     Log.e(TAG, "Error when querying new posts");
                     return;
                 }
-                addAllProducts(newProducts);
+                initialize(newProducts);
                 CurrentProductFragment.notifyDataChange();
                 Log.i(TAG, "Query completed, got " + products.size() + " products");
                 MainActivity.hideProgressBar();
@@ -76,9 +78,13 @@ public class CurrentProducts {
         });
     }
 
-    private static void addAllProducts(List<Product> newProducts) {
+    private static void initialize(List<Product> newProducts) {
         for (Product product : newProducts) {
-            addProduct(product);
+            Log.e(TAG, "Got: " + product.getString("productName") + " - " + product.getCurrentQuantity());
+            product.fetchInfo();
+            Log.e(TAG, "Localized: " + product.getProductName() + " - " + product.getCurrentQuantity());
+            products.add(product);
+            productHashMap.put(product.getProductCode(), product);
         }
     }
 
