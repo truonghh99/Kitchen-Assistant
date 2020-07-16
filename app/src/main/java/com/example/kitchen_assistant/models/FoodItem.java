@@ -1,6 +1,7 @@
 package com.example.kitchen_assistant.models;
 
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.parse.ParseClassName;
@@ -18,6 +19,7 @@ public class FoodItem extends ParseObject implements Parcelable {
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_QUANTITY_UNIT = "quantityUnit";
     private static final String KEY_OWNER = "owner";
+    private static final String TAG = "FoodItem";
 
     // Local values
     private String name;
@@ -72,7 +74,9 @@ public class FoodItem extends ParseObject implements Parcelable {
     }
 
     public void increaseQuantity(Float currentQuantity, String quantityUnit) {
+        Log.e(TAG, "Before adding: " + getQuantity());
         float toIncrease = MetricConversionHelper.convertGeneral(currentQuantity, getQuantityUnit(), quantityUnit);
         setQuantity(getQuantity() + toIncrease);
+        Log.e(TAG, "After adding: " + getQuantity());
     }
 }

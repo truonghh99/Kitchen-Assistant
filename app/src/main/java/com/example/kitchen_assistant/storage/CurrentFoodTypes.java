@@ -29,6 +29,7 @@ public class CurrentFoodTypes {
     }
 
     public static void saveFoodItemInBackGround(FoodItem foodItem) {
+        foodItem.saveInfo();
         foodItem.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -67,7 +68,9 @@ public class CurrentFoodTypes {
 
     private static void initalize(List<FoodItem> newFoodItems) {
         for (FoodItem foodItem : newFoodItems) {
+            Log.e(TAG, "Got: " + foodItem.getString("foodName") + " - " + foodItem.getNumber("quantity"));
             foodItem.fetchInfo();
+            Log.e(TAG, "Localized: " + foodItem.getName() + " - " + foodItem.getQuantity());
             foodItems.put(foodItem.getName(), foodItem);
         }
     }

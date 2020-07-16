@@ -82,7 +82,7 @@ public class CurrentProducts {
 
     private static void initialize(List<Product> newProducts) {
         for (Product product : newProducts) {
-            Log.e(TAG, "Got: " + product.getString("productName") + " - " + product.getCurrentQuantity());
+            Log.e(TAG, "Got: " + product.getString("productName") + " - " + product.getNumber("currentQuantity"));
             product.fetchInfo();
             Log.e(TAG, "Localized: " + product.getProductName() + " - " + product.getCurrentQuantity());
             products.add(product);
