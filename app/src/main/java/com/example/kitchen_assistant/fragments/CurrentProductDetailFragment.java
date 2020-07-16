@@ -190,7 +190,7 @@ public class CurrentProductDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    queryRecipes();
+                    goToExplore();
                 } catch (InterruptedException | com.parse.ParseException e) {
                     e.printStackTrace();
                 }
@@ -209,18 +209,16 @@ public class CurrentProductDetailFragment extends Fragment {
     }
 
     // Query recipes containing this current product
-    private void queryRecipes() throws InterruptedException, com.parse.ParseException {
+    private void goToExplore() throws InterruptedException, com.parse.ParseException {
         // Create a one-element list contains only this current food item to fit query's format
-        List<FoodItem> ingredients = new ArrayList<FoodItem>() {
+        List<FoodItem> ingredientList = new ArrayList<FoodItem>() {
             {
                 add(product.getFoodItem());
             }
         };
-        Log.i(TAG, "Asking for recipes with " + product.getFoodItem().getName());
-        List<Recipe> recipes = Spoonacular.getByIngredients(ingredients);
-        Log.i(TAG, "Received " + recipes.size() + " recipes");
-        CurrentRecipes.addAllRecipes(recipes);
-        goToRecipe();
+        String ingredients = Spoonacular.generateList(ingredientList);
+        RecipeExploreFragment recipeExploreFragment = RecipeExploreFragment.newInstance(ingredients);
+        MainActivity.switchFragment(recipeExploreFragment, recipeExploreFragment.title);
     }
 
     // Save all changes of current product before closing edit screen

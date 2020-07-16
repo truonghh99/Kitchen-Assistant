@@ -82,7 +82,7 @@ public class Spoonacular {
     }
 
     // Generate ingredient list to fit Spoonacular's required format
-    private static String generateList(List<FoodItem> foodItems) throws ParseException {
+    public static String generateList(List<FoodItem> foodItems) throws ParseException {
         if (foodItems.size() == 0) return "";
         String result = foodItems.get(0).getName();
         for (int i = 1; i < foodItems.size(); ++i) {
