@@ -33,10 +33,16 @@ public class Recipe extends ParseObject implements Parcelable {
     private static final String KEY_INGREDIENTS_JSON = "missedIngredients";
     private static final String KEY_IMAGE_JSON = "image";
 
+    // Local properties
+    private String name;
+    private String recipeCode;
+    private String imageUrl;
+    private String instructions;
+
     public static Recipe extractFromJsonObject(JSONObject json) throws JSONException {
         Recipe result = new Recipe();
         result.setName(json.getString(KEY_NAME_JSON));
-        result.setImgUrl(json.getString(KEY_IMAGE_JSON));
+        result.setImageUrl(json.getString(KEY_IMAGE_JSON));
         Log.i(TAG, result.getName() + ": " + result.getImageUrl());
         return result;
     }
@@ -51,28 +57,47 @@ public class Recipe extends ParseObject implements Parcelable {
         return recipes;
     }
 
-    public void setName(String name) {
+    public void fetchInfo() {
+        name = getString(KEY_NAME);
+        imageUrl = getString(KEY_IMAGE_URL);
+        instructions = getString(KEY_INSTRUCTIONS);
+    }
+
+    public void saveInfo() {
         put(KEY_NAME, name);
-    }
-    public void setAuthor(ParseUser author) {
-        put(KEY_AUTHOR, author);
-    }
-    public void setImgUrl(String imgUrl) {
-        put(KEY_IMAGE_URL, imgUrl);
-    }
-    public void setInstructions(String instructions) {
+        put(KEY_IMAGE_URL, imageUrl);
         put(KEY_INSTRUCTIONS, instructions);
     }
+
     public String getName() {
-        return getString(KEY_NAME);
+        return name;
     }
-    public ParseUser getAuthor() {
-        return getParseUser(KEY_AUTHOR);
+
+    public void setName(String name) {
+        this.name = name;
     }
+
     public String getImageUrl() {
-        return getString(KEY_IMAGE_URL);
+        return imageUrl;
     }
+
+    public void setImageUrl(String imgUrl) {
+        this.imageUrl = imgUrl;
+    }
+
     public String getInstructions() {
-        return getString(KEY_INSTRUCTIONS);
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
+    public String getCode() {
+        return recipeCode;
+    }
+
+    public void setCode(String code) {
+        this.recipeCode = code;
     }
 }
