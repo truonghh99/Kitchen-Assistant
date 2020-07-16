@@ -27,11 +27,13 @@ public class Recipe extends ParseObject implements Parcelable {
     private static final String KEY_AUTHOR = "author";
     private static final String KEY_IMAGE_URL = "imgUrl";
     private static final String KEY_INSTRUCTIONS = "instructions";
+    private static final String KEY_CODE = "recipeCode";
 
     // Keyword for Spoonacular
-    private static final String KEY_NAME_JSON = "title";
-    private static final String KEY_INGREDIENTS_JSON = "missedIngredients";
-    private static final String KEY_IMAGE_JSON = "image";
+    private static final String KEY_NAME_JSON_API = "title";
+    private static final String KEY_INGREDIENTS_JSON_API = "missedIngredients";
+    private static final String KEY_IMAGE_JSON_API = "image";
+    private static final String KEY_ID_API = "id";
 
     // Local properties
     private String name;
@@ -41,8 +43,11 @@ public class Recipe extends ParseObject implements Parcelable {
 
     public static Recipe extractFromJsonObject(JSONObject json) throws JSONException {
         Recipe result = new Recipe();
-        result.setName(json.getString(KEY_NAME_JSON));
-        result.setImageUrl(json.getString(KEY_IMAGE_JSON));
+        result.setName(json.getString(KEY_NAME_JSON_API));
+        result.setImageUrl(json.getString(KEY_IMAGE_JSON_API));
+        result.setCode(json.getString(KEY_ID_API));
+        result.setInstructions("no instructions");
+
         Log.i(TAG, result.getName() + ": " + result.getImageUrl());
         return result;
     }
@@ -61,12 +66,14 @@ public class Recipe extends ParseObject implements Parcelable {
         name = getString(KEY_NAME);
         imageUrl = getString(KEY_IMAGE_URL);
         instructions = getString(KEY_INSTRUCTIONS);
+        recipeCode = getString(KEY_CODE);
     }
 
     public void saveInfo() {
         put(KEY_NAME, name);
         put(KEY_IMAGE_URL, imageUrl);
         put(KEY_INSTRUCTIONS, instructions);
+        put(KEY_CODE, recipeCode);
     }
 
     public String getName() {

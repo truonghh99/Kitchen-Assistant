@@ -89,8 +89,8 @@ public class CurrentRecipes {
         RecipeFragment.notifyDataChange();
     }
 
-    public static void addAllRecipes(List<Recipe> recipes) {
-        for (Recipe recipe : recipes) {
+    public static void addAllRecipes(List<Recipe> newRecipes) {
+        for (Recipe recipe : newRecipes) {
             addRecipe(recipe);
         }
     }
