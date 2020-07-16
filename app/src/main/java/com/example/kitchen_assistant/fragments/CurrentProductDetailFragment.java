@@ -27,6 +27,7 @@ import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -207,6 +208,7 @@ public class CurrentProductDetailFragment extends Fragment {
         String productName = etName.getText().toString();
         String foodType = etFoodType.getText().toString();
         Float originalQuantity = Float.parseFloat(etOriginalQuantity.getText().toString());
+        Float numProducts = Float.parseFloat(etNumProducts.getText().toString());
         String quantityUnit = spinnerOriginalQuantityUnit.getSelectedItem().toString();
         Float currentQuantity = Float.parseFloat(etCurrentQuantity.getText().toString());
         Date purchaseDate = product.getPurchaseDate();
@@ -219,17 +221,20 @@ public class CurrentProductDetailFragment extends Fragment {
         String durationUnit = spinnerDurationUnit.getSelectedItem().toString();
         String foodStatus = spinnerStatus.getSelectedItem().toString();
 
+        Log.e(TAG, "New quantity: " + currentQuantity);
         product.setProductName(productName);
         product.setOriginalQuantity(originalQuantity);
         product.setQuantityUnit(quantityUnit);
         product.setCurrentQuantity(currentQuantity);
-        product.setNumProducts(currentQuantity / originalQuantity);
+        product.setNumProducts(numProducts);
         product.setPurchaseDate(purchaseDate);
         product.setDuration(duration);
         product.setDurationUnit(durationUnit);
         product.updateExpirationDate();
         product.setFoodStatus(foodStatus);
         product.printOutValues();
+        Log.e(TAG, "Updated quantity: " + product.getCurrentQuantity());
+
 
         // TODO: Check if such item exists before creating a new one
 
@@ -239,6 +244,7 @@ public class CurrentProductDetailFragment extends Fragment {
         foodItem.setQuantityUnit(quantityUnit);
         foodItem.setOwner(ParseUser.getCurrentUser());
 
+        //CurrentFoodTypes.addFoodItem(foodItem);
         product.setFoodItem(foodItem);
         CurrentProducts.saveProductInBackGround(product);
         CurrentProductFragment.notifyDataChange();

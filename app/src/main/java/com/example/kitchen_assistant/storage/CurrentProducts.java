@@ -43,6 +43,7 @@ public class CurrentProducts {
     }
 
     public static void saveProductInBackGround(Product product) {
+        product.saveInfo();
         product.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -53,6 +54,7 @@ public class CurrentProducts {
                 Log.e(TAG,"Done");
             }
         });
+
     }
 
     public static void fetchProductInBackground() {

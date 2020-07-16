@@ -113,7 +113,6 @@ public class Product extends ParseObject implements Parcelable {
         put(KEY_FOOD_STATUS, foodStatus);
         put(KEY_FOOD_TYPE, foodItem);
         put(KEY_OWNER, ParseUser.getCurrentUser());
-
     }
 
     // Extract product information from json returned by OpenFoodFacts
@@ -251,7 +250,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setCurrentQuantity(float currentQuantity) {
-        currentQuantity = currentQuantity;
+        this.currentQuantity = currentQuantity;
     }
 
     public String getQuantityUnit() {
@@ -259,7 +258,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setQuantityUnit(String quantityUnit) {
-        quantityUnit = quantityUnit;
+        this.quantityUnit = quantityUnit;
     }
 
     public float getNumProducts() {
@@ -267,7 +266,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setNumProducts(float numProducts) {
-        numProducts = numProducts;
+        this.numProducts = numProducts;
     }
 
     public String getImageUrl() {
@@ -275,7 +274,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setImageUrl(String imageUrl) {
-        imageUrl = imageUrl;
+        this.imageUrl = imageUrl;
     }
 
     public Date getPurchaseDate() {
@@ -283,7 +282,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setPurchaseDate(Date purchaseDate) {
-        purchaseDate = purchaseDate;
+        this.purchaseDate = purchaseDate;
     }
 
     public float getDuration() {
@@ -291,7 +290,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setDuration(float duration) {
-        duration = duration;
+        this.duration = duration;
     }
 
     public String getDurationUnit() {
@@ -299,7 +298,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setDurationUnit(String durationUnit) {
-        durationUnit = durationUnit;
+        this.durationUnit = durationUnit;
     }
 
     public Date getExpirationDate() {
@@ -307,7 +306,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setExpirationDate(Date expirationDate) {
-        expirationDate = expirationDate;
+        this.expirationDate = expirationDate;
     }
 
     public String getFoodStatus() {
@@ -315,7 +314,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setFoodStatus(String foodStatus) {
-        foodStatus = foodStatus;
+        this.foodStatus = foodStatus;
     }
 
     public ParseUser getOwner() {
@@ -323,7 +322,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setOwnerId(ParseUser owner) {
-        owner = owner;
+        this.owner = owner;
     }
 
     public FoodItem getFoodItem() {
