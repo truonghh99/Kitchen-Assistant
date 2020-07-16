@@ -27,4 +27,9 @@ public class MatchingHelper {
         toAttach.setFoodItem(toAdd);
     }
 
+    public static void detachFoodItem(Product product) {
+        Log.e(TAG, "Start detaching");
+        FoodItem foodItem = product.getFoodItem();
+        foodItem.increaseQuantity(product.getCurrentQuantity() * -1, product.getQuantityUnit());
+    }
 }

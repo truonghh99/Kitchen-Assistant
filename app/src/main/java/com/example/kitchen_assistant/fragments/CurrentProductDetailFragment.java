@@ -222,6 +222,7 @@ public class CurrentProductDetailFragment extends Fragment {
         String durationUnit = spinnerDurationUnit.getSelectedItem().toString();
         String foodStatus = spinnerStatus.getSelectedItem().toString();
 
+        MatchingHelper.detachFoodItem(product);
         Log.e(TAG, "New quantity: " + currentQuantity);
         product.setProductName(productName);
         product.setOriginalQuantity(originalQuantity);
@@ -235,9 +236,6 @@ public class CurrentProductDetailFragment extends Fragment {
         product.setFoodStatus(foodStatus);
         product.printOutValues();
         Log.e(TAG, "Updated quantity: " + product.getCurrentQuantity());
-
-
-        // TODO: Check if such item exists before creating a new one
 
         FoodItem foodItem = new FoodItem();
         foodItem.setName(foodType);
