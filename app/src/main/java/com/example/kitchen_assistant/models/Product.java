@@ -221,6 +221,13 @@ public class Product extends ParseObject implements Parcelable {
         }
         return quantityVal;
     }
+
+    public void detachFoodItem() {
+        Log.e(TAG, "Start detaching");
+        FoodItem foodItem = getFoodItem();
+        foodItem.increaseQuantity(getCurrentQuantity() * -1, getQuantityUnit());
+    }
+
     public String getProductName() {
         return productName;
     }

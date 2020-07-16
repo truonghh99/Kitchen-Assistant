@@ -222,7 +222,7 @@ public class CurrentProductDetailFragment extends Fragment {
         String durationUnit = spinnerDurationUnit.getSelectedItem().toString();
         String foodStatus = spinnerStatus.getSelectedItem().toString();
 
-        MatchingHelper.detachFoodItem(product);
+        product.detachFoodItem();
         Log.e(TAG, "New quantity: " + currentQuantity);
         product.setProductName(productName);
         product.setOriginalQuantity(originalQuantity);

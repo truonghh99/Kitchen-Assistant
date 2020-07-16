@@ -28,6 +28,7 @@ import com.example.kitchen_assistant.adapters.CurrentFoodAdapter;
 import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.clients.OpenFoodFacts;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodBinding;
+import com.example.kitchen_assistant.helpers.MatchingHelper;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -139,19 +140,11 @@ public class CurrentProductFragment extends Fragment {
     // Passing taken product's code to product detail for user to edit information & confirm insertion to current product list
     private void goToNewProductDetail(String code) {
         Log.i(TAG, "Go to new product detail");
-        Product product = new Product();
+        Product product = MatchingHelper.attemptToCreate(code);
         if (CurrentProducts.productHashMap.containsKey(code)) {
-            Log.e(TAG, "Product exists!");
-            product = CurrentProducts.productHashMap.get(code);
             CurrentFoodAdapter.goToCurrentProductDetail(product);
             Toast.makeText(getContext(), "We remember this one! Edit details here.", Toast.LENGTH_LONG).show();
-            return;
         } else {
-            try {
-                product = OpenFoodFacts.getProductInfo(code);
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
             Fragment newProductDetailFragment = NewProductDetailFragment.newInstance(Parcels.wrap(product));
             MainActivity.switchFragment(newProductDetailFragment);
         }
