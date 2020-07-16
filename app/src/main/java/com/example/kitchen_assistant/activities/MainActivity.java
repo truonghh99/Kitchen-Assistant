@@ -21,6 +21,7 @@ import com.example.kitchen_assistant.fragments.CurrentProductFragment;
 import com.example.kitchen_assistant.fragments.RecipeFragment;
 import com.example.kitchen_assistant.fragments.ShoppingListFragment;
 import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         CurrentProducts.fetchProductInBackground();
         CurrentRecipes.fetchRecipeInBackground();
         CurrentShoppingList.fetchItemsInBackground();
+        CurrentFoodTypes.fetchFoodItemInBackground();
     }
 
     // Show progress bar while loading. This progress bar is used throughout all other screens

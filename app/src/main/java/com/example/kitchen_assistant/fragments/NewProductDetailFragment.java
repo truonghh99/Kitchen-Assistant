@@ -29,6 +29,7 @@ import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
+import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.parse.ParseUser;
 
@@ -175,14 +176,20 @@ public class NewProductDetailFragment extends Fragment {
                 product.setFoodStatus(foodStatus);
                 product.printOutValues();
 
-                // TODO: Check if such item exists before creating a new one
-
                 FoodItem foodItem = new FoodItem();
-                foodItem.setName(foodType);
-                foodItem.setQuantity(currentQuantity);
-                foodItem.setQuantityUnit(quantityUnit);
-                foodItem.setOwner(ParseUser.getCurrentUser());
-
+                if (CurrentFoodTypes.foodItems.containsKey(foodType)) { // If such food type exists, increase quantity
+                    Log.e(TAG, "Exist!");
+                    foodItem = CurrentFoodTypes.foodItems.get(foodType);
+                    foodItem.increaseQuantity(currentQuantity, quantityUnit);
+                    product.setFoodItem(foodItem);
+                    Log.e(TAG, String.valueOf(product.getFoodItem().getQuantity()));
+                } else { // If such food type doesn't exist, create new one
+                    foodItem.setName(foodType);
+                    foodItem.setQuantity(currentQuantity);
+                    foodItem.setQuantityUnit(quantityUnit);
+                    foodItem.setOwner(ParseUser.getCurrentUser());
+                    CurrentFoodTypes.addFoodItem(foodItem);
+                }
                 product.setFoodItem(foodItem);
 
                 CurrentProducts.addProduct(product);

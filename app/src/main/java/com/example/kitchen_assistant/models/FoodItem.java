@@ -2,6 +2,7 @@ package com.example.kitchen_assistant.models;
 
 import android.os.Parcelable;
 
+import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -20,7 +21,7 @@ public class FoodItem extends ParseObject implements Parcelable {
     public String getName() throws ParseException {
         return fetchIfNeeded().getString(KEY_NAME);
     }
-    public float getquantity() {
+    public float getQuantity() {
         return getNumber(KEY_QUANTITY).floatValue();
     }
     public String getQuantityUnit() {
@@ -43,4 +44,8 @@ public class FoodItem extends ParseObject implements Parcelable {
         put(KEY_OWNER, owner);
     }
 
+    public void increaseQuantity(Float currentQuantity, String quantityUnit) {
+        float toIncrease = MetricConversionHelper.convertGeneral(currentQuantity, getQuantityUnit(), quantityUnit);
+        setQuantity(getQuantity() + toIncrease);
+    }
 }

@@ -14,15 +14,20 @@ import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CurrentFoodTypes {
 
     private static final String TAG = "CurrentFoodTypes";
-    public static List<FoodItem> foodItems;
+    public static HashMap<String, FoodItem> foodItems;
 
     public static void addFoodItem(FoodItem foodItem) {
-        foodItems.add(foodItem);
+        try {
+            foodItems.put(foodItem.getName(), foodItem);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         saveFoodItemInBackGround(foodItem);
     }
 
@@ -42,7 +47,7 @@ public class CurrentFoodTypes {
     public static void fetchFoodItemInBackground() {
         Log.i(TAG, "Start querying for current food items");
 
-        foodItems = new ArrayList<>();
+        foodItems = new HashMap<>();
         ParseQuery<FoodItem> query = ParseQuery.getQuery(FoodItem.class);
         query.addAscendingOrder("createdAt");
 
@@ -53,10 +58,16 @@ public class CurrentFoodTypes {
                     Log.e(TAG, "Error when querying new posts");
                     return;
                 }
-                foodItems.addAll(newFoodItems);
+                addAllFoodItems(newFoodItems);
                 Log.i(TAG, "Query completed, got " + foodItems.size() + " food items");
             }
         });
+    }
+
+    private static void addAllFoodItems(List<FoodItem> newFoodItems) {
+        for (FoodItem foodItem : newFoodItems) {
+            addFoodItem(foodItem);
+        }
     }
 
 }
