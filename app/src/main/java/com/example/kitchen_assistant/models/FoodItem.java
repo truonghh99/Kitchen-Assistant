@@ -18,34 +18,55 @@ public class FoodItem extends ParseObject implements Parcelable {
     private static final String KEY_QUANTITY_UNIT = "quantityUnit";
     private static final String KEY_OWNER = "owner";
 
-    public String getName() throws ParseException {
-        return fetchIfNeeded().getString(KEY_NAME);
+    private String name;
+    private float quantity;
+    private String quantityUnit;
+    private String ownerId;
+
+    public void fetchInfo() throws ParseException {
+        name = fetchIfNeeded().getString(KEY_NAME);
+        quantity = fetchIfNeeded().getNumber(KEY_QUANTITY).floatValue();
+        quantityUnit = fetchIfNeeded().getString(KEY_QUANTITY_UNIT);
+        ownerId = fetchIfNeeded().getParseUser(KEY_OWNER).getObjectId();
     }
-    public float getQuantity() {
-        return getNumber(KEY_QUANTITY).floatValue();
+
+    public void saveInfo() {
+        put(KEY_NAME, name);
+        put(KEY_QUANTITY, quantity);
+        put(KEY_QUANTITY_UNIT, quantityUnit);
+        saveInBackground();
     }
-    public String getQuantityUnit() {
-        return getString(KEY_QUANTITY_UNIT);
-    }
-    public ParseUser getOwner() {
-        return getParseUser(KEY_OWNER);
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
-        put(KEY_NAME, name);
-    }
-    public void setQuantity(float quantity) {
-        put(KEY_QUANTITY, quantity);
-    }
-    public void setQuantityUnit(String quantityUnit) {
-        put(KEY_QUANTITY_UNIT, quantityUnit);
-    }
-    public void setOwner(ParseUser owner) {
-        put(KEY_OWNER, owner);
+        this.name = name;
     }
 
-    public void increaseQuantity(Float currentQuantity, String quantityUnit) {
-        float toIncrease = MetricConversionHelper.convertGeneral(currentQuantity, getQuantityUnit(), quantityUnit);
-        setQuantity(getQuantity() + toIncrease);
+    public float getQuantity() {
+        return quantity;
     }
+
+    public void setQuantity(float quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getQuantityUnit() {
+        return quantityUnit;
+    }
+
+    public void setQuantityUnit(String quantityUnit) {
+        this.quantityUnit = quantityUnit;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
 }
