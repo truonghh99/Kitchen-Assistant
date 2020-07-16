@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.NewRecipeDetailFragment">
+
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_width="200dp"
+        android:layout_height="140dp"
+        android:src="@drawable/recipe_demo"/>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/scope_one"
+        android:text="Apple Pie"
+        android:textAlignment="center"
+        android:textColor="@color/pastelPink2"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/scope_one"
+        android:text="You have enough ingredient to cook this recipe!"
+        android:textAlignment="center"
+        android:textColor="@color/grey"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

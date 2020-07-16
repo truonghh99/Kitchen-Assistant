@@ -55,6 +55,7 @@ public class RecipeExploreFragment extends Fragment {
             String ingredients = (getArguments().getString(KEY_QUERY_PARAMETER));
             try {
                 recipes = queryRecipes(ingredients);
+                Log.e(TAG, "GOT: " + recipes.size() + " recipes");
             } catch (InterruptedException e) {
                 recipes = new ArrayList<>();
                 e.printStackTrace();

@@ -76,8 +76,9 @@ public class Spoonacular {
                     }
                 });
 
-        Thread.currentThread().sleep(500);
-
+        while (recipes.size() == 0) {
+            Thread.currentThread().sleep(10);
+        }
         return recipes;
     }
 

@@ -12,9 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemRecipeBinding;
+import com.example.kitchen_assistant.fragments.NewRecipeDetailFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.models.Recipe;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -62,11 +66,21 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             tvName = itemRecipeBinding.tvName;
             tvStatus = itemRecipeBinding.tvStatus;
             ivImage = itemRecipeBinding.ivImage;
+            cvRecipe = itemRecipeBinding.cvRecipe;
         }
 
         public void bind(final Recipe recipe) {
             tvName.setText(recipe.getName());
             GlideHelper.loadImage(recipe.getImageUrl(), context, ivImage);
+            cvRecipe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // TODO: GO TO DETAIL
+                    Recipe recipe = recipes.get(getAdapterPosition());
+                    NewRecipeDetailFragment newRecipeDetailFragment = NewRecipeDetailFragment.newInstance(Parcels.wrap(recipe));
+                    MainActivity.switchFragment(newRecipeDetailFragment, NewRecipeDetailFragment.title);
+                }
+            });
         }
     }
 
