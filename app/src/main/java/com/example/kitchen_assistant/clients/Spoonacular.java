@@ -33,11 +33,10 @@ public class Spoonacular {
 
     private static List<Recipe> recipes;
 
-    public static List<Recipe> getByIngredients(List<FoodItem> foodItems) throws InterruptedException, ParseException {
+    public static List<Recipe> getByIngredients(String ingredientsList) throws InterruptedException {
         Log.i(TAG, "Start querying recipes");
         recipes = new ArrayList<>();
 
-        String ingredientsList = generateList(foodItems);
         Log.e(TAG, "Ingredient list: " + ingredientsList);
         OkHttpClient client = new OkHttpClient();
 
