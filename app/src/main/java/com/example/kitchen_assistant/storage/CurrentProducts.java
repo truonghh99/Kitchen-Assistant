@@ -64,6 +64,7 @@ public class CurrentProducts {
         productHashMap = new HashMap<>();
         ParseQuery<Product> query = ParseQuery.getQuery(Product.class);
         query.addDescendingOrder("createdAt");
+        query.include("foodType");
 
         query.findInBackground(new FindCallback<Product>() {
             @Override
@@ -84,7 +85,8 @@ public class CurrentProducts {
         for (Product product : newProducts) {
             Log.e(TAG, "Got: " + product.getString("productName") + " - " + product.getNumber("currentQuantity"));
             product.fetchInfo();
-            Log.e(TAG, "Localized: " + product.getProductName() + " - " + product.getCurrentQuantity());
+            Log.e(TAG, "Localized: " + product.getProductName() + " - " + product.getCurrentQuantity() + " - " + product.getFoodItem().getString("foodName"));
+            CurrentFoodTypes.initialize(product.getFoodItem());
             products.add(product);
             productHashMap.put(product.getProductCode(), product);
         }

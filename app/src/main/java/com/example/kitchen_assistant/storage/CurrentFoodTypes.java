@@ -20,7 +20,7 @@ import java.util.List;
 public class CurrentFoodTypes {
 
     private static final String TAG = "CurrentFoodTypes";
-    public static HashMap<String, FoodItem> foodItems;
+    public static HashMap<String, FoodItem> foodItems = new HashMap<>();
 
     public static void addFoodItem(FoodItem foodItem) {
         foodItem.saveInfo();
@@ -42,37 +42,12 @@ public class CurrentFoodTypes {
         });
     }
 
-    public static void fetchFoodItemInBackground() {
-        Log.i(TAG, "Start querying for current food items");
-
-        foodItems = new HashMap<>();
-        ParseQuery<FoodItem> query = ParseQuery.getQuery(FoodItem.class);
-        query.addAscendingOrder("createdAt");
-
-        query.findInBackground(new FindCallback<FoodItem>() {
-            @Override
-            public void done(List<FoodItem> newFoodItems, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error when querying new posts");
-                    return;
-                }
-                initalize(newFoodItems);
-                for (FoodItem foodItem : newFoodItems) {
-                    foodItem.fetchInfo();
-                    addFoodItem(foodItem);
-                }
-                Log.i(TAG, "Query completed, got " + foodItems.size() + " food items");
-            }
-        });
-    }
-
-    private static void initalize(List<FoodItem> newFoodItems) {
-        for (FoodItem foodItem : newFoodItems) {
-            Log.e(TAG, "Got: " + foodItem.getString("foodName") + " - " + foodItem.getNumber("quantity"));
-            foodItem.fetchInfo();
-            Log.e(TAG, "Localized: " + foodItem.getName() + " - " + foodItem.getQuantity());
-            foodItems.put(foodItem.getName(), foodItem);
-        }
+    public static void initialize(FoodItem foodItem) {
+        if (foodItems.containsKey(foodItem.getString("foodName"))) return;
+        Log.e(TAG, "Got: " + foodItem.getString("foodName") + " - " + foodItem.getNumber("quantity"));
+        foodItem.fetchInfo();
+        Log.e(TAG, "Localized: " + foodItem.getName() + " - " + foodItem.getQuantity());
+        foodItems.put(foodItem.getName(), foodItem);
     }
 
 }

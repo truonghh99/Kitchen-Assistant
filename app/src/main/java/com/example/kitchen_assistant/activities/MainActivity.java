@@ -121,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
         CurrentProducts.fetchProductInBackground();
         CurrentRecipes.fetchRecipeInBackground();
         CurrentShoppingList.fetchItemsInBackground();
-        CurrentFoodTypes.fetchFoodItemInBackground();
     }
 
     // Show progress bar while loading. This progress bar is used throughout all other screens
