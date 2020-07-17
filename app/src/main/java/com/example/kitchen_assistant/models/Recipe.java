@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.parceler.Parcel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @ParseClassName("Recipe")
@@ -21,13 +22,13 @@ public class Recipe extends ParseObject implements Parcelable {
     private static final String TAG = "RecipeModel";
 
     // Keyword for Parse columns
-    private static final String KEY_ID = "objectId";
-    private static final String KEY_CREATED_AT = "createdAt";
-    private static final String KEY_NAME = "recipeName";
-    private static final String KEY_AUTHOR = "author";
-    private static final String KEY_IMAGE_URL = "imgUrl";
-    private static final String KEY_INSTRUCTIONS = "instructions";
-    private static final String KEY_CODE = "recipeCode";
+    public static final String KEY_ID = "objectId";
+    public static final String KEY_CREATED_AT = "createdAt";
+    public static final String KEY_NAME = "recipeName";
+    public static final String KEY_AUTHOR = "author";
+    public static final String KEY_IMAGE_URL = "imgUrl";
+    public static final String KEY_INSTRUCTIONS = "instructions";
+    public static final String KEY_CODE = "recipeCode";
 
     // Keyword for Spoonacular
     private static final String KEY_NAME_JSON_API = "title";
@@ -40,6 +41,7 @@ public class Recipe extends ParseObject implements Parcelable {
     private String recipeCode;
     private String imageUrl;
     private String instructions;
+    private HashMap<String, Ingredient> ingredientList;
 
     public static Recipe extractFromJsonObject(JSONObject json) throws JSONException {
         Recipe result = new Recipe();
@@ -106,5 +108,9 @@ public class Recipe extends ParseObject implements Parcelable {
 
     public void setCode(String code) {
         this.recipeCode = code;
+    }
+
+    public void setIngredients(HashMap<String, Ingredient> ingredientHashMap) {
+        ingredientList = ingredientHashMap;
     }
 }

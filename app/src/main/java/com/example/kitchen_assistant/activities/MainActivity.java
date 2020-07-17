@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void switchFragmentWithTransition(Fragment fragment, String title, View view, String transitionName) {
+        // TODO: create shared element before calling this, otherwise it won't work
         tvTitle.setText(title);
         fragmentManager.beginTransaction()
                 .addSharedElement(view, transitionName)
