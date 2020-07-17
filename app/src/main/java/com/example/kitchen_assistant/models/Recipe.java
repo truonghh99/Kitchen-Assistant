@@ -86,6 +86,9 @@ public class Recipe extends ParseObject implements Parcelable {
         put(KEY_INSTRUCTIONS, instructions);
         put(KEY_CODE, recipeCode);
         put(KEY_COOKABLE, cookable);
+        for (Ingredient ingredient : getIngredientList()) {
+            ingredient.saveInfo();
+        }
     }
 
     public String getName() {

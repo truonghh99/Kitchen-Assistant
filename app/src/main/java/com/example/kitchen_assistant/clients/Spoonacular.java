@@ -185,6 +185,7 @@ public class Spoonacular {
                             String jsonData = response.body().string();
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonData);
+                                Log.e(TAG, "Query ingredients of recipe: " + recipe.getName());
                                 recipe.setIngredients(Ingredient.extractIngredientsFromJson(jsonObject, recipe));
                             } catch (JSONException e) {
                             }
