@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.adapters.IngredientAdapter;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentCurrentRecipeDetailBinding;
 import com.example.kitchen_assistant.databinding.FragmentNewRecipeDetailBinding;
@@ -37,6 +38,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
     private ImageView ivImage;
     private TextView tvName;
     private Button btInstruction;
+    private static IngredientAdapter adapter;
 
     public CurrentRecipeDetailFragment() {
     }
