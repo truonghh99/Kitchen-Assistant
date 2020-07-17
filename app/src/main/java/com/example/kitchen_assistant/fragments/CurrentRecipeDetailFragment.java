@@ -68,6 +68,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
         GlideHelper.loadImage(recipe.getImageUrl(), getContext(), ivImage);
         tvName.setText(recipe.getName());
         btInstruction.setOnClickListener(new View.OnClickListener() {
+            // TODO: display existing instruction from recipe object
             @Override
             public void onClick(View view) {
                 Spoonacular.getInstruction(recipe.getCode());
