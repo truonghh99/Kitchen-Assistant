@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.fragments.CurrentProductFragment;
 import com.example.kitchen_assistant.fragments.RecipeFragment;
+import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Product;

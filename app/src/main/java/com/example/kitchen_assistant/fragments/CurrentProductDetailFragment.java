@@ -24,6 +24,7 @@ import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.MatchingHelper;
+import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
@@ -264,6 +265,7 @@ public class CurrentProductDetailFragment extends Fragment {
         MatchingHelper.attemptToAttachFoodItem(foodItem, product);
         CurrentProducts.saveProductInBackGround(product);
         CurrentProductFragment.notifyDataChange();
+        RecipeEvaluator.evaluateAllRecipe();
     }
 
     // Parse Date values to proper string format (MM/dd/yyyy)

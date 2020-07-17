@@ -22,6 +22,7 @@ import com.example.kitchen_assistant.adapters.IngredientAdapter;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentNewRecipeDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
+import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
@@ -103,6 +104,7 @@ public class NewRecipeDetailFragment extends Fragment {
             public void onClick(View view) {
                 if (instruction == null) queryInstruction();
                 recipe.setInstructions(instruction);
+                RecipeEvaluator.evaluateRecipe(recipe);
                 CurrentRecipes.addRecipe(recipe);
                 Toast.makeText(getContext(), "Recipe added to your library", Toast.LENGTH_SHORT).show();
             }

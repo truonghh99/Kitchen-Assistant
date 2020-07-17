@@ -52,7 +52,6 @@ public class Ingredient extends ParseObject implements Parcelable {
             ingredient.setQuantity((float) current.getJSONObject(KEY_AMOUNT).getJSONObject(KEY_METRIC).getDouble(KEY_VALUE));
             ingredient.setQuantityUnit(current.getJSONObject(KEY_AMOUNT).getJSONObject(KEY_METRIC).getString(KEY_UNIT));
             ingredient.setRecipe(recipe);
-            Log.e(TAG, "Attaching to recipe: " + recipe.getName());
             result.put(ingredient.getName(), ingredient);
         }
         return result;
@@ -71,6 +70,7 @@ public class Ingredient extends ParseObject implements Parcelable {
         put(KEY_QUANTITY, quantity);
         put(KEY_QUANTITY_UNIT, quantityUnit);
         put(KEY_RECIPE, recipe);
+        put(KEY_AVAILABLE, available);
         saveInBackground();
     }
 

@@ -22,4 +22,7 @@
     <color name="fair">#fdffb6</color>
     <color name="bad">#ffede1</color>
 
+    <color name="available">#fdffb6</color>
+    <color name="unavailable">#e5e5e5</color>
+
 </resources>

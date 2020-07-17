@@ -72,6 +72,12 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         public void bind(final Ingredient ingredient) {
             tvName.setText(ingredient.getName());
             tvQuantity.setText("" + ingredient.getQuantity() + " " + ingredient.getQuantityUnit());
+            // Change card background to indicate current status of products
+            if (ingredient.isAvailable()) {
+                cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.available));
+            } else {
+                cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.unavailable));
+            }
         }
     }
 
