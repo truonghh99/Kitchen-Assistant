@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -14,14 +16,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.adapters.CurrentFoodAdapter;
 import com.example.kitchen_assistant.adapters.IngredientAdapter;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentCurrentRecipeDetailBinding;
 import com.example.kitchen_assistant.databinding.FragmentNewRecipeDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
+import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.storage.CurrentProducts;
 
 import org.parceler.Parcels;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,7 +46,9 @@ public class CurrentRecipeDetailFragment extends Fragment {
     private ImageView ivImage;
     private TextView tvName;
     private Button btInstruction;
+    private RecyclerView rvIngredients;
     private static IngredientAdapter adapter;
+    private List<Ingredient> ingredients;
 
     public CurrentRecipeDetailFragment() {
     }
@@ -67,6 +77,12 @@ public class CurrentRecipeDetailFragment extends Fragment {
         ivImage = fragmentCurrentRecipeDetailBinding.ivImage;
         tvName = fragmentCurrentRecipeDetailBinding.tvName;
         btInstruction = fragmentCurrentRecipeDetailBinding.btInstruction;
+        rvIngredients = fragmentCurrentRecipeDetailBinding.rvIngredients;
+
+        ingredients = recipe.getIngredientList();
+        adapter = new IngredientAdapter(getActivity(), ingredients);
+        rvIngredients.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        rvIngredients.setAdapter(adapter);
 
         GlideHelper.loadImage(recipe.getImageUrl(), getContext(), ivImage);
         tvName.setText(recipe.getName());

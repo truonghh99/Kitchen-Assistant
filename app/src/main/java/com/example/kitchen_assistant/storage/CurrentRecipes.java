@@ -106,6 +106,7 @@ public class CurrentRecipes {
     private static HashMap<String, Ingredient> generateIngredientHashmap(List<Ingredient> ingredients) {
         HashMap<String, Ingredient> result = new HashMap<>();
         for (Ingredient ingredient : ingredients) {
+            ingredient.fetchInfo();
             result.put(ingredient.getName(), ingredient);
         }
         return result;

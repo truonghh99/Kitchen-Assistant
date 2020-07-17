@@ -113,4 +113,8 @@ public class Recipe extends ParseObject implements Parcelable {
     public void setIngredients(HashMap<String, Ingredient> ingredientHashMap) {
         ingredientList = ingredientHashMap;
     }
+
+    public List<Ingredient> getIngredientList() {
+        return new ArrayList<>(ingredientList.values());
+    }
 }
