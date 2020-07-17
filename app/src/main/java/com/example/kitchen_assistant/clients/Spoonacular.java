@@ -83,7 +83,7 @@ public class Spoonacular {
         return recipes;
     }
 
-    public static String getInstruction(String recipeId) {
+    public static String getInstruction(String recipeId) throws InterruptedException {
         Log.i(TAG, "Start querying instruction for recipe " + recipeId);
         final String[] instruction = {null};
 
@@ -124,6 +124,10 @@ public class Spoonacular {
                         }
                     }
                 });
+
+        while (instruction[0] == null) {
+            Thread.currentThread().sleep(10);
+        }
         return instruction[0];
     }
 
@@ -132,7 +136,7 @@ public class Spoonacular {
         for (int i = 0; i < steps.length(); ++i) {
             String currentStep = steps.getJSONObject(i).getString("step");
             int index = i + 1;
-            instruction += "- Step " + index + ": " + currentStep + "\n";
+            instruction += "<b>- Step " + index + ":</b> " + currentStep + "<br><br>";
         }
         Log.e(TAG, instruction);
         return instruction;

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 
 import android.os.Parcelable;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,7 @@ public class InstructionFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         fragmentInstructionBinding = FragmentInstructionBinding.inflate(getLayoutInflater());
         tvInstruction = fragmentInstructionBinding.tvInstruction;
-        tvInstruction.setText(instruction);
+        tvInstruction.setText(Html.fromHtml(instruction));
 
         return fragmentInstructionBinding.getRoot();
     }

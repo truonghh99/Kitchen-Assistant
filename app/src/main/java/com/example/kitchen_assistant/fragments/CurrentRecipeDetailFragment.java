@@ -2,6 +2,7 @@ package com.example.kitchen_assistant.fragments;
 
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
@@ -71,10 +72,16 @@ public class CurrentRecipeDetailFragment extends Fragment {
             // TODO: display existing instruction from recipe object
             @Override
             public void onClick(View view) {
-                Spoonacular.getInstruction(recipe.getCode());
+                String instruction = recipe.getInstructions();
+                goToInstruction(instruction);
             }
         });
 
         return fragmentCurrentRecipeDetailBinding.getRoot();
+    }
+
+    private void goToInstruction(String instruction) {
+        DialogFragment dialogFragment = InstructionFragment.newInstance(instruction);
+        dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 }

@@ -2,9 +2,11 @@ package com.example.kitchen_assistant.fragments;
 
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,7 @@ public class NewRecipeDetailFragment extends Fragment {
 
     private static final String KEY_RECIPE = "Key Recipe";
     public static final String title = "New Recipe Detail";
+    private static final String TAG = "NewRecipeDetailFragment";
 
     private Recipe recipe;
     private FragmentNewRecipeDetailBinding fragmentNewRecipeDetailBinding;
@@ -69,10 +72,24 @@ public class NewRecipeDetailFragment extends Fragment {
         btInstruction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Spoonacular.getInstruction(recipe.getCode());
+                String instruction = null;
+                try {
+                    instruction = Spoonacular.getInstruction(recipe.getCode());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.e(TAG, instruction);
+                goToInstruction(instruction);
             }
         });
 
         return fragmentNewRecipeDetailBinding.getRoot();
     }
+
+    private void goToInstruction(String instruction) {
+        DialogFragment dialogFragment = InstructionFragment.newInstance(instruction);
+        dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
+    }
+
+
 }
