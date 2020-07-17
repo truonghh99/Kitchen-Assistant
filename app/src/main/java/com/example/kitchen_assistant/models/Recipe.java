@@ -3,6 +3,7 @@ package com.example.kitchen_assistant.models;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.example.kitchen_assistant.clients.Spoonacular;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -41,7 +42,7 @@ public class Recipe extends ParseObject implements Parcelable {
     private String recipeCode;
     private String imageUrl;
     private String instructions;
-    private HashMap<String, Ingredient> ingredientList;
+    private HashMap<String, Ingredient> ingredients;
 
     public static Recipe extractFromJsonObject(JSONObject json) throws JSONException {
         Recipe result = new Recipe();
@@ -49,6 +50,11 @@ public class Recipe extends ParseObject implements Parcelable {
         result.setImageUrl(json.getString(KEY_IMAGE_JSON_API));
         result.setCode(json.getString(KEY_ID_API));
         result.setInstructions("no instructions");
+        try {
+            Spoonacular.getIngredients(result);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         Log.i(TAG, result.getName() + ": " + result.getImageUrl());
         return result;
@@ -111,10 +117,10 @@ public class Recipe extends ParseObject implements Parcelable {
     }
 
     public void setIngredients(HashMap<String, Ingredient> ingredientHashMap) {
-        ingredientList = ingredientHashMap;
+        ingredients = ingredientHashMap;
     }
 
     public List<Ingredient> getIngredientList() {
-        return new ArrayList<>(ingredientList.values());
+        return new ArrayList<>(ingredients.values());
     }
 }

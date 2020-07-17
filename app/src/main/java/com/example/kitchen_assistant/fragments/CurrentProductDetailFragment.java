@@ -278,11 +278,6 @@ public class CurrentProductDetailFragment extends Fragment {
         MainActivity.bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
     }
 
-    // Go to recipe fragment using the initialized instance in MainActivity
-    private void goToRecipe() {
-        MainActivity.bottomNavigation.setSelectedItemId(R.id.miRecipe);
-    }
-
     // Allow user to add this product to shopping list after previewing and editing information (if wished)
     private void goToPreviewShoppingItem() {
         DialogFragment dialogFragment = PreviewShoppingItemFragment.newInstance(Parcels.wrap(product));

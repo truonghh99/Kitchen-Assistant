@@ -9,7 +9,12 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcel;
+
+import java.util.HashMap;
 
 @ParseClassName("Ingredient")
 public class Ingredient extends ParseObject implements Parcelable {
@@ -26,6 +31,31 @@ public class Ingredient extends ParseObject implements Parcelable {
     private float quantity;
     private String quantityUnit;
     private ParseObject recipe;
+
+    // Key for Spoonacular
+    public static final String KEY_INGREDIENTS = "ingredients";
+    public static final String KEY_INGREDIENT_NAME = "name";
+    public static final String KEY_AMOUNT = "amount";
+    public static final String KEY_METRIC = "metric";
+    public static final String KEY_UNIT = "unit";
+    public static final String KEY_VALUE = "value";
+
+
+    public static HashMap<String, Ingredient> extractIngredientsFromJson(JSONObject jsonObject, Recipe recipe) throws JSONException {
+        HashMap<String, Ingredient> result = new HashMap<>();
+        JSONArray jsonArray = jsonObject.getJSONArray(KEY_INGREDIENTS);
+        for (int i = 0; i < jsonArray.length(); ++i) {
+            Ingredient ingredient = new Ingredient();
+            JSONObject current = jsonArray.getJSONObject(i);
+            ingredient.setName(current.getString(KEY_INGREDIENT_NAME));
+            ingredient.setQuantity((float) current.getJSONObject(KEY_AMOUNT).getJSONObject(KEY_METRIC).getDouble(KEY_VALUE));
+            ingredient.setQuantityUnit(current.getJSONObject(KEY_AMOUNT).getJSONObject(KEY_METRIC).getString(KEY_UNIT));
+            ingredient.setRecipe(recipe);
+            ingredient.saveInfo();
+            result.put(ingredient.getName(), ingredient);
+        }
+        return result;
+    }
 
     public void fetchInfo() {
         name = getString(KEY_NAME);

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.models.FoodItem;
+import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 import com.parse.ParseException;
@@ -14,6 +15,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.Call;
@@ -30,6 +32,8 @@ public class Spoonacular {
     public static String HEADER = "KitchenAssistant - Android - Version 1.0 - https://github.com/truonghh99/Kitchen-Assistant/blob/master/README.md";
     private static final String GET_BY_INGREDIENTS_URL = "https://api.spoonacular.com/recipes/findByIngredients?";
     private static final String GET_INSTRUCTION_URL = "https://api.spoonacular.com/recipes/{id}/analyzedInstructions";
+    private static final String GET_INGREDIENTS_URL = "https://api.spoonacular.com/recipes/{id}/ingredientWidget.json";
+
     private static String NUM_RESULT_EACH_QUERY = "10";
 
     private static List<Recipe> recipes;
@@ -151,5 +155,41 @@ public class Spoonacular {
             result += ',' + foodItems.get(i).getName();
         }
         return result;
+    }
+
+    public static void getIngredients(final Recipe recipe) throws InterruptedException {
+        Log.i(TAG, "Start querying ingredient for recipe " + recipe.getCode());
+        HashMap<String, Ingredient> result = new HashMap<>();
+        OkHttpClient client = new OkHttpClient();
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(GET_INGREDIENTS_URL.replace("{id}", recipe.getCode())).newBuilder();
+        urlBuilder.addQueryParameter("apiKey", API_KEY);
+        String url = urlBuilder.build().toString();
+        Log.e(TAG, url);
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request)
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+                        if (!response.isSuccessful()) {
+                            throw new IOException("Unexpected code " + response);
+                        } else {
+                            String jsonData = response.body().string();
+                            try {
+                                JSONObject jsonObject = new JSONObject(jsonData);
+                                recipe.setIngredients(Ingredient.extractIngredientsFromJson(jsonObject, recipe));
+                            } catch (JSONException e) {
+                            }
+                        }
+                    }
+                });
     }
 }
