@@ -36,6 +36,7 @@ public class RecipeEvaluator {
                 recipe.setCookable(false);
             }
         }
+        CurrentRecipes.saveRecipeInBackground(recipe);
     }
 
     public static void evaluateAllRecipe() {

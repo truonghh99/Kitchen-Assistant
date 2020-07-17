@@ -86,7 +86,7 @@ public class NewRecipeDetailFragment extends Fragment {
 
         ingredients = recipe.getIngredientList();
         adapter = new IngredientAdapter(getActivity(), ingredients);
-        rvIngredients.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        rvIngredients.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         rvIngredients.setAdapter(adapter);
 
         GlideHelper.loadImage(recipe.getImageUrl(), getContext(), ivImage);
