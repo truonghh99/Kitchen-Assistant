@@ -36,7 +36,7 @@ public class ShoppingItem extends ParseObject implements Parcelable {
         put(KEY_NAME, name);
         put(KEY_QUANTITY, quantity);
         put(KEY_QUANTITY_UNIT, quantityUnit);
-        put(KEY_OWNER, owner);
+        put(KEY_OWNER, ParseUser.getCurrentUser());
         put(KEY_CHECKED, checked);
     }
 
