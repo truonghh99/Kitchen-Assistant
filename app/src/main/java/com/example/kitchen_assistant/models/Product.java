@@ -1,30 +1,20 @@
 package com.example.kitchen_assistant.models;
 
 import android.os.Parcelable;
-import android.text.format.DateUtils;
 import android.util.Log;
 
-import com.example.kitchen_assistant.helpers.MetricConversionHelper;
+import com.example.kitchen_assistant.helpers.MetricConverter;
 import com.example.kitchen_assistant.storage.CurrentFoodTypes;
-import com.google.android.gms.maps.internal.IGoogleMapDelegate;
-import com.parse.Parse;
 import com.parse.ParseClassName;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcel;
 
-import java.security.acl.Owner;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 @ParseClassName("Product")
 public class Product extends ParseObject implements Parcelable {
@@ -164,7 +154,7 @@ public class Product extends ParseObject implements Parcelable {
         Date today = new Date();
         long difference = getExpirationDate().getTime() - today.getTime();
         long numDaysLeft = difference / (1000 * 60 * 60 * 24);
-        long numDaysSafe = (long) MetricConversionHelper.convertTime(getDuration(), getDurationUnit(), "day");
+        long numDaysSafe = (long) MetricConverter.convertTime(getDuration(), getDurationUnit(), "day");
         long ratio = numDaysLeft / numDaysSafe;
         if (ratio > 0.6) {
             setFoodStatus(STATUS_BEST);

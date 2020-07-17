@@ -1,7 +1,6 @@
 package com.example.kitchen_assistant.helpers;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,9 +10,8 @@ import android.widget.Spinner;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import com.example.kitchen_assistant.databinding.FragmentNewProductDetailBinding;
+
 import com.example.kitchen_assistant.models.Product;
 
 public class SpinnerHelper {
@@ -29,14 +27,14 @@ public class SpinnerHelper {
         if (editText != null) newText = editText.getText().toString();
 
         // Identify which metric category this spinner belongs to
-        if (MetricConversionHelper.weight.containsKey(selectedItem)) {
-            categories = MetricConversionHelper.weightCategories;
+        if (MetricConverter.weight.containsKey(selectedItem)) {
+            categories = MetricConverter.weightCategories;
         }
-        if (MetricConversionHelper.volumne.containsKey(selectedItem)) {
-            categories = MetricConversionHelper.volumneCategories;
+        if (MetricConverter.volumne.containsKey(selectedItem)) {
+            categories = MetricConverter.volumneCategories;
         }
-        if (MetricConversionHelper.time.containsKey(selectedItem)) {
-            categories = MetricConversionHelper.timeCategories;
+        if (MetricConverter.time.containsKey(selectedItem)) {
+            categories = MetricConverter.timeCategories;
         }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, categories);
@@ -50,7 +48,7 @@ public class SpinnerHelper {
                     String newUnit = (String) parentView.getItemAtPosition(position);
                     DecimalFormat df = new DecimalFormat(DECIMAL_FORMAT);
                     df.setRoundingMode(RoundingMode.DOWN);
-                    Float convertedValue = MetricConversionHelper.convertGeneral(currentVal, selectedItem, newUnit);
+                    Float convertedValue = MetricConverter.convertGeneral(currentVal, selectedItem, newUnit);
                     newText = String.valueOf(df.format(convertedValue));
                     editText.setText(newText);
                     if (attachedSpinner != null) attachedSpinner.setSelection(position);

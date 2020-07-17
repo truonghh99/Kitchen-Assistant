@@ -1,6 +1,5 @@
 package com.example.kitchen_assistant.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,42 +7,30 @@ import androidx.fragment.app.Fragment;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
-import com.example.kitchen_assistant.clients.OpenFoodFacts;
 import com.example.kitchen_assistant.databinding.FragmentNewProductDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.MatchingHelper;
-import com.example.kitchen_assistant.helpers.MetricConversionHelper;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
-import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
-import org.w3c.dom.Text;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 /**

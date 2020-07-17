@@ -75,5 +75,4 @@ public class MatchingHelper {
             Log.e(TAG, "Created new item!");
         }
     }
-
 }

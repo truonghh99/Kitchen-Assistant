@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MetricConversionHelper {
+public class MetricConverter {
     public static final HashMap<String, Float> volumne = new HashMap<String, Float>(){
         {
             put("oz", (float) 1);
@@ -93,21 +93,21 @@ public class MetricConversionHelper {
     }
 
     // Convert unit of any type (volume, weight, or time)
-    public static float convertGeneral(float currentVal, String selectedItem, String newUnit) {
+    public static float convertGeneral(float currentVal, String oldUnit, String newUnit) {
         float result = 0;
 
-        if (MetricConversionHelper.volumne.containsKey(selectedItem)) {
-            result = MetricConversionHelper.convertVolume(currentVal, selectedItem, newUnit);
+        if (MetricConverter.volumne.containsKey(oldUnit)) {
+            result = MetricConverter.convertVolume(currentVal, oldUnit, newUnit);
             return result;
         }
 
-        if (MetricConversionHelper.weight.containsKey(selectedItem)) {
-            result = MetricConversionHelper.convertWeight(currentVal, selectedItem, newUnit);
+        if (MetricConverter.weight.containsKey(oldUnit)) {
+            result = MetricConverter.convertWeight(currentVal, oldUnit, newUnit);
             return result;
         }
 
-        if (MetricConversionHelper.time.containsKey(selectedItem)) {
-            result = MetricConversionHelper.convertTime(currentVal, selectedItem, newUnit);
+        if (MetricConverter.time.containsKey(oldUnit)) {
+            result = MetricConverter.convertTime(currentVal, oldUnit, newUnit);
         }
         return result;
     }

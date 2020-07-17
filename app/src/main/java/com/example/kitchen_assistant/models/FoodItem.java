@@ -3,13 +3,10 @@ package com.example.kitchen_assistant.models;
 import android.os.Parcelable;
 import android.util.Log;
 
-import com.example.kitchen_assistant.helpers.MetricConversionHelper;
+import com.example.kitchen_assistant.helpers.MetricConverter;
 import com.parse.ParseClassName;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-
-import org.parceler.Parcel;
 
 @ParseClassName("FoodItem")
 public class FoodItem extends ParseObject implements Parcelable {
@@ -75,7 +72,7 @@ public class FoodItem extends ParseObject implements Parcelable {
 
     public void increaseQuantity(Float currentQuantity, String quantityUnit) {
         Log.e(TAG, "Before adding: " + getQuantity());
-        float toIncrease = MetricConversionHelper.convertGeneral(currentQuantity, getQuantityUnit(), quantityUnit);
+        float toIncrease = MetricConverter.convertGeneral(currentQuantity, getQuantityUnit(), quantityUnit);
         setQuantity(getQuantity() + toIncrease);
         Log.e(TAG, "After adding: " + getQuantity());
     }

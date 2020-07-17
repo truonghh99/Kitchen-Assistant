@@ -42,6 +42,7 @@ public class RecipeExploreFragment extends Fragment {
     }
 
     public static RecipeExploreFragment newInstance(String queryParameter) {
+        //TODO: BE ABLE TO GO BACK TO EXPLORE AFTER VIEWING A RECIPE
         RecipeExploreFragment fragment = new RecipeExploreFragment();
         Bundle args = new Bundle();
         args.putString(KEY_QUERY_PARAMETER, queryParameter);

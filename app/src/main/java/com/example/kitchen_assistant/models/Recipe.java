@@ -30,6 +30,7 @@ public class Recipe extends ParseObject implements Parcelable {
     public static final String KEY_IMAGE_URL = "imgUrl";
     public static final String KEY_INSTRUCTIONS = "instructions";
     public static final String KEY_CODE = "recipeCode";
+    public static final String KEY_COOKABLE = "cookable";
 
     // Keyword for Spoonacular
     private static final String KEY_NAME_JSON_API = "title";
@@ -42,6 +43,7 @@ public class Recipe extends ParseObject implements Parcelable {
     private String recipeCode;
     private String imageUrl;
     private String instructions;
+    private boolean cookable;
     private HashMap<String, Ingredient> ingredients;
 
     public static Recipe extractFromJsonObject(JSONObject json) throws JSONException {
@@ -75,6 +77,7 @@ public class Recipe extends ParseObject implements Parcelable {
         imageUrl = getString(KEY_IMAGE_URL);
         instructions = getString(KEY_INSTRUCTIONS);
         recipeCode = getString(KEY_CODE);
+        cookable = getBoolean(KEY_COOKABLE);
     }
 
     public void saveInfo() {
@@ -82,6 +85,7 @@ public class Recipe extends ParseObject implements Parcelable {
         put(KEY_IMAGE_URL, imageUrl);
         put(KEY_INSTRUCTIONS, instructions);
         put(KEY_CODE, recipeCode);
+        put(KEY_COOKABLE, cookable);
     }
 
     public String getName() {
@@ -122,5 +126,13 @@ public class Recipe extends ParseObject implements Parcelable {
 
     public List<Ingredient> getIngredientList() {
         return new ArrayList<>(ingredients.values());
+    }
+
+    public boolean isCookable() {
+        return cookable;
+    }
+
+    public void setCookable(boolean cookable) {
+        this.cookable = cookable;
     }
 }
