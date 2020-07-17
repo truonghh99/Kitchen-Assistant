@@ -17,18 +17,21 @@ public class ShoppingItem extends ParseObject implements Parcelable {
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_QUANTITY_UNIT = "quantityUnit";
     private static final String KEY_OWNER = "owner";
+    private static final String KEY_CHECKED = "checked";
 
     // Local values
     private String name;
     private float quantity;
     private String quantityUnit;
     private ParseUser owner;
+    private boolean checked;
 
     public void fetchInfo() {
         name = getString(KEY_NAME);
         quantity = getNumber(KEY_QUANTITY).floatValue();
         quantityUnit = getString(KEY_QUANTITY_UNIT);
         owner = getParseUser(KEY_OWNER);
+        checked = getBoolean(KEY_CHECKED);
     }
 
     public void saveInfo() {
@@ -36,6 +39,7 @@ public class ShoppingItem extends ParseObject implements Parcelable {
         put(KEY_QUANTITY, quantity);
         put(KEY_QUANTITY_UNIT, quantityUnit);
         put(KEY_OWNER, owner);
+        put(KEY_CHECKED, checked);
     }
 
     public String getName() {
@@ -68,5 +72,13 @@ public class ShoppingItem extends ParseObject implements Parcelable {
 
     public void setOwner(ParseUser owner) {
         this.owner = owner;
+    }
+
+    public boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

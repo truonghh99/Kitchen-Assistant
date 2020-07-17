@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kitchen_assistant.databinding.ItemShoppingBinding;
 import com.example.kitchen_assistant.models.ShoppingItem;
+import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.parse.ParseException;
 
 import java.util.List;
@@ -72,6 +74,18 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         public void bind(final ShoppingItem item) throws ParseException {
             tvName.setText(item.getName());
             tvQuantity.setText(String.valueOf(item.getQuantity()) + " " + item.getQuantityUnit());
+            cbCheckbox.setChecked(items.get(getAdapterPosition()).getChecked());
+            cbCheckbox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(((CompoundButton) view).isChecked()){
+                        items.get(getAdapterPosition()).setChecked(true);
+                    } else {
+                        items.get(getAdapterPosition()).setChecked(false);
+                    }
+                    CurrentShoppingList.saveItemInBackGround(item);
+                }
+            });
         }
     }
 
