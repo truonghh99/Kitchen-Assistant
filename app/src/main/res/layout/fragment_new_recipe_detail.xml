@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.NewRecipeDetailFragment">
 
     <ImageView
@@ -50,7 +51,7 @@
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/pastelPink2"
         android:textColor="@color/white"
-        android:text="Get Instruction"/>
+        android:text="Instruction"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvIngredients"
@@ -58,5 +59,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_below="@id/btInstruction"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:borderWidth="0dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:contentDescription="Add new product"
+        android:src="@drawable/ic_add" />
 
 </RelativeLayout>

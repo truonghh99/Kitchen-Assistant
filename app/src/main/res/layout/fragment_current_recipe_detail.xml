@@ -50,7 +50,7 @@
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/pastelPink2"
         android:textColor="@color/white"
-        android:text="Get Instruction"/>
+        android:text="Instruction"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvIngredients"

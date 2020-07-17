@@ -13,12 +13,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentNewRecipeDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.storage.CurrentRecipes;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.parceler.Parcels;
 
@@ -38,6 +41,8 @@ public class NewRecipeDetailFragment extends Fragment {
     private ImageView ivImage;
     private TextView tvName;
     private Button btInstruction;
+    private FloatingActionButton btAdd;
+    private String instruction;
 
     public NewRecipeDetailFragment() {
     }
@@ -66,24 +71,36 @@ public class NewRecipeDetailFragment extends Fragment {
         ivImage = fragmentNewRecipeDetailBinding.ivImage;
         tvName = fragmentNewRecipeDetailBinding.tvName;
         btInstruction = fragmentNewRecipeDetailBinding.btInstruction;
+        btAdd = fragmentNewRecipeDetailBinding.btAdd;
 
         GlideHelper.loadImage(recipe.getImageUrl(), getContext(), ivImage);
         tvName.setText(recipe.getName());
         btInstruction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String instruction = null;
-                try {
-                    instruction = Spoonacular.getInstruction(recipe.getCode());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                queryInstruction();
                 Log.e(TAG, instruction);
                 goToInstruction(instruction);
             }
         });
-
+        btAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (instruction == null) queryInstruction();
+                recipe.setInstructions(instruction);
+                CurrentRecipes.addRecipe(recipe);
+                Toast.makeText(getContext(), "Recipe added to your library", Toast.LENGTH_SHORT).show();
+            }
+        });
         return fragmentNewRecipeDetailBinding.getRoot();
+    }
+
+    private void queryInstruction() {
+        try {
+            instruction = Spoonacular.getInstruction(recipe.getCode());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void goToInstruction(String instruction) {
