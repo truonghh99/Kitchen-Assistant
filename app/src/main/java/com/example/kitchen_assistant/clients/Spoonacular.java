@@ -119,7 +119,8 @@ public class Spoonacular {
                                 instruction[0] = convertInstruction(steps);
                                 Log.e(TAG, steps.toString());
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                instruction[0] = "We're sorry, but there's no instruction available right now";
+                                return;
                             }
                         }
                     }
