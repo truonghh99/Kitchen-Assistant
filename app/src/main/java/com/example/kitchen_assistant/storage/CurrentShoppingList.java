@@ -31,10 +31,12 @@ public class CurrentShoppingList {
     }
 
     public static void addItem(ShoppingItem item) {
+        item.saveInfo();
         items.add(0, item);
         saveItemInBackGround(item);
         ShoppingListFragment.notifyDataChange();
     }
+
     public static void saveAllItems() {
         for (ShoppingItem item : items) {
             saveItemInBackGround(item);
@@ -43,6 +45,7 @@ public class CurrentShoppingList {
 
     public static void saveItemInBackGround(ShoppingItem item) {
         Log.e(TAG, "Start saving shopping items");
+        item.saveInfo();
         item.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -69,11 +72,18 @@ public class CurrentShoppingList {
                     Log.e(TAG, "Error when querying new shopping items");
                     return;
                 }
-                items.addAll(newItems);
+                initialize(newItems);
                 ShoppingListFragment.notifyDataChange();
                 Log.i(TAG, "Query completed, got " + items.size() + " shopping items");
             }
         });
+    }
+
+    private static void initialize(List<ShoppingItem> newItems) {
+        for (ShoppingItem item : newItems) {
+            item.fetchInfo();
+            items.add(item);
+        }
     }
 
     public static void removeItem(ShoppingItem item) {
