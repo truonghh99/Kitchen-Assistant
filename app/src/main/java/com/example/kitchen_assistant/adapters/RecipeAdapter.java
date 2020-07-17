@@ -82,10 +82,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                     Recipe recipe = recipes.get(getAdapterPosition());
                     if (CurrentRecipes.recipeHashMap.containsKey(recipe.getCode())) {
                         CurrentRecipeDetailFragment currentRecipeDetailFragment = CurrentRecipeDetailFragment.newInstance(Parcels.wrap(recipe));
-                        MainActivity.switchFragment(currentRecipeDetailFragment, CurrentRecipeDetailFragment.title);
+                        MainActivity.switchFragmentWithTransition(currentRecipeDetailFragment, CurrentRecipeDetailFragment.title, ivImage, "image");
                     } else {
                         NewRecipeDetailFragment newRecipeDetailFragment = NewRecipeDetailFragment.newInstance(Parcels.wrap(recipe));
-                        MainActivity.switchFragment(newRecipeDetailFragment, NewRecipeDetailFragment.title);
+                        MainActivity.switchFragmentWithTransition(newRecipeDetailFragment, NewRecipeDetailFragment.title, ivImage, "image");
                     }
                 }
             });

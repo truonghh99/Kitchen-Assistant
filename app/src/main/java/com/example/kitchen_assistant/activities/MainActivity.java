@@ -159,4 +159,11 @@ public class MainActivity extends AppCompatActivity {
         tvTitle.setText(title);
         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
     }
+
+    public static void switchFragmentWithTransition(Fragment fragment, String title, View view, String transitionName) {
+        tvTitle.setText(title);
+        fragmentManager.beginTransaction()
+                .addSharedElement(view, transitionName)
+                .replace(R.id.flContainer, fragment).commit();
+    }
 }

@@ -19,6 +19,7 @@
             android:id="@+id/ivImage"
             android:layout_width="100dp"
             android:layout_height="70dp"
+            android:transitionName="image"
             android:layout_centerVertical="true"
             android:src="@drawable/recipe_demo"/>
 
