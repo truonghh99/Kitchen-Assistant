@@ -8,10 +8,12 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentCurrentRecipeDetailBinding;
 import com.example.kitchen_assistant.databinding.FragmentNewRecipeDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
@@ -33,6 +35,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
     private FragmentCurrentRecipeDetailBinding fragmentCurrentRecipeDetailBinding;
     private ImageView ivImage;
     private TextView tvName;
+    private Button btInstruction;
 
     public CurrentRecipeDetailFragment() {
     }
@@ -60,9 +63,16 @@ public class CurrentRecipeDetailFragment extends Fragment {
         fragmentCurrentRecipeDetailBinding = FragmentCurrentRecipeDetailBinding.inflate(getLayoutInflater());
         ivImage = fragmentCurrentRecipeDetailBinding.ivImage;
         tvName = fragmentCurrentRecipeDetailBinding.tvName;
+        btInstruction = fragmentCurrentRecipeDetailBinding.btInstruction;
 
         GlideHelper.loadImage(recipe.getImageUrl(), getContext(), ivImage);
         tvName.setText(recipe.getName());
+        btInstruction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Spoonacular.getInstruction(recipe.getCode());
+            }
+        });
 
         return fragmentCurrentRecipeDetailBinding.getRoot();
     }

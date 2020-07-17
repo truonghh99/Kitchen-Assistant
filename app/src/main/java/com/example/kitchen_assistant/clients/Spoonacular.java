@@ -29,6 +29,7 @@ public class Spoonacular {
     private static final String API_KEY = "27c4cc71068649faa0fcf7188f37cc93";
     public static String HEADER = "KitchenAssistant - Android - Version 1.0 - https://github.com/truonghh99/Kitchen-Assistant/blob/master/README.md";
     private static final String GET_BY_INGREDIENTS_URL = "https://api.spoonacular.com/recipes/findByIngredients?";
+    private static final String GET_INSTRUCTION_URL = "https://api.spoonacular.com/recipes/{id}/analyzedInstructions";
     private static String NUM_RESULT_EACH_QUERY = "10";
 
     private static List<Recipe> recipes;
@@ -83,7 +84,57 @@ public class Spoonacular {
     }
 
     public static String getInstruction(String recipeId) {
-        String instruction = null;
+        Log.i(TAG, "Start querying instruction for recipe " + recipeId);
+        final String[] instruction = {null};
+
+        OkHttpClient client = new OkHttpClient();
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(GET_INSTRUCTION_URL.replace("{id}", recipeId)).newBuilder();
+        urlBuilder.addQueryParameter("apiKey", API_KEY);
+
+        String url = urlBuilder.build().toString();
+        Log.e(TAG, url);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request)
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+                        if (!response.isSuccessful()) {
+                            throw new IOException("Unexpected code " + response);
+                        } else {
+                            String jsonData = response.body().string();
+                            try {
+                                JSONArray jsonArray = new JSONArray(jsonData);
+                                JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                JSONArray steps = jsonObject.getJSONArray("steps");
+                                instruction[0] = convertInstruction(steps);
+                                Log.e(TAG, steps.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+        return instruction[0];
+    }
+
+    private static String convertInstruction(JSONArray steps) throws JSONException {
+        String instruction = "";
+        for (int i = 0; i < steps.length(); ++i) {
+            String currentStep = steps.getJSONObject(i).getString("step");
+            int index = i + 1;
+            instruction += "- Step " + index + ": " + currentStep + "\n";
+        }
+        Log.e(TAG, instruction);
         return instruction;
     }
 
