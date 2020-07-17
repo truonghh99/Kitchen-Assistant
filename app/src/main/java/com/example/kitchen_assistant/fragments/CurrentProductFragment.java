@@ -141,7 +141,7 @@ public class CurrentProductFragment extends Fragment {
     // Passing taken product's code to product detail for user to edit information & confirm insertion to current product list
     private void goToNewProductDetail(String code) {
         Log.i(TAG, "Go to new product detail");
-        Product product = MatchingHelper.attemptToCreate(code);
+        Product product = MatchingHelper.attemptToCreateProduct(code);
         if (CurrentProducts.productHashMap.containsKey(code)) {
             CurrentFoodAdapter.goToCurrentProductDetail(product);
             Toast.makeText(getContext(), "We remember this one! Edit details here.", Toast.LENGTH_LONG).show();

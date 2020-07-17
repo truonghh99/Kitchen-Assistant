@@ -11,8 +11,10 @@ import com.example.kitchen_assistant.clients.OpenFoodFacts;
 import com.example.kitchen_assistant.fragments.NewProductDetailFragment;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
+import com.example.kitchen_assistant.models.ShoppingItem;
 import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentProducts;
+import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -24,7 +26,7 @@ public class MatchingHelper {
     private static final String TAG = "MatchingHelper";
 
     // Match new product with existing product
-    public static Product attemptToCreate(String code) {
+    public static Product attemptToCreateProduct(String code) {
         Product product = new Product();
         if (CurrentProducts.productHashMap.containsKey(code)) {
             Log.e(TAG, "Product exists!");
@@ -56,4 +58,22 @@ public class MatchingHelper {
         }
         toAttach.setFoodItem(toAdd);
     }
+
+    // Match new shopping item with existing item
+    public static void attemptToCreateShoppingItem(String name, float quantity, String unit) {
+        if (CurrentShoppingList.itemHashMap.containsKey(name)) { // If such item exists, increase quantity & handle the existing one
+            Log.e(TAG, "Item exists!");
+            ShoppingItem item = CurrentShoppingList.itemHashMap.get(name);
+            item.increaseQuantity(quantity,unit);
+            CurrentShoppingList.saveItemInBackGround(item);
+        } else {
+            ShoppingItem item = new ShoppingItem();
+            item.setName(name);
+            item.setQuantity(quantity);
+            item.setQuantityUnit(unit);
+            CurrentShoppingList.addItem(item);
+            Log.e(TAG, "Created new item!");
+        }
+    }
+
 }

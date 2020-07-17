@@ -15,12 +15,14 @@ import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CurrentShoppingList {
 
     private static final String TAG = "CurrentShoppingList";
     public static List<ShoppingItem> items;
+    public static HashMap<String, ShoppingItem> itemHashMap;
 
     public static void addAllItems(List<ShoppingItem> shoppingItems) throws ParseException {
         for (ShoppingItem item : items) {
@@ -33,6 +35,7 @@ public class CurrentShoppingList {
     public static void addItem(ShoppingItem item) {
         item.saveInfo();
         items.add(0, item);
+        itemHashMap.put(item.getName(), item);
         saveItemInBackGround(item);
         ShoppingListFragment.notifyDataChange();
     }
@@ -62,6 +65,7 @@ public class CurrentShoppingList {
         Log.i(TAG, "Start querying for current shopping items");
 
         items = new ArrayList<>();
+        itemHashMap = new HashMap<>();
         ParseQuery<ShoppingItem> query = ParseQuery.getQuery(ShoppingItem.class);
         query.addDescendingOrder("createdAt");
 
@@ -83,11 +87,13 @@ public class CurrentShoppingList {
         for (ShoppingItem item : newItems) {
             item.fetchInfo();
             items.add(item);
+            itemHashMap.put(item.getName(), item);
         }
     }
 
     public static void removeItem(ShoppingItem item) {
         items.remove(item);
+        //TODO: REMOVE FROM HASHMAP
         ParseObject productParse = ParseObject.createWithoutData("ShoppingItem", item.getObjectId());
         productParse.deleteEventually();
         ShoppingListFragment.notifyDataChange();

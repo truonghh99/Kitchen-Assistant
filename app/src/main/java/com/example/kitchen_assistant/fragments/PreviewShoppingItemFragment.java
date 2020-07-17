@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentPreviewShoppingItemBinding;
+import com.example.kitchen_assistant.helpers.MatchingHelper;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
@@ -91,15 +92,7 @@ public class PreviewShoppingItemFragment extends DialogFragment {
         Float quantity = Float.parseFloat(etQuantity.getText().toString());
         String quantityUnit = spinnerQuantityUnit.getSelectedItem().toString();
 
-        // TODO: Check if such item exists before creating a new one
-
-        ShoppingItem shoppingItem = new ShoppingItem();
-        shoppingItem.setName(itemName);
-        shoppingItem.setQuantity(quantity);
-        shoppingItem.setQuantityUnit(quantityUnit);
-        shoppingItem.setOwner(ParseUser.getCurrentUser());
-
-        CurrentShoppingList.addItem(shoppingItem);
+        MatchingHelper.attemptToCreateShoppingItem(itemName, quantity, quantityUnit);
     }
 
     private void goToCurrentShoppingList() {
