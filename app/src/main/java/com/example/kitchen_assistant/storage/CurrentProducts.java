@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.fragments.CurrentFoodFragment;
+import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -78,10 +79,12 @@ public class CurrentProducts {
 
     private static void initialize(List<Product> newProducts) {
         for (Product product : newProducts) {
-            Log.e(TAG, "Got: " + product.getString("productName") + " - " + product.getNumber("currentQuantity"));
             product.fetchInfo();
-            Log.e(TAG, "Localized: " + product.getProductName() + " - " + product.getCurrentQuantity() + " - " + product.getFoodItem().getString("foodName"));
-            CurrentFoodTypes.initialize(product.getFoodItem());
+            if (!CurrentFoodTypes.foodItems.containsKey(product.getFoodItem().getName())) {
+                CurrentFoodTypes.initialize(product.getFoodItem());
+            }
+            product.getFoodItem().addProductToType(product);
+            product.getFoodItem().printProducts();
             products.add(product);
             productHashMap.put(product.getProductCode(), product);
         }

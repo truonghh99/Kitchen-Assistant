@@ -34,11 +34,7 @@ public class CurrentFoodTypes {
     }
 
     public static void initialize(FoodItem foodItem) {
-        if (foodItems.containsKey(foodItem.getString("foodName"))) return;
-        Log.e(TAG, "Got: " + foodItem.getString("foodName") + " - " + foodItem.getNumber("quantity"));
         foodItem.fetchInfo();
-        Log.e(TAG, "Localized: " + foodItem.getName() + " - " + foodItem.getQuantity());
         foodItems.put(foodItem.getName(), foodItem);
     }
-
 }

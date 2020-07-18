@@ -8,6 +8,9 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ParseClassName("FoodItem")
 public class FoodItem extends ParseObject implements Parcelable {
 
@@ -23,6 +26,7 @@ public class FoodItem extends ParseObject implements Parcelable {
     private float quantity;
     private String quantityUnit;
     private ParseUser owner;
+    private List<Product> products = new ArrayList<>();
 
     public void fetchInfo() {
         name = getString(KEY_NAME);
@@ -75,5 +79,9 @@ public class FoodItem extends ParseObject implements Parcelable {
         float toIncrease = MetricConverter.convertGeneral(currentQuantity, getQuantityUnit(), quantityUnit);
         setQuantity(getQuantity() + toIncrease);
         Log.e(TAG, "After adding: " + getQuantity());
+    }
+
+    public void addProductToType(Product product) {
+        products.add(product);
     }
 }
