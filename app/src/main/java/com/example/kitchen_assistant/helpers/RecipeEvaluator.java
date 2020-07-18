@@ -3,13 +3,31 @@ package com.example.kitchen_assistant.helpers;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.models.ShoppingItem;
 import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
+import com.example.kitchen_assistant.storage.CurrentShoppingList;
 
 import java.util.List;
 import java.util.Map;
 
 public class RecipeEvaluator {
+
+    public static boolean ingredientIsInCart(Ingredient ingredient) {
+        String name = ingredient.getName();
+        Float quantity = ingredient.getQuantity();
+        String quantityUnit = ingredient.getQuantityUnit();
+        if (!CurrentShoppingList.itemHashMap.containsKey(name)) {
+            return false;
+        } else {
+            ShoppingItem item = CurrentShoppingList.itemHashMap.get(name);
+            Float convertedQuantity = MetricConverter.convertGeneral(quantity, quantityUnit, item.getQuantityUnit());
+            if (convertedQuantity > item.getQuantity()) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static void evaluateIngredient(Ingredient ingredient) {
         ingredient.setAvailable(true);
