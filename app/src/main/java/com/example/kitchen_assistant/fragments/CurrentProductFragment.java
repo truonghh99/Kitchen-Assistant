@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 public class CurrentProductFragment extends Fragment {
 
     private static final String TAG = "CurrentProductFragment";
-    private static final String MANUALLY_INSERT_KEY = "Manually Insert";
+    public static final String MANUALLY_INSERT_KEY = "Manually Insert";
     private static final String AUTHORITY = "com.codepath.fileprovider.kitchenassistant";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "barcode_photo.jpg";

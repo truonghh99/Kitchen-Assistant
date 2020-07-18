@@ -102,20 +102,28 @@ public class NewProductDetailFragment extends Fragment {
         etNumProducts = fragmentNewProductDetailBinding.etNumProducts;
         btAdd = fragmentNewProductDetailBinding.btAdd;
 
-        etName.setText(product.getProductName());
-        etFoodType.setText(product.getProductName());
-        etOriginalQuantity.setText(String.valueOf(product.getOriginalQuantity()));
-        etCurrentQuantity.setText(String.valueOf(product.getCurrentQuantity()));
-        etPurchaseDate.setText(parseDate(product.getPurchaseDate(), DATE_FORMAT));
-        etDuration.setText(String.valueOf(product.getDuration()));
-        etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
-        etNumProducts.setText(String.valueOf(product.getNumProducts()));
+        if (product.getProductCode() != CurrentProductFragment.MANUALLY_INSERT_KEY) {
+            etName.setText(product.getProductName());
+            etFoodType.setText(product.getProductName());
+            etOriginalQuantity.setText(String.valueOf(product.getOriginalQuantity()));
+            etCurrentQuantity.setText(String.valueOf(product.getCurrentQuantity()));
+            etPurchaseDate.setText(parseDate(product.getPurchaseDate(), DATE_FORMAT));
+            etDuration.setText(String.valueOf(product.getDuration()));
+            etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
+            etNumProducts.setText(String.valueOf(product.getNumProducts()));
+            SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, product.getQuantityUnit(), getContext(), etCurrentQuantity, (float) product.getCurrentQuantity(), spinnerOriginalQuantityUnit);
+            SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, product.getQuantityUnit(), getContext(), etOriginalQuantity, (float) product.getOriginalQuantity(), spinnerCurrentQuantityUnit);
+            SpinnerHelper.setUpMetricSpinner(spinnerDurationUnit, product.getDurationUnit(), getContext(), etDuration, (float) product.getDuration(), null);
+            SpinnerHelper.setUpStatusSpinner(spinnerStatus, product.getFoodStatus(), getContext());
+        } else {
+            SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, product.getQuantityUnit(), getContext(), etCurrentQuantity, (float) product.getCurrentQuantity(), spinnerOriginalQuantityUnit);
+            SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, product.getQuantityUnit(), getContext(), etOriginalQuantity, (float) product.getOriginalQuantity(), spinnerCurrentQuantityUnit);
+            SpinnerHelper.setUpMetricSpinner(spinnerDurationUnit, product.getDurationUnit(), getContext(), etDuration, (float) product.getDuration(), null);
+            SpinnerHelper.setUpStatusSpinner(spinnerStatus, product.getFoodStatus(), getContext());
+        }
+
         GlideHelper.loadImage(product.getImageUrl(), getContext(), ivImg);
 
-        SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, product.getQuantityUnit(), getContext(), etCurrentQuantity, (float) product.getCurrentQuantity(), spinnerOriginalQuantityUnit);
-        SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, product.getQuantityUnit(), getContext(), etOriginalQuantity, (float) product.getOriginalQuantity(), spinnerCurrentQuantityUnit);
-        SpinnerHelper.setUpMetricSpinner(spinnerDurationUnit, product.getDurationUnit(), getContext(), etDuration, (float) product.getDuration(), null);
-        SpinnerHelper.setUpStatusSpinner(spinnerStatus, product.getFoodStatus(), getContext());
 
         // Automatically update current quantity according to number of products
         etNumProducts.addTextChangedListener(new TextWatcher() {

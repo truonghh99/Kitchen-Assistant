@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.CurrentFoodAdapter;
 import com.example.kitchen_assistant.clients.OpenFoodFacts;
+import com.example.kitchen_assistant.fragments.CurrentProductFragment;
 import com.example.kitchen_assistant.fragments.NewProductDetailFragment;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
@@ -28,6 +29,10 @@ public class MatchingHelper {
     // Match new product with existing product
     public static Product attemptToCreateProduct(String code) {
         Product product = new Product();
+        if (code == CurrentProductFragment.MANUALLY_INSERT_KEY) {
+            product.setProductCode(code);
+            return product;
+        }
         if (CurrentProducts.productHashMap.containsKey(code)) {
             Log.e(TAG, "Product exists!");
             product = CurrentProducts.productHashMap.get(code);

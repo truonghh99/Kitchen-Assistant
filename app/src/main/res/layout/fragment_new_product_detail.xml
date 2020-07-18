@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/scope_one"
-            android:text="Chicken Noodles"
+            android:hint="Product name"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -60,7 +60,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tvFoodType"
                 android:fontFamily="@font/scope_one"
-                android:text="Instant Noodles"
+                android:hint="food type"
                 android:textSize="15sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -90,7 +90,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tvOriginalQuantity"
                 android:fontFamily="@font/scope_one"
-                android:text="150"
+                android:hint="numeric quantity"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -131,7 +131,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tvNumProducts"
                 android:fontFamily="@font/scope_one"
-                android:text="1"
+                android:hint="0"
                 android:textSize="15sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -161,7 +161,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tvQuantity"
                 android:fontFamily="@font/scope_one"
-                android:text="150"
+                android:hint="numeric quantity"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -202,7 +202,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tvPurchaseDate"
                 android:fontFamily="@font/scope_one"
-                android:text="15/05/2013"
+                android:hint="mm/dd/yyy"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -233,7 +233,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tvDuration"
                 android:fontFamily="@font/scope_one"
-                android:text="45"
+                android:hint="numeric duration"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -274,7 +274,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tvExpirationDate"
                 android:fontFamily="@font/scope_one"
-                android:text="15/05/2013"
+                android:hint="mm/dd/yyy"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
