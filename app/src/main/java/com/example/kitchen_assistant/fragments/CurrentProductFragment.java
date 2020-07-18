@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
@@ -44,6 +45,7 @@ import java.util.concurrent.TimeUnit;
 public class CurrentProductFragment extends Fragment {
 
     private static final String TAG = "CurrentProductFragment";
+    private static final String MANUALLY_INSERT_KEY = "Manually Insert";
     private static final String AUTHORITY = "com.codepath.fileprovider.kitchenassistant";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "barcode_photo.jpg";
@@ -52,8 +54,10 @@ public class CurrentProductFragment extends Fragment {
 
     private List<Product> products;
     private FragmentCurrentFoodBinding fragmentCurrentFoodBinding;
-    private FloatingActionButton btAdd;
+    private FloatingActionButton btMenuOpen;
     private FloatingActionButton btSearch;
+    private FloatingActionButton btScan;
+    private FloatingActionButton btWrite;
     private RecyclerView rvCurrentFood;
     private static CurrentFoodAdapter adapter;
 
@@ -74,8 +78,10 @@ public class CurrentProductFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentCurrentFoodBinding = FragmentCurrentFoodBinding.inflate(getLayoutInflater());
-        btAdd = fragmentCurrentFoodBinding.btAdd;
+        btMenuOpen = fragmentCurrentFoodBinding.btMenuOpen;
         btSearch = fragmentCurrentFoodBinding.btSearch;
+        btScan = fragmentCurrentFoodBinding.btScan;
+        btWrite = fragmentCurrentFoodBinding.btWrite;
         rvCurrentFood = fragmentCurrentFoodBinding.rvCurrentFood;
 
         products = CurrentProducts.products;
@@ -83,13 +89,39 @@ public class CurrentProductFragment extends Fragment {
         rvCurrentFood.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         rvCurrentFood.setAdapter(adapter);
 
-        btAdd.setOnClickListener(new View.OnClickListener() {
+        btMenuOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openOrCloseFabMenu();
+            }
+        });
+
+        btScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onLaunchCamera();
             }
         });
+
+        btWrite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToNewProductDetail(MANUALLY_INSERT_KEY);
+            }
+        });
         return fragmentCurrentFoodBinding.getRoot();
+    }
+
+    private void openOrCloseFabMenu() {
+        if (btScan.getVisibility() == View.INVISIBLE) {
+            btScan.setVisibility(View.VISIBLE);
+            btWrite.setVisibility(View.VISIBLE);
+            btSearch.setVisibility(View.VISIBLE);
+        } else {
+            btScan.setVisibility(View.INVISIBLE);
+            btWrite.setVisibility(View.INVISIBLE);
+            btSearch.setVisibility(View.INVISIBLE);
+        }
     }
 
     // Allow user to take photo using their camera
@@ -142,7 +174,7 @@ public class CurrentProductFragment extends Fragment {
     private void goToNewProductDetail(String code) {
         Log.i(TAG, "Go to new product detail");
         Product product = MatchingHelper.attemptToCreateProduct(code);
-        if (CurrentProducts.productHashMap.containsKey(code)) {
+        if (code != MANUALLY_INSERT_KEY && CurrentProducts.productHashMap.containsKey(code)) {
             CurrentFoodAdapter.goToCurrentProductDetail(product);
             Toast.makeText(getContext(), "We remember this one! Edit details here.", Toast.LENGTH_LONG).show();
         } else {

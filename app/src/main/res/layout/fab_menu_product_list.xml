@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.CurrentProductFragment">
+    android:layout_height="match_parent">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btWrite"
@@ -17,7 +15,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:visibility="invisible"
         android:backgroundTint="@color/pastelPink0"
         app:borderWidth="0dp"
         android:src="@drawable/ic_write" />
@@ -33,7 +30,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:visibility="invisible"
         android:backgroundTint="@color/pastelPink1"
         app:borderWidth="0dp"
         android:src="@drawable/ic_camera" />
@@ -42,20 +38,19 @@
         android:id="@+id/btSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btMenuOpen"
+        android:layout_above="@+id/btMenuClose"
         android:layout_alignParentRight="true"
         android:layout_margin="12dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:visibility="invisible"
         android:backgroundTint="@color/pastelPink2"
         app:borderWidth="0dp"
         android:src="@drawable/ic_search" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btMenuOpen"
+        android:id="@+id/btMenuClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -65,10 +60,5 @@
         android:backgroundTint="@color/pastelPink3"
         app:borderWidth="0dp"
         android:src="@drawable/ic_add" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCurrentFood"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </RelativeLayout>
