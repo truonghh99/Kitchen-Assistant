@@ -136,6 +136,25 @@ public class NewProductDetailFragment extends Fragment {
             }
         });
 
+        // Automatically update current quantity according to original quantity
+        etOriginalQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (etOriginalQuantity.getText().toString().isEmpty()) return;
+                float numProducts = Float.parseFloat(etNumProducts.getText().toString());
+                float newQuantity = Float.parseFloat(etOriginalQuantity.getText().toString()) * numProducts;
+                etCurrentQuantity.setText(String.valueOf(newQuantity));
+            }
+        });
+
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

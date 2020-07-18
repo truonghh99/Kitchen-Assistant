@@ -157,7 +157,10 @@ public class MainActivity extends AppCompatActivity {
     // to avoid re-initializing fragments (improve speed & memory usage)
     public static void switchFragment(Fragment fragment, String title) {
         tvTitle.setText(title);
-        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+        fragmentManager.beginTransaction()
+                .replace(R.id.flContainer, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     public static void switchFragmentWithTransition(Fragment fragment, String title, View view, String transitionName) {
@@ -165,6 +168,17 @@ public class MainActivity extends AppCompatActivity {
         tvTitle.setText(title);
         fragmentManager.beginTransaction()
                 .addSharedElement(view, transitionName)
+                .addToBackStack(null)
                 .replace(R.id.flContainer, fragment).commit();
     }
-}
+
+    @Override
+    public void onBackPressed(){
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fragmentManager.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
+    }}
