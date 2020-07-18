@@ -96,4 +96,17 @@ public class CurrentProducts {
         productParse.deleteEventually();
         CurrentFoodFragment.notifyDataChange();
     }
+
+    public static String getNameWithCode(String code) {
+        Log.e(TAG, code);
+        return productHashMap.get(code).getProductName();
+    }
+
+    public static boolean containsProduct(String code) {
+        return productHashMap.containsKey(code);
+    }
+
+    public static Product getProductWithCode(String code) {
+        return productHashMap.get(code);
+    }
 }

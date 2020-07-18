@@ -9,6 +9,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @ParseClassName("FoodItem")
@@ -87,5 +88,9 @@ public class FoodItem extends ParseObject implements Parcelable {
 
     public List<Product> getProductList() {
         return products;
+    }
+
+    public Product getFirstProduct() {
+        return products.get(0);
     }
 }

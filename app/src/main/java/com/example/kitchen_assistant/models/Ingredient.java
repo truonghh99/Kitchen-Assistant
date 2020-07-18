@@ -25,6 +25,7 @@ public class Ingredient extends ParseObject implements Parcelable {
     public static final String KEY_QUANTITY_UNIT = "quantityUnit";
     public static final String KEY_RECIPE = "recipe";
     private static final String KEY_AVAILABLE = "available";
+    private static final String KEY_PREFERRED_PRODUCT = "preferredProduct";
 
     // Local values
     private String name;
@@ -32,6 +33,7 @@ public class Ingredient extends ParseObject implements Parcelable {
     private String quantityUnit;
     private ParseObject recipe;
     private boolean available;
+    private String preferredProduct;
 
     // Key for Spoonacular
     public static final String KEY_INGREDIENTS = "ingredients";
@@ -63,6 +65,7 @@ public class Ingredient extends ParseObject implements Parcelable {
         quantityUnit = getString(KEY_QUANTITY_UNIT);
         recipe = getParseObject(KEY_RECIPE);
         available = getBoolean(KEY_AVAILABLE);
+        preferredProduct = getString(KEY_PREFERRED_PRODUCT);
     }
 
     public void saveInfo() {
@@ -71,6 +74,9 @@ public class Ingredient extends ParseObject implements Parcelable {
         put(KEY_QUANTITY_UNIT, quantityUnit);
         put(KEY_RECIPE, recipe);
         put(KEY_AVAILABLE, available);
+        if (preferredProduct != null) {
+            put(KEY_PREFERRED_PRODUCT, preferredProduct);
+        }
         saveInBackground();
     }
 
@@ -119,5 +125,13 @@ public class Ingredient extends ParseObject implements Parcelable {
         float toIncrease = MetricConverter.convertGeneral(currentQuantity, getQuantityUnit(), quantityUnit);
         setQuantity(getQuantity() + toIncrease);
         Log.e(TAG, "After adding: " + getQuantity());
+    }
+
+    public String getPreferredProduct() {
+        return preferredProduct;
+    }
+
+    public void setPreferredProduct(String preferredProduct) {
+        this.preferredProduct = preferredProduct;
     }
 }

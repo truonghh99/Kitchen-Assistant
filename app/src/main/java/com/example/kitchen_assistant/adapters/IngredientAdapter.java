@@ -16,6 +16,7 @@ import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentFoodTypes;
+import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 
 import java.util.List;
@@ -68,20 +69,30 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         public void bind(final Ingredient ingredient) {
             tvName.setText(ingredient.getName());
             tvQuantity.setText("" + ingredient.getQuantity() + " " + ingredient.getQuantityUnit());
-            // Change card background to indicate current status of products
             if (ingredient.isAvailable()) {
-                FoodItem item = CurrentFoodTypes.foodItems.get(ingredient.getName());
-                cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.available));
-                tvStatus.setText("Using your " + item.getProductList().get(0).getProductName());
+                handleAvailableProduct(ingredient);
             } else {
                 if (RecipeEvaluator.ingredientIsInCart(ingredient)) {
-                    cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.inCart));
-                    tvStatus.setText("Already in your shopping list");
+                    handleInCartProduct(ingredient);
                 } else {
-                    cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.unavailable));
-                    tvStatus.setText("You don't have this ingredient");
+                    handleUnavailableProduct(ingredient);
                 }
             }
+        }
+
+        private void handleAvailableProduct(Ingredient ingredient) {
+            cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.available));
+            tvStatus.setText("Using your " + CurrentProducts.getNameWithCode(ingredient.getPreferredProduct()));
+        }
+
+        private void handleInCartProduct(Ingredient ingredient) {
+            cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.inCart));
+            tvStatus.setText("Already in your shopping list");
+        }
+
+        private void handleUnavailableProduct(Ingredient ingredient) {
+            cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.unavailable));
+            tvStatus.setText("You don't have this ingredient");
         }
     }
 
