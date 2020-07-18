@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemProductBinding;
-import com.example.kitchen_assistant.fragments.CurrentProductDetailFragment;
+import com.example.kitchen_assistant.fragments.CurrentFoodDetailFragment;
 import com.example.kitchen_assistant.fragments.NewProductDetailFragment;
 import com.example.kitchen_assistant.models.Product;
 
@@ -97,8 +97,8 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
     // Allow user to view details of selected product by calling a child fragment via MainActivity
     public static void goToCurrentProductDetail(Product product) {
         Log.e(TAG, "Go to current product detail");
-        Fragment currentFoodDetailFragment = CurrentProductDetailFragment.newInstance(Parcels.wrap(product));
-        MainActivity.switchFragment(currentFoodDetailFragment, CurrentProductDetailFragment.title);
+        Fragment currentFoodDetailFragment = CurrentFoodDetailFragment.newInstance(Parcels.wrap(product));
+        MainActivity.switchFragment(currentFoodDetailFragment, CurrentFoodDetailFragment.title);
     }
 
 }

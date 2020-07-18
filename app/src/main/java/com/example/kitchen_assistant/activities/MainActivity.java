@@ -18,11 +18,9 @@ import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.databinding.ActivityMainBinding;
-import com.example.kitchen_assistant.fragments.CurrentProductFragment;
+import com.example.kitchen_assistant.fragments.CurrentFoodFragment;
 import com.example.kitchen_assistant.fragments.RecipeFragment;
 import com.example.kitchen_assistant.fragments.ShoppingListFragment;
-import com.example.kitchen_assistant.models.Recipe;
-import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
@@ -31,14 +29,12 @@ import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-import java.io.File;
-
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     public final String APP_TAG = "MyCustomApp";
 
-    final Fragment currentFoodFragment = CurrentProductFragment.newInstance();
+    final Fragment currentFoodFragment = CurrentFoodFragment.newInstance();
     final Fragment recipeFragment = RecipeFragment.newInstance();
     final Fragment toDoListFragment = ShoppingListFragment.newInstance();
 
@@ -76,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                         String title;
                         switch (item.getItemId()) {
                             case R.id.miCurrentFood:
-                                title = CurrentProductFragment.title;
+                                title = CurrentFoodFragment.title;
                                 fragment = currentFoodFragment;
                                 break;
                             case R.id.miRecipe:

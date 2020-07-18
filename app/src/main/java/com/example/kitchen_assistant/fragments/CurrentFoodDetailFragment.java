@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Parcelable;
 import android.text.Editable;
@@ -28,10 +27,7 @@ import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
-import com.example.kitchen_assistant.models.Recipe;
-import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentProducts;
-import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseUser;
 
@@ -44,7 +40,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class CurrentProductDetailFragment extends Fragment {
+public class CurrentFoodDetailFragment extends Fragment {
 
     private static final String PRODUCT = "Product";
     private static final String TAG = "CurrentFoodDetail";
@@ -73,12 +69,12 @@ public class CurrentProductDetailFragment extends Fragment {
     private FloatingActionButton btCook;
 
 
-    public CurrentProductDetailFragment() {
+    public CurrentFoodDetailFragment() {
     }
 
     // Take product information to display in details
-    public static CurrentProductDetailFragment newInstance(Parcelable product) {
-        CurrentProductDetailFragment fragment = new CurrentProductDetailFragment();
+    public static CurrentFoodDetailFragment newInstance(Parcelable product) {
+        CurrentFoodDetailFragment fragment = new CurrentFoodDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(PRODUCT, product);
         fragment.setArguments(args);
@@ -287,7 +283,7 @@ public class CurrentProductDetailFragment extends Fragment {
 
         MatchingHelper.attemptToAttachFoodItem(foodItem, product);
         CurrentProducts.saveProductInBackGround(product);
-        CurrentProductFragment.notifyDataChange();
+        CurrentFoodFragment.notifyDataChange();
         RecipeEvaluator.evaluateAllRecipe();
     }
 

@@ -2,20 +2,11 @@ package com.example.kitchen_assistant.storage;
 
 import android.util.Log;
 
-import com.example.kitchen_assistant.fragments.CurrentProductFragment;
-import com.example.kitchen_assistant.fragments.RecipeFragment;
 import com.example.kitchen_assistant.models.FoodItem;
-import com.example.kitchen_assistant.models.Product;
-import com.example.kitchen_assistant.models.Recipe;
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class CurrentFoodTypes {
 

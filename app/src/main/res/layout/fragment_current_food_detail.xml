@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:backgroundTint="@color/white"
-    tools:context=".fragments.CurrentProductDetailFragment">
+    tools:context=".fragments.CurrentFoodDetailFragment">
 
     <RelativeLayout
         android:id="@+id/rlProductInfo"

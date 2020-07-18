@@ -25,7 +25,6 @@ import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.storage.CurrentProducts;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -104,7 +103,7 @@ public class NewProductDetailFragment extends Fragment {
         etNumProducts = fragmentNewProductDetailBinding.etNumProducts;
         btAdd = fragmentNewProductDetailBinding.btAdd;
 
-        if (product.getProductCode() != CurrentProductFragment.MANUALLY_INSERT_KEY) {
+        if (product.getProductCode() != CurrentFoodFragment.MANUALLY_INSERT_KEY) {
             etName.setText(product.getProductName());
             etFoodType.setText(product.getProductName());
             etOriginalQuantity.setText(String.valueOf(product.getOriginalQuantity()));

@@ -1,21 +1,16 @@
 package com.example.kitchen_assistant.storage;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.kitchen_assistant.activities.MainActivity;
-import com.example.kitchen_assistant.fragments.CurrentProductFragment;
-import com.example.kitchen_assistant.models.FoodItem;
+import com.example.kitchen_assistant.fragments.CurrentFoodFragment;
 import com.example.kitchen_assistant.models.Product;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +23,7 @@ public class CurrentProducts {
 
     public static void addProduct(Product product) {
         products.add(0, product);
-        CurrentProductFragment.notifyDataChange();
+        CurrentFoodFragment.notifyDataChange();
         productHashMap.put(product.getProductCode(), product);
 
         product.saveInfo();
@@ -74,7 +69,7 @@ public class CurrentProducts {
                     return;
                 }
                 initialize(newProducts);
-                CurrentProductFragment.notifyDataChange();
+                CurrentFoodFragment.notifyDataChange();
                 Log.i(TAG, "Query completed, got " + products.size() + " products");
                 MainActivity.hideProgressBar();
             }
@@ -97,6 +92,6 @@ public class CurrentProducts {
         //TODO: reduce quantity to 0 instead of removing
         ParseObject productParse = ParseObject.createWithoutData("Product", product.getObjectId());
         productParse.deleteEventually();
-        CurrentProductFragment.notifyDataChange();
+        CurrentFoodFragment.notifyDataChange();
     }
 }

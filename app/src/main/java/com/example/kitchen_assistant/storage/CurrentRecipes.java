@@ -1,25 +1,18 @@
 package com.example.kitchen_assistant.storage;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.kitchen_assistant.activities.MainActivity;
-import com.example.kitchen_assistant.fragments.CurrentProductFragment;
+import com.example.kitchen_assistant.fragments.CurrentFoodFragment;
 import com.example.kitchen_assistant.fragments.RecipeFragment;
-import com.example.kitchen_assistant.helpers.RecipeEvaluator;
-import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Ingredient;
-import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,7 +62,7 @@ public class CurrentRecipes {
                     return;
                 }
                 initialize(newRecipes);
-                CurrentProductFragment.notifyDataChange();
+                CurrentFoodFragment.notifyDataChange();
                 Log.i(TAG, "Query completed, got " + recipes.size() + " recipes");
                 MainActivity.hideProgressBar();
             }

@@ -1,7 +1,6 @@
 package com.example.kitchen_assistant.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemRecipeBinding;
-import com.example.kitchen_assistant.fragments.CurrentProductDetailFragment;
 import com.example.kitchen_assistant.fragments.CurrentRecipeDetailFragment;
 import com.example.kitchen_assistant.fragments.NewRecipeDetailFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
