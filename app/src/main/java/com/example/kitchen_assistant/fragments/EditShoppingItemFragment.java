@@ -28,7 +28,7 @@ import org.parceler.Parcels;
 
 public class EditShoppingItemFragment extends DialogFragment {
 
-    private static final String PRODUCT_KEY = "Product";
+    private static final String ITEM_KEY = "ShoppingItem";
     private static final String TAG = "EditShoppingItem";
 
     private FragmentEditShoppingItemBinding fragmentEditShoppingItemBinding;
@@ -36,7 +36,7 @@ public class EditShoppingItemFragment extends DialogFragment {
     private EditText etQuantity;
     private Spinner spinnerQuantityUnit;
     private Button btUpdate;
-    private Product product;
+    private ShoppingItem item;
 
 
     public EditShoppingItemFragment() {
@@ -46,7 +46,7 @@ public class EditShoppingItemFragment extends DialogFragment {
     public static EditShoppingItemFragment newInstance(Parcelable product) {
         EditShoppingItemFragment fragment = new EditShoppingItemFragment();
         Bundle args = new Bundle();
-        args.putParcelable(PRODUCT_KEY, product);
+        args.putParcelable(ITEM_KEY, product);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,7 +55,7 @@ public class EditShoppingItemFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            product = Parcels.unwrap(getArguments().getParcelable(PRODUCT_KEY));
+            item = Parcels.unwrap(getArguments().getParcelable(ITEM_KEY));
         }
     }
 
@@ -68,11 +68,11 @@ public class EditShoppingItemFragment extends DialogFragment {
         spinnerQuantityUnit = fragmentEditShoppingItemBinding.spinnerQuantityUnit;
         btUpdate = fragmentEditShoppingItemBinding.btUpdate;
 
-        etName.setText(product.getFoodItem().getName());
+        etName.setText(item.getName());
 
-        etQuantity.setText(String.valueOf(product.getOriginalQuantity()));
+        etQuantity.setText(String.valueOf(item.getQuantity()));
 
-        SpinnerHelper.setUpMetricSpinner(spinnerQuantityUnit, product.getQuantityUnit(), getContext(), etQuantity, (float) product.getOriginalQuantity(), spinnerQuantityUnit);
+        SpinnerHelper.setUpMetricSpinner(spinnerQuantityUnit, item.getQuantityUnit(), getContext(), etQuantity, item.getQuantity(), spinnerQuantityUnit);
 
         // Allow user to add modified item to shopping list via add button
         btUpdate.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +80,6 @@ public class EditShoppingItemFragment extends DialogFragment {
             public void onClick(View view) {
                 saveInfo();
                 dismiss();
-                goToCurrentShoppingList();
             }
         });
 
@@ -93,10 +92,11 @@ public class EditShoppingItemFragment extends DialogFragment {
         Float quantity = Float.parseFloat(etQuantity.getText().toString());
         String quantityUnit = spinnerQuantityUnit.getSelectedItem().toString();
 
-        MatchingHelper.attemptToCreateShoppingItem(itemName, quantity, quantityUnit);
+        item.setName(itemName);
+        item.setQuantityUnit(quantityUnit);
+        item.setQuantity(quantity);
+        CurrentShoppingList.saveItemInBackGround(item);
+        ShoppingListFragment.notifyDataChange();
     }
 
-    private void goToCurrentShoppingList() {
-        MainActivity.bottomNavigation.setSelectedItemId(R.id.miShoppingList);
-    }
 }

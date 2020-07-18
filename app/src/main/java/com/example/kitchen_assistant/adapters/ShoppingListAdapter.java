@@ -11,13 +11,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemShoppingBinding;
+import com.example.kitchen_assistant.fragments.EditShoppingItemFragment;
+import com.example.kitchen_assistant.fragments.PreviewShoppingItemFragment;
 import com.example.kitchen_assistant.models.ShoppingItem;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.parse.ParseException;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -66,6 +73,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         public ViewHolder(@NonNull ItemShoppingBinding itemShoppingBinding) {
             super(itemShoppingBinding.getRoot());
             this.itemShoppingBinding = itemShoppingBinding;
+            cvShoppingItem = itemShoppingBinding.cvShoppingItem;
             tvName = itemShoppingBinding.tvName;
             tvQuantity = itemShoppingBinding.tvQuantity;
             cbCheckbox = itemShoppingBinding.cbCheckbox;
@@ -86,6 +94,14 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
                     CurrentShoppingList.saveItemInBackGround(item);
                 }
             });
+            cvShoppingItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DialogFragment dialogFragment = EditShoppingItemFragment.newInstance(Parcels.wrap(item));
+                    dialogFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), "Dialog");
+                }
+            });
+
         }
     }
 
