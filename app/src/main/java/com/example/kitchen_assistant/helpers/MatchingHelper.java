@@ -31,7 +31,6 @@ public class MatchingHelper {
         Product product = new Product();
         if (code == CurrentProductFragment.MANUALLY_INSERT_KEY) {
             product.setProductCode(code);
-            product.setImageUrl("default");
             return product;
         }
         if (CurrentProducts.productHashMap.containsKey(code)) {

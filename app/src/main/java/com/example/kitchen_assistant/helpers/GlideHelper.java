@@ -44,7 +44,7 @@ public class GlideHelper {
     public static void loadImage(String url, Context context, ImageView imgView) {
         if (url == null || url == "default") {
             loadDefaultImage(context, imgView);
-            Log.e(TAG, "Couldn't load image");
+            Log.e(TAG, "Using default image");
             return;
         }
         try {

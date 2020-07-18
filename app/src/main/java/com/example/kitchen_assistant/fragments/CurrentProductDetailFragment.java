@@ -66,6 +66,7 @@ public class CurrentProductDetailFragment extends Fragment {
     private Spinner spinnerDurationUnit;
     private Spinner spinnerStatus;
     private EditText etNumProducts;
+    private FloatingActionButton btMenuOpen;
     private FloatingActionButton btApprove;
     private FloatingActionButton btRemove;
     private FloatingActionButton btShop;
@@ -114,6 +115,7 @@ public class CurrentProductDetailFragment extends Fragment {
         btRemove = fragmentCurrentFoodDetailBinding.btRemove;
         btCook = fragmentCurrentFoodDetailBinding.btCook;
         btShop = fragmentCurrentFoodDetailBinding.btShop;
+        btMenuOpen = fragmentCurrentFoodDetailBinding.btMenuOpen;
 
         // Assign values to views using product's info
         etName.setText(product.getProductName());
@@ -168,6 +170,13 @@ public class CurrentProductDetailFragment extends Fragment {
             }
         });
 
+        btMenuOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openOrCloseFabMenu();
+            }
+        });
+
         // Save changes
         btApprove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,6 +216,20 @@ public class CurrentProductDetailFragment extends Fragment {
         });
 
         return fragmentCurrentFoodDetailBinding.getRoot();
+    }
+
+    private void openOrCloseFabMenu() {
+        if (btApprove.getVisibility() == View.INVISIBLE) {
+            btApprove.setVisibility(View.VISIBLE);
+            btCook.setVisibility(View.VISIBLE);
+            btRemove.setVisibility(View.VISIBLE);
+            btShop.setVisibility(View.VISIBLE);
+        } else {
+            btApprove.setVisibility(View.INVISIBLE);
+            btCook.setVisibility(View.INVISIBLE);
+            btRemove.setVisibility(View.INVISIBLE);
+            btShop.setVisibility(View.INVISIBLE);
+        }
     }
 
     // Query recipes containing this current product

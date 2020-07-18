@@ -96,7 +96,7 @@ public class Product extends ParseObject implements Parcelable {
         put(KEY_CURRENT_QUANTITY, currentQuantity);
         put(KEY_QUANTITY_UNIT, quantityUnit);
         put(KEY_NUM_PRODUCTS, numProducts);
-        put(KEY_IMG_URL, imageUrl);
+        if (imageUrl != null) put(KEY_IMG_URL, imageUrl);
         put(KEY_PURCHASE_DATE, purchaseDate);
         put(KEY_DURATION, duration);
         put(KEY_DURATION_UNIT, durationUnit);

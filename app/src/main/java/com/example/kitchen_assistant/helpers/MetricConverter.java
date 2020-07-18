@@ -116,7 +116,7 @@ public class MetricConverter {
 
     // Convert unit of any type (volume, weight, or time)
     public static float convertGeneral(float currentVal, String oldUnit, String newUnit) {
-        Log.e(TAG, "Attempt to convert " + oldUnit + " to " + newUnit);
+        //Log.e(TAG, "Attempt to convert " + oldUnit + " to " + newUnit);
 
         float result = currentVal;
 
@@ -135,7 +135,7 @@ public class MetricConverter {
             return result;
         }
 
-        Log.e(TAG, "Cannot convert " + oldUnit + " to " + newUnit);
+        //Log.e(TAG, "Cannot convert " + oldUnit + " to " + newUnit);
         return result;
     }
 }

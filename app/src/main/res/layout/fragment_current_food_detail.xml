@@ -323,6 +323,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:visibility="invisible"
         android:backgroundTint="@color/pastelPink0"
         app:borderWidth="0dp"
         android:src="@drawable/ic_approve" />
@@ -337,6 +338,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:visibility="invisible"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/pastelPink1"
         app:borderWidth="0dp"
@@ -353,6 +355,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:visibility="invisible"
         android:backgroundTint="@color/pastelPink2"
         app:borderWidth="0dp"
         android:src="@drawable/ic_cook" />
@@ -361,14 +364,29 @@
         android:id="@+id/btRemove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/btMenuOpen"
+        android:layout_alignParentRight="true"
+        android:layout_margin="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="invisible"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/pastelPink3"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_remove" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btMenuOpen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_gravity="end|bottom"
         android:layout_margin="12dp"
         android:backgroundTint="@color/pastelPink3"
-        android:contentDescription="Add new product"
         app:borderWidth="0dp"
-        android:src="@drawable/ic_remove" />
+        android:src="@drawable/ic_add" />
 
 
 </RelativeLayout>
