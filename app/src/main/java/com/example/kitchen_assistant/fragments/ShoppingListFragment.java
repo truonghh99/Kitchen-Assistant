@@ -2,6 +2,7 @@ package com.example.kitchen_assistant.fragments;
 
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,8 @@ import com.example.kitchen_assistant.databinding.FragmentShoppingListBinding;
 import com.example.kitchen_assistant.models.ShoppingItem;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -56,6 +59,13 @@ public class ShoppingListFragment extends Fragment {
         rvShoppingList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvShoppingList.setAdapter(adapter);
 
+        btAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToPreviewItem();
+            }
+        });
+
         return fragmentShoppingListBinding.getRoot();
     }
 
@@ -64,5 +74,10 @@ public class ShoppingListFragment extends Fragment {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public void goToPreviewItem() {
+        DialogFragment dialogFragment = PreviewShoppingItemFragment.newInstance("", 0, "unit");
+        dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 }

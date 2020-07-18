@@ -301,7 +301,7 @@ public class CurrentFoodDetailFragment extends Fragment {
 
     // Allow user to add this product to shopping list after previewing and editing information (if wished)
     private void goToPreviewShoppingItem() {
-        DialogFragment dialogFragment = PreviewShoppingItemFragment.newInstance(Parcels.wrap(product));
+        DialogFragment dialogFragment = PreviewShoppingItemFragment.newInstance(product.getProductName(), product.getOriginalQuantity(), product.getQuantityUnit());
         dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 }

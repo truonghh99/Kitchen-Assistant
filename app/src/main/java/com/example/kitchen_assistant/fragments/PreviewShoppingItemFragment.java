@@ -27,7 +27,10 @@ import org.parceler.Parcels;
 
 public class PreviewShoppingItemFragment extends DialogFragment {
 
-    private static final String PRODUCT_KEY = "Product";
+    private static final String NAME_KEY = "NAME";
+    private static final String QUANTITY_KEY = "QUANTITY_KEY";
+    private static final String UNIT_KEY = "UNIT_KEY";
+
     private static final String TAG = "PreviewShoppingItem";
 
     private FragmentPreviewShoppingItemBinding fragmentPreviewShoppingItemBinding;
@@ -35,17 +38,20 @@ public class PreviewShoppingItemFragment extends DialogFragment {
     private EditText etQuantity;
     private Spinner spinnerQuantityUnit;
     private Button btAdd;
-    private Product product;
-
+    private String name;
+    private float quantity;
+    private String quantityUnit;
 
     public PreviewShoppingItemFragment() {
     }
 
     // Initialize with a product to extract & display its food type
-    public static PreviewShoppingItemFragment newInstance(Parcelable product) {
+    public static PreviewShoppingItemFragment newInstance(String name, float quantity, String quantityUnit) {
         PreviewShoppingItemFragment fragment = new PreviewShoppingItemFragment();
         Bundle args = new Bundle();
-        args.putParcelable(PRODUCT_KEY, product);
+        args.putString(NAME_KEY, name);
+        args.putString(UNIT_KEY, quantityUnit);
+        args.putFloat(QUANTITY_KEY, quantity);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,7 +60,9 @@ public class PreviewShoppingItemFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            product = Parcels.unwrap(getArguments().getParcelable(PRODUCT_KEY));
+            name = getArguments().getString(NAME_KEY);
+            quantity = getArguments().getFloat(QUANTITY_KEY);
+            quantityUnit = getArguments().getString(UNIT_KEY);
         }
     }
 
@@ -67,11 +75,11 @@ public class PreviewShoppingItemFragment extends DialogFragment {
         spinnerQuantityUnit = fragmentPreviewShoppingItemBinding.spinnerQuantityUnit;
         btAdd = fragmentPreviewShoppingItemBinding.btAdd;
 
-        etName.setText(product.getFoodItem().getName());
+        etName.setText(name);
 
-        etQuantity.setText(String.valueOf(product.getOriginalQuantity()));
+        etQuantity.setText(String.valueOf(quantity));
 
-        SpinnerHelper.setUpMetricSpinner(spinnerQuantityUnit, product.getQuantityUnit(), getContext(), etQuantity, (float) product.getOriginalQuantity(), spinnerQuantityUnit);
+        SpinnerHelper.setUpMetricSpinner(spinnerQuantityUnit, quantityUnit, getContext(), etQuantity, quantity, spinnerQuantityUnit);
 
         // Allow user to add modified item to shopping list via add button
         btAdd.setOnClickListener(new View.OnClickListener() {
