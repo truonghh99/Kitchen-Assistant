@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.databinding.ItemIngredientBinding;
 import com.example.kitchen_assistant.models.Ingredient;
+import com.example.kitchen_assistant.storage.CurrentShoppingList;
 
 import java.util.List;
 
@@ -65,7 +66,11 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             if (ingredient.isAvailable()) {
                 cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.available));
             } else {
-                cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.unavailable));
+                if (CurrentShoppingList.itemHashMap.containsKey(ingredient.getName())) {
+                    cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.inCart)); //TODO: Check quantity
+                } else {
+                    cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.unavailable));
+                }
             }
         }
     }

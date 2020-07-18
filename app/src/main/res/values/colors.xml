@@ -18,11 +18,12 @@
     <color name="pastelYellow">#fdffb6</color>
     <color name="pastelPink">#ffcad4</color>
 
-    <color name="best">#d7f9ff</color>
-    <color name="fair">#fdffb6</color>
+    <color name="best">#fdffb6</color>
+    <color name="fair">#d7f9ff</color>
     <color name="bad">#ffede1</color>
 
     <color name="available">#fdffb6</color>
+    <color name="inCart">#d7f9ff</color>
     <color name="unavailable">#e5e5e5</color>
 
 </resources>
