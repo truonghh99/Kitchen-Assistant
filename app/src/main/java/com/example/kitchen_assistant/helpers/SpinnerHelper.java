@@ -27,6 +27,9 @@ public class SpinnerHelper {
         if (editText != null) newText = editText.getText().toString();
 
         // Identify which metric category this spinner belongs to
+        if (selectedItem == MetricConverter.GENERAL_METRIC_TAG) {
+            categories = MetricConverter.generalCategories;
+        }
         if (MetricConverter.weight.containsKey(selectedItem)) {
             categories = MetricConverter.weightCategories;
         }

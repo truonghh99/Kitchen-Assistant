@@ -20,6 +20,7 @@ import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentNewProductDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.MatchingHelper;
+import com.example.kitchen_assistant.helpers.MetricConverter;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
@@ -116,9 +117,9 @@ public class NewProductDetailFragment extends Fragment {
             SpinnerHelper.setUpMetricSpinner(spinnerDurationUnit, product.getDurationUnit(), getContext(), etDuration, (float) product.getDuration(), null);
             SpinnerHelper.setUpStatusSpinner(spinnerStatus, product.getFoodStatus(), getContext());
         } else {
-            SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, product.getQuantityUnit(), getContext(), etCurrentQuantity, (float) product.getCurrentQuantity(), spinnerOriginalQuantityUnit);
-            SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, product.getQuantityUnit(), getContext(), etOriginalQuantity, (float) product.getOriginalQuantity(), spinnerCurrentQuantityUnit);
-            SpinnerHelper.setUpMetricSpinner(spinnerDurationUnit, product.getDurationUnit(), getContext(), etDuration, (float) product.getDuration(), null);
+            SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, MetricConverter.GENERAL_METRIC_TAG, getContext(), etCurrentQuantity, (float) product.getCurrentQuantity(), spinnerOriginalQuantityUnit);
+            SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, MetricConverter.GENERAL_METRIC_TAG, getContext(), etOriginalQuantity, (float) product.getOriginalQuantity(), spinnerCurrentQuantityUnit);
+            SpinnerHelper.setUpMetricSpinner(spinnerDurationUnit, "day", getContext(), etDuration, (float) product.getDuration(), null);
             SpinnerHelper.setUpStatusSpinner(spinnerStatus, product.getFoodStatus(), getContext());
         }
 

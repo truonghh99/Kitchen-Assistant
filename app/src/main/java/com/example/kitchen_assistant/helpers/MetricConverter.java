@@ -8,6 +8,8 @@ import java.util.List;
 
 public class MetricConverter {
     private static final String TAG = "MetricConverter";
+    public static final String GENERAL_METRIC_TAG = "unit";
+
 
     public static final HashMap<String, Float> volumne = new HashMap<String, Float>(){
         {
@@ -37,6 +39,22 @@ public class MetricConverter {
             put("day", (float) 1);
             put("month", (float) 30);
             put("year", (float) 365);
+        }
+    };
+
+    public static List<String> generalCategories = new ArrayList<String>(){
+        {
+            add("unit");
+            add("oz");
+            add("ml");
+            add("l");
+            add("cup");
+            add("gallon");
+            add("tbsp");
+            add("tsp");
+            add("lbs");
+            add("g");
+            add("kg");
         }
     };
 

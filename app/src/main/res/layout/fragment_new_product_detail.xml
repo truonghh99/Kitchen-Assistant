@@ -91,6 +91,7 @@
                 android:layout_toRightOf="@+id/tvOriginalQuantity"
                 android:fontFamily="@font/scope_one"
                 android:hint="numeric quantity"
+                android:text="0"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -132,6 +133,7 @@
                 android:layout_toRightOf="@+id/tvNumProducts"
                 android:fontFamily="@font/scope_one"
                 android:hint="0"
+                android:text="0"
                 android:textSize="15sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -162,6 +164,7 @@
                 android:layout_toRightOf="@+id/tvQuantity"
                 android:fontFamily="@font/scope_one"
                 android:hint="numeric quantity"
+                android:text="0"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
