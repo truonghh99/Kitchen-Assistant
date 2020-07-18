@@ -84,7 +84,6 @@ public class CurrentProducts {
                 CurrentFoodTypes.initialize(product.getFoodItem());
             }
             product.getFoodItem().addProductToType(product);
-            product.getFoodItem().printProducts();
             products.add(product);
             productHashMap.put(product.getProductCode(), product);
         }

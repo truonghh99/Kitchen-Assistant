@@ -84,4 +84,8 @@ public class FoodItem extends ParseObject implements Parcelable {
     public void addProductToType(Product product) {
         products.add(product);
     }
+
+    public List<Product> getProductList() {
+        return products;
+    }
 }

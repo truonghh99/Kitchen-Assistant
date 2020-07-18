@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.databinding.ItemIngredientBinding;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
+import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 
 import java.util.List;
@@ -53,12 +55,14 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         private CardView cvIngredient;
         private TextView tvName;
         private TextView tvQuantity;
+        private TextView tvStatus;
 
         public ViewHolder(@NonNull ItemIngredientBinding itemIngredientBinding) {
             super(itemIngredientBinding.getRoot());
             tvName = itemIngredientBinding.tvName;
             tvQuantity = itemIngredientBinding.tvQuantity;
             cvIngredient = itemIngredientBinding.cvIngredient;
+            tvStatus = itemIngredientBinding.tvStatus;
         }
 
         public void bind(final Ingredient ingredient) {
@@ -66,12 +70,16 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             tvQuantity.setText("" + ingredient.getQuantity() + " " + ingredient.getQuantityUnit());
             // Change card background to indicate current status of products
             if (ingredient.isAvailable()) {
+                FoodItem item = CurrentFoodTypes.foodItems.get(ingredient.getName());
                 cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.available));
+                tvStatus.setText("Using your " + item.getProductList().get(0).getProductName());
             } else {
                 if (RecipeEvaluator.ingredientIsInCart(ingredient)) {
-                    cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.inCart)); //TODO: Check quantity
+                    cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.inCart));
+                    tvStatus.setText("Already in your shopping list");
                 } else {
                     cvIngredient.setCardBackgroundColor(context.getResources().getColor(R.color.unavailable));
+                    tvStatus.setText("You don't have this ingredient");
                 }
             }
         }
