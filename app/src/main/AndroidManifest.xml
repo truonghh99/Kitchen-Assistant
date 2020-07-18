@@ -16,7 +16,8 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".activities.SignUpActivity" />
-        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.MainActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

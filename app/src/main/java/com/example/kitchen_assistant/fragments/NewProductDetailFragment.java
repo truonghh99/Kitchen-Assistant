@@ -25,6 +25,7 @@ import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.storage.CurrentProducts;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -214,7 +215,7 @@ public class NewProductDetailFragment extends Fragment {
         return fragmentNewProductDetailBinding.getRoot();
     }
 
-    // Parse Date values to proper string format (MM/dd/yyyy). TODO: Is it better to create another helper class to handle those toString format?
+    // Parse Date values to proper string format (MM/dd/yyyy).
     public static String parseDate(Date date, SimpleDateFormat outputDateFormat) {
         String outputDateString = null;
         outputDateString = outputDateFormat.format(date);
