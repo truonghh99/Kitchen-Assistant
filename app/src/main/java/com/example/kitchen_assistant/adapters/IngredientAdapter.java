@@ -2,15 +2,20 @@ package com.example.kitchen_assistant.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.databinding.ItemIngredientBinding;
+import com.example.kitchen_assistant.fragments.AlternativeOptionsFragment;
+import com.example.kitchen_assistant.fragments.PreviewShoppingItemFragment;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Ingredient;
@@ -69,6 +74,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         public void bind(final Ingredient ingredient) {
             tvName.setText(ingredient.getName());
             tvQuantity.setText("" + ingredient.getQuantity() + " " + ingredient.getQuantityUnit());
+
             if (ingredient.isAvailable()) {
                 handleAvailableProduct(ingredient);
             } else {
@@ -78,6 +84,18 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
                     handleUnavailableProduct(ingredient);
                 }
             }
+
+            cvIngredient.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goToAlternativeOptions(ingredient);
+                }
+            });
+        }
+
+        private void goToAlternativeOptions(Ingredient ingredient) {
+            DialogFragment dialogFragment = AlternativeOptionsFragment.newInstance(ingredient.getName(), ingredient.getQuantity(), ingredient.getQuantityUnit());
+            dialogFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), "Dialog");
         }
 
         private void handleAvailableProduct(Ingredient ingredient) {

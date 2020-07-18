@@ -43,9 +43,11 @@ public class RecipeEvaluator {
         String quantityUnit = ingredient.getQuantityUnit();
 
         if (ingredient.getPreferredProduct() != null && CurrentProducts.containsProduct(ingredient.getPreferredProduct())) { // User has selected a preferred product before
+            Log.e(TAG, "Got a preferred product");
             Product product = CurrentProducts.getProductWithCode(ingredient.getPreferredProduct());
             Float convertedQuantity = MetricConverter.convertGeneral(quantity, quantityUnit, product.getQuantityUnit());
-            if (convertedQuantity > product.getCurrentQuantity()) {
+            if (convertedQuantity <= product.getCurrentQuantity()) {
+                Log.e(TAG, "Preferred product exists");
                 return; // Have enough preferred product, don't need to consider any other food item
             }
         }
