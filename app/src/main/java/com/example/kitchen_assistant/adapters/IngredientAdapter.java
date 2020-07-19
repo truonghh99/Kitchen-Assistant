@@ -25,6 +25,8 @@ import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder> {
@@ -95,7 +97,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         }
 
         private void goToAlternativeOptions(Ingredient ingredient) {
-            DialogFragment dialogFragment = AlternativeOptionsFragment.newInstance(ingredient.getName(), ingredient.getQuantity(), ingredient.getQuantityUnit());
+            DialogFragment dialogFragment = AlternativeOptionsFragment.newInstance(Parcels.wrap(ingredient));
             dialogFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), "Dialog");
         }
 

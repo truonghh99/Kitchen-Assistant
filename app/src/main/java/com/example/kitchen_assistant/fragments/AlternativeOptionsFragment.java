@@ -26,6 +26,7 @@ import com.example.kitchen_assistant.databinding.FragmentPreviewShoppingItemBind
 import com.example.kitchen_assistant.helpers.MatchingHelper;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
+import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.ShoppingItem;
 import com.example.kitchen_assistant.storage.CurrentProducts;
@@ -41,6 +42,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
     private static final String NAME_KEY = "NAME";
     private static final String QUANTITY_KEY = "QUANTITY_KEY";
     private static final String UNIT_KEY = "UNIT_KEY";
+    private static final String INGREDIENT_KEY = "INGREDIENT_KEY";
 
     private static final String TAG = "AlternativeOptions";
 
@@ -55,17 +57,16 @@ public class AlternativeOptionsFragment extends DialogFragment {
     private ImageView ivRight;
     private GridLayoutManager layoutManager;
     private Button btBuy;
+    private Ingredient ingredient;
 
     public AlternativeOptionsFragment() {
     }
 
     // Initialize with a product to extract & display its food type
-    public static AlternativeOptionsFragment newInstance(String name, float quantity, String quantityUnit) {
+    public static AlternativeOptionsFragment newInstance(Parcelable ingredient) {
         AlternativeOptionsFragment fragment = new AlternativeOptionsFragment();
         Bundle args = new Bundle();
-        args.putString(NAME_KEY, name);
-        args.putString(UNIT_KEY, quantityUnit);
-        args.putFloat(QUANTITY_KEY, quantity);
+        args.putParcelable(INGREDIENT_KEY, ingredient);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,9 +75,10 @@ public class AlternativeOptionsFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            name = getArguments().getString(NAME_KEY);
-            quantity = getArguments().getFloat(QUANTITY_KEY);
-            quantityUnit = getArguments().getString(UNIT_KEY);
+            ingredient = Parcels.unwrap(getArguments().getParcelable(INGREDIENT_KEY));
+            name = ingredient.getName();
+            quantity = ingredient.getQuantity();
+            quantityUnit = ingredient.getQuantityUnit();
         }
     }
 
@@ -90,7 +92,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
         btBuy = fragmentAlternativeOptionsBinding.btBuy;
 
         products = CurrentProducts.products;
-        adapter = new AlternativeAdapter(getActivity(), products);
+        adapter = new AlternativeAdapter(getActivity(), products, ingredient);
         layoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false);
         rvAlternatives.setLayoutManager(layoutManager);
         rvAlternatives.setAdapter(adapter);
@@ -127,6 +129,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
                 dismiss();
             }
         });
+
         return fragmentAlternativeOptionsBinding.getRoot();
     }
 }

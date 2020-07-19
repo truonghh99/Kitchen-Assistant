@@ -17,7 +17,9 @@ import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemAlternativeBinding;
 import com.example.kitchen_assistant.databinding.ItemProductBinding;
 import com.example.kitchen_assistant.fragments.CurrentFoodDetailFragment;
+import com.example.kitchen_assistant.fragments.CurrentRecipeDetailFragment;
 import com.example.kitchen_assistant.fragments.NewProductDetailFragment;
+import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Product;
 
 import org.parceler.Parcels;
@@ -29,6 +31,7 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
     private static final String TAG = "AlternativeAdapter";
     private Context context;
     private List<Product> products;
+    private Ingredient ingredient;
 
     @NonNull
     @Override
@@ -38,9 +41,10 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
         return new ViewHolder(itemAlternativeBinding);
     }
 
-    public AlternativeAdapter(Context context, List<Product> products) {
+    public AlternativeAdapter(Context context, List<Product> products, Ingredient ingredient) {
         this.context = context;
         this.products = products;
+        this.ingredient = ingredient;
     }
 
     @Override
@@ -90,6 +94,15 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.bad));
                     break;
             }
+
+            cvProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ingredient.setPreferredProduct(product.getProductCode());
+                    ingredient.setAvailable(true);
+                    CurrentRecipeDetailFragment.notifyChange();
+                }
+            });
         }
     }
 
