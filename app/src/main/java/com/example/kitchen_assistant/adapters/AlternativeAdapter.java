@@ -103,6 +103,7 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
                     ingredient.setPreferredProduct(product.getProductCode());
                     ingredient.setAvailable(true);
                     CurrentRecipeDetailFragment.notifyChange();
+                    ingredient.saveInfo();
                     dialog.dismiss();
                 }
             });
