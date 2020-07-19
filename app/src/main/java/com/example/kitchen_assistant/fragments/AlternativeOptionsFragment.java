@@ -3,6 +3,8 @@ package com.example.kitchen_assistant.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -14,6 +16,8 @@ import android.widget.Spinner;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
+import com.example.kitchen_assistant.adapters.AlternativeAdapter;
+import com.example.kitchen_assistant.adapters.CurrentFoodAdapter;
 import com.example.kitchen_assistant.databinding.FragmentAlternativeOptionsBinding;
 import com.example.kitchen_assistant.databinding.FragmentPreviewShoppingItemBinding;
 import com.example.kitchen_assistant.helpers.MatchingHelper;
@@ -21,10 +25,13 @@ import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.ShoppingItem;
+import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
+
+import java.util.List;
 
 public class AlternativeOptionsFragment extends DialogFragment {
 
@@ -38,6 +45,9 @@ public class AlternativeOptionsFragment extends DialogFragment {
     private String name;
     private float quantity;
     private String quantityUnit;
+    private RecyclerView rvAlternatives;
+    private AlternativeAdapter adapter;
+    private List<Product> products;
 
     public AlternativeOptionsFragment() {
     }
@@ -67,7 +77,12 @@ public class AlternativeOptionsFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentAlternativeOptionsBinding = FragmentAlternativeOptionsBinding.inflate(getLayoutInflater());
+        rvAlternatives = fragmentAlternativeOptionsBinding.rvAlternatives;
 
+        products = CurrentProducts.products;
+        adapter = new AlternativeAdapter(getActivity(), products);
+        rvAlternatives.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false));
+        rvAlternatives.setAdapter(adapter);
 
         return fragmentAlternativeOptionsBinding.getRoot();
     }
