@@ -28,10 +28,11 @@ public class RecipeFragment extends Fragment {
     private RecyclerView rvRecipe;
     private FloatingActionButton btSearch;
     private FloatingActionButton btAdd;
+    private FloatingActionButton btMenuOpen;
     private List<Recipe> recipes;
     private static RecipeAdapter adapter;
 
-    public RecipeFragment () {
+    public RecipeFragment() {
     }
 
     public static RecipeFragment newInstance() {
@@ -51,15 +52,32 @@ public class RecipeFragment extends Fragment {
         btAdd = fragmentRecipeBinding.btAdd;
         btSearch = fragmentRecipeBinding.btSearch;
         rvRecipe = fragmentRecipeBinding.rvRecipe;
+        btMenuOpen = fragmentRecipeBinding.btMenuOpen;
 
         recipes = CurrentRecipes.recipes;
         adapter = new RecipeAdapter(getActivity(), recipes);
         rvRecipe.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvRecipe.setAdapter(adapter);
 
+        btMenuOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openOrCloseFabMenu();
+            }
+        });
+
         return fragmentRecipeBinding.getRoot();
     }
 
+    private void openOrCloseFabMenu() {
+        if (btAdd.getVisibility() == View.INVISIBLE) {
+            btAdd.setVisibility(View.VISIBLE);
+            btSearch.setVisibility(View.VISIBLE);
+        } else {
+            btAdd.setVisibility(View.INVISIBLE);
+            btSearch.setVisibility(View.INVISIBLE);
+        }
+    }
 
     public static void notifyDataChange() {
         if (adapter != null) {

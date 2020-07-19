@@ -105,6 +105,7 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
                     CurrentRecipeDetailFragment.notifyChange();
                     ingredient.saveInfo();
                     dialog.dismiss();
+                    // TODO: HANDLE DUPLICATE PRODUCT CODE WITH MANUALLY INSERTED PRODUCT
                 }
             });
         }
