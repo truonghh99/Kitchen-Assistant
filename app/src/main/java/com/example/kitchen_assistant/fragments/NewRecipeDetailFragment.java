@@ -49,6 +49,9 @@ public class NewRecipeDetailFragment extends Fragment {
     private TextView tvName;
     private Button btInstruction;
     private FloatingActionButton btAdd;
+    private FloatingActionButton btCook;
+    private FloatingActionButton btShop;
+    private FloatingActionButton btMenuOpen;
     private String instruction;
     private RecyclerView rvIngredients;
     private IngredientAdapter adapter;
@@ -82,6 +85,9 @@ public class NewRecipeDetailFragment extends Fragment {
         tvName = fragmentNewRecipeDetailBinding.tvName;
         btInstruction = fragmentNewRecipeDetailBinding.btInstruction;
         btAdd = fragmentNewRecipeDetailBinding.btAdd;
+        btMenuOpen = fragmentNewRecipeDetailBinding.btMenuOpen;
+        btShop = fragmentNewRecipeDetailBinding.btShop;
+        btCook = fragmentNewRecipeDetailBinding.btCook;
         rvIngredients = fragmentNewRecipeDetailBinding.rvIngredients;
 
         ingredients = recipe.getIngredientList();
@@ -99,6 +105,12 @@ public class NewRecipeDetailFragment extends Fragment {
                 goToInstruction(instruction);
             }
         });
+        btMenuOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openOrCloseFabMenu();
+            }
+        });
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,6 +122,18 @@ public class NewRecipeDetailFragment extends Fragment {
             }
         });
         return fragmentNewRecipeDetailBinding.getRoot();
+    }
+
+    private void openOrCloseFabMenu() {
+        if (btShop.getVisibility() == View.INVISIBLE) {
+            btCook.setVisibility(View.VISIBLE);
+            btAdd.setVisibility(View.VISIBLE);
+            btShop.setVisibility(View.VISIBLE);
+        } else {
+            btCook.setVisibility(View.INVISIBLE);
+            btAdd.setVisibility(View.INVISIBLE);
+            btShop.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void queryInstruction() {
