@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemRecipeBinding;
 import com.example.kitchen_assistant.fragments.CurrentRecipeDetailFragment;
@@ -87,6 +88,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                     }
                 }
             });
+            if (recipe.isCookable()) {
+                tvStatus.setText("You have enough ingredient to cook this recipe!");
+                cvRecipe.setCardBackgroundColor(context.getResources().getColor(R.color.available));
+            } else {
+                tvStatus.setText("A few ingredients are still needed");
+                cvRecipe.setCardBackgroundColor(context.getResources().getColor(R.color.unavailable));
+            }
         }
     }
 

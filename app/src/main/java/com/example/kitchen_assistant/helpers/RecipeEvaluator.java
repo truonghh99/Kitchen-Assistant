@@ -69,12 +69,14 @@ public class RecipeEvaluator {
     public static void evaluateRecipe(Recipe recipe) {
         recipe.setCookable(true);
         List<Ingredient> ingredientList = recipe.getIngredientList();
+        Log.e(TAG, String.valueOf(ingredientList.size()));
         for (Ingredient ingredient : ingredientList) {
             evaluateIngredient(ingredient);
             if (!ingredient.isAvailable()) {
                 recipe.setCookable(false);
             }
         }
+        Log.e(TAG, "CAN COOK RECIPE");
         CurrentRecipes.saveRecipeInBackground(recipe);
     }
 

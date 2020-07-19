@@ -31,7 +31,7 @@ public class Ingredient extends ParseObject implements Parcelable {
     private String name;
     private float quantity;
     private String quantityUnit;
-    private ParseObject recipe;
+    private Recipe recipe;
     private boolean available;
     private String preferredProduct;
 
@@ -63,7 +63,7 @@ public class Ingredient extends ParseObject implements Parcelable {
         name = getString(KEY_NAME);
         quantity = getNumber(KEY_QUANTITY).floatValue();
         quantityUnit = getString(KEY_QUANTITY_UNIT);
-        recipe = getParseObject(KEY_RECIPE);
+        recipe = (Recipe) getParseObject(KEY_RECIPE);
         available = getBoolean(KEY_AVAILABLE);
         preferredProduct = getString(KEY_PREFERRED_PRODUCT);
     }
@@ -104,7 +104,7 @@ public class Ingredient extends ParseObject implements Parcelable {
         this.quantityUnit = quantityUnit;
     }
 
-    public ParseObject getRecipe() {
+    public Recipe getRecipe() {
         return recipe;
     }
 

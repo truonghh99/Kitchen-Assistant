@@ -44,7 +44,7 @@ public class Recipe extends ParseObject implements Parcelable {
     private String imageUrl;
     private String instructions;
     private boolean cookable;
-    private HashMap<String, Ingredient> ingredients;
+    private HashMap<String, Ingredient> ingredients = new HashMap<>();
 
     public static Recipe extractFromJsonObject(JSONObject json) throws JSONException {
         Recipe result = new Recipe();
@@ -57,8 +57,6 @@ public class Recipe extends ParseObject implements Parcelable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        Log.i(TAG, result.getName() + ": " + result.getImageUrl());
         return result;
     }
 
@@ -128,6 +126,7 @@ public class Recipe extends ParseObject implements Parcelable {
     }
 
     public List<Ingredient> getIngredientList() {
+        Log.e(TAG, ingredients.toString());
         return new ArrayList<>(ingredients.values());
     }
 

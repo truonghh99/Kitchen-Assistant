@@ -20,6 +20,7 @@ import com.example.kitchen_assistant.databinding.ItemProductBinding;
 import com.example.kitchen_assistant.fragments.CurrentFoodDetailFragment;
 import com.example.kitchen_assistant.fragments.CurrentRecipeDetailFragment;
 import com.example.kitchen_assistant.fragments.NewProductDetailFragment;
+import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Product;
 
@@ -102,6 +103,7 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
                 public void onClick(View view) {
                     ingredient.setPreferredProduct(product.getProductCode());
                     ingredient.setAvailable(true);
+                    RecipeEvaluator.evaluateRecipe(ingredient.getRecipe());
                     CurrentRecipeDetailFragment.notifyChange();
                     ingredient.saveInfo();
                     dialog.dismiss();

@@ -89,7 +89,7 @@ public class CurrentRecipes {
                     Log.e(TAG, "Error when querying ingredients");
                     return;
                 }
-                HashMap<String, Ingredient> ingredientHashMap = generateIngredientHashmap(ingredients);
+                HashMap<String, Ingredient> ingredientHashMap = generateIngredientHashmap(ingredients, recipe);
                 recipe.setIngredients(ingredientHashMap);
                 Log.i(TAG, "Query completed, got " + ingredients.size() + " ingredients");
                 MainActivity.hideProgressBar();
@@ -97,10 +97,11 @@ public class CurrentRecipes {
         });
     }
 
-    private static HashMap<String, Ingredient> generateIngredientHashmap(List<Ingredient> ingredients) {
+    private static HashMap<String, Ingredient> generateIngredientHashmap(List<Ingredient> ingredients, Recipe recipe) {
         HashMap<String, Ingredient> result = new HashMap<>();
         for (Ingredient ingredient : ingredients) {
             ingredient.fetchInfo();
+            ingredient.setRecipe(recipe);
             result.put(ingredient.getName(), ingredient);
         }
         return result;
