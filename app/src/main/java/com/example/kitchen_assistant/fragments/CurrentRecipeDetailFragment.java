@@ -102,4 +102,8 @@ public class CurrentRecipeDetailFragment extends Fragment {
         DialogFragment dialogFragment = InstructionFragment.newInstance(instruction);
         dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
+
+    public static void notifyChange() {
+        adapter.notifyDataSetChanged();
+    }
 }

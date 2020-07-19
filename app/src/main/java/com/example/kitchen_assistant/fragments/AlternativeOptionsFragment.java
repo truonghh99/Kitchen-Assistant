@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
@@ -53,6 +54,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
     private ImageView ivLeft;
     private ImageView ivRight;
     private GridLayoutManager layoutManager;
+    private Button btBuy;
 
     public AlternativeOptionsFragment() {
     }
@@ -85,6 +87,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
         rvAlternatives = fragmentAlternativeOptionsBinding.rvAlternatives;
         ivLeft = fragmentAlternativeOptionsBinding.ivLeft;
         ivRight = fragmentAlternativeOptionsBinding.ivRight;
+        btBuy = fragmentAlternativeOptionsBinding.btBuy;
 
         products = CurrentProducts.products;
         adapter = new AlternativeAdapter(getActivity(), products);
@@ -115,6 +118,15 @@ public class AlternativeOptionsFragment extends DialogFragment {
             }
         });
 
+        btBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MatchingHelper.attemptToCreateShoppingItem(name, quantity, quantityUnit);
+                Toast.makeText(getContext(), "Added to your shoppling list: " + quantity + quantityUnit + " of " + name, Toast.LENGTH_SHORT).show();
+                CurrentRecipeDetailFragment.notifyChange();
+                dismiss();
+            }
+        });
         return fragmentAlternativeOptionsBinding.getRoot();
     }
 }
