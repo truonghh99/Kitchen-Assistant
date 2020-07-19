@@ -1,5 +1,6 @@
 package com.example.kitchen_assistant.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
     private Context context;
     private List<Product> products;
     private Ingredient ingredient;
+    private Dialog dialog;
 
     @NonNull
     @Override
@@ -41,10 +43,11 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
         return new ViewHolder(itemAlternativeBinding);
     }
 
-    public AlternativeAdapter(Context context, List<Product> products, Ingredient ingredient) {
+    public AlternativeAdapter(Context context, List<Product> products, Ingredient ingredient, Dialog dialog) {
         this.context = context;
         this.products = products;
         this.ingredient = ingredient;
+        this.dialog = dialog;
     }
 
     @Override
@@ -63,7 +66,6 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
         private CardView cvProduct;
         private TextView tvName;
         private TextView tvQuantity;
-        private TextView tvExpirationDate;
 
         public ViewHolder(@NonNull ItemAlternativeBinding itemAlternativeBinding) {
             super(itemAlternativeBinding.getRoot());
@@ -101,6 +103,7 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
                     ingredient.setPreferredProduct(product.getProductCode());
                     ingredient.setAvailable(true);
                     CurrentRecipeDetailFragment.notifyChange();
+                    dialog.dismiss();
                 }
             });
         }

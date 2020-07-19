@@ -92,7 +92,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
         btBuy = fragmentAlternativeOptionsBinding.btBuy;
 
         products = CurrentProducts.products;
-        adapter = new AlternativeAdapter(getActivity(), products, ingredient);
+        adapter = new AlternativeAdapter(getActivity(), products, ingredient, getDialog());
         layoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false);
         rvAlternatives.setLayoutManager(layoutManager);
         rvAlternatives.setAdapter(adapter);
