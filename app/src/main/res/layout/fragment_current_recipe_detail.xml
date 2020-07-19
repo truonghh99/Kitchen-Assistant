@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.CurrentRecipeDetailFragment">
@@ -59,5 +60,65 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_below="@id/btInstruction"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btShop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btCook"
+        android:layout_alignParentRight="true"
+        android:layout_margin="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="invisible"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/pastelPink0"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_shop" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btCook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btRemove"
+        android:layout_alignParentRight="true"
+        android:layout_margin="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible"
+        android:backgroundTint="@color/pastelPink1"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_cook" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btMenuOpen"
+        android:layout_alignParentRight="true"
+        android:layout_margin="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="invisible"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/pastelPink2"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_remove" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btMenuOpen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="12dp"
+        android:backgroundTint="@color/pastelPink3"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_add" />
 
 </RelativeLayout>

@@ -25,6 +25,7 @@ import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentProducts;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.parceler.Parcels;
 
@@ -49,6 +50,10 @@ public class CurrentRecipeDetailFragment extends Fragment {
     private RecyclerView rvIngredients;
     private static IngredientAdapter adapter;
     private List<Ingredient> ingredients;
+    private FloatingActionButton btMenuOpen;
+    private FloatingActionButton btRemove;
+    private FloatingActionButton btCook;
+    private FloatingActionButton btShop;
 
     public CurrentRecipeDetailFragment() {
     }
@@ -78,6 +83,10 @@ public class CurrentRecipeDetailFragment extends Fragment {
         tvName = fragmentCurrentRecipeDetailBinding.tvName;
         btInstruction = fragmentCurrentRecipeDetailBinding.btInstruction;
         rvIngredients = fragmentCurrentRecipeDetailBinding.rvIngredients;
+        btMenuOpen = fragmentCurrentRecipeDetailBinding.btMenuOpen;
+        btCook = fragmentCurrentRecipeDetailBinding.btCook;
+        btRemove = fragmentCurrentRecipeDetailBinding.btRemove;
+        btShop = fragmentCurrentRecipeDetailBinding.btShop;
 
         ingredients = recipe.getIngredientList();
         adapter = new IngredientAdapter(getActivity(), ingredients);
@@ -95,8 +104,27 @@ public class CurrentRecipeDetailFragment extends Fragment {
             }
         });
 
+        btMenuOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openOrCloseFabMenu();
+            }
+        });
         return fragmentCurrentRecipeDetailBinding.getRoot();
     }
+
+    private void openOrCloseFabMenu() {
+        if (btShop.getVisibility() == View.INVISIBLE) {
+            btCook.setVisibility(View.VISIBLE);
+            btRemove.setVisibility(View.VISIBLE);
+            btShop.setVisibility(View.VISIBLE);
+        } else {
+            btCook.setVisibility(View.INVISIBLE);
+            btRemove.setVisibility(View.INVISIBLE);
+            btShop.setVisibility(View.INVISIBLE);
+        }
+    }
+
 
     private void goToInstruction(String instruction) {
         DialogFragment dialogFragment = InstructionFragment.newInstance(instruction);
