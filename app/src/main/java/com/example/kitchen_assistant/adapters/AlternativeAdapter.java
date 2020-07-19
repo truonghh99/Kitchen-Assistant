@@ -102,7 +102,6 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
                 @Override
                 public void onClick(View view) {
                     ingredient.setPreferredProduct(product.getProductCode());
-                    ingredient.setAvailable(true);
                     RecipeEvaluator.evaluateRecipe(ingredient.getRecipe());
                     CurrentRecipeDetailFragment.notifyChange();
                     ingredient.saveInfo();

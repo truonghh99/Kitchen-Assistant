@@ -26,6 +26,7 @@ public class CurrentProducts {
         products.add(0, product);
         CurrentFoodFragment.notifyDataChange();
         productHashMap.put(product.getProductCode(), product);
+        Log.e(TAG, "ADDED PRODUCT " + product.getProductCode() + " " + product.getProductName());
 
         product.saveInfo();
         saveProductInBackGround(product);
@@ -40,6 +41,7 @@ public class CurrentProducts {
 
     public static void saveProductInBackGround(Product product) {
         product.saveInfo();
+        Log.e(TAG, "SAVING CODE: " + product.getProductCode() + " " + product.getObjectId());
         product.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

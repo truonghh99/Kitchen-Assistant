@@ -5,7 +5,9 @@ import android.util.Log;
 
 import com.example.kitchen_assistant.helpers.MetricConverter;
 import com.example.kitchen_assistant.storage.CurrentFoodTypes;
+import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -74,7 +76,6 @@ public class Product extends ParseObject implements Parcelable {
     public void fetchInfo() {
         fetchInBackground();
         productName = getString(KEY_NAME);
-        productCode = getString(KEY_CODE);
         originalQuantity = getNumber(KEY_ORIGINAL_QUANTITY).floatValue();
         currentQuantity = getNumber(KEY_CURRENT_QUANTITY).floatValue();
         quantityUnit = getString(KEY_QUANTITY_UNIT);
@@ -87,10 +88,12 @@ public class Product extends ParseObject implements Parcelable {
         foodStatus = getString(KEY_FOOD_STATUS);
         owner = getParseUser(KEY_OWNER);
         foodItem = (FoodItem) getParseObject(KEY_FOOD_TYPE);
+        productCode = getString(KEY_CODE);
     }
 
     public void saveInfo() {
         put(KEY_NAME, productName);
+        Log.e(TAG, productCode);
         put(KEY_CODE, productCode);
         put(KEY_ORIGINAL_QUANTITY, originalQuantity);
         put(KEY_CURRENT_QUANTITY, currentQuantity);

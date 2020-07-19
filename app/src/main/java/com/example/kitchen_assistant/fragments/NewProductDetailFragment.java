@@ -184,6 +184,9 @@ public class NewProductDetailFragment extends Fragment {
                 String foodStatus = spinnerStatus.getSelectedItem().toString();
 
                 // Assign attributes to product object
+                if (product.getProductCode() == CurrentFoodFragment.MANUALLY_INSERT_KEY) {
+                    product.setProductCode(productName);
+                }
                 product.setProductName(productName);
                 product.setOriginalQuantity(originalQuantity);
                 product.setQuantityUnit(quantityUnit);
