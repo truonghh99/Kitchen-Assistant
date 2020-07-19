@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="700dp"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp">
+        android:layout_margin="10dp">
 
         <TextView
             android:id="@+id/tvInstructionChoose"
@@ -25,18 +25,42 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAlternatives"
-            android:layout_marginTop="10dp"
+        <RelativeLayout
+            android:id="@+id/rlAlternativeView"
             android:layout_below="@id/tvInstructionChoose"
-            android:layout_width="350dp"
-            android:layout_height="220dp" />
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivLeft"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:visibility="invisible"
+                android:src="@drawable/ic_right"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAlternatives"
+                android:layout_width="210dp"
+                android:layout_toRightOf="@id/ivLeft"
+                android:layout_height="220dp" />
+
+            <ImageView
+                android:id="@+id/ivRight"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/rvAlternatives"
+                android:src="@drawable/ic_left"/>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tvInstructionOr"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rvAlternatives"
+            android:layout_below="@id/rlAlternativeView"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/scope_one"

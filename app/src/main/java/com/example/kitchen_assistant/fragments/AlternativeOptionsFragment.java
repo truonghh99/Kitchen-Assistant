@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.example.kitchen_assistant.R;
@@ -39,7 +41,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
     private static final String QUANTITY_KEY = "QUANTITY_KEY";
     private static final String UNIT_KEY = "UNIT_KEY";
 
-    private static final String TAG = "AlternativeOptionsFragment";
+    private static final String TAG = "AlternativeOptions";
 
     private FragmentAlternativeOptionsBinding fragmentAlternativeOptionsBinding;
     private String name;
@@ -48,6 +50,9 @@ public class AlternativeOptionsFragment extends DialogFragment {
     private RecyclerView rvAlternatives;
     private AlternativeAdapter adapter;
     private List<Product> products;
+    private ImageView ivLeft;
+    private ImageView ivRight;
+    private GridLayoutManager layoutManager;
 
     public AlternativeOptionsFragment() {
     }
@@ -78,11 +83,37 @@ public class AlternativeOptionsFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         fragmentAlternativeOptionsBinding = FragmentAlternativeOptionsBinding.inflate(getLayoutInflater());
         rvAlternatives = fragmentAlternativeOptionsBinding.rvAlternatives;
+        ivLeft = fragmentAlternativeOptionsBinding.ivLeft;
+        ivRight = fragmentAlternativeOptionsBinding.ivRight;
 
         products = CurrentProducts.products;
         adapter = new AlternativeAdapter(getActivity(), products);
-        rvAlternatives.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false));
+        layoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false);
+        rvAlternatives.setLayoutManager(layoutManager);
         rvAlternatives.setAdapter(adapter);
+
+        ivRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rvAlternatives.smoothScrollToPosition(layoutManager.findLastVisibleItemPosition() + 1);
+                if (layoutManager.findLastVisibleItemPosition() >= products.size() - 3) {
+                    ivRight.setVisibility(View.INVISIBLE);
+                }
+                ivLeft.setVisibility(View.VISIBLE);
+            }
+        });
+
+        ivLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rvAlternatives.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() - 1);
+                Log.e(TAG, String.valueOf(layoutManager.findFirstVisibleItemPosition()));
+                if (layoutManager.findFirstVisibleItemPosition() <= 2) {
+                    ivLeft.setVisibility(View.INVISIBLE);
+                }
+                ivRight.setVisibility(View.VISIBLE);
+            }
+        });
 
         return fragmentAlternativeOptionsBinding.getRoot();
     }
