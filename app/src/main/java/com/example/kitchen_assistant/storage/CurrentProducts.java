@@ -58,6 +58,7 @@ public class CurrentProducts {
 
     public static void fetchProductInBackground() {
         Log.i(TAG, "Start querying for current products");
+        MainActivity.showProgressBar();
 
         products = new ArrayList<>();
         productHashMap = new HashMap<>();

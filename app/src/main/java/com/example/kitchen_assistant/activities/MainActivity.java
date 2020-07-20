@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
-        fetchInfoFromLastUse();
         setUpToolBar();
         setUpBottomBar();
         setUpProgressBar();
+        fetchInfoFromLastUse();
     }
 
     // Switch between different screens using the same bottom bar

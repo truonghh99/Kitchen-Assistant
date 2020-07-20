@@ -49,6 +49,7 @@ public class CurrentRecipes {
 
     public static void fetchRecipeInBackground() {
         Log.i(TAG, "Start querying for current recipes");
+        MainActivity.showProgressBar();
 
         recipes = new ArrayList<>();
         recipeHashMap = new HashMap<>();

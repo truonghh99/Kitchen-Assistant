@@ -105,7 +105,11 @@ public class NewProductDetailFragment extends Fragment {
 
         if (product.getProductCode() != CurrentFoodFragment.MANUALLY_INSERT_KEY) {
             etName.setText(product.getProductName());
-            etFoodType.setText(product.getProductName());
+            if (product.getFoodItem() != null) {
+                etFoodType.setText(product.getFoodItem().getName());
+            } else {
+                etFoodType.setText(product.getProductName());
+            }
             etOriginalQuantity.setText(String.valueOf(product.getOriginalQuantity()));
             etCurrentQuantity.setText(String.valueOf(product.getCurrentQuantity()));
             etPurchaseDate.setText(parseDate(product.getPurchaseDate(), DATE_FORMAT));

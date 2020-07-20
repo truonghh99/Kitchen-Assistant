@@ -2,6 +2,7 @@ package com.example.kitchen_assistant.storage;
 
 import android.util.Log;
 
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.fragments.ShoppingListFragment;
 import com.example.kitchen_assistant.models.ShoppingItem;
 import com.parse.FindCallback;
@@ -59,6 +60,7 @@ public class CurrentShoppingList {
 
     public static void fetchItemsInBackground() {
         Log.i(TAG, "Start querying for current shopping items");
+        MainActivity.showProgressBar();
 
         items = new ArrayList<>();
         itemHashMap = new HashMap<>();
