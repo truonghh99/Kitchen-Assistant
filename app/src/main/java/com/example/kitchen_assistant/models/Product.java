@@ -37,22 +37,22 @@ public class Product extends ParseObject implements Parcelable {
     private static final String IMAGE_URL = "image_thumb_url";
 
     // Keyword for Parse columns
-    private static final String KEY_ID = "objectId";
-    private static final String KEY_CREATED_AT = "createdAt";
-    private static final String KEY_CODE = "productCode";
-    private static final String KEY_NAME = "productName";
-    private static final String KEY_ORIGINAL_QUANTITY = "originalQuantiy";
-    private static final String KEY_CURRENT_QUANTITY = "currentQuantity";
-    private static final String KEY_QUANTITY_UNIT = "quantityUnit";
-    private static final String KEY_NUM_PRODUCTS = "numProducts";
-    private static final String KEY_IMG_URL = "imageUrl";
-    private static final String KEY_PURCHASE_DATE = "purchaseDate";
-    private static final String KEY_DURATION = "duration";
-    private static final String KEY_DURATION_UNIT = "durationUnit";
-    private static final String KEY_EXPIRATION_DATE = "expirationDate";
-    private static final String KEY_FOOD_STATUS = "foodStatus";
-    private static final String KEY_OWNER = "owner";
-    private static final String KEY_FOOD_TYPE = "foodType";
+    public static final String KEY_ID = "objectId";
+    public static final String KEY_CREATED_AT = "createdAt";
+    public static final String KEY_CODE = "productCode";
+    public static final String KEY_NAME = "productName";
+    public static final String KEY_ORIGINAL_QUANTITY = "originalQuantiy";
+    public static final String KEY_CURRENT_QUANTITY = "currentQuantity";
+    public static final String KEY_QUANTITY_UNIT = "quantityUnit";
+    public static final String KEY_NUM_PRODUCTS = "numProducts";
+    public static final String KEY_IMG_URL = "imageUrl";
+    public static final String KEY_PURCHASE_DATE = "purchaseDate";
+    public static final String KEY_DURATION = "duration";
+    public static final String KEY_DURATION_UNIT = "durationUnit";
+    public static final String KEY_EXPIRATION_DATE = "expirationDate";
+    public static final String KEY_FOOD_STATUS = "foodStatus";
+    public static final String KEY_OWNER = "owner";
+    public static final String KEY_FOOD_TYPE = "foodType";
 
     // Local values
     private String productName;
@@ -114,7 +114,6 @@ public class Product extends ParseObject implements Parcelable {
         Log.i(TAG, "Start extracting product information");
         JSONObject product = json.getJSONObject(PRODUCT_INFO);
 
-        setProductCode(json.getString(BARCODE));
         setProductName( product.getString(NAME));
         try {
             String quantityStr = product.getString(QUANTITY);

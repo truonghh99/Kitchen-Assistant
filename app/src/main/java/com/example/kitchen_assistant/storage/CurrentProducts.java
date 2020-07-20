@@ -62,6 +62,7 @@ public class CurrentProducts {
         products = new ArrayList<>();
         productHashMap = new HashMap<>();
         ParseQuery<Product> query = ParseQuery.getQuery(Product.class);
+        query.whereGreaterThan("currentQuantity", 0);
         query.addDescendingOrder("createdAt");
         query.include("foodType");
 
@@ -80,6 +81,20 @@ public class CurrentProducts {
         });
     }
 
+    public static Product fetchProductWithCode(final String code) throws ParseException {
+        Log.e(TAG, "Start querying for product with code " + code);
+        final boolean[] completed = {false};
+        Product product = new Product();
+        ParseQuery<Product> query = ParseQuery.getQuery(Product.class);
+        query.whereEqualTo(Product.KEY_CODE, code);
+        List<Product> results = query.find();
+        Log.e(TAG, "Found " + results.size());
+        if (results.size() > 0) {
+            product = results.get(0);
+            product.fetchInfo();
+        }
+        return product;
+    }
     private static void initialize(List<Product> newProducts) {
         for (Product product : newProducts) {
             product.fetchInfo();

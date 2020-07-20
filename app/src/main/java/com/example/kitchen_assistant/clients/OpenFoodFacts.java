@@ -22,7 +22,7 @@ public class OpenFoodFacts {
     public static String HEADER = "KitchenAssistant - Android - Version 1.0 - https://github.com/truonghh99/Kitchen-Assistant/blob/master/README.md";
     private static Product product;
 
-    public static Product getProductInfo(String productCode) throws IOException, InterruptedException {
+    public static Product getProductInfo(final String productCode) throws IOException, InterruptedException {
         Log.i(TAG, "Start querying product info. Product code: " + productCode);
         product = new Product();
         String url = GET_PRODUCT_INFO_URL + productCode;
@@ -50,6 +50,7 @@ public class OpenFoodFacts {
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonData);
                                 product = new Product(jsonObject);
+                                product.setProductCode(productCode);
                                 Log.i(TAG, "Successfully extracted product info");
                             } catch (JSONException e) {
                                 e.printStackTrace();

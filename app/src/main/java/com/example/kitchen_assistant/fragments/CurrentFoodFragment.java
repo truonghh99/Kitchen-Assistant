@@ -28,6 +28,7 @@ import com.example.kitchen_assistant.helpers.MatchingHelper;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.parse.ParseException;
 
 import org.parceler.Parcels;
 
@@ -165,11 +166,16 @@ public class CurrentFoodFragment extends Fragment {
     // Passing taken product's code to product detail for user to edit information & confirm insertion to current product list
     private void goToNewProductDetail(String code) {
         Log.i(TAG, "Go to new product detail");
-        Product product = MatchingHelper.attemptToCreateProduct(code);
-        if (code != MANUALLY_INSERT_KEY && CurrentProducts.productHashMap.containsKey(code)) {
+        Product product = null;
+        try {
+            product = MatchingHelper.attemptToCreateProduct(code);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (code != MANUALLY_INSERT_KEY && CurrentProducts.productHashMap.containsKey(code)) { // Product exists in current list
             CurrentFoodAdapter.goToCurrentProductDetail(product);
-            Toast.makeText(getContext(), "We remember this one! Edit details here.", Toast.LENGTH_LONG).show();
-        } else {
+            Toast.makeText(getContext(), "You already have this product. Edit detail here!", Toast.LENGTH_LONG).show();
+        } else { // Product is new
             Fragment newProductDetailFragment = NewProductDetailFragment.newInstance(Parcels.wrap(product));
             MainActivity.switchFragment(newProductDetailFragment, NewProductDetailFragment.title);
         }

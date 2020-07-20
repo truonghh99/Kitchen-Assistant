@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.kitchen_assistant.helpers.MetricConverter;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -30,6 +31,11 @@ public class FoodItem extends ParseObject implements Parcelable {
     private List<Product> products = new ArrayList<>();
 
     public void fetchInfo() {
+        try {
+            fetch();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         name = getString(KEY_NAME);
         quantity = getNumber(KEY_QUANTITY).floatValue();
         quantityUnit = getString(KEY_QUANTITY_UNIT);
