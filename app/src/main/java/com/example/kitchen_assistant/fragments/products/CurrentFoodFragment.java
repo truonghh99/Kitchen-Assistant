@@ -1,4 +1,4 @@
-package com.example.kitchen_assistant.fragments;
+package com.example.kitchen_assistant.fragments.products;
 
 import android.app.Activity;
 import android.content.Intent;

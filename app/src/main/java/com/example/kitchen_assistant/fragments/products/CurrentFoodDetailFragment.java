@@ -1,4 +1,4 @@
-package com.example.kitchen_assistant.fragments;
+package com.example.kitchen_assistant.fragments.products;
 
 import android.os.Bundle;
 
@@ -22,6 +22,8 @@ import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodDetailBinding;
+import com.example.kitchen_assistant.fragments.shopping.PreviewShoppingItemFragment;
+import com.example.kitchen_assistant.fragments.recipes.RecipeExploreFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.MatchingHelper;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;

@@ -3,13 +3,11 @@ package com.example.kitchen_assistant.storage;
 import android.util.Log;
 
 import com.example.kitchen_assistant.activities.MainActivity;
-import com.example.kitchen_assistant.fragments.CurrentFoodFragment;
+import com.example.kitchen_assistant.fragments.products.CurrentFoodFragment;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
-import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 

@@ -1,4 +1,4 @@
-package com.example.kitchen_assistant.fragments;
+package com.example.kitchen_assistant.fragments.recipes;
 
 import android.os.Bundle;
 
@@ -13,16 +13,8 @@ import android.view.ViewGroup;
 
 import com.example.kitchen_assistant.adapters.RecipeAdapter;
 import com.example.kitchen_assistant.clients.Spoonacular;
-import com.example.kitchen_assistant.databinding.FragmentRecipeBinding;
 import com.example.kitchen_assistant.databinding.FragmentRecipeExploreBinding;
-import com.example.kitchen_assistant.models.FoodItem;
-import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
-import com.example.kitchen_assistant.storage.CurrentRecipes;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.parse.ParseException;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;

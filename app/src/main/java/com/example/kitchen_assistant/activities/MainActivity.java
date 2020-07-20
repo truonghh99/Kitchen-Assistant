@@ -18,9 +18,9 @@ import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.databinding.ActivityMainBinding;
-import com.example.kitchen_assistant.fragments.CurrentFoodFragment;
-import com.example.kitchen_assistant.fragments.RecipeFragment;
-import com.example.kitchen_assistant.fragments.ShoppingListFragment;
+import com.example.kitchen_assistant.fragments.products.CurrentFoodFragment;
+import com.example.kitchen_assistant.fragments.recipes.RecipeFragment;
+import com.example.kitchen_assistant.fragments.shopping.ShoppingListFragment;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;

@@ -1,4 +1,4 @@
-package com.example.kitchen_assistant.fragments;
+package com.example.kitchen_assistant.fragments.shopping;
 
 import android.os.Bundle;
 
@@ -16,13 +16,9 @@ import android.widget.Toast;
 
 import com.example.kitchen_assistant.adapters.ShoppingListAdapter;
 import com.example.kitchen_assistant.databinding.FragmentShoppingListBinding;
-import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.ShoppingItem;
-import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.parceler.Parcels;
 
 import java.util.List;
 

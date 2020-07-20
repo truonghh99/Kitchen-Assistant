@@ -1,31 +1,16 @@
-package com.example.kitchen_assistant.fragments;
+package com.example.kitchen_assistant.fragments.recipes;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 
-import android.os.Parcelable;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.kitchen_assistant.R;
-import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentInstructionBinding;
-import com.example.kitchen_assistant.databinding.FragmentPreviewShoppingItemBinding;
-import com.example.kitchen_assistant.helpers.SpinnerHelper;
-import com.example.kitchen_assistant.models.FoodItem;
-import com.example.kitchen_assistant.models.Product;
-import com.example.kitchen_assistant.models.ShoppingItem;
-import com.example.kitchen_assistant.storage.CurrentShoppingList;
-import com.parse.ParseUser;
-
-import org.parceler.Parcels;
 
 public class InstructionFragment extends DialogFragment {
 

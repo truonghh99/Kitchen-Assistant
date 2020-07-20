@@ -1,13 +1,11 @@
 package com.example.kitchen_assistant.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,10 +14,8 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemShoppingBinding;
-import com.example.kitchen_assistant.fragments.EditShoppingItemFragment;
-import com.example.kitchen_assistant.fragments.PreviewShoppingItemFragment;
+import com.example.kitchen_assistant.fragments.shopping.EditShoppingItemFragment;
 import com.example.kitchen_assistant.models.ShoppingItem;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.parse.ParseException;

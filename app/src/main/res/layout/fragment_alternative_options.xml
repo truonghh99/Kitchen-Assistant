@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.AlternativeOptionsFragment"
+    tools:context=".fragments.recipes.AlternativeOptionsFragment"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true">
 

@@ -2,7 +2,6 @@ package com.example.kitchen_assistant.adapters;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +9,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kitchen_assistant.R;
-import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemAlternativeBinding;
-import com.example.kitchen_assistant.databinding.ItemProductBinding;
-import com.example.kitchen_assistant.fragments.CurrentFoodDetailFragment;
-import com.example.kitchen_assistant.fragments.CurrentRecipeDetailFragment;
-import com.example.kitchen_assistant.fragments.NewProductDetailFragment;
-import com.example.kitchen_assistant.fragments.NewRecipeDetailFragment;
+import com.example.kitchen_assistant.fragments.recipes.CurrentRecipeDetailFragment;
+import com.example.kitchen_assistant.fragments.recipes.NewRecipeDetailFragment;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Product;
-
-import org.parceler.Parcels;
 
 import java.util.List;
 

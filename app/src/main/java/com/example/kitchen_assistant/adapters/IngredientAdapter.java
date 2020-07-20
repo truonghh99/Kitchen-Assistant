@@ -1,7 +1,6 @@
 package com.example.kitchen_assistant.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.databinding.ItemIngredientBinding;
-import com.example.kitchen_assistant.fragments.AlternativeOptionsFragment;
-import com.example.kitchen_assistant.fragments.PreviewShoppingItemFragment;
+import com.example.kitchen_assistant.fragments.recipes.AlternativeOptionsFragment;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
-import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Ingredient;
-import com.example.kitchen_assistant.models.Recipe;
-import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentProducts;
-import com.example.kitchen_assistant.storage.CurrentShoppingList;
 
 import org.parceler.Parcels;
 

@@ -2,22 +2,18 @@ package com.example.kitchen_assistant.helpers;
 
 import android.util.Log;
 
-import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.clients.OpenFoodFacts;
-import com.example.kitchen_assistant.fragments.CurrentFoodFragment;
+import com.example.kitchen_assistant.fragments.products.CurrentFoodFragment;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.ShoppingItem;
 import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 public class MatchingHelper {
 

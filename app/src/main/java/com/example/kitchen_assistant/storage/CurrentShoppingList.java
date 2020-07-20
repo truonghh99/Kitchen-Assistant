@@ -3,7 +3,7 @@ package com.example.kitchen_assistant.storage;
 import android.util.Log;
 
 import com.example.kitchen_assistant.activities.MainActivity;
-import com.example.kitchen_assistant.fragments.ShoppingListFragment;
+import com.example.kitchen_assistant.fragments.shopping.ShoppingListFragment;
 import com.example.kitchen_assistant.models.ShoppingItem;
 import com.parse.FindCallback;
 import com.parse.ParseException;

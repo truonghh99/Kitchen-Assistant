@@ -1,4 +1,4 @@
-package com.example.kitchen_assistant.fragments;
+package com.example.kitchen_assistant.fragments.shopping;
 
 import android.os.Bundle;
 
@@ -12,17 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.example.kitchen_assistant.R;
-import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentEditShoppingItemBinding;
-import com.example.kitchen_assistant.databinding.FragmentPreviewShoppingItemBinding;
-import com.example.kitchen_assistant.helpers.MatchingHelper;
 import com.example.kitchen_assistant.helpers.SpinnerHelper;
-import com.example.kitchen_assistant.models.FoodItem;
-import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.ShoppingItem;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
-import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 

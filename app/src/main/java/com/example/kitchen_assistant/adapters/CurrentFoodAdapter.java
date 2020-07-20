@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemProductBinding;
-import com.example.kitchen_assistant.fragments.CurrentFoodDetailFragment;
-import com.example.kitchen_assistant.fragments.NewProductDetailFragment;
+import com.example.kitchen_assistant.fragments.products.CurrentFoodDetailFragment;
+import com.example.kitchen_assistant.fragments.products.NewProductDetailFragment;
 import com.example.kitchen_assistant.models.Product;
 
 import org.parceler.Parcels;
