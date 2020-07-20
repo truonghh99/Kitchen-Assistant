@@ -92,16 +92,18 @@ public class CurrentProducts {
     }
 
     public static void removeProduct(Product product) {
+        productHashMap.remove(product.getProductCode());
         products.remove(product);
-        //TODO: reduce quantity to 0 instead of removing
-        ParseObject productParse = ParseObject.createWithoutData("Product", product.getObjectId());
-        productParse.deleteEventually();
-        CurrentFoodFragment.notifyDataChange();
+        product.subtractQuantity(product.getCurrentQuantity(), product.getQuantityUnit());
+        saveProductInBackGround(product);
     }
 
     public static String getNameWithCode(String code) {
         Log.e(TAG, code);
-        return productHashMap.get(code).getProductName();
+        if (productHashMap.containsKey(code)) {
+            return productHashMap.get(code).getProductName();
+        }
+        return null;
     }
 
     public static boolean containsProduct(String code) {
