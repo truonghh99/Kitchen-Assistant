@@ -148,6 +148,6 @@ public class CurrentRecipeDetailFragment extends Fragment {
     }
 
     public static void notifyChange() {
-        adapter.notifyDataSetChanged();
+        if (adapter != null) adapter.notifyDataSetChanged();
     }
 }

@@ -20,6 +20,7 @@ import com.example.kitchen_assistant.databinding.ItemProductBinding;
 import com.example.kitchen_assistant.fragments.CurrentFoodDetailFragment;
 import com.example.kitchen_assistant.fragments.CurrentRecipeDetailFragment;
 import com.example.kitchen_assistant.fragments.NewProductDetailFragment;
+import com.example.kitchen_assistant.fragments.NewRecipeDetailFragment;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Product;
@@ -104,9 +105,9 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
                     ingredient.setPreferredProduct(product.getProductCode());
                     RecipeEvaluator.evaluateRecipe(ingredient.getRecipe());
                     CurrentRecipeDetailFragment.notifyChange();
+                    NewRecipeDetailFragment.notifyChange();
                     ingredient.saveInfo();
                     dialog.dismiss();
-                    // TODO: HANDLE DUPLICATE PRODUCT CODE WITH MANUALLY INSERTED PRODUCT
                 }
             });
         }

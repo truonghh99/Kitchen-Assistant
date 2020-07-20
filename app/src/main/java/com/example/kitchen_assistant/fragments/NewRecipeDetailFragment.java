@@ -54,7 +54,7 @@ public class NewRecipeDetailFragment extends Fragment {
     private FloatingActionButton btMenuOpen;
     private String instruction;
     private RecyclerView rvIngredients;
-    private IngredientAdapter adapter;
+    private static IngredientAdapter adapter;
     private List<Ingredient> ingredients;
 
     public NewRecipeDetailFragment() {
@@ -149,5 +149,8 @@ public class NewRecipeDetailFragment extends Fragment {
         dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 
+    public static void notifyChange() {
+        if (adapter != null) adapter.notifyDataSetChanged();
+    }
 
 }
