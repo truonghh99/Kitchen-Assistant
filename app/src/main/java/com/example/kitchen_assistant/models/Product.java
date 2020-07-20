@@ -342,4 +342,10 @@ public class Product extends ParseObject implements Parcelable {
             return "undefined";
         }
     }
+
+    public void subtractQuantity(float quantity, String quantityUnit) {
+        float toSubtract = MetricConverter.convertGeneral(quantity, quantityUnit, getQuantityUnit());
+        setCurrentQuantity(Math.max(0, getCurrentQuantity() - toSubtract));
+        getFoodItem().subtractQuantity(toSubtract, getQuantityUnit());
+    }
 }

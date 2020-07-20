@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.adapters.CurrentFoodAdapter;
@@ -22,6 +23,7 @@ import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentCurrentRecipeDetailBinding;
 import com.example.kitchen_assistant.databinding.FragmentNewRecipeDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
+import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentProducts;
@@ -108,6 +110,20 @@ public class CurrentRecipeDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 openOrCloseFabMenu();
+            }
+        });
+
+        btCook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (recipe.isCookable()) {
+                    RecipeEvaluator.updateFoodFromCookedRecipe(recipe);
+                    Toast.makeText(getContext(), "Subtracted all the ingredients used in this recipe", Toast.LENGTH_SHORT).show();
+                    RecipeEvaluator.evaluateRecipe(recipe);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "Please select product for each ingredient", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return fragmentCurrentRecipeDetailBinding.getRoot();

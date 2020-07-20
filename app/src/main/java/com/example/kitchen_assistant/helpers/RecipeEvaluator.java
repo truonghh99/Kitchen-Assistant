@@ -19,6 +19,16 @@ public class RecipeEvaluator {
 
     private static final String TAG = "RecipeEvaluator";
 
+    public static void updateFoodFromCookedRecipe(Recipe recipe) {
+        List<Ingredient> ingredientList = recipe.getIngredientList();
+        Log.e(TAG, String.valueOf(ingredientList.size()));
+        for (Ingredient ingredient : ingredientList) {
+            String productCode = ingredient.getPreferredProduct();
+            Product product = CurrentProducts.productHashMap.get(productCode);
+            product.subtractQuantity(ingredient.getQuantity(), ingredient.getQuantityUnit());
+        }
+    }
+
     public static boolean ingredientIsInCart(Ingredient ingredient) {
         String name = ingredient.getName();
         Float quantity = ingredient.getQuantity();

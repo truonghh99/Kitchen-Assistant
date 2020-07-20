@@ -93,4 +93,9 @@ public class FoodItem extends ParseObject implements Parcelable {
     public Product getFirstProduct() {
         return products.get(0);
     }
+
+    public void subtractQuantity(float quantity, String quantityUnit) {
+        float toSubtract = MetricConverter.convertGeneral(quantity, quantityUnit, getQuantityUnit());
+        setQuantity(Math.max(0, getQuantity() - toSubtract));
+    }
 }
