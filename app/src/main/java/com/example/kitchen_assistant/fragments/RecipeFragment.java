@@ -2,7 +2,9 @@ package com.example.kitchen_assistant.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.kitchen_assistant.adapters.RecipeAdapter;
 import com.example.kitchen_assistant.databinding.FragmentRecipeBinding;
@@ -58,6 +61,23 @@ public class RecipeFragment extends Fragment {
         adapter = new RecipeAdapter(getActivity(), recipes);
         rvRecipe.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvRecipe.setAdapter(adapter);
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                Recipe recipe = recipes.get(viewHolder.getAdapterPosition());
+                CurrentRecipes.removeRecipe(recipe);
+                Toast.makeText(getContext(), "Recipe removed from your library", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(rvRecipe);
 
         btMenuOpen.setOnClickListener(new View.OnClickListener() {
             @Override

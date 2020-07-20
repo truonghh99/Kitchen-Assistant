@@ -112,16 +112,20 @@ public class Product extends ParseObject implements Parcelable {
     // Extract product information from json returned by OpenFoodFacts
     public Product (JSONObject json) throws JSONException {
         Log.i(TAG, "Start extracting product information");
-        JSONObject product = json.getJSONObject(PRODUCT_INFO);
-
-        setProductName( product.getString(NAME));
+        JSONObject product;
+        try {
+            product = json.getJSONObject(PRODUCT_INFO);
+        } catch (JSONException e) {
+            return;
+        }
+        setProductName(product.getString(NAME));
         try {
             String quantityStr = product.getString(QUANTITY);
             setOriginalQuantity(extractQuantityVal(quantityStr));
             setQuantityUnit(extractQuantityUnit(quantityStr));
         } catch (JSONException e) {
             setOriginalQuantity(0);
-            setQuantityUnit("g");
+            setQuantityUnit("unit");
         }
         try {
             setImageUrl(product.getString(IMAGE_URL));

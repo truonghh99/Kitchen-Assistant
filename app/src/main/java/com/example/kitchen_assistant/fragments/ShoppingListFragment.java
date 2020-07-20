@@ -2,18 +2,23 @@ package com.example.kitchen_assistant.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.kitchen_assistant.adapters.ShoppingListAdapter;
 import com.example.kitchen_assistant.databinding.FragmentShoppingListBinding;
+import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.ShoppingItem;
+import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -58,6 +63,24 @@ public class ShoppingListFragment extends Fragment {
         adapter = new ShoppingListAdapter(getActivity(), items);
         rvShoppingList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvShoppingList.setAdapter(adapter);
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                ShoppingItem item = items.get(viewHolder.getAdapterPosition());
+                CurrentShoppingList.removeItem(item);
+                Toast.makeText(getContext(), "Item removed from your shopping list", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(rvShoppingList);
+
 
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override

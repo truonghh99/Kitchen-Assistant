@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
@@ -178,7 +179,7 @@ public class CurrentFoodDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 saveInfo();
-                goToCurrentFood();
+                Toast.makeText(getContext(), "Your change has been saved!", Toast.LENGTH_SHORT).show();
             }
         });
 

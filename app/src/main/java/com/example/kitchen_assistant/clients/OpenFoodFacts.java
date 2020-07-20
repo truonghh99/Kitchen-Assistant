@@ -49,6 +49,7 @@ public class OpenFoodFacts {
                             String jsonData = response.body().string();
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonData);
+                                Log.e(TAG, jsonData);
                                 product = new Product(jsonObject);
                                 product.setProductCode(productCode);
                                 Log.i(TAG, "Successfully extracted product info");
