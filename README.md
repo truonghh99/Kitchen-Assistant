@@ -38,7 +38,7 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
 * [x] Allow user to update their current food (add, delete, edit)
 * [x] Allow user to update their recipes (add, delete, edit)
 * [x] Allow user to update their shopping list items (add, delete, edit)
-* Automatically update food status over time and after each input meal
+* [x] Automatically update food status over time and after each input meal
 * [x] Support converting current food to shopping list item 
 * [x] Support converting recipe's ingredient to shopping list item
 * [x] Be able to suggest recipes based on selected food item
