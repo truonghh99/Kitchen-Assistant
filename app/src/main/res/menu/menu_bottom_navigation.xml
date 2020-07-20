@@ -5,18 +5,18 @@
         android:id="@+id/miRecipe"
         android:enabled="true"
         android:icon="@drawable/ic_recipe"
-        android:title="NEW POST"
+        android:title="My Recipes"
         app:showAsAction="always" />
     <item
         android:id="@+id/miCurrentFood"
         android:enabled="true"
         android:icon="@drawable/ic_current_food"
-        android:title="HOME"
+        android:title="Current Food"
         app:showAsAction="always" />
     <item
         android:id="@+id/miShoppingList"
         android:enabled="true"
         android:icon="@drawable/ic_shopping_list"
-        android:title="MY PROFILE"
+        android:title="Shopping List"
         app:showAsAction="always" />
 </menu>
