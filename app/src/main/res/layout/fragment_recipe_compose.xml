@@ -48,7 +48,7 @@
         android:layout_below="@id/btInstruction"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btMenuOpen"
+        android:id="@+id/btApprove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

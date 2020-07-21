@@ -73,6 +73,7 @@ public class RecipeComposeFragment extends Fragment {
         ivImage = fragmentRecipeComposeBinding.ivImage;
         etName = fragmentRecipeComposeBinding.etName;
         btInstruction = fragmentRecipeComposeBinding.btInstruction;
+        btApprove = fragmentRecipeComposeBinding.btApprove;
         rvIngredients = fragmentRecipeComposeBinding.rvIngredients;
 
         recipe = new Recipe();
@@ -85,14 +86,28 @@ public class RecipeComposeFragment extends Fragment {
         rvIngredients.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvIngredients.setAdapter(adapter);
 
+        btInstruction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToInstructionCompose();
+            }
+        });
+
         btApprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveInfo();
+                CurrentRecipes.addRecipe(recipe);
+                Toast.makeText(getContext(), "Saved your recipe!", Toast.LENGTH_SHORT).show();
             }
         });
 
         return fragmentRecipeComposeBinding.getRoot();
+    }
+
+    private void goToInstructionCompose() {
+        DialogFragment dialogFragment = InstructionComposeFragment.newInstance(Parcels.wrap(recipe));
+        dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 
     private void saveInfo() {
