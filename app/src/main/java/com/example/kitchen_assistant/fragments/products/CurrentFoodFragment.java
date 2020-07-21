@@ -39,6 +39,7 @@ import com.parse.ParseException;
 import org.parceler.Parcels;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CurrentFoodFragment extends Fragment {
@@ -90,16 +91,30 @@ public class CurrentFoodFragment extends Fragment {
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                final List<Product> filteredModelList = filter(products, newText);
+                adapter.replaceAll(filteredModelList);
+                rvCurrentFood.scrollToPosition(0);
+                return true;
             }
         });
         searchView.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                     }
                 });
+    }
+
+    private List<Product> filter(List<Product> products, String query) {
+        final String lowerCaseQuery = query.toLowerCase();
+        final List<Product> filteredModelList = new ArrayList<>();
+        for (Product product : products) {
+            final String text = product.getProductName().toLowerCase();
+            if (text.contains(lowerCaseQuery)) {
+                filteredModelList.add(product);
+            }
+        }
+        return filteredModelList;
     }
 
     @Override

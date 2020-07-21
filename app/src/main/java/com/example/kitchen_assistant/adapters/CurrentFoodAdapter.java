@@ -53,6 +53,11 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
         return products.size();
     }
 
+    public void replaceAll(List<Product> filteredProducts) {
+        products = filteredProducts;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private CardView cvProduct;
