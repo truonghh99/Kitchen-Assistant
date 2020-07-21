@@ -17,6 +17,7 @@ import com.example.kitchen_assistant.databinding.ItemRecipeBinding;
 import com.example.kitchen_assistant.fragments.recipes.CurrentRecipeDetailFragment;
 import com.example.kitchen_assistant.fragments.recipes.NewRecipeDetailFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
+import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 
@@ -53,6 +54,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public int getItemCount() {
         return recipes.size();
     }
+
+    public void replaceAll(List<Recipe> filteredRecipes) {
+        recipes = filteredRecipes;
+        notifyDataSetChanged();
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
