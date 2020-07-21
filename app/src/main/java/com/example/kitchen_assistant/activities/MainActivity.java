@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
-        setUpToolBar();
         setUpBottomBar();
         setUpProgressBar();
         fetchInfoFromLastUse();
@@ -85,39 +84,11 @@ public class MainActivity extends AppCompatActivity {
                                 fragment = toDoListFragment;
                                 break;
                         }
-                        tvTitle.setText(title);
                         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                         return true;
                     }
                 });
         bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
-    }
-
-    // Allow user to log out via toolbar
-    // TODO: allow user to view & edit profile via toolbar
-    private void setUpToolBar() {
-        toolbar = activityMainBinding.toolbar;
-        tvTitle = activityMainBinding.title;
-        ivLogOut = activityMainBinding.ivLogOut;
-        ivLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showProgressBar();
-                ParseUser.logOutInBackground(new LogOutCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Log.i(TAG, String.valueOf(e));
-                            return;
-                        }
-                        Log.i(TAG, "Logged out!");
-                        Toast.makeText(MainActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-                        goLogIn();
-                    }
-                });
-            }
-        });
-        progressBar = activityMainBinding.progressBar;
     }
 
     // Retrieve saved information about products, recipes, and shopping list from Parse
