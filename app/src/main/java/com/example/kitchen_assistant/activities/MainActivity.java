@@ -41,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding activityMainBinding;
     public static BottomNavigationView bottomNavigation;
     private static FragmentManager fragmentManager;
-    private static Toolbar toolbar;
-    private static TextView tvTitle;
-    private ImageView ivLogOut;
     private static ProgressBar progressBar;
 
     @Override
@@ -71,16 +68,13 @@ public class MainActivity extends AppCompatActivity {
                         String title;
                         switch (item.getItemId()) {
                             case R.id.miCurrentFood:
-                                title = CurrentFoodFragment.title;
                                 fragment = currentFoodFragment;
                                 break;
                             case R.id.miRecipe:
-                                title = RecipeFragment.title;
                                 fragment = recipeFragment;
                                 break;
                             case R.id.miShoppingList:
                             default:
-                                title = ShoppingListFragment.title;
                                 fragment = toDoListFragment;
                                 break;
                         }
@@ -122,17 +116,15 @@ public class MainActivity extends AppCompatActivity {
 
     // Allow other fragments to call each other for flexibility, yet each action must be done via MainActivity
     // to avoid re-initializing fragments (improve speed & memory usage)
-    public static void switchFragment(Fragment fragment, String title) {
-        tvTitle.setText(title);
+    public static void switchFragment(Fragment fragment) {
         fragmentManager.beginTransaction()
                 .replace(R.id.flContainer, fragment)
                 .addToBackStack(null)
                 .commit();
     }
 
-    public static void switchFragmentWithTransition(Fragment fragment, String title, View view, String transitionName) {
+    public static void switchFragmentWithTransition(Fragment fragment, View view, String transitionName) {
         // TODO: create shared element before calling this, otherwise it won't work
-        tvTitle.setText(title);
         fragmentManager.beginTransaction()
                 .addSharedElement(view, transitionName)
                 .addToBackStack(null)

@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -24,6 +27,7 @@ import com.example.kitchen_assistant.storage.CurrentProducts;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlternativeOptionsFragment extends DialogFragment {
@@ -47,6 +51,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
     private GridLayoutManager layoutManager;
     private Button btBuy;
     private Ingredient ingredient;
+    private EditText etSearch;
 
     public AlternativeOptionsFragment() {
     }
@@ -79,6 +84,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
         ivLeft = fragmentAlternativeOptionsBinding.ivLeft;
         ivRight = fragmentAlternativeOptionsBinding.ivRight;
         btBuy = fragmentAlternativeOptionsBinding.btBuy;
+        etSearch = fragmentAlternativeOptionsBinding.etSearch;
 
         products = CurrentProducts.products;
         adapter = new AlternativeAdapter(getActivity(), products, ingredient, getDialog());
@@ -119,6 +125,35 @@ public class AlternativeOptionsFragment extends DialogFragment {
             }
         });
 
+        etSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence query, int start, int before, int count) {
+                List<Product> filteredProducts = filter(products, query.toString());
+                adapter.replaceAll(filteredProducts);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
         return fragmentAlternativeOptionsBinding.getRoot();
+    }
+
+    private List<Product> filter(List<Product> products, String query) {
+        final String lowerCaseQuery = query.toLowerCase();
+        final List<Product> filteredModelList = new ArrayList<>();
+        for (Product product : products) {
+            final String text = product.getProductName().toLowerCase();
+            if (text.contains(lowerCaseQuery)) {
+                filteredModelList.add(product);
+            }
+        }
+        return filteredModelList;
     }
 }

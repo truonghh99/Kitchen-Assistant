@@ -50,6 +50,11 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
         holder.bind(product);
     }
 
+    public void replaceAll(List<Product> filteredProducts) {
+        products = filteredProducts;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return products.size();

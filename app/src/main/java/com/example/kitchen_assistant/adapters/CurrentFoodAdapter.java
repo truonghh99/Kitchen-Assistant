@@ -103,7 +103,7 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
     public static void goToCurrentProductDetail(Product product) {
         Log.e(TAG, "Go to current product detail");
         Fragment currentFoodDetailFragment = CurrentFoodDetailFragment.newInstance(Parcels.wrap(product));
-        MainActivity.switchFragment(currentFoodDetailFragment, CurrentFoodDetailFragment.title);
+        MainActivity.switchFragment(currentFoodDetailFragment);
     }
 
 }

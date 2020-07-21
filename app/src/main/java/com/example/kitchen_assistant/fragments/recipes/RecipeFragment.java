@@ -98,7 +98,7 @@ public class RecipeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 RecipeComposeFragment recipeComposeFragment = RecipeComposeFragment.newInstance();
-                MainActivity.switchFragment(recipeComposeFragment, RecipeComposeFragment.title);
+                MainActivity.switchFragment(recipeComposeFragment);
             }
         });
         return fragmentRecipeBinding.getRoot();

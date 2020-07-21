@@ -80,7 +80,7 @@ public class NewProductDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            product = (Product) Parcels.unwrap(getArguments().getParcelable(PRODUCT));
+            product = Parcels.unwrap(getArguments().getParcelable(PRODUCT));
         }
     }
 

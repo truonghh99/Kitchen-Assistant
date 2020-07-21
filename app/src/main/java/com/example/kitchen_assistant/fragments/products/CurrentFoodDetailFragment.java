@@ -241,7 +241,7 @@ public class CurrentFoodDetailFragment extends Fragment {
         };
         String ingredients = Spoonacular.generateList(ingredientList);
         RecipeExploreFragment recipeExploreFragment = RecipeExploreFragment.newInstance(ingredients);
-        MainActivity.switchFragment(recipeExploreFragment, recipeExploreFragment.title);
+        MainActivity.switchFragment(recipeExploreFragment);
     }
 
     // Save all changes of current product before closing edit screen

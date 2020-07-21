@@ -26,8 +26,32 @@
             android:textStyle="bold" />
 
         <RelativeLayout
+            android:id="@+id/rlSearch"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/tvInstructionChoose">
+
+            <ImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_search_black"/>
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="140dp"
+                android:layout_toRightOf="@id/ivSearch"
+                android:layout_marginStart="5dp"
+                android:textSize="14sp"
+                android:layout_height="wrap_content"
+                android:hint="Search..." />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/rlAlternativeView"
-            android:layout_below="@id/tvInstructionChoose"
+            android:layout_below="@id/rlSearch"
             android:layout_width="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content">

@@ -55,7 +55,7 @@ public class CurrentFoodFragment extends Fragment {
     private List<Product> products;
     private FragmentCurrentFoodBinding fragmentCurrentFoodBinding;
     private FloatingActionButton btMenuOpen;
-    private FloatingActionButton btSearch;
+    private FloatingActionButton btCook;
     private FloatingActionButton btScan;
     private FloatingActionButton btWrite;
     private RecyclerView rvCurrentFood;
@@ -122,7 +122,7 @@ public class CurrentFoodFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentCurrentFoodBinding = FragmentCurrentFoodBinding.inflate(getLayoutInflater());
         btMenuOpen = fragmentCurrentFoodBinding.btMenuOpen;
-        btSearch = fragmentCurrentFoodBinding.btSearch;
+        btCook = fragmentCurrentFoodBinding.btCook;
         btScan = fragmentCurrentFoodBinding.btScan;
         btWrite = fragmentCurrentFoodBinding.btWrite;
         rvCurrentFood = fragmentCurrentFoodBinding.rvCurrentFood;
@@ -159,11 +159,11 @@ public class CurrentFoodFragment extends Fragment {
         if (btScan.getVisibility() == View.INVISIBLE) {
             btScan.setVisibility(View.VISIBLE);
             btWrite.setVisibility(View.VISIBLE);
-            btSearch.setVisibility(View.VISIBLE);
+            btCook.setVisibility(View.VISIBLE);
         } else {
             btScan.setVisibility(View.INVISIBLE);
             btWrite.setVisibility(View.INVISIBLE);
-            btSearch.setVisibility(View.INVISIBLE);
+            btCook.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -227,7 +227,7 @@ public class CurrentFoodFragment extends Fragment {
             Toast.makeText(getContext(), "You already have this product. Edit detail here!", Toast.LENGTH_LONG).show();
         } else { // Product is new
             Fragment newProductDetailFragment = NewProductDetailFragment.newInstance(Parcels.wrap(product));
-            MainActivity.switchFragment(newProductDetailFragment, NewProductDetailFragment.title);
+            MainActivity.switchFragment(newProductDetailFragment);
         }
     }
 
