@@ -3,6 +3,7 @@ package com.example.kitchen_assistant.fragments.shopping;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -10,16 +11,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.ShoppingListAdapter;
 import com.example.kitchen_assistant.databinding.FragmentShoppingListBinding;
+import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.ShoppingItem;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListFragment extends Fragment {
@@ -45,6 +53,7 @@ public class ShoppingListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -88,7 +97,47 @@ public class ShoppingListFragment extends Fragment {
         return fragmentShoppingListBinding.getRoot();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_toolbar, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        item.setActionView(searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                final List<ShoppingItem> filteredModelList = filter(items, newText);
+                adapter.replaceAll(filteredModelList);
+                rvShoppingList.scrollToPosition(0);
+                return true;
+            }
+        });
+        searchView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
+    }
 
+    private List<ShoppingItem> filter(List<ShoppingItem> items, String query) {
+        final String lowerCaseQuery = query.toLowerCase();
+        final List<ShoppingItem> filteredModelList = new ArrayList<>();
+        for (ShoppingItem item : items) {
+            final String text = item.getName().toLowerCase();
+            if (text.contains(lowerCaseQuery)) {
+                filteredModelList.add(item);
+            }
+        }
+        return filteredModelList;
+    }
     public static void notifyDataChange() {
         if (adapter != null) {
             adapter.notifyDataSetChanged();

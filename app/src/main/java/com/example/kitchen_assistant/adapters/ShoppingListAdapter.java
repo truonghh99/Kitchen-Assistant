@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kitchen_assistant.databinding.ItemShoppingBinding;
 import com.example.kitchen_assistant.fragments.shopping.EditShoppingItemFragment;
+import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.ShoppingItem;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.parse.ParseException;
@@ -56,6 +57,11 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void replaceAll(List<ShoppingItem> filteredItems) {
+        items = filteredItems;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
