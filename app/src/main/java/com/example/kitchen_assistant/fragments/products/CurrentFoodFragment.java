@@ -29,8 +29,11 @@ import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.CurrentFoodAdapter;
 import com.example.kitchen_assistant.clients.BarcodeReader;
+import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodBinding;
+import com.example.kitchen_assistant.fragments.recipes.RecipeExploreFragment;
 import com.example.kitchen_assistant.helpers.MatchingHelper;
+import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -152,6 +155,17 @@ public class CurrentFoodFragment extends Fragment {
                 goToNewProductDetail(MANUALLY_INSERT_KEY);
             }
         });
+
+        btCook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    goToExplore();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         return fragmentCurrentFoodBinding.getRoot();
     }
 
@@ -229,6 +243,20 @@ public class CurrentFoodFragment extends Fragment {
             Fragment newProductDetailFragment = NewProductDetailFragment.newInstance(Parcels.wrap(product));
             MainActivity.switchFragment(newProductDetailFragment);
         }
+    }
+
+    // Query recipes containing this current product
+    private void goToExplore() throws ParseException {
+        List<FoodItem> ingredientList = new ArrayList<FoodItem>() {
+            {
+                for (Product product : products) {
+                    add(product.getFoodItem());
+                }
+            }
+        };
+        String ingredients = Spoonacular.generateList(ingredientList);
+        RecipeExploreFragment recipeExploreFragment = RecipeExploreFragment.newInstance(ingredients);
+        MainActivity.switchFragment(recipeExploreFragment);
     }
 
     // Allow other classes to notify changes of product list to update view
