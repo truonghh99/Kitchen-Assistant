@@ -1,7 +1,13 @@
 package com.example.kitchen_assistant.fragments.recipes;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -9,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,14 +40,21 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.parceler.Parcels;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import static android.app.Activity.RESULT_OK;
 
 public class RecipeComposeFragment extends Fragment {
 
     public static final String title = "Add A Recipe";
     private static final String TAG = "RecipeComposeFragment";
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1512;
 
     private FragmentRecipeComposeBinding fragmentRecipeComposeBinding;
     private ImageView ivImage;
@@ -52,6 +66,7 @@ public class RecipeComposeFragment extends Fragment {
     private IngredientComposeAdapter adapter;
     private List<Ingredient> ingredients;
     private Recipe recipe;
+    private File photoFile;
 
     public RecipeComposeFragment() {
     }
@@ -124,6 +139,7 @@ public class RecipeComposeFragment extends Fragment {
         HashMap<String, Ingredient> result = new HashMap<>();
         for (Ingredient ingredient : ingredients) {
             if (ingredient.getName() != null) {
+                ingredient.setRecipe(recipe);
                 result.put(ingredient.getName(), ingredient);
             }
         }

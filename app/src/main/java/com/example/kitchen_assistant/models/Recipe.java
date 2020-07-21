@@ -22,6 +22,7 @@ public class Recipe extends ParseObject implements Parcelable {
 
     private static final String TAG = "RecipeModel";
     public static final String MANUALLY_INSERT_KEY = "Manually Insert";
+    private static final String DEFAULT_INSTRUCTIONS = "Sorry, there's no instructions available";
 
     // Keyword for Parse columns
     public static final String KEY_ID = "objectId";
@@ -76,13 +77,20 @@ public class Recipe extends ParseObject implements Parcelable {
         imageUrl = getString(KEY_IMAGE_URL);
         instructions = getString(KEY_INSTRUCTIONS);
         recipeCode = getString(KEY_CODE);
+        if (recipeCode == MANUALLY_INSERT_KEY) {
+            recipeCode = getString(KEY_OBJECT_ID);
+        }
         cookable = getBoolean(KEY_COOKABLE);
     }
 
     public void saveInfo() {
         put(KEY_NAME, name);
-        put(KEY_IMAGE_URL, imageUrl);
-        put(KEY_INSTRUCTIONS, instructions);
+        if (imageUrl != null) put(KEY_IMAGE_URL, imageUrl);
+        if (instructions != null) {
+            put(KEY_INSTRUCTIONS, instructions);
+        } else {
+            put(KEY_INSTRUCTIONS, DEFAULT_INSTRUCTIONS);
+        }
         put(KEY_CODE, recipeCode);
         put(KEY_COOKABLE, cookable);
         for (Ingredient ingredient : getIngredientList()) {
