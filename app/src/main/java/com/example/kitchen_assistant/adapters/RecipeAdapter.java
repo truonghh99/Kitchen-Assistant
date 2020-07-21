@@ -77,7 +77,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             cvRecipe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // TODO: GO TO DETAIL
                     Recipe recipe = recipes.get(getAdapterPosition());
                     if (CurrentRecipes.recipeHashMap.containsKey(recipe.getCode())) {
                         CurrentRecipeDetailFragment currentRecipeDetailFragment = CurrentRecipeDetailFragment.newInstance(Parcels.wrap(recipe));

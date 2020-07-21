@@ -54,7 +54,6 @@ public class CurrentRecipeDetailFragment extends Fragment {
     public CurrentRecipeDetailFragment() {
     }
 
-    // TODO: Rename and change types and number of parameters
     public static CurrentRecipeDetailFragment newInstance(Parcelable recipe) {
         CurrentRecipeDetailFragment fragment = new CurrentRecipeDetailFragment();
         Bundle args = new Bundle();

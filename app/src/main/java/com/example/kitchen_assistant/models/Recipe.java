@@ -21,6 +21,7 @@ import java.util.List;
 public class Recipe extends ParseObject implements Parcelable {
 
     private static final String TAG = "RecipeModel";
+    public static final String MANUALLY_INSERT_KEY = "Manually Insert";
 
     // Keyword for Parse columns
     public static final String KEY_ID = "objectId";

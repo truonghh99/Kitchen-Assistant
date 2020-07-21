@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.RecipeAdapter;
 import com.example.kitchen_assistant.databinding.FragmentRecipeBinding;
 import com.example.kitchen_assistant.models.Recipe;
@@ -85,6 +86,13 @@ public class RecipeFragment extends Fragment {
             }
         });
 
+        btAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecipeComposeFragment recipeComposeFragment = RecipeComposeFragment.newInstance();
+                MainActivity.switchFragment(recipeComposeFragment, RecipeComposeFragment.title);
+            }
+        });
         return fragmentRecipeBinding.getRoot();
     }
 

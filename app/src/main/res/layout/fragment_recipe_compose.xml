@@ -16,7 +16,7 @@
         android:src="@drawable/ic_add_photo"/>
 
     <EditText
-        android:id="@+id/tvName"
+        android:id="@+id/etName"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivImage"
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/tvName"
+        android:layout_below="@id/etName"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/pastelPink2"
         android:textColor="@color/white"
