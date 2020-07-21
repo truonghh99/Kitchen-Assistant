@@ -89,7 +89,7 @@ public class CurrentShoppingList {
         }
     }
 
-    public static void removeItem(ShoppingItem item) {
+    public static void removeItem(ShoppingItem item) { //TODO: CANNOT RE-ADD AFTER REMOVING
         items.remove(item);
         itemHashMap.remove(item);
         ParseObject productParse = ParseObject.createWithoutData("ShoppingItem", item.getObjectId());

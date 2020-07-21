@@ -126,8 +126,7 @@ public class RecipeComposeFragment extends Fragment {
     }
 
     private void saveInfo() {
-        HashMap<String, Ingredient> ingredientHashMap = generateIngredientHashMap(ingredients);
-
+        HashMap<String, Ingredient> ingredientHashMap = generateIngredientHashMap(adapter.ingredients);
         recipe.setName(etName.getText().toString());
         recipe.setIngredients(ingredientHashMap);
         recipe.setCode(Recipe.MANUALLY_INSERT_KEY);
@@ -135,9 +134,9 @@ public class RecipeComposeFragment extends Fragment {
         RecipeEvaluator.evaluateRecipe(recipe);
     }
 
-    private HashMap<String, Ingredient> generateIngredientHashMap(List<Ingredient> ingredients) {
+    private HashMap<String, Ingredient> generateIngredientHashMap(List<Ingredient> adapterIngredients) {
         HashMap<String, Ingredient> result = new HashMap<>();
-        for (Ingredient ingredient : ingredients) {
+        for (Ingredient ingredient : adapterIngredients) {
             if (ingredient.getName() != null) {
                 ingredient.setRecipe(recipe);
                 result.put(ingredient.getName(), ingredient);

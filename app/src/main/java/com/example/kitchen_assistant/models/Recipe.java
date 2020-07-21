@@ -4,6 +4,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.kitchen_assistant.clients.Spoonacular;
+import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -77,10 +78,13 @@ public class Recipe extends ParseObject implements Parcelable {
         imageUrl = getString(KEY_IMAGE_URL);
         instructions = getString(KEY_INSTRUCTIONS);
         recipeCode = getString(KEY_CODE);
-        if (recipeCode == MANUALLY_INSERT_KEY) {
-            recipeCode = getString(KEY_OBJECT_ID);
-        }
         cookable = getBoolean(KEY_COOKABLE);
+        if (recipeCode.equals(MANUALLY_INSERT_KEY)) {
+            recipeCode = getObjectId();
+            Log.e(TAG, "New code: " + recipeCode);
+            saveInfo();
+            saveInBackground();
+        }
     }
 
     public void saveInfo() {
@@ -92,6 +96,7 @@ public class Recipe extends ParseObject implements Parcelable {
             put(KEY_INSTRUCTIONS, DEFAULT_INSTRUCTIONS);
         }
         put(KEY_CODE, recipeCode);
+        Log.e(TAG, "New code: " + recipeCode);
         put(KEY_COOKABLE, cookable);
         for (Ingredient ingredient : getIngredientList()) {
             ingredient.saveInfo();

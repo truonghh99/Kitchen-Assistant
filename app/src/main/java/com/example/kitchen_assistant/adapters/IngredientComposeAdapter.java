@@ -1,6 +1,7 @@
 package com.example.kitchen_assistant.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,9 +29,9 @@ import java.util.List;
 
 public class IngredientComposeAdapter extends RecyclerView.Adapter<IngredientComposeAdapter.ViewHolder> {
 
-    private static final String TAG = "IngredientComposeAdapter";
+    private static final String TAG = "IngredientComposeAdapte";
     private Context context;
-    private List<Ingredient> ingredients;
+    public List<Ingredient> ingredients;
     private RecyclerView rvIngredients;
 
     @NonNull
@@ -80,7 +81,7 @@ public class IngredientComposeAdapter extends RecyclerView.Adapter<IngredientCom
                         ingredient.setName(etName.getText().toString());
                         ingredient.setQuantity(Float.parseFloat(etQuantity.getText().toString()));
                         ingredient.setQuantityUnit(etUnit.getText().toString());
-                        ingredients.add(ingredients.size() - 1, new Ingredient());
+                        ingredients.add(ingredients.size(), new Ingredient());
                         notifyItemInserted(ingredients.size() - 1);
                         rvIngredients.smoothScrollToPosition(ingredients.size() - 1);
                         return true;
