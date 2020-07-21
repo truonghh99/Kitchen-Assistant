@@ -30,10 +30,9 @@ public class CurrentShoppingList {
     }
 
     public static void addItem(ShoppingItem item) {
-        item.saveInfo();
+        saveItemInBackGround(item);
         items.add(0, item);
         itemHashMap.put(item.getName(), item);
-        saveItemInBackGround(item);
         ShoppingListFragment.notifyDataChange();
     }
 
@@ -91,7 +90,7 @@ public class CurrentShoppingList {
 
     public static void removeItem(ShoppingItem item) { //TODO: CANNOT RE-ADD AFTER REMOVING
         items.remove(item);
-        itemHashMap.remove(item);
+        itemHashMap.remove(item.getName());
         ParseObject productParse = ParseObject.createWithoutData("ShoppingItem", item.getObjectId());
         productParse.deleteEventually();
         ShoppingListFragment.notifyDataChange();
