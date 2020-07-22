@@ -114,8 +114,6 @@ public class NewProductDetailFragment extends Fragment {
         }
 
         etPurchaseDate.setText(parseDate(new Date(), DATE_FORMAT));
-        GlideHelper.loadImage(product.getImageUrl(), getContext(), ivImg);
-
 
         // Automatically update current quantity according to number of products
         etNumProducts.setOnKeyListener(new View.OnKeyListener() {

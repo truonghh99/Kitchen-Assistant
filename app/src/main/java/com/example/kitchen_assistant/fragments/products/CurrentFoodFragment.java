@@ -265,4 +265,5 @@ public class CurrentFoodFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
     }
+
 }

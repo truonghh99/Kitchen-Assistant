@@ -1,5 +1,9 @@
 package com.example.kitchen_assistant.models;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.Parcelable;
 import android.util.Log;
 
@@ -8,12 +12,22 @@ import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,7 +37,6 @@ public class Product extends ParseObject implements Parcelable {
 
     private static final String TAG = "product";
     private static final String DEFAULT_IMG = "https://cdn.dribbble.com/users/67525/screenshots/4517042/agarey_grocerydribbble.png";
-
     // Values of food status
     public static final String STATUS_BEST = "good";
     public static final String STATUS_SAFE = "safe";
@@ -45,7 +58,7 @@ public class Product extends ParseObject implements Parcelable {
     public static final String KEY_CURRENT_QUANTITY = "currentQuantity";
     public static final String KEY_QUANTITY_UNIT = "quantityUnit";
     public static final String KEY_NUM_PRODUCTS = "numProducts";
-    public static final String KEY_IMG_URL = "imageUrl";
+    public static final String KEY_IMG = "image";
     public static final String KEY_PURCHASE_DATE = "purchaseDate";
     public static final String KEY_DURATION = "duration";
     public static final String KEY_DURATION_UNIT = "durationUnit";
@@ -69,6 +82,7 @@ public class Product extends ParseObject implements Parcelable {
     private String foodStatus;
     private ParseUser owner;
     private FoodItem foodItem;
+    private ParseFile parseFile;
 
     public Product () {
     }
@@ -80,7 +94,7 @@ public class Product extends ParseObject implements Parcelable {
         currentQuantity = getNumber(KEY_CURRENT_QUANTITY).floatValue();
         quantityUnit = getString(KEY_QUANTITY_UNIT);
         numProducts = getNumber(KEY_NUM_PRODUCTS).floatValue();
-        imageUrl = getString(KEY_IMG_URL);
+        imageUrl = getParseFile(KEY_IMG).getUrl();
         purchaseDate = getDate(KEY_PURCHASE_DATE);
         duration = getNumber(KEY_DURATION).floatValue();
         durationUnit = getString(KEY_DURATION_UNIT);
@@ -99,7 +113,6 @@ public class Product extends ParseObject implements Parcelable {
         put(KEY_CURRENT_QUANTITY, currentQuantity);
         put(KEY_QUANTITY_UNIT, quantityUnit);
         put(KEY_NUM_PRODUCTS, numProducts);
-        if (imageUrl != null) put(KEY_IMG_URL, imageUrl);
         put(KEY_PURCHASE_DATE, purchaseDate);
         put(KEY_DURATION, duration);
         put(KEY_DURATION_UNIT, durationUnit);
@@ -107,6 +120,37 @@ public class Product extends ParseObject implements Parcelable {
         put(KEY_FOOD_STATUS, foodStatus);
         put(KEY_FOOD_TYPE, foodItem);
         put(KEY_OWNER, ParseUser.getCurrentUser());
+        put(KEY_IMG, parseFile);
+    }
+
+    public void saveImageFromUrl(String url) throws IOException {
+        try {
+            java.net.URL img_value = new java.net.URL(url);
+            Bitmap mIcon = BitmapFactory
+                    .decodeStream(img_value.openConnection()
+                            .getInputStream());
+            if (mIcon != null) {
+                byte[] imgByteArray = encodeToByteArray(mIcon);
+                this.parseFile = new ParseFile(imgByteArray);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public byte[] encodeToByteArray(Bitmap image) {
+        Log.d(TAG, "encodeToByteArray");
+        Bitmap b = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imgByteArray = baos.toByteArray();
+
+        return imgByteArray ;
+    }
+
+    public void saveImage(File file) {
+        Log.e(TAG, file.toString());
+        this.parseFile = new ParseFile(file);
     }
 
     // Extract product information from json returned by OpenFoodFacts
@@ -132,6 +176,13 @@ public class Product extends ParseObject implements Parcelable {
         } catch (JSONException e) {
             setImageUrl(DEFAULT_IMG);
         }
+
+        try {
+            saveImageFromUrl(product.getString(IMAGE_URL));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         setPurchaseDate(new Date());
         setNumProducts(1);
         updateCurrentQuantity();

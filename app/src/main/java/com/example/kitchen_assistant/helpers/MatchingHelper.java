@@ -11,7 +11,9 @@ import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
@@ -49,7 +51,7 @@ public class MatchingHelper {
     private static Product cloneProduct(Product original) {
         Product product = new Product();
         product.setProductCode(original.getProductCode());
-        product.setImageUrl(original.getImageUrl());
+        product.setImageUrl(product.getImageUrl());
         product.setProductName(original.getProductName());
         product.setOriginalQuantity(original.getOriginalQuantity());
         product.setQuantityUnit(original.getQuantityUnit());

@@ -4,6 +4,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.kitchen_assistant.helpers.MetricConverter;
+import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -103,5 +104,6 @@ public class FoodItem extends ParseObject implements Parcelable {
     public void subtractQuantity(float quantity, String quantityUnit) {
         float toSubtract = MetricConverter.convertGeneral(quantity, quantityUnit, getQuantityUnit());
         setQuantity(Math.max(0, getQuantity() - toSubtract));
+        if (getQuantity() == 0) CurrentFoodTypes.removeFoodType(this);
     }
 }

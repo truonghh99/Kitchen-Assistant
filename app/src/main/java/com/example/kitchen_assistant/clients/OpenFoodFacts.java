@@ -2,7 +2,10 @@ package com.example.kitchen_assistant.clients;
 
 import android.util.Log;
 
+import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
+import com.example.kitchen_assistant.storage.CurrentProducts;
+import com.parse.ParseException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +55,7 @@ public class OpenFoodFacts {
                                 Log.e(TAG, jsonData);
                                 product = new Product(jsonObject);
                                 product.setProductCode(productCode);
+                                product.setFoodItem(new FoodItem());
                                 Log.i(TAG, "Successfully extracted product info");
                             } catch (JSONException e) {
                                 e.printStackTrace();

@@ -37,4 +37,9 @@ public class CurrentFoodTypes {
         foodItem.fetchInfo();
         foodItems.put(foodItem.getName(), foodItem);
     }
+
+    public static void removeFoodType(FoodItem foodItem) {
+        foodItem.remove(foodItem.getName());
+        foodItem.deleteInBackground();
+    }
 }
