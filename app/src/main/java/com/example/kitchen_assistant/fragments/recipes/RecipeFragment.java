@@ -110,6 +110,7 @@ public class RecipeFragment extends Fragment {
         menu.clear();
         inflater.inflate(R.menu.menu_toolbar, menu);
         MenuItem item = menu.findItem(R.id.action_search);
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
         SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         item.setActionView(searchView);

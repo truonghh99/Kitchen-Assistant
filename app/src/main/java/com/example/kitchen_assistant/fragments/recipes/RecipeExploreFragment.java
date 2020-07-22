@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.RecipeAdapter;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentRecipeExploreBinding;
@@ -62,6 +63,8 @@ public class RecipeExploreFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentRecipeExploreBinding = FragmentRecipeExploreBinding.inflate(getLayoutInflater());
         rvRecipe = fragmentRecipeExploreBinding.rvRecipe;
+
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
 
         adapter = new RecipeAdapter(getActivity(), recipes);
         rvRecipe.setLayoutManager(new LinearLayoutManager(getActivity()));

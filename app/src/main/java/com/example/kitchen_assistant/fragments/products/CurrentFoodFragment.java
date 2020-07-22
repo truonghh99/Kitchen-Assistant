@@ -81,9 +81,9 @@ public class CurrentFoodFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
         inflater.inflate(R.menu.menu_toolbar, menu);
         MenuItem item = menu.findItem(R.id.action_search);
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
         SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         item.setActionView(searchView);
@@ -245,7 +245,7 @@ public class CurrentFoodFragment extends Fragment {
         }
     }
 
-    // Query recipes containing this current product
+    // Query recipes containing all current products
     private void goToExplore() throws ParseException {
         List<FoodItem> ingredientList = new ArrayList<FoodItem>() {
             {

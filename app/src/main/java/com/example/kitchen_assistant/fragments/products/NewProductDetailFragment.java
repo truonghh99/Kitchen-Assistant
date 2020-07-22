@@ -103,6 +103,8 @@ public class NewProductDetailFragment extends Fragment {
         etNumProducts = fragmentNewProductDetailBinding.etNumProducts;
         btAdd = fragmentNewProductDetailBinding.btAdd;
 
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
+
         if (product.getProductCode() != CurrentFoodFragment.MANUALLY_INSERT_KEY) {
             etName.setText(product.getProductName());
             if (product.getFoodItem() != null) {

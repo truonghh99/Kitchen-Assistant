@@ -116,6 +116,8 @@ public class CurrentFoodDetailFragment extends Fragment {
         btShop = fragmentCurrentFoodDetailBinding.btShop;
         btMenuOpen = fragmentCurrentFoodDetailBinding.btMenuOpen;
 
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
+
         // Assign values to views using product's info
         etName.setText(product.getProductName());
         etFoodType.setText(product.getFoodItem().getName());

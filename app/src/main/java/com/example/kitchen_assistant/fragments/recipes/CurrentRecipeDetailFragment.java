@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.IngredientAdapter;
 import com.example.kitchen_assistant.databinding.FragmentCurrentRecipeDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
@@ -82,6 +83,8 @@ public class CurrentRecipeDetailFragment extends Fragment {
         btCook = fragmentCurrentRecipeDetailBinding.btCook;
         btRemove = fragmentCurrentRecipeDetailBinding.btRemove;
         btShop = fragmentCurrentRecipeDetailBinding.btShop;
+
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
 
         ingredients = recipe.getIngredientList();
         adapter = new IngredientAdapter(getActivity(), ingredients);

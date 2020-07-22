@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.IngredientAdapter;
 import com.example.kitchen_assistant.adapters.IngredientComposeAdapter;
 import com.example.kitchen_assistant.clients.Spoonacular;
@@ -90,6 +91,8 @@ public class RecipeComposeFragment extends Fragment {
         btInstruction = fragmentRecipeComposeBinding.btInstruction;
         btApprove = fragmentRecipeComposeBinding.btApprove;
         rvIngredients = fragmentRecipeComposeBinding.rvIngredients;
+
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
 
         recipe = new Recipe();
         ingredients = new ArrayList<Ingredient>() {{
