@@ -66,51 +66,10 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rlOriginalQuantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rlFoodType"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/tvOriginalQuantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/scope_one"
-                android:text="Original quantity: "
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/etOriginalQuantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/tvOriginalQuantity"
-                android:fontFamily="@font/scope_one"
-                android:text="150"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/spinnerOriginalQuantityUnit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="3dp"
-                android:layout_toRightOf="@+id/etOriginalQuantity"
-                android:fontFamily="@font/scope_one"
-                android:spinnerMode="dropdown" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
             android:id="@+id/rlNumProducts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rlOriginalQuantity"
+            android:layout_below="@+id/rlFoodType"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp">
 
@@ -120,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/scope_one"
-                android:text="Number of items: "
+                android:text="Number of products: "
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -132,183 +91,189 @@
                 android:layout_toRightOf="@+id/tvNumProducts"
                 android:fontFamily="@font/scope_one"
                 android:text="1"
+                android:inputType="number"
                 android:textSize="15sp"
                 android:textStyle="bold" />
+
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rlQuantity"
-            android:layout_width="wrap_content"
+        <TableLayout
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rlNumProducts"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="20dp">
 
-            <TextView
-                android:id="@+id/tvQuantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/scope_one"
-                android:text="Current quantity: "
-                android:textSize="15sp"
-                android:textStyle="bold" />
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/etQuantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/tvQuantity"
-                android:fontFamily="@font/scope_one"
-                android:text="150"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvOriginalQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/cell_shape"
+                    android:fontFamily="@font/scope_one"
+                    android:padding="5dp"
+                    android:shadowColor="#FFFFFF"
+                    android:text="Original quantity: "
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColorHighlight="@color/best"
+                    android:textSize="15sp"
+                    android:textStyle="bold|italic" />
+                <EditText
+                    android:id="@+id/etOriginalQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tvNumProducts"
+                    android:background="@drawable/cell_shape"
+                    android:fontFamily="@font/scope_one"
+                    android:text="150g"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </TableRow>
+            <TableRow>
 
-            <Spinner
-                android:id="@+id/spinnerQuantityUnit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="3dp"
-                android:layout_toRightOf="@+id/etQuantity"
-                android:fontFamily="@font/scope_one"
-                android:spinnerMode="dropdown" />
+                <TextView
+                    android:id="@+id/tvQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/cell_shape"
+                    android:fontFamily="@font/scope_one"
+                    android:padding="5dp"
+                    android:text="Current quantity: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="15sp"
+                    android:textStyle="bold|italic" />
+                <EditText
+                    android:id="@+id/etQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/scope_one"
+                    android:padding="5dp"
+                    android:background="@drawable/cell_shape"
+                    android:text="150g"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </TableRow>
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tvPurchaseDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/cell_shape"
+                    android:fontFamily="@font/scope_one"
+                    android:padding="5dp"
+                    android:text="Purchase date: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="15sp"
+                    android:textStyle="bold|italic" />
+                <EditText
+                    android:id="@+id/etPurchaseDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tvNumProducts"
+                    android:background="@drawable/cell_shape"
+                    android:fontFamily="@font/scope_one"
+                    android:text="15/12/2002"
+                    android:inputType="date"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </TableRow>
+            <TableRow>
 
-        <RelativeLayout
-            android:id="@+id/rlPurchaseDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rlQuantity"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/tvExpirationDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/cell_shape"
+                    android:fontFamily="@font/scope_one"
+                    android:padding="5dp"
+                    android:text="Safe to use for: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="15sp"
+                    android:textStyle="bold|italic" />
+                <EditText
+                    android:id="@+id/etExpirationDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/cell_shape"
+                    android:fontFamily="@font/scope_one"
+                    android:text="2 years"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </TableRow>
+            <TableRow>
 
-            <TextView
-                android:id="@+id/tvPurchaseDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/scope_one"
-                android:text="Purchase date: "
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/cell_shape"
+                    android:fontFamily="@font/scope_one"
+                    android:padding="5dp"
+                    android:text="Expiration date: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="15sp"
+                    android:textStyle="bold|italic" />
+                <EditText
+                    android:id="@+id/etDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/cell_shape"
+                    android:fontFamily="@font/scope_one"
+                    android:text="13/10/2022"
+                    android:inputType="date"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </TableRow>
+            <TableRow>
 
-            <EditText
-                android:id="@+id/etPurchaseDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/tvPurchaseDate"
-                android:fontFamily="@font/scope_one"
-                android:text="15/05/2013"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rlDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rlPurchaseDate"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:id="@+id/tvDuration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/scope_one"
-                android:text="Safe to use for: "
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/etDuration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/tvDuration"
-                android:fontFamily="@font/scope_one"
-                android:text="45"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/spinnerDurationUnit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="3dp"
-                android:layout_toRightOf="@+id/etDuration"
-                android:fontFamily="@font/scope_one"
-                android:spinnerMode="dropdown" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rlExpirationDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rlDuration"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:id="@+id/tvExpirationDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/scope_one"
-                android:text="Expiration date: "
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/etExpirationDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/tvExpirationDate"
-                android:fontFamily="@font/scope_one"
-                android:text="15/05/2013"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rlStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rlExpirationDate"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:id="@+id/tvStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/scope_one"
-                android:text="Status: "
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/spinnerStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="3dp"
-                android:layout_toRightOf="@+id/tvStatus"
-                android:fontFamily="@font/scope_one"
-                android:spinnerMode="dropdown" />
-
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/cell_shape"
+                    android:fontFamily="@font/scope_one"
+                    android:padding="5dp"
+                    android:text="Food status: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="15sp"
+                    android:textStyle="bold|italic" />
+                <EditText
+                    android:id="@+id/etFoodStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/cell_shape"
+                    android:fontFamily="@font/scope_one"
+                    android:text="Safe to use"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </TableRow>
+        </TableLayout>
 
     </RelativeLayout>
 
