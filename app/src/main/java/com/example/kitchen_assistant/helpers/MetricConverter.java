@@ -121,6 +121,7 @@ public class MetricConverter {
     }
 
     private static String standardForm(String word) {
+        if (word.isEmpty()) return word;
         if (word.charAt(word.length() - 1) == 's') {
             return word.substring(0, word.length() - 1);
         }

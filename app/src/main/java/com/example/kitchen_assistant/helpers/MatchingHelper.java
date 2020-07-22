@@ -80,11 +80,14 @@ public class MatchingHelper {
         Log.e(TAG, "Start attaching");
         String name = food.getName();
         if (CurrentFoodTypes.foodItems.containsKey(name)) { // If such food type exists, increase quantity & handle the existing one
-            Log.e(TAG, "Food type exists!");
+            Log.i(TAG, "Food type exists!" + name);
             FoodItem foodItem = CurrentFoodTypes.foodItems.get(name);
+            Log.i(TAG, "Old quantity: " + foodItem.getQuantity());
             foodItem.increaseQuantity(food.getQuantity(), food.getQuantityUnit());
             CurrentFoodTypes.saveFoodItemInBackGround(foodItem);
             food = foodItem;
+            Log.i(TAG, "New quantity: " + foodItem.getQuantity());
+
         } else {
             Log.e(TAG, "Created new food type!");
             CurrentFoodTypes.addFoodItem(food);

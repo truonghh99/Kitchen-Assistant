@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
@@ -56,10 +58,7 @@ public class NewProductDetailFragment extends Fragment {
     private EditText etDuration;
     private EditText etExpirationDate;
     private ImageView ivImg;
-    private Spinner spinnerOriginalQuantityUnit;
-    private Spinner spinnerCurrentQuantityUnit;
-    private Spinner spinnerDurationUnit;
-    private Spinner spinnerStatus;
+    private EditText etStatus;
     private EditText etNumProducts;
     private Button btAdd;
 
@@ -96,77 +95,98 @@ public class NewProductDetailFragment extends Fragment {
         etDuration = fragmentNewProductDetailBinding.etDuration;
         etExpirationDate = fragmentNewProductDetailBinding.etExpirationDate;
         ivImg = fragmentNewProductDetailBinding.ivImg;
-        spinnerCurrentQuantityUnit = fragmentNewProductDetailBinding.spinnerQuantityUnit;
-        spinnerOriginalQuantityUnit = fragmentNewProductDetailBinding.spinnerOriginalQuantityUnit;
-        spinnerDurationUnit = fragmentNewProductDetailBinding.spinnerDurationUnit;
-        spinnerStatus = fragmentNewProductDetailBinding.spinnerStatus;
         etNumProducts = fragmentNewProductDetailBinding.etNumProducts;
+        etStatus = fragmentNewProductDetailBinding.etFoodStatus;
         btAdd = fragmentNewProductDetailBinding.btAdd;
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
 
         if (product.getProductCode() != CurrentFoodFragment.MANUALLY_INSERT_KEY) {
             etName.setText(product.getProductName());
-            if (product.getFoodItem() != null) {
-                etFoodType.setText(product.getFoodItem().getName());
-            } else {
-                etFoodType.setText(product.getProductName());
-            }
-            etOriginalQuantity.setText(String.valueOf(product.getOriginalQuantity()));
-            etCurrentQuantity.setText(String.valueOf(product.getCurrentQuantity()));
-            etPurchaseDate.setText(parseDate(product.getPurchaseDate(), DATE_FORMAT));
-            etDuration.setText(String.valueOf(product.getDuration()));
+            etFoodType.setText(product.getFoodItem().getName());
+            etOriginalQuantity.setText(product.getOriginalQuantity() + " " + product.getQuantityUnit());
+            etCurrentQuantity.setText(product.getCurrentQuantity() + " " + product.getQuantityUnit());
+            etDuration.setText(product.getDuration() + " " + product.getDurationUnit());
             etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
             etNumProducts.setText(String.valueOf(product.getNumProducts()));
-            SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, product.getQuantityUnit(), getContext(), etCurrentQuantity, (float) product.getCurrentQuantity(), spinnerOriginalQuantityUnit);
-            SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, product.getQuantityUnit(), getContext(), etOriginalQuantity, (float) product.getOriginalQuantity(), spinnerCurrentQuantityUnit);
-            SpinnerHelper.setUpMetricSpinner(spinnerDurationUnit, product.getDurationUnit(), getContext(), etDuration, (float) product.getDuration(), null);
-            SpinnerHelper.setUpStatusSpinner(spinnerStatus, product.getFoodStatus(), getContext());
-        } else {
-            SpinnerHelper.setUpMetricSpinner(spinnerCurrentQuantityUnit, MetricConverter.GENERAL_METRIC_TAG, getContext(), etCurrentQuantity, (float) product.getCurrentQuantity(), spinnerOriginalQuantityUnit);
-            SpinnerHelper.setUpMetricSpinner(spinnerOriginalQuantityUnit, MetricConverter.GENERAL_METRIC_TAG, getContext(), etOriginalQuantity, (float) product.getOriginalQuantity(), spinnerCurrentQuantityUnit);
-            SpinnerHelper.setUpMetricSpinner(spinnerDurationUnit, "day", getContext(), etDuration, (float) product.getDuration(), null);
-            SpinnerHelper.setUpStatusSpinner(spinnerStatus, product.getFoodStatus(), getContext());
+            etStatus.setText(product.getFoodStatus());
+            GlideHelper.loadImage(product.getImageUrl(), getContext(), ivImg);
         }
 
+        etPurchaseDate.setText(parseDate(new Date(), DATE_FORMAT));
         GlideHelper.loadImage(product.getImageUrl(), getContext(), ivImg);
 
 
         // Automatically update current quantity according to number of products
-        etNumProducts.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (etNumProducts.getText().toString().isEmpty()) return;
-                float numProducts = Float.parseFloat(etNumProducts.getText().toString());
-                float newQuantity = Float.parseFloat(etOriginalQuantity.getText().toString()) * numProducts;
-                etCurrentQuantity.setText(String.valueOf(newQuantity));
+        etNumProducts.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    float numProducts = Float.parseFloat(etNumProducts.getText().toString());
+                    product.setNumProducts(numProducts);
+                    product.updateCurrentQuantity();
+                    etCurrentQuantity.setText(product.getCurrentQuantity() + " " + product.getQuantityUnit());
+                    return true;
+                }
+                return false;
             }
         });
 
         // Automatically update current quantity according to original quantity
-        etOriginalQuantity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        etOriginalQuantity.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    float originalQuantity = MetricConverter.extractQuantityVal(etOriginalQuantity.getText().toString());
+                    String unit = MetricConverter.extractQuantityUnit(etOriginalQuantity.getText().toString());
+                    product.setOriginalQuantity(originalQuantity);
+                    product.setQuantityUnit(unit);
+                    product.updateCurrentQuantity();
+                    etCurrentQuantity.setText(product.getCurrentQuantity() + " " + product.getQuantityUnit());
+                    return true;
+                }
+                return false;
             }
+        });
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        // Automatically update expiration date & status according to duration
+        etDuration.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    Float duration = MetricConverter.extractQuantityVal(etDuration.getText().toString());
+                    String durationUnit = MetricConverter.extractQuantityUnit(etDuration.getText().toString());
+                    product.setDuration(duration);
+                    product.setDurationUnit(durationUnit);
+                    if (product.getExpirationDate() != null) {
+                        product.updateExpirationDate();
+                        product.updateFoodStatus();
+                        etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
+                        etStatus.setText(product.getFoodStatus());
+                    }
+                    return true;
+                }
+                return false;
             }
+        });
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (etOriginalQuantity.getText().toString().isEmpty()) return;
-                float numProducts = Float.parseFloat(etNumProducts.getText().toString());
-                float newQuantity = Float.parseFloat(etOriginalQuantity.getText().toString()) * numProducts;
-                etCurrentQuantity.setText(String.valueOf(newQuantity));
+        // Automatically update expiration date & status according to purchase date
+        etPurchaseDate.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    Date purchaseDate = product.getPurchaseDate();
+                    try {
+                        purchaseDate = DATE_FORMAT.parse(etPurchaseDate.getText().toString());
+                    } catch (ParseException e) {
+                        Toast.makeText(getContext(), "Invalid date format", Toast.LENGTH_SHORT);
+                    }
+                    product.setPurchaseDate(purchaseDate);
+                    if (product.getDurationUnit() != null) {
+                        product.updateExpirationDate();
+                        product.updateFoodStatus();
+                        etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
+                        etStatus.setText(product.getFoodStatus());
+                    }
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -176,18 +196,18 @@ public class NewProductDetailFragment extends Fragment {
                 // Get attributes from user input
                 String productName = etName.getText().toString();
                 String foodType = etFoodType.getText().toString();
-                Float originalQuantity = Float.parseFloat(etOriginalQuantity.getText().toString());
-                String quantityUnit = spinnerOriginalQuantityUnit.getSelectedItem().toString();
-                Float currentQuantity = Float.parseFloat(etCurrentQuantity.getText().toString());
+                float originalQuantity = MetricConverter.extractQuantityVal(etOriginalQuantity.getText().toString());
+                String quantityUnit = MetricConverter.extractQuantityUnit(etOriginalQuantity.getText().toString());
+                float currentQuantity = MetricConverter.extractQuantityVal(etCurrentQuantity.getText().toString());
                 Date purchaseDate = product.getPurchaseDate();
                 try {
                     purchaseDate = DATE_FORMAT.parse(etPurchaseDate.getText().toString());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                Float duration = Float.parseFloat(etDuration.getText().toString());
-                String durationUnit = spinnerDurationUnit.getSelectedItem().toString();
-                String foodStatus = spinnerStatus.getSelectedItem().toString();
+                Float duration = MetricConverter.extractQuantityVal(etDuration.getText().toString());
+                String durationUnit = MetricConverter.extractQuantityUnit(etDuration.getText().toString());
+                String foodStatus = etStatus.getText().toString();
 
                 // Assign attributes to product object
                 if (product.getProductCode() == CurrentFoodFragment.MANUALLY_INSERT_KEY) {
