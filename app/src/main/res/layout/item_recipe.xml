@@ -36,11 +36,20 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_below="@id/tvName"
+            android:layout_toRightOf="@id/ivImage" />
+
         <TextView
             android:id="@+id/tvStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvName"
+            android:layout_below="@id/ratingBar"
             android:layout_toRightOf="@id/ivImage"
             android:layout_marginStart="5dp"
             android:layout_centerHorizontal="true"

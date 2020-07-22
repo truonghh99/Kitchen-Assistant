@@ -76,12 +76,6 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
         public void bind(final Product product) {
             tvName.setText(product.getProductName());
             tvQuantity.setText("" + product.getCurrentQuantity() + " " + product.getQuantityUnit());
-            cvProduct.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //goToCurrentProductDetail(products.get(getAdapterPosition()));
-                }
-            });
 
             // Change card background to indicate current status of products
             switch (product.getFoodStatus()) {
