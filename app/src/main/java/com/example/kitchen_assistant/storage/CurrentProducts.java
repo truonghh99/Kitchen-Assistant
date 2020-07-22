@@ -111,6 +111,7 @@ public class CurrentProducts {
         products.remove(product);
         product.subtractQuantity(product.getCurrentQuantity(), product.getQuantityUnit());
         saveProductInBackGround(product);
+        CurrentFoodTypes.saveFoodItemInBackGround(product.getFoodItem());
         RecipeEvaluator.evaluateAllRecipe();
     }
 
