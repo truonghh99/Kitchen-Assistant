@@ -12,6 +12,7 @@
         android:id="@+id/rlProductInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true">
 
         <ImageView
@@ -98,7 +99,7 @@
         </RelativeLayout>
 
         <TableLayout
-            android:layout_width="230dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rlNumProducts"
             android:layout_centerHorizontal="true"
@@ -107,18 +108,19 @@
             <TableRow
                 android:id="@+id/tableRow1"
                 android:layout_width="match_parent"
+                android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tvOriginalQuantity"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:background="@drawable/cell_shape"
                     android:fontFamily="@font/scope_one"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:shadowColor="#FFFFFF"
-                    android:text="Original quantity: "
+                    android:text="Original quantity"
                     android:textAllCaps="false"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColorHighlight="@color/best"
@@ -126,9 +128,9 @@
                     android:textStyle="bold|italic" />
                 <EditText
                     android:id="@+id/etOriginalQuantity"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/tvNumProducts"
                     android:background="@drawable/cell_shape"
@@ -141,13 +143,13 @@
 
                 <TextView
                     android:id="@+id/tvQuantity"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:background="@drawable/cell_shape"
                     android:fontFamily="@font/scope_one"
-                    android:padding="5dp"
-                    android:text="Current quantity: "
+                    android:padding="10dp"
+                    android:text="Current quantity"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="15sp"
                     android:textStyle="bold|italic" />
@@ -157,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/scope_one"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:background="@drawable/cell_shape"
                     android:text="150g"
                     android:textSize="15sp"
@@ -170,21 +172,21 @@
 
                 <TextView
                     android:id="@+id/tvPurchaseDate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:background="@drawable/cell_shape"
                     android:fontFamily="@font/scope_one"
-                    android:padding="5dp"
-                    android:text="Purchase date: "
+                    android:padding="10dp"
+                    android:text="Purchase date"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="15sp"
                     android:textStyle="bold|italic" />
                 <EditText
                     android:id="@+id/etPurchaseDate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/tvNumProducts"
                     android:background="@drawable/cell_shape"
@@ -197,22 +199,22 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/tvExpirationDate"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvDuration"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:background="@drawable/cell_shape"
                     android:fontFamily="@font/scope_one"
-                    android:padding="5dp"
-                    android:text="Safe to use for: "
+                    android:padding="10dp"
+                    android:text="Safe to use for"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="15sp"
                     android:textStyle="bold|italic" />
                 <EditText
-                    android:id="@+id/etExpirationDate"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/etDuration"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:layout_centerVertical="true"
                     android:background="@drawable/cell_shape"
                     android:fontFamily="@font/scope_one"
@@ -223,22 +225,22 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/tvDuration"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvExpirationDate"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:background="@drawable/cell_shape"
                     android:fontFamily="@font/scope_one"
-                    android:padding="5dp"
-                    android:text="Expiration date: "
+                    android:padding="10dp"
+                    android:text="Expiration date"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="15sp"
                     android:textStyle="bold|italic" />
                 <EditText
-                    android:id="@+id/etDuration"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/etExpirationDate"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:layout_centerVertical="true"
                     android:background="@drawable/cell_shape"
                     android:fontFamily="@font/scope_one"
@@ -251,21 +253,21 @@
 
                 <TextView
                     android:id="@+id/tvStatus"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:background="@drawable/cell_shape"
                     android:fontFamily="@font/scope_one"
-                    android:padding="5dp"
-                    android:text="Food status: "
+                    android:padding="10dp"
+                    android:text="Food status (good, safe, bad)"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="15sp"
                     android:textStyle="bold|italic" />
                 <EditText
                     android:id="@+id/etFoodStatus"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:layout_centerVertical="true"
                     android:background="@drawable/cell_shape"
                     android:fontFamily="@font/scope_one"

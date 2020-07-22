@@ -85,7 +85,7 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
             });
 
             // Change card background to indicate current status of products
-            switch (product.getFoodStatus()) {
+            switch (product.getFoodStatus().toLowerCase()) {
                 case Product.STATUS_BEST:
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.best));
                     break;

@@ -91,18 +91,24 @@ public class MetricConverter {
     };
 
     public static float convertVolume(float quantity, String unitFrom, String unitTo) {
+        unitFrom = standardForm(unitFrom);
+        unitTo = standardForm(unitTo);
         float result = 0;
         result = quantity * volumne.get(unitFrom) / volumne.get(unitTo);
         return result;
     }
 
     public static float convertWeight(float quantity, String unitFrom, String unitTo) {
+        unitFrom = standardForm(unitFrom);
+        unitTo = standardForm(unitTo);
         float result = 0;
         result = quantity * weight.get(unitFrom) / weight.get(unitTo);
         return result;
     }
 
     public static float convertTime(float quantity, String unitFrom, String unitTo) {
+        unitFrom = standardForm(unitFrom);
+        unitTo = standardForm(unitTo);
         float result = 0;
         if (unitFrom == "year" && unitTo == "month") {
             return quantity * 12;
@@ -114,9 +120,17 @@ public class MetricConverter {
         return result;
     }
 
+    private static String standardForm(String word) {
+        if (word.charAt(word.length() - 1) == 's') {
+            return word.substring(0, word.length() - 1);
+        }
+        return word;
+    }
+
     // Convert unit of any type (volume, weight, or time)
     public static float convertGeneral(float currentVal, String oldUnit, String newUnit) {
-        //Log.e(TAG, "Attempt to convert " + oldUnit + " to " + newUnit);
+        oldUnit = standardForm(oldUnit);
+        oldUnit = standardForm(oldUnit);
 
         float result = currentVal;
 
@@ -137,5 +151,31 @@ public class MetricConverter {
 
         //Log.e(TAG, "Cannot convert " + oldUnit + " to " + newUnit);
         return result;
+    }
+
+    public static String extractQuantityUnit(String quantityStr) {
+        if (quantityStr.isEmpty()) {
+            return "g";
+        }
+        int i = 0;
+        while (i < quantityStr.length() && (quantityStr.charAt(i) <= '9' && quantityStr.charAt(i) >= '0' || quantityStr.charAt(i) == '.')) ++i;
+        if (i < quantityStr.length() && quantityStr.charAt(i) == ' ') ++i;
+        String unit = "";
+        while (i < quantityStr.length() && quantityStr.charAt(i) != ' ') {
+            unit += quantityStr.charAt(i);
+            ++i;
+        }
+        return unit;
+    }
+
+    public static float extractQuantityVal(String quantityStr) {
+        if (quantityStr.isEmpty()) {
+            return 0;
+        }
+        String quantityValStr = "";
+        for (int i = 0; i < quantityStr.length() && quantityStr.charAt(i) != ' '; ++i) {
+           quantityValStr += quantityStr.charAt(i);
+        }
+        return Float.parseFloat(quantityValStr);
     }
 }

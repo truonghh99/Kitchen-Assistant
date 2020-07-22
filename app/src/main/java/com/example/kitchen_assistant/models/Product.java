@@ -25,9 +25,9 @@ public class Product extends ParseObject implements Parcelable {
     private static final String DEFAULT_IMG = "https://cdn.dribbble.com/users/67525/screenshots/4517042/agarey_grocerydribbble.png";
 
     // Values of food status
-    public static final String STATUS_BEST = "New & fresh";
-    public static final String STATUS_SAFE = "Safe to use";
-    public static final String STATUS_BAD = "Not safe to use";
+    public static final String STATUS_BEST = "good";
+    public static final String STATUS_SAFE = "safe";
+    public static final String STATUS_BAD = "bad";
 
     // Keyword for Open Food Facts json response
     private static final String PRODUCT_INFO = "product";
@@ -121,8 +121,8 @@ public class Product extends ParseObject implements Parcelable {
         setProductName(product.getString(NAME));
         try {
             String quantityStr = product.getString(QUANTITY);
-            setOriginalQuantity(extractQuantityVal(quantityStr));
-            setQuantityUnit(extractQuantityUnit(quantityStr));
+            setOriginalQuantity(MetricConverter.extractQuantityVal(quantityStr));
+            setQuantityUnit(MetricConverter.extractQuantityUnit(quantityStr));
         } catch (JSONException e) {
             setOriginalQuantity(0);
             setQuantityUnit("unit");
@@ -180,10 +180,22 @@ public class Product extends ParseObject implements Parcelable {
         switch (getDurationUnit()) {
             case "year":
                 c.add(Calendar.YEAR, (int) getDuration());
+                break;
+            case "years":
+                c.add(Calendar.YEAR, (int) getDuration());
+                break;
             case "month":
                 c.add(Calendar.MONTH, (int) getDuration());
+                break;
+            case "months":
+                c.add(Calendar.MONTH, (int) getDuration());
+                break;
             case "day":
                 c.add(Calendar.DATE, (int) getDuration());
+                break;
+            case "days":
+                c.add(Calendar.DATE, (int) getDuration());
+                break;
         }
         setExpirationDate(c.getTime());
         return;
@@ -191,32 +203,6 @@ public class Product extends ParseObject implements Parcelable {
 
     public void updateCurrentQuantity() {
         setCurrentQuantity(getNumProducts() * getOriginalQuantity());
-    }
-
-    private String extractQuantityUnit(String quantityStr) {
-        if (quantityStr.isEmpty()) {
-            return "g";
-        }
-        int i = 0;
-        while (quantityStr.charAt(i) <= '9' && quantityStr.charAt(i) >= '0') ++i;
-        if (i < quantityStr.length() && quantityStr.charAt(i) == ' ') ++i;
-        String unit = "";
-        while (i < quantityStr.length() && quantityStr.charAt(i) != ' ') {
-            unit += quantityStr.charAt(i);
-            ++i;
-        }
-        return unit;
-    }
-
-    private int extractQuantityVal(String quantityStr) {
-        if (quantityStr.isEmpty()) {
-            return 0;
-        }
-        int quantityVal = 0;
-        for (int i = 0; quantityStr.charAt(i) <= '9' && quantityStr.charAt(i) >= '0'; ++i) {
-            quantityVal = quantityVal * 10 + (int) (quantityStr.charAt(i) - '0');
-        }
-        return quantityVal;
     }
 
     public void detachFoodItem() {
@@ -319,7 +305,7 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void setFoodStatus(String foodStatus) {
-        this.foodStatus = foodStatus;
+        this.foodStatus = foodStatus.toLowerCase();
     }
 
     public ParseUser getOwner() {
