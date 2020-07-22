@@ -1,14 +1,11 @@
 package com.example.kitchen_assistant.helpers;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.module.AppGlideModule;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.kitchen_assistant.R;
 
@@ -60,7 +57,7 @@ public class GlideHelper {
 
     private static void loadDefaultImage(Context context, ImageView imgView) {
         Glide.with(context)
-                .load(R.drawable.default_food)
+                .load(R.drawable.default_food_img)
                 .override(IMAGE_WIDTH, IMAGE_HEIGHT)
                 .into(imgView);
     }

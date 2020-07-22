@@ -174,7 +174,7 @@ public class MetricConverter {
             return 0;
         }
         String quantityValStr = "";
-        for (int i = 0; i < quantityStr.length() && quantityStr.charAt(i) != ' '; ++i) {
+        for (int i = 0; i < quantityStr.length() && (quantityStr.charAt(i) <= '9' && quantityStr.charAt(i) >= '0' || quantityStr.charAt(i) == '.'); ++i) {
            quantityValStr += quantityStr.charAt(i);
         }
         return Float.parseFloat(quantityValStr);

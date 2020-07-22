@@ -94,7 +94,10 @@ public class Product extends ParseObject implements Parcelable {
         currentQuantity = getNumber(KEY_CURRENT_QUANTITY).floatValue();
         quantityUnit = getString(KEY_QUANTITY_UNIT);
         numProducts = getNumber(KEY_NUM_PRODUCTS).floatValue();
-        imageUrl = getParseFile(KEY_IMG).getUrl();
+        parseFile = getParseFile(KEY_IMG);
+        if (parseFile != null) {
+            imageUrl = parseFile.getUrl();
+        }
         purchaseDate = getDate(KEY_PURCHASE_DATE);
         duration = getNumber(KEY_DURATION).floatValue();
         durationUnit = getString(KEY_DURATION_UNIT);
@@ -120,7 +123,7 @@ public class Product extends ParseObject implements Parcelable {
         put(KEY_FOOD_STATUS, foodStatus);
         put(KEY_FOOD_TYPE, foodItem);
         put(KEY_OWNER, ParseUser.getCurrentUser());
-        put(KEY_IMG, parseFile);
+        if (parseFile != null) put(KEY_IMG, parseFile);
     }
 
     public void saveImageFromUrl(String url) throws IOException {
@@ -139,7 +142,6 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public byte[] encodeToByteArray(Bitmap image) {
-        Log.d(TAG, "encodeToByteArray");
         Bitmap b = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         b.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -178,7 +180,7 @@ public class Product extends ParseObject implements Parcelable {
         }
 
         try {
-            saveImageFromUrl(product.getString(IMAGE_URL));
+            saveImageFromUrl(getImageUrl());
         } catch (IOException e) {
             e.printStackTrace();
         }

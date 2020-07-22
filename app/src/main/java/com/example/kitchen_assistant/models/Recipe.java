@@ -1,11 +1,14 @@
 package com.example.kitchen_assistant.models;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -14,6 +17,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +46,7 @@ public class Recipe extends ParseObject implements Parcelable {
     private static final String KEY_INGREDIENTS_JSON_API = "missedIngredients";
     private static final String KEY_IMAGE_JSON_API = "image";
     private static final String KEY_ID_API = "id";
+    private static final String KEY_IMG = "image";
 
     // Local properties
     private String name;
@@ -48,13 +54,18 @@ public class Recipe extends ParseObject implements Parcelable {
     private String imageUrl;
     private String instructions;
     private boolean cookable;
-    private float rating;
+    private ParseFile parseFile;
     private HashMap<String, Ingredient> ingredients = new HashMap<>();
 
     public static Recipe extractFromJsonObject(JSONObject json) throws JSONException {
         Recipe result = new Recipe();
         result.setName(json.getString(KEY_NAME_JSON_API));
         result.setImageUrl(json.getString(KEY_IMAGE_JSON_API));
+        try {
+            result.saveImageFromUrl(result.getImageUrl());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         result.setCode(json.getString(KEY_ID_API));
         result.setInstructions("no instructions");
         try {
@@ -77,7 +88,10 @@ public class Recipe extends ParseObject implements Parcelable {
 
     public void fetchInfo() {
         name = getString(KEY_NAME);
-        imageUrl = getString(KEY_IMAGE_URL);
+        parseFile = getParseFile(KEY_IMG);
+        if (parseFile != null) {
+            imageUrl = parseFile.getUrl();
+        }
         instructions = getString(KEY_INSTRUCTIONS);
         recipeCode = getString(KEY_CODE);
         cookable = getBoolean(KEY_COOKABLE);
@@ -91,7 +105,7 @@ public class Recipe extends ParseObject implements Parcelable {
 
     public void saveInfo() {
         put(KEY_NAME, name);
-        if (imageUrl != null) put(KEY_IMAGE_URL, imageUrl);
+        if (parseFile != null) put(KEY_IMG, parseFile);
         if (instructions != null) {
             put(KEY_INSTRUCTIONS, instructions);
         } else {
@@ -103,6 +117,30 @@ public class Recipe extends ParseObject implements Parcelable {
         for (Ingredient ingredient : getIngredientList()) {
             ingredient.saveInfo();
         }
+    }
+
+    public void saveImageFromUrl(String url) throws IOException {
+        try {
+            java.net.URL img_value = new java.net.URL(url);
+            Bitmap mIcon = BitmapFactory
+                    .decodeStream(img_value.openConnection()
+                            .getInputStream());
+            if (mIcon != null) {
+                byte[] imgByteArray = encodeToByteArray(mIcon);
+                this.parseFile = new ParseFile(imgByteArray);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public byte[] encodeToByteArray(Bitmap image) {
+        Bitmap b = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imgByteArray = baos.toByteArray();
+
+        return imgByteArray ;
     }
 
     public String getName() {
