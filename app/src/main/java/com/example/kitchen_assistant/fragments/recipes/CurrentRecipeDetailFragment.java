@@ -19,10 +19,11 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.IngredientAdapter;
 import com.example.kitchen_assistant.databinding.FragmentCurrentRecipeDetailBinding;
+import com.example.kitchen_assistant.fragments.reviews.ReviewComposeFragment;
+import com.example.kitchen_assistant.fragments.reviews.ReviewFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;

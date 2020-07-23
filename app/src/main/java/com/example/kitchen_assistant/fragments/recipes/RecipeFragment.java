@@ -25,6 +25,8 @@ import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,7 +98,7 @@ public class RecipeFragment extends Fragment {
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RecipeComposeFragment recipeComposeFragment = RecipeComposeFragment.newInstance();
+                RecipeComposeFragment recipeComposeFragment = RecipeComposeFragment.newInstance(Parcels.wrap(new Recipe()));
                 MainActivity.switchFragment(recipeComposeFragment);
             }
         });

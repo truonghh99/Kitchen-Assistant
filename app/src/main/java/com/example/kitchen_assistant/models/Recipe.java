@@ -104,12 +104,6 @@ public class Recipe extends ParseObject implements Parcelable {
         instructions = getString(KEY_INSTRUCTIONS);
         recipeCode = getString(KEY_CODE);
         cookable = getBoolean(KEY_COOKABLE);
-        if (recipeCode.equals(MANUALLY_INSERT_KEY)) {
-            recipeCode = getObjectId();
-            Log.e(TAG, "New code: " + recipeCode);
-            saveInfo();
-            saveInBackground();
-        }
     }
 
     public void saveInfo() {
@@ -237,13 +231,19 @@ public class Recipe extends ParseObject implements Parcelable {
     }
 
     public void setParseFile(ParseFile parseFile) {
+        Log.e(TAG, "Setting Parse File");
         this.parseFile = parseFile;
         put(KEY_IMG, parseFile);
         try {
+            Log.e(TAG, "Saving to Parse");
             save();
         } catch (ParseException e) {
             e.printStackTrace();
         }
         setImageUrl(parseFile.getUrl());
+    }
+
+    public ParseFile getParseFile() {
+        return parseFile;
     }
 }

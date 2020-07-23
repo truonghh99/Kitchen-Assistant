@@ -49,11 +49,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class PhotoFragment extends Fragment {
 
-    public static final String KEY_PRODUCT = "product";
-    public static final String KEY_RECIPE = "recipe";
-    public static final String KEY_REVIEW = "review";
-
-    private static final String KEY_MODEL_TAG = "model";
+    private static final String KEY_MODEL_TAG = "modelTag";
+    private static final String KEY_MODEL = "model";
     public final String TAG = "PhotoFragment";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private static final int LOAD_IMAGE_ACTIVITY_REQUEST_CODE = 1512;
@@ -75,10 +72,10 @@ public class PhotoFragment extends Fragment {
     public PhotoFragment() {
     }
 
-    public static PhotoFragment newInstance(Parcelable product, String modelTag) {
+    public static PhotoFragment newInstance(Parcelable model, String modelTag) {
         PhotoFragment fragment = new PhotoFragment();
         Bundle args = new Bundle();
-        args.putParcelable(KEY_PRODUCT, product);
+        args.putParcelable(KEY_MODEL, model);
         args.putString(KEY_MODEL_TAG, modelTag);
         fragment.setArguments(args);
         return fragment;
@@ -91,13 +88,13 @@ public class PhotoFragment extends Fragment {
             modelTag = getArguments().getString(KEY_MODEL_TAG);
             switch (modelTag) {
                 case Product.TAG:
-                    product = Parcels.unwrap(getArguments().getParcelable(KEY_PRODUCT));
+                    product = Parcels.unwrap(getArguments().getParcelable(KEY_MODEL));
                     break;
                 case Recipe.TAG:
-                    recipe = Parcels.unwrap(getArguments().getParcelable(KEY_RECIPE));
+                    recipe = Parcels.unwrap(getArguments().getParcelable(KEY_MODEL));
                     break;
                 case Review.TAG:
-                    product = Parcels.unwrap(getArguments().getParcelable(KEY_REVIEW));
+                    review = Parcels.unwrap(getArguments().getParcelable(KEY_MODEL));
                     break;
             }
         }

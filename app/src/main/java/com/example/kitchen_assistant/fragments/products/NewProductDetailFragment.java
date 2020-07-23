@@ -267,7 +267,7 @@ public class NewProductDetailFragment extends Fragment {
     }
 
     private void goToPhoto() {
-        Fragment fragment = PhotoFragment.newInstance(Parcels.wrap(product));
+        Fragment fragment = PhotoFragment.newInstance(Parcels.wrap(product), Product.TAG);
         fragment.setTargetFragment(this, REQUEST_CODE);
         MainActivity.switchFragment(fragment);
     }

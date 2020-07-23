@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -32,12 +33,15 @@ import com.example.kitchen_assistant.adapters.IngredientComposeAdapter;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentNewRecipeDetailBinding;
 import com.example.kitchen_assistant.databinding.FragmentRecipeComposeBinding;
+import com.example.kitchen_assistant.fragments.products.PhotoFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;
+import com.example.kitchen_assistant.models.Rating;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.parse.ParseException;
 
 import org.parceler.Parcels;
 
@@ -56,6 +60,8 @@ public class RecipeComposeFragment extends Fragment {
     public static final String title = "Add A Recipe";
     private static final String TAG = "RecipeComposeFragment";
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1512;
+    private static final int REQUEST_CODE = 0;
+    private static final String KEY_RECIPE = "recipe";
 
     private FragmentRecipeComposeBinding fragmentRecipeComposeBinding;
     private ImageView ivImage;
@@ -66,20 +72,27 @@ public class RecipeComposeFragment extends Fragment {
     private RecyclerView rvIngredients;
     private IngredientComposeAdapter adapter;
     private List<Ingredient> ingredients;
-    private Recipe recipe;
+    public Recipe recipe;
     private File photoFile;
 
     public RecipeComposeFragment() {
     }
 
-    public static RecipeComposeFragment newInstance() {
+    public static RecipeComposeFragment newInstance(Parcelable recipe) {
         RecipeComposeFragment fragment = new RecipeComposeFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(KEY_RECIPE, recipe);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            recipe = Parcels.unwrap(getArguments().getParcelable(KEY_RECIPE));
+        }
     }
 
     @Override
@@ -92,9 +105,10 @@ public class RecipeComposeFragment extends Fragment {
         btApprove = fragmentRecipeComposeBinding.btApprove;
         rvIngredients = fragmentRecipeComposeBinding.rvIngredients;
 
+        loadImage();
+
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
 
-        recipe = new Recipe();
         ingredients = new ArrayList<Ingredient>() {{
             Ingredient ingredient = new Ingredient();
             add(ingredient);
@@ -120,6 +134,13 @@ public class RecipeComposeFragment extends Fragment {
             }
         });
 
+        ivImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToPhoto();
+            }
+        });
+
         return fragmentRecipeComposeBinding.getRoot();
     }
 
@@ -132,7 +153,13 @@ public class RecipeComposeFragment extends Fragment {
         HashMap<String, Ingredient> ingredientHashMap = generateIngredientHashMap(adapter.ingredients);
         recipe.setName(etName.getText().toString());
         recipe.setIngredients(ingredientHashMap);
-        recipe.setCode(Recipe.MANUALLY_INSERT_KEY);
+        recipe.setCode(etName.getText().toString());
+
+        try {
+            recipe.setRating(Rating.requestRating(recipe));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         RecipeEvaluator.evaluateRecipe(recipe);
     }
@@ -146,5 +173,26 @@ public class RecipeComposeFragment extends Fragment {
             }
         }
         return result;
+    }
+
+    private void goToPhoto() {
+        Fragment fragment = PhotoFragment.newInstance(Parcels.wrap(recipe), Recipe.TAG);
+        fragment.setTargetFragment(this, REQUEST_CODE);
+        MainActivity.switchFragment(fragment);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        loadImage();
+    }
+
+    public void loadImage() {
+        if (recipe.getParseFile() != null) {
+            Log.e(TAG, recipe.getImageUrl());
+            GlideHelper.loadImage(recipe.getImageUrl(), getContext(), ivImage);
+        } else {
+            Log.e(TAG, "No image to load");
+        }
     }
 }

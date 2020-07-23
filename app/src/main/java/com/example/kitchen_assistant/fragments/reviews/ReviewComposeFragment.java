@@ -1,4 +1,4 @@
-package com.example.kitchen_assistant.fragments.recipes;
+package com.example.kitchen_assistant.fragments.reviews;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,19 +6,13 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 
 import android.os.Parcelable;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
-import com.example.kitchen_assistant.databinding.FragmentInstructionBinding;
-import com.example.kitchen_assistant.databinding.FragmentInstructionComposeBinding;
-import com.example.kitchen_assistant.databinding.FragmentRecipeComposeBinding;
 import com.example.kitchen_assistant.databinding.FragmentReviewComposeBinding;
 import com.example.kitchen_assistant.models.Recipe;
 
@@ -63,6 +57,7 @@ public class ReviewComposeFragment extends DialogFragment {
         etTitle = fragmentReviewComposeBinding.etTitle;
         btPost = fragmentReviewComposeBinding.btPost;
         ratingBar = fragmentReviewComposeBinding.ratingBar;
+
 
         btPost.setOnClickListener(new View.OnClickListener() {
             @Override

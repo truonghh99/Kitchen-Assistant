@@ -1,11 +1,9 @@
-package com.example.kitchen_assistant.fragments.recipes;
+package com.example.kitchen_assistant.fragments.reviews;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,19 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
-import com.example.kitchen_assistant.adapters.RecipeAdapter;
 import com.example.kitchen_assistant.adapters.ReviewAdapter;
-import com.example.kitchen_assistant.databinding.FragmentRecipeBinding;
 import com.example.kitchen_assistant.databinding.FragmentReviewBinding;
-import com.example.kitchen_assistant.databinding.FragmentReviewComposeBinding;
-import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.Review;
-import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.parceler.Parcels;
