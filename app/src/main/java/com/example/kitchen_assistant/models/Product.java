@@ -395,4 +395,8 @@ public class Product extends ParseObject implements Parcelable {
         this.parseFile = parseFile;
         CurrentProducts.saveProductInBackGround(this);
     }
+
+    public ParseFile getParseFile() {
+        return parseFile;
+    }
 }

@@ -51,6 +51,7 @@ public class PhotoFragment extends Fragment {
     public final String TAG = "PhotoFragment";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private static final int LOAD_IMAGE_ACTIVITY_REQUEST_CODE = 1512;
+    private static final int RESULT_CODE = 0;
 
     private String photoFileName = "photo.jpg";
     private ImageView ivCamera;
@@ -153,7 +154,9 @@ public class PhotoFragment extends Fragment {
         }
         product.setParseFile(new ParseFile(photoFile));
         Toast.makeText(getContext(), "Saved your photo!", Toast.LENGTH_SHORT).show();
+        getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_CODE, new Intent());
     }
+
     public File getPhotoFileUri(String fileName) {
         File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 

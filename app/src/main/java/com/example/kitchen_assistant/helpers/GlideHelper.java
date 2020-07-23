@@ -8,6 +8,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.kitchen_assistant.R;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 
 public class GlideHelper {
 
@@ -60,5 +62,12 @@ public class GlideHelper {
                 .load(R.drawable.default_food)
                 .override(IMAGE_WIDTH, IMAGE_HEIGHT)
                 .into(imgView);
+    }
+
+    public static void loadParseFile(Context context, ImageView imageView, ParseFile parseFile) throws ParseException {
+        Glide.with(context)
+                .load(parseFile.getFile())
+                .override(IMAGE_WIDTH, IMAGE_HEIGHT)
+                .into(imageView);
     }
 }

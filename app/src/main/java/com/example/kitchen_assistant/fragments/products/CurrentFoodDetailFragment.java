@@ -1,7 +1,9 @@
 package com.example.kitchen_assistant.fragments.products;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
@@ -50,6 +52,8 @@ public class CurrentFoodDetailFragment extends Fragment {
 
     private static final String PRODUCT = "Product";
     private static final String TAG = "CurrentFoodDetail";
+
+    public static final int REQUEST_CODE = 0;
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
     public static final String title = "Product Details";
 
@@ -125,7 +129,7 @@ public class CurrentFoodDetailFragment extends Fragment {
         etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
         etNumProducts.setText(String.valueOf(product.getNumProducts()));
         etStatus.setText(product.getFoodStatus());
-        GlideHelper.loadImage(product.getImageUrl(), getContext(), ivImg);
+        loadImage();
 
         ivImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,11 +234,6 @@ public class CurrentFoodDetailFragment extends Fragment {
         return fragmentCurrentFoodDetailBinding.getRoot();
     }
 
-    private void goToPhoto() {
-        PhotoFragment fragment = PhotoFragment.newInstance(Parcels.wrap(product));
-        MainActivity.switchFragment(fragment);
-    }
-
     private void openOrCloseFabMenu() {
         if (btApprove.getVisibility() == View.INVISIBLE) {
             btApprove.setVisibility(View.VISIBLE);
@@ -247,19 +246,6 @@ public class CurrentFoodDetailFragment extends Fragment {
             btRemove.setVisibility(View.INVISIBLE);
             btShop.setVisibility(View.INVISIBLE);
         }
-    }
-
-    // Query recipes containing this current product
-    private void goToExplore() throws InterruptedException, com.parse.ParseException {
-        // Create a one-element list contains only this current food item to fit query's format
-        List<FoodItem> ingredientList = new ArrayList<FoodItem>() {
-            {
-                add(product.getFoodItem());
-            }
-        };
-        String ingredients = Spoonacular.generateList(ingredientList);
-        RecipeExploreFragment recipeExploreFragment = RecipeExploreFragment.newInstance(ingredients);
-        MainActivity.switchFragment(recipeExploreFragment);
     }
 
     // Save all changes of current product before closing edit screen
@@ -314,5 +300,38 @@ public class CurrentFoodDetailFragment extends Fragment {
     private void goToPreviewShoppingItem() {
         DialogFragment dialogFragment = PreviewShoppingItemFragment.newInstance(product.getProductName(), product.getOriginalQuantity(), product.getQuantityUnit());
         dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
+    }
+
+    // Query recipes containing this current product
+    private void goToExplore() throws InterruptedException, com.parse.ParseException {
+        // Create a one-element list contains only this current food item to fit query's format
+        List<FoodItem> ingredientList = new ArrayList<FoodItem>() {
+            {
+                add(product.getFoodItem());
+            }
+        };
+        String ingredients = Spoonacular.generateList(ingredientList);
+        RecipeExploreFragment recipeExploreFragment = RecipeExploreFragment.newInstance(ingredients);
+        MainActivity.switchFragment(recipeExploreFragment);
+    }
+
+    private void goToPhoto() {
+        Fragment fragment = PhotoFragment.newInstance(Parcels.wrap(product));
+        fragment.setTargetFragment(this, REQUEST_CODE);
+        MainActivity.switchFragment(fragment);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        loadImage();
+    }
+
+    public void loadImage() {
+        try {
+            GlideHelper.loadParseFile(getContext(), ivImg, product.getParseFile());
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+        }
     }
 }
