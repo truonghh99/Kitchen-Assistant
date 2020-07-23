@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
     private FloatingActionButton btRemove;
     private FloatingActionButton btCook;
     private FloatingActionButton btShop;
+    private RatingBar ratingBar;
 
     public CurrentRecipeDetailFragment() {
     }
@@ -83,8 +85,10 @@ public class CurrentRecipeDetailFragment extends Fragment {
         btCook = fragmentCurrentRecipeDetailBinding.btCook;
         btRemove = fragmentCurrentRecipeDetailBinding.btRemove;
         btShop = fragmentCurrentRecipeDetailBinding.btShop;
+        ratingBar = fragmentCurrentRecipeDetailBinding.ratingBar;
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
+        ratingBar.setRating(recipe.getNumericRating());
 
         ingredients = recipe.getIngredientList();
         adapter = new IngredientAdapter(getActivity(), ingredients);

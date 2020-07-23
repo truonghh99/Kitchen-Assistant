@@ -184,6 +184,9 @@ public class Recipe extends ParseObject implements Parcelable {
         this.rating = rating;
     }
 
+    public Float getNumericRating() {
+        return rating.getRating();
+    }
     public void setIngredients(HashMap<String, Ingredient> ingredientHashMap) {
         ingredients = ingredientHashMap;
     }

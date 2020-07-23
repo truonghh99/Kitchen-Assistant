@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -68,6 +69,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         private TextView tvStatus;
         private ItemRecipeBinding itemRecipeBinding;
         private ImageView ivImage;
+        private RatingBar ratingBar;
 
         public ViewHolder(@NonNull ItemRecipeBinding itemRecipeBinding) {
             super(itemRecipeBinding.getRoot());
@@ -76,6 +78,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             tvStatus = itemRecipeBinding.tvStatus;
             ivImage = itemRecipeBinding.ivImage;
             cvRecipe = itemRecipeBinding.cvRecipe;
+            ratingBar = itemRecipeBinding.ratingBar;
         }
 
         public void bind(final Recipe recipe) {
@@ -101,6 +104,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 tvStatus.setText("A few ingredients are still needed");
                 cvRecipe.setCardBackgroundColor(context.getResources().getColor(R.color.unavailable));
             }
+            ratingBar.setRating(recipe.getNumericRating());
         }
     }
 
