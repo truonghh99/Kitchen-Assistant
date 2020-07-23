@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_below="@id/tvName"
+            android:progressTint="@color/colorPrimaryDark"
             android:layout_toRightOf="@id/ivImage" />
 
         <TextView
