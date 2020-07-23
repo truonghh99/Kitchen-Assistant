@@ -69,13 +69,11 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
         private TextView tvReviewTitle;
         private TextView tvReviewContent;
-        private ItemReviewBinding itemReviewBinding;
         private ImageView ivProfileImage;
         private RatingBar ratingBar;
 
         public ViewHolder(@NonNull ItemReviewBinding itemReviewBinding) {
             super(itemReviewBinding.getRoot());
-            this.itemReviewBinding = itemReviewBinding;
             tvReviewTitle = itemReviewBinding.tvReviewTitle;
             tvReviewContent = itemReviewBinding.tvReviewContent;
             ivProfileImage = itemReviewBinding.ivProfileImage;
@@ -83,6 +81,12 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         }
 
         public void bind(final Review review) {
+
+            review.fetchInfo();
+            tvReviewTitle.setText(review.getTitle());
+            tvReviewContent.setText(review.getReviewContent());
+            ratingBar.setRating(review.getRating());
+
         }
     }
 

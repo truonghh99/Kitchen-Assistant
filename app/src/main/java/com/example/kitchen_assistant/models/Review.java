@@ -17,6 +17,7 @@ public class Review extends ParseObject implements Parcelable {
     public static final String KEY_REVIEW_CONTENT = "reviewContent";
     public static final String KEY_IMAGE = "image";
     public static final String KEY_RATING = "rating";
+    public static final String KEY_TITLE = "title";
 
     // Local values
     private String recipeId;
@@ -24,6 +25,7 @@ public class Review extends ParseObject implements Parcelable {
     private String reviewContent;
     private ParseFile image;
     private String imageUrl;
+    private String title;
     private float rating;
 
     public void saveInfo() {
@@ -32,17 +34,19 @@ public class Review extends ParseObject implements Parcelable {
         put(KEY_REVIEW_CONTENT, reviewContent);
         if (image != null) put(KEY_IMAGE, image);
         put(KEY_RATING, rating);
+        put(KEY_TITLE, title);
         saveInBackground();
     }
 
     public void fetchInfo() {
         recipeId = getString(KEY_RECIPE_ID);
         userId = getString(KEY_USER_ID);
-        reviewContent = getString(reviewContent);
+        reviewContent = getString(KEY_REVIEW_CONTENT);
         image = getParseFile(KEY_IMAGE);
         if (image != null) {
             imageUrl = image.getUrl();
         }
+        title = getString(KEY_TITLE);
         rating = getNumber(KEY_RATING).floatValue();
     }
 
@@ -68,6 +72,14 @@ public class Review extends ParseObject implements Parcelable {
 
     public void setReviewContent(String reviewContent) {
         this.reviewContent = reviewContent;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public ParseFile getImage() {
