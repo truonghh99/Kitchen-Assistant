@@ -33,12 +33,15 @@ public class Rating extends ParseObject implements Parcelable {
         query.whereEqualTo(KEY_RECIPE_ID, recipe.getCode());
         List<Rating> ratings = query.find();
         if (ratings.size() == 0) {
+            Log.e(TAG, "Creating new rating");
             result = new Rating();
             result.setRecipeId(recipe.getCode());
             result.setRating((float) 1.5);
             result.saveInfo();
         } else {
+            Log.e(TAG, "Rating already existed");
             result = ratings.get(0);
+            result.fetchInfo();
         }
         return result;
     }
