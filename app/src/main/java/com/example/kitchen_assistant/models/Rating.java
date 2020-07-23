@@ -39,6 +39,7 @@ public class Rating extends ParseObject implements Parcelable {
                 }
             }
         });
+        Log.e(TAG, "RATING OF RECIPE: " + rating);
     }
 
     public void saveInfo() {

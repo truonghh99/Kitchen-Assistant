@@ -56,6 +56,7 @@ public class Recipe extends ParseObject implements Parcelable {
     private boolean cookable;
     private ParseFile parseFile;
     private HashMap<String, Ingredient> ingredients = new HashMap<>();
+    private Rating rating;
 
     public static Recipe extractFromJsonObject(JSONObject json) throws JSONException {
         Recipe result = new Recipe();
@@ -173,6 +174,14 @@ public class Recipe extends ParseObject implements Parcelable {
 
     public void setCode(String code) {
         this.recipeCode = code;
+    }
+
+    public Rating getRating() {
+        return rating;
+    }
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
     }
 
     public void setIngredients(HashMap<String, Ingredient> ingredientHashMap) {
