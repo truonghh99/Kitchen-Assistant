@@ -17,6 +17,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.IngredientAdapter;
 import com.example.kitchen_assistant.databinding.FragmentCurrentRecipeDetailBinding;
@@ -52,6 +53,8 @@ public class CurrentRecipeDetailFragment extends Fragment {
     private FloatingActionButton btRemove;
     private FloatingActionButton btCook;
     private FloatingActionButton btShop;
+    private TextView tvStatus;
+    private TextView tvReviewCount;
     private RatingBar ratingBar;
 
     public CurrentRecipeDetailFragment() {
@@ -86,6 +89,8 @@ public class CurrentRecipeDetailFragment extends Fragment {
         btRemove = fragmentCurrentRecipeDetailBinding.btRemove;
         btShop = fragmentCurrentRecipeDetailBinding.btShop;
         ratingBar = fragmentCurrentRecipeDetailBinding.ratingBar;
+        tvStatus = fragmentCurrentRecipeDetailBinding.tvStatus;
+        tvReviewCount = fragmentCurrentRecipeDetailBinding.tvReviewCount;
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
         ratingBar.setRating(recipe.getNumericRating());
@@ -126,7 +131,22 @@ public class CurrentRecipeDetailFragment extends Fragment {
                 }
             }
         });
+
+        if (recipe.isCookable()) {
+            tvStatus.setText("You have enough ingredient to cook this recipe!");
+        } else {
+            tvStatus.setText("A few ingredients are still needed");
+        }
+
+        tvReviewCount.setText(setUpReviewCount(recipe.getRating().getNumReviews()));
         return fragmentCurrentRecipeDetailBinding.getRoot();
+    }
+
+    private String setUpReviewCount(long numReviews) {
+        if (numReviews < 2) {
+            return numReviews + " review";
+        }
+        return numReviews + " reviews";
     }
 
     private void openOrCloseFabMenu() {

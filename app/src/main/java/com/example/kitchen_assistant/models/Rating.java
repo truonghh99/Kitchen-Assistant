@@ -36,7 +36,7 @@ public class Rating extends ParseObject implements Parcelable {
             Log.e(TAG, "Creating new rating");
             result = new Rating();
             result.setRecipeId(recipe.getCode());
-            result.setRating((float) 1.5);
+            result.setRating((float) 0);
             result.saveInfo();
         } else {
             Log.e(TAG, "Rating already existed");
@@ -56,6 +56,7 @@ public class Rating extends ParseObject implements Parcelable {
                 if (e == null) {
                     numReviews = count;
                 } else {
+                    numReviews = 0;
                     Log.e(TAG, "Cannot count number of reviews for recipe " + recipeId);
                 }
             }

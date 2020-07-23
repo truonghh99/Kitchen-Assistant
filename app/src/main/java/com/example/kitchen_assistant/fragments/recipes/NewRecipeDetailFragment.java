@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.example.kitchen_assistant.databinding.FragmentNewRecipeDetailBinding;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;
+import com.example.kitchen_assistant.models.Rating;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -54,7 +56,10 @@ public class NewRecipeDetailFragment extends Fragment {
     private FloatingActionButton btMenuOpen;
     private String instruction;
     private RecyclerView rvIngredients;
+    private RatingBar ratingBar;
     private static IngredientAdapter adapter;
+    private TextView tvStatus;
+    private TextView tvReviewCount;
     private List<Ingredient> ingredients;
 
     public NewRecipeDetailFragment() {
@@ -89,9 +94,13 @@ public class NewRecipeDetailFragment extends Fragment {
         btShop = fragmentNewRecipeDetailBinding.btShop;
         btCook = fragmentNewRecipeDetailBinding.btCook;
         rvIngredients = fragmentNewRecipeDetailBinding.rvIngredients;
+        ratingBar = fragmentNewRecipeDetailBinding.ratingBar;
+        tvStatus = fragmentNewRecipeDetailBinding.tvStatus;
+        tvReviewCount = fragmentNewRecipeDetailBinding.tvReviewCount;
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
 
+        ratingBar.setRating(recipe.getNumericRating());
         ingredients = recipe.getIngredientList();
         adapter = new IngredientAdapter(getActivity(), ingredients);
         rvIngredients.setLayoutManager(new GridLayoutManager(getActivity(), 3));
@@ -123,7 +132,21 @@ public class NewRecipeDetailFragment extends Fragment {
                 Toast.makeText(getContext(), "Recipe added to your library", Toast.LENGTH_SHORT).show();
             }
         });
+        if (recipe.isCookable()) {
+            tvStatus.setText("You have enough ingredient to cook this recipe!");
+        } else {
+            tvStatus.setText("A few ingredients are still needed");
+        }
+
+        tvReviewCount.setText(setUpReviewCount(recipe.getRating().getNumReviews()));
         return fragmentNewRecipeDetailBinding.getRoot();
+    }
+
+    private String setUpReviewCount(long numReviews) {
+        if (numReviews < 2) {
+            return numReviews + " review";
+        }
+        return numReviews + " reviews";
     }
 
     private void openOrCloseFabMenu() {
