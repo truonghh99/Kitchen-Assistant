@@ -48,9 +48,10 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
 
 * [x] Allow user to search for specific current food
 * [x] Allow user to search for specific recipe
+* [ ] Allow user to change product/recipe main image
 * [ ] Allow user to rate a recipe
 * [ ] Allow user to review a recipe
-* [ ] Display average rating of each recipe
+* [x] Display average rating of each recipe
 * [ ] Display all reviews of a recipe
 * Convert user setting account to a social, interactable account (with avatar, name, description, and the ability to follow/block)
 * Have a newsfeed screen for users to share their recipes & food-related posts
