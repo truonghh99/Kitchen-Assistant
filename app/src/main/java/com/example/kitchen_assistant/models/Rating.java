@@ -11,6 +11,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.List;
+
 @ParseClassName("Rating")
 public class Rating extends ParseObject implements Parcelable {
 
@@ -24,6 +26,22 @@ public class Rating extends ParseObject implements Parcelable {
     private String recipeId;
     private Float rating;
     private long numReviews;
+
+    public static Rating requestRating(Recipe recipe) throws ParseException {
+        Rating result = null;
+        ParseQuery<Rating> query = ParseQuery.getQuery(Rating.class);
+        query.whereEqualTo(KEY_RECIPE_ID, recipe.getCode());
+        List<Rating> ratings = query.find();
+        if (ratings.size() == 0) {
+            result = new Rating();
+            result.setRecipeId(recipe.getCode());
+            result.setRating((float) 1.5);
+            result.saveInfo();
+        } else {
+            result = ratings.get(0);
+        }
+        return result;
+    }
 
     public void fetchInfo() {
         recipeId = getString(KEY_RECIPE_ID);

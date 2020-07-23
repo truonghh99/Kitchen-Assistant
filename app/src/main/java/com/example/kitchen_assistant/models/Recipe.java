@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -82,6 +83,12 @@ public class Recipe extends ParseObject implements Parcelable {
         for (int i = 0; i < jsonArray.length(); ++i) {
             JSONObject json = jsonArray.getJSONObject(i);
             Recipe recipe = extractFromJsonObject(json);
+            try {
+                recipe.setRating(Rating.requestRating(recipe));
+            } catch (ParseException e) {
+                Log.e(TAG, "Cannot find/create associated rating");
+                e.printStackTrace();
+            }
             recipes.add(recipe);
         }
         return recipes;
