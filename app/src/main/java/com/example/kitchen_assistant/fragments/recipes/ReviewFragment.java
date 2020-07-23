@@ -2,48 +2,60 @@ package com.example.kitchen_assistant.fragments.recipes;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.activities.MainActivity;
+import com.example.kitchen_assistant.adapters.RecipeAdapter;
+import com.example.kitchen_assistant.adapters.ReviewAdapter;
+import com.example.kitchen_assistant.databinding.FragmentRecipeBinding;
+import com.example.kitchen_assistant.databinding.FragmentReviewBinding;
+import com.example.kitchen_assistant.databinding.FragmentReviewComposeBinding;
+import com.example.kitchen_assistant.helpers.RecipeEvaluator;
+import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.models.Review;
+import com.example.kitchen_assistant.storage.CurrentRecipes;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ReviewFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ReviewFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "ReviewFragment";
+    public static final String title = "Reviews";
+    private static final String KEY_RECIPE = "Recipe";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FragmentReviewBinding fragmentReviewBinding;
+    private RecyclerView rvReviews;
+    private FloatingActionButton btAdd;
+    private List<Review> reviews;
+    private Recipe recipe;
+    private static ReviewAdapter adapter;
 
     public ReviewFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ReviewFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ReviewFragment newInstance(String param1, String param2) {
+    public static ReviewFragment newInstance(Parcelable recipe) {
         ReviewFragment fragment = new ReviewFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable(KEY_RECIPE, recipe);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,15 +64,65 @@ public class ReviewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            recipe = Parcels.unwrap(getArguments().getParcelable(KEY_RECIPE));
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_review, container, false);
+        fragmentReviewBinding = FragmentReviewBinding.inflate(getLayoutInflater());
+        btAdd = fragmentReviewBinding.btAdd;
+        rvReviews = fragmentReviewBinding.rvReviews;
+
+        reviews = recipe.getReviews();
+        adapter = new ReviewAdapter(getActivity(), reviews);
+        rvReviews.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvReviews.setAdapter(adapter);
+
+        return fragmentReviewBinding.getRoot();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_search_toolbar, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
+        SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        item.setActionView(searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                final List<Review> filteredModelList = filter(reviews, newText);
+                adapter.replaceAll(filteredModelList);
+                rvReviews.scrollToPosition(0);
+                return true;
+            }
+        });
+        searchView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
+    }
+
+    private List<Review> filter(List<Review> reviews, String query) {
+        final String lowerCaseQuery = query.toLowerCase();
+        final List<Review> filteredModelList = new ArrayList<>();
+        for (Review review : reviews) {
+            final String text = review.getReviewContent().toLowerCase();
+            if (text.contains(lowerCaseQuery)) {
+                filteredModelList.add(review);
+            }
+        }
+        return filteredModelList;
     }
 }

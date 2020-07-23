@@ -11,6 +11,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
@@ -219,5 +220,17 @@ public class Recipe extends ParseObject implements Parcelable {
         review.setUserId(ParseUser.getCurrentUser().getObjectId());
         review.saveInfo();
         this.rating.addRating(rating);
+    }
+
+    public List<Review> getReviews() {
+        List<Review> result = new ArrayList<>();
+        ParseQuery<Review> query = ParseQuery.getQuery("Review");
+        query.whereEqualTo(Review.KEY_RECIPE_ID, recipeCode);
+        try {
+            result = query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

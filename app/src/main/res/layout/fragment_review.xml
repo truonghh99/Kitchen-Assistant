@@ -7,7 +7,7 @@
     tools:context=".fragments.products.CurrentFoodFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btWrite"
+        android:id="@+id/btAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -19,7 +19,7 @@
         android:src="@drawable/ic_write" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCurrentFood"
+        android:id="@+id/rvReviews"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
