@@ -212,8 +212,9 @@ public class Recipe extends ParseObject implements Parcelable {
         this.cookable = cookable;
     }
 
-    public void addReview(String reviewContent, Float rating) {
+    public void addReview(String reviewContent, String title, Float rating) {
         Review review = new Review();
+        review.setTitle(title);
         review.setRating(rating);
         review.setReviewContent(reviewContent);
         review.setRecipeId(recipeCode);

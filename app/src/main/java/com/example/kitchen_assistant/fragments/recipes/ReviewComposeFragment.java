@@ -31,6 +31,7 @@ public class ReviewComposeFragment extends DialogFragment {
 
     private FragmentReviewComposeBinding fragmentReviewComposeBinding;
     private EditText etReview;
+    private EditText etTitle;
     private Button btPost;
     private Recipe recipe;
     private RatingBar ratingBar;
@@ -59,6 +60,7 @@ public class ReviewComposeFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         fragmentReviewComposeBinding = FragmentReviewComposeBinding.inflate(getLayoutInflater());
         etReview = fragmentReviewComposeBinding.etReview;
+        etTitle = fragmentReviewComposeBinding.etTitle;
         btPost = fragmentReviewComposeBinding.btPost;
         ratingBar = fragmentReviewComposeBinding.ratingBar;
 
@@ -66,8 +68,9 @@ public class ReviewComposeFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 String reviewContent = etReview.getText().toString();
+                String reviewTitle = etTitle.getText().toString();
                 Float rating = ratingBar.getRating();
-                recipe.addReview(reviewContent, rating);
+                recipe.addReview(reviewContent, reviewTitle, rating);
                 getTargetFragment().onActivityResult(getTargetRequestCode(), 0, new Intent());
                 dismiss();
             }
