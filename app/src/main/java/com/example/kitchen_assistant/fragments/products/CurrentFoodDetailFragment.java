@@ -127,6 +127,13 @@ public class CurrentFoodDetailFragment extends Fragment {
         etStatus.setText(product.getFoodStatus());
         GlideHelper.loadImage(product.getImageUrl(), getContext(), ivImg);
 
+        ivImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToPhoto();
+            }
+        });
+
         // Automatically update current quantity according to number of products
         etNumProducts.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -221,6 +228,11 @@ public class CurrentFoodDetailFragment extends Fragment {
         });
 
         return fragmentCurrentFoodDetailBinding.getRoot();
+    }
+
+    private void goToPhoto() {
+        PhotoFragment fragment = PhotoFragment.newInstance(Parcels.wrap(product));
+        MainActivity.switchFragment(fragment);
     }
 
     private void openOrCloseFabMenu() {

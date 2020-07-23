@@ -390,4 +390,9 @@ public class Product extends ParseObject implements Parcelable {
         setCurrentQuantity(Math.max(0, getCurrentQuantity() - toSubtract));
         getFoodItem().subtractQuantity(toSubtract, getQuantityUnit());
     }
+
+    public void setParseFile(ParseFile parseFile) {
+        this.parseFile = parseFile;
+        CurrentProducts.saveProductInBackGround(this);
+    }
 }

@@ -8,18 +8,15 @@
     <RelativeLayout
         android:id="@+id/rlCamera"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="400dp"
         android:background="@color/black">
 
         <ImageView
             android:id="@+id/ivCamera"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_camera"
-            android:scaleX="0.2"
-            android:scaleY="0.2"/>
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
     <Button
@@ -45,7 +42,7 @@
         android:textColor="@color/white" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btMenuOpen"
+        android:id="@+id/btApprove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
