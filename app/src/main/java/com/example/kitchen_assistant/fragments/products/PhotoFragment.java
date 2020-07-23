@@ -154,7 +154,7 @@ public class PhotoFragment extends Fragment {
         }
         product.setParseFile(new ParseFile(photoFile));
         Toast.makeText(getContext(), "Saved your photo!", Toast.LENGTH_SHORT).show();
-        getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_CODE, new Intent());
+        getTargetFragment().getTargetRequestCode(), RESULT_CODE, new Intent());
         getFragmentManager().popBackStack();
     }
 
@@ -190,7 +190,7 @@ public class PhotoFragment extends Fragment {
                         // Compress & save selected to photoFile (used for loading)
                         OutputStream os = new BufferedOutputStream(new FileOutputStream(photoFile));
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 1, os);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 0, os);
                         os.close();
                         ivCamera.setImageBitmap(bitmap);
                     } catch (IOException e) {
