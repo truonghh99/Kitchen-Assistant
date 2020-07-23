@@ -1,12 +1,15 @@
 package com.example.kitchen_assistant.fragments.products;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +50,7 @@ public class NewProductDetailFragment extends Fragment {
     private static final String TAG = "NewProductDetail";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
     public static final String title = "Add New Product";
+    private static final int REQUEST_CODE = 0;
 
     private FragmentNewProductDetailBinding fragmentNewProductDetailBinding;
     private Product product;
@@ -110,10 +114,16 @@ public class NewProductDetailFragment extends Fragment {
             etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
             etNumProducts.setText(String.valueOf(product.getNumProducts()));
             etStatus.setText(product.getFoodStatus());
-            GlideHelper.loadImage(product.getImageUrl(), getContext(), ivImg);
         }
 
         etPurchaseDate.setText(parseDate(new Date(), DATE_FORMAT));
+
+        ivImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToPhoto();
+            }
+        });
 
         // Automatically update current quantity according to number of products
         etNumProducts.setOnKeyListener(new View.OnKeyListener() {
@@ -191,54 +201,56 @@ public class NewProductDetailFragment extends Fragment {
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Get attributes from user input
-                String productName = etName.getText().toString();
-                String foodType = etFoodType.getText().toString();
-                float originalQuantity = MetricConverter.extractQuantityVal(etOriginalQuantity.getText().toString());
-                String quantityUnit = MetricConverter.extractQuantityUnit(etOriginalQuantity.getText().toString());
-                float currentQuantity = MetricConverter.extractQuantityVal(etCurrentQuantity.getText().toString());
-                Date purchaseDate = product.getPurchaseDate();
-                try {
-                    purchaseDate = DATE_FORMAT.parse(etPurchaseDate.getText().toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                Float duration = MetricConverter.extractQuantityVal(etDuration.getText().toString());
-                String durationUnit = MetricConverter.extractQuantityUnit(etDuration.getText().toString());
-                String foodStatus = etStatus.getText().toString();
-
-                // Assign attributes to product object
-                if (product.getProductCode() == CurrentFoodFragment.MANUALLY_INSERT_KEY) {
-                    product.setProductCode(productName);
-                }
-                product.setProductName(productName);
-                product.setOriginalQuantity(originalQuantity);
-                product.setQuantityUnit(quantityUnit);
-                product.setCurrentQuantity(currentQuantity);
-                product.setNumProducts(currentQuantity / originalQuantity);
-                product.setPurchaseDate(purchaseDate);
-                product.setDuration(duration);
-                product.setDurationUnit(durationUnit);
-                product.updateExpirationDate();
-                product.setFoodStatus(foodStatus);
-                product.printOutValues();
-
-                // Create corresponding foodItem
-                FoodItem foodItem = new FoodItem();
-                foodItem.setName(foodType);
-                foodItem.setQuantity(currentQuantity);
-                foodItem.setQuantityUnit(quantityUnit);
-                foodItem.setOwner(ParseUser.getCurrentUser());
-
-                // Attach foodItem & add product
-                MatchingHelper.attemptToAttachFoodItem(foodItem, product);
-                CurrentProducts.addProduct(product);
-                goToCurrentFood();
-
+                saveProduct();
             }
         });
 
         return fragmentNewProductDetailBinding.getRoot();
+    }
+
+    private void saveProduct() {
+        String productName = etName.getText().toString();
+        String foodType = etFoodType.getText().toString();
+        float originalQuantity = MetricConverter.extractQuantityVal(etOriginalQuantity.getText().toString());
+        String quantityUnit = MetricConverter.extractQuantityUnit(etOriginalQuantity.getText().toString());
+        float currentQuantity = MetricConverter.extractQuantityVal(etCurrentQuantity.getText().toString());
+        Date purchaseDate = product.getPurchaseDate();
+        try {
+            purchaseDate = DATE_FORMAT.parse(etPurchaseDate.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Float duration = MetricConverter.extractQuantityVal(etDuration.getText().toString());
+        String durationUnit = MetricConverter.extractQuantityUnit(etDuration.getText().toString());
+        String foodStatus = etStatus.getText().toString();
+
+        // Assign attributes to product object
+        if (product.getProductCode() == CurrentFoodFragment.MANUALLY_INSERT_KEY) {
+            product.setProductCode(productName);
+        }
+        product.setProductName(productName);
+        product.setOriginalQuantity(originalQuantity);
+        product.setQuantityUnit(quantityUnit);
+        product.setCurrentQuantity(currentQuantity);
+        product.setNumProducts(currentQuantity / originalQuantity);
+        product.setPurchaseDate(purchaseDate);
+        product.setDuration(duration);
+        product.setDurationUnit(durationUnit);
+        product.updateExpirationDate();
+        product.setFoodStatus(foodStatus);
+        product.printOutValues();
+
+        // Create corresponding foodItem
+        FoodItem foodItem = new FoodItem();
+        foodItem.setName(foodType);
+        foodItem.setQuantity(currentQuantity);
+        foodItem.setQuantityUnit(quantityUnit);
+        foodItem.setOwner(ParseUser.getCurrentUser());
+
+        // Attach foodItem & add product
+        MatchingHelper.attemptToAttachFoodItem(foodItem, product);
+        CurrentProducts.addProduct(product);
+        goToCurrentFood();
     }
 
     // Parse Date values to proper string format (MM/dd/yyyy).
@@ -251,4 +263,26 @@ public class NewProductDetailFragment extends Fragment {
     // Go to current food fragment using the initialized instance in MainActivity
     private void goToCurrentFood() {
         MainActivity.bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
-    }}
+    }
+
+    private void goToPhoto() {
+        Fragment fragment = PhotoFragment.newInstance(Parcels.wrap(product));
+        fragment.setTargetFragment(this, REQUEST_CODE);
+        MainActivity.switchFragment(fragment);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        loadImage();
+    }
+
+    public void loadImage() {
+        if (product.getParseFile() != null) {
+            Log.e(TAG, product.getImageUrl());
+            GlideHelper.loadImage(product.getImageUrl(), getContext(), ivImg);
+        } else {
+            Log.e(TAG, "No image to load");
+        }
+    }
+}

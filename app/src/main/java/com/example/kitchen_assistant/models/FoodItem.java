@@ -31,16 +31,11 @@ public class FoodItem extends ParseObject implements Parcelable {
     private ParseUser owner;
     private List<Product> products = new ArrayList<>();
 
-    public void fetchInfo() {
-        try {
-            fetch();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        name = getString(KEY_NAME);
-        quantity = getNumber(KEY_QUANTITY).floatValue();
-        quantityUnit = getString(KEY_QUANTITY_UNIT);
-        owner = getParseUser(KEY_OWNER);
+    public void fetchInfo() throws ParseException {
+        name = fetchIfNeeded().getString(KEY_NAME);
+        quantity = fetchIfNeeded().getNumber(KEY_QUANTITY).floatValue();
+        quantityUnit = fetchIfNeeded().getString(KEY_QUANTITY_UNIT);
+        owner = fetchIfNeeded().getParseUser(KEY_OWNER);
     }
 
     public void saveInfo() {
@@ -104,6 +99,5 @@ public class FoodItem extends ParseObject implements Parcelable {
     public void subtractQuantity(float quantity, String quantityUnit) {
         float toSubtract = MetricConverter.convertGeneral(quantity, quantityUnit, getQuantityUnit());
         setQuantity(Math.max(0, getQuantity() - toSubtract));
-        if (getQuantity() == 0) CurrentFoodTypes.removeFoodType(this);
     }
 }

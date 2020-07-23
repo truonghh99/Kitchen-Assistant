@@ -155,7 +155,9 @@ public class PhotoFragment extends Fragment {
         product.setParseFile(new ParseFile(photoFile));
         Toast.makeText(getContext(), "Saved your photo!", Toast.LENGTH_SHORT).show();
         getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_CODE, new Intent());
+        getFragmentManager().popBackStack();
     }
+
 
     public File getPhotoFileUri(String fileName) {
         File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);

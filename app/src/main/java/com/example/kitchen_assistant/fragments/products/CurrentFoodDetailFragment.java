@@ -328,10 +328,6 @@ public class CurrentFoodDetailFragment extends Fragment {
     }
 
     public void loadImage() {
-        try {
-            GlideHelper.loadParseFile(getContext(), ivImg, product.getParseFile());
-        } catch (com.parse.ParseException e) {
-            e.printStackTrace();
-        }
+        GlideHelper.loadImage(product.getImageUrl(), getContext(), ivImg);
     }
 }

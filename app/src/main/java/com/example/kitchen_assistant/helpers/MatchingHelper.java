@@ -66,7 +66,11 @@ public class MatchingHelper {
 
         FoodItem foodItem = new FoodItem();
         FoodItem originalFoodItem = original.getFoodItem();
-        originalFoodItem.fetchInfo();
+        try {
+            originalFoodItem.fetchInfo();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         Log.e(TAG, originalFoodItem.getName());
 
         foodItem.setName(originalFoodItem.getName());

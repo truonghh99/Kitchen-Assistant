@@ -34,7 +34,11 @@ public class CurrentFoodTypes {
     }
 
     public static void initialize(FoodItem foodItem) {
-        foodItem.fetchInfo();
+        try {
+            foodItem.fetchInfo();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         foodItems.put(foodItem.getName(), foodItem);
     }
 

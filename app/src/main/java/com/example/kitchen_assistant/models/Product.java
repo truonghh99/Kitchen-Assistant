@@ -88,7 +88,11 @@ public class Product extends ParseObject implements Parcelable {
     }
 
     public void fetchInfo() {
-        fetchInBackground();
+        try {
+            fetch();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         productName = getString(KEY_NAME);
         originalQuantity = getNumber(KEY_ORIGINAL_QUANTITY).floatValue();
         currentQuantity = getNumber(KEY_CURRENT_QUANTITY).floatValue();
@@ -393,7 +397,13 @@ public class Product extends ParseObject implements Parcelable {
 
     public void setParseFile(ParseFile parseFile) {
         this.parseFile = parseFile;
-        CurrentProducts.saveProductInBackGround(this);
+        put(KEY_IMG, parseFile);
+        try {
+            save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        setImageUrl(parseFile.getUrl());
     }
 
     public ParseFile getParseFile() {
