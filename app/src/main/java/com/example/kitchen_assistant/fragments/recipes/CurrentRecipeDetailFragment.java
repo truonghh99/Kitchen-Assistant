@@ -104,6 +104,14 @@ public class CurrentRecipeDetailFragment extends Fragment {
 
         GlideHelper.loadImage(recipe.getImageUrl(), getContext(), ivImage);
         tvName.setText(recipe.getName());
+
+        tvReviewCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToReview();
+            }
+        });
+
         btInstruction.setOnClickListener(new View.OnClickListener() {
             // TODO: display existing instruction from recipe object
             @Override
@@ -178,6 +186,11 @@ public class CurrentRecipeDetailFragment extends Fragment {
     private void goToInstruction(String instruction) {
         DialogFragment dialogFragment = InstructionFragment.newInstance(instruction);
         dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
+    }
+
+    private void goToReview() {
+        ReviewFragment fragment = ReviewFragment.newInstance(Parcels.wrap(recipe));
+        MainActivity.switchFragment(fragment);
     }
 
     public static void notifyChange() {
