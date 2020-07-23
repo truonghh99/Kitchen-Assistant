@@ -57,7 +57,7 @@ public class GlideHelper {
 
     private static void loadDefaultImage(Context context, ImageView imgView) {
         Glide.with(context)
-                .load(R.drawable.default_food_img)
+                .load(R.drawable.default_food)
                 .override(IMAGE_WIDTH, IMAGE_HEIGHT)
                 .into(imgView);
     }

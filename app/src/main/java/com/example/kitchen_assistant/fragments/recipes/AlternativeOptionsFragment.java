@@ -119,7 +119,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 MatchingHelper.attemptToCreateShoppingItem(name, quantity, quantityUnit);
-                Toast.makeText(getContext(), "Added to your shoppling list: " + quantity + quantityUnit + " of " + name, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Added to your shopping list: " + quantity + quantityUnit + " of " + name, Toast.LENGTH_SHORT).show();
                 CurrentRecipeDetailFragment.notifyChange();
                 dismiss();
             }

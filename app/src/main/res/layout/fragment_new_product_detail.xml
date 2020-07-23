@@ -13,16 +13,16 @@
         android:id="@+id/rlProductInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true">
 
         <ImageView
             android:id="@+id/ivImg"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            app:srcCompat="@drawable/upc" />
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/ic_add_photo" />
 
         <EditText
             android:id="@+id/etName"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/etName"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="5dp">
 
             <TextView
                 android:id="@+id/tvFoodType"
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/rlFoodType"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="5dp">
 
             <TextView
                 android:id="@+id/tvNumProducts"
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/rlNumProducts"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
             <TableRow
                 android:id="@+id/tableRow1"
@@ -284,14 +284,9 @@
         android:id="@+id/btAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/rlProductInfo"
+        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="60dp"
         android:background="@color/colorPrimary"
         android:text="Add" />
 

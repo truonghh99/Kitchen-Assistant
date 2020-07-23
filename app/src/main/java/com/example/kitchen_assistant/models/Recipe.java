@@ -227,6 +227,7 @@ public class Recipe extends ParseObject implements Parcelable {
         List<Review> result = new ArrayList<>();
         ParseQuery<Review> query = ParseQuery.getQuery("Review");
         query.whereEqualTo(Review.KEY_RECIPE_ID, recipeCode);
+        query.addDescendingOrder("createdAt");
         try {
             result = query.find();
         } catch (ParseException e) {
