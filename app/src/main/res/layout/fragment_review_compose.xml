@@ -12,16 +12,40 @@
         android:layout_margin="15dp"
         android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/etReview"
+        <TextView
+            android:id="@+id/tvInstruction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/scope_one"
+            android:text="Do you like this recipe?"
+            android:textColor="@color/pastelPink2"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvInstruction"
+            android:progressTint="@color/golden"
+            android:secondaryProgressTint="@color/golden"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="5dp" />
+
+        <EditText
+            android:id="@+id/etReview"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="25dp"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/ratingBar"
             android:fontFamily="@font/asap"
-            android:hint="Do you like the recipe?"
+            android:hint="Share your review here"
             android:textAlignment="viewStart"
             android:textColor="@color/black"
             android:textSize="18sp" />

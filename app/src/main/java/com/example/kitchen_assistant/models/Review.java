@@ -30,7 +30,7 @@ public class Review extends ParseObject implements Parcelable {
         put(KEY_RECIPE_ID, recipeId);
         put(KEY_USER_ID, userId);
         put(KEY_REVIEW_CONTENT, reviewContent);
-        put(KEY_IMAGE, image);
+        if (image != null) put(KEY_IMAGE, image);
         put(KEY_RATING, rating);
         saveInBackground();
     }

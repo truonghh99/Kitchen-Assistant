@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.kitchen_assistant.databinding.FragmentInstructionBinding;
@@ -30,6 +31,7 @@ public class ReviewComposeFragment extends DialogFragment {
     private EditText etReview;
     private Button btPost;
     private Recipe recipe;
+    private RatingBar ratingBar;
 
     public ReviewComposeFragment() {
     }
@@ -56,12 +58,14 @@ public class ReviewComposeFragment extends DialogFragment {
         fragmentReviewComposeBinding = FragmentReviewComposeBinding.inflate(getLayoutInflater());
         etReview = fragmentReviewComposeBinding.etReview;
         btPost = fragmentReviewComposeBinding.btPost;
+        ratingBar = fragmentReviewComposeBinding.ratingBar;
 
         btPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String reviewContent = etReview.getText().toString();
-                recipe.addReview(reviewContent);
+                Float rating = ratingBar.getRating();
+                recipe.addReview(reviewContent, rating);
                 dismiss();
             }
         });

@@ -132,6 +132,13 @@ public class CurrentRecipeDetailFragment extends Fragment {
             }
         });
 
+        btReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToReviewCompose();
+            }
+        });
+
         if (recipe.isCookable()) {
             tvStatus.setText("You have enough ingredient to cook this recipe!");
         } else {
@@ -140,6 +147,11 @@ public class CurrentRecipeDetailFragment extends Fragment {
 
         tvReviewCount.setText(setUpReviewCount(recipe.getRating().getNumReviews()));
         return fragmentCurrentRecipeDetailBinding.getRoot();
+    }
+
+    private void goToReviewCompose() {
+        DialogFragment dialogFragment = ReviewComposeFragment.newInstance(Parcels.wrap(recipe));
+        dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 
     private String setUpReviewCount(long numReviews) {
