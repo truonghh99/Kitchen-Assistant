@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/default_avatar_file" />
+
+    <RelativeLayout
+        android:id="@+id/rlReview"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/ivProfileImage">
+
+        <TextView
+            android:id="@+id/tvReviewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Love this recipe!"
+            android:textStyle="bold"
+            android:textSize="15sp"/>
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvReviewTitle"
+            android:isIndicator="true"
+            android:progressTint="@color/golden"
+            android:minHeight="15dp"
+            android:rating="3.5"
+            android:secondaryProgressTint="@color/golden" />
+
+        <TextView
+            android:id="@+id/tvReviewContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ratingBar"
+            android:text="One of the best recipe I've ever cook"
+            android:textSize="13sp"/>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
