@@ -28,7 +28,7 @@ import java.util.List;
 @ParseClassName("Recipe")
 public class Recipe extends ParseObject implements Parcelable {
 
-    private static final String TAG = "RecipeModel";
+    public static final String TAG = "RecipeModel";
     public static final String MANUALLY_INSERT_KEY = "Manually Insert";
     private static final String DEFAULT_INSTRUCTIONS = "Sorry, there's no instructions available";
 
@@ -234,5 +234,16 @@ public class Recipe extends ParseObject implements Parcelable {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public void setParseFile(ParseFile parseFile) {
+        this.parseFile = parseFile;
+        put(KEY_IMG, parseFile);
+        try {
+            save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        setImageUrl(parseFile.getUrl());
     }
 }

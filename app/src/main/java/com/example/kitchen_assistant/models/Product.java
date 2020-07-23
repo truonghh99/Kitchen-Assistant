@@ -35,7 +35,7 @@ import java.util.Date;
 @ParseClassName("Product")
 public class Product extends ParseObject implements Parcelable {
 
-    private static final String TAG = "product";
+    public static final String TAG = "product";
     private static final String DEFAULT_IMG = "default";
     // Values of food status
     public static final String STATUS_BEST = "good";

@@ -3,13 +3,14 @@ package com.example.kitchen_assistant.models;
 import android.os.Parcelable;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 @ParseClassName("Review")
 public class Review extends ParseObject implements Parcelable {
 
-    private static final String TAG = "ReviewModel";
+    public static final String TAG = "ReviewModel";
 
     // Keys for Parse
     public static final String KEY_RECIPE_ID = "recipeId";
@@ -23,7 +24,7 @@ public class Review extends ParseObject implements Parcelable {
     private String recipeId;
     private String userId;
     private String reviewContent;
-    private ParseFile image;
+    private ParseFile parseFile;
     private String imageUrl;
     private String title;
     private float rating;
@@ -32,7 +33,7 @@ public class Review extends ParseObject implements Parcelable {
         put(KEY_RECIPE_ID, recipeId);
         put(KEY_USER_ID, userId);
         put(KEY_REVIEW_CONTENT, reviewContent);
-        if (image != null) put(KEY_IMAGE, image);
+        if (parseFile != null) put(KEY_IMAGE, parseFile);
         put(KEY_RATING, rating);
         put(KEY_TITLE, title);
         saveInBackground();
@@ -42,9 +43,9 @@ public class Review extends ParseObject implements Parcelable {
         recipeId = getString(KEY_RECIPE_ID);
         userId = getString(KEY_USER_ID);
         reviewContent = getString(KEY_REVIEW_CONTENT);
-        image = getParseFile(KEY_IMAGE);
-        if (image != null) {
-            imageUrl = image.getUrl();
+        parseFile = getParseFile(KEY_IMAGE);
+        if (parseFile != null) {
+            imageUrl = parseFile.getUrl();
         }
         title = getString(KEY_TITLE);
         rating = getNumber(KEY_RATING).floatValue();
@@ -83,11 +84,7 @@ public class Review extends ParseObject implements Parcelable {
     }
 
     public ParseFile getImage() {
-        return image;
-    }
-
-    public void setImage(ParseFile image) {
-        this.image = image;
+        return parseFile;
     }
 
     public String getImageUrl() {
@@ -106,4 +103,14 @@ public class Review extends ParseObject implements Parcelable {
         this.rating = rating;
     }
 
+    public void setParseFile(ParseFile parseFile) {
+        this.parseFile = parseFile;
+        put(KEY_IMAGE, parseFile);
+        try {
+            save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        setImageUrl(parseFile.getUrl());
+    }
 }

@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentPhotoBinding;
 import com.example.kitchen_assistant.models.Product;
+import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.models.Review;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -48,6 +50,10 @@ import static android.app.Activity.RESULT_OK;
 public class PhotoFragment extends Fragment {
 
     public static final String KEY_PRODUCT = "product";
+    public static final String KEY_RECIPE = "recipe";
+    public static final String KEY_REVIEW = "review";
+
+    private static final String KEY_MODEL_TAG = "model";
     public final String TAG = "PhotoFragment";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private static final int LOAD_IMAGE_ACTIVITY_REQUEST_CODE = 1512;
@@ -60,15 +66,20 @@ public class PhotoFragment extends Fragment {
     private Button btLibrary;
     private FloatingActionButton btApprove;
     private FragmentPhotoBinding fragmentPhotoBinding;
+    private String modelTag;
+
     private Product product;
+    private Recipe recipe;
+    private Review review;
 
     public PhotoFragment() {
     }
 
-    public static PhotoFragment newInstance(Parcelable product) {
+    public static PhotoFragment newInstance(Parcelable product, String modelTag) {
         PhotoFragment fragment = new PhotoFragment();
         Bundle args = new Bundle();
         args.putParcelable(KEY_PRODUCT, product);
+        args.putString(KEY_MODEL_TAG, modelTag);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,7 +88,18 @@ public class PhotoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            product = Parcels.unwrap(getArguments().getParcelable(KEY_PRODUCT));
+            modelTag = getArguments().getString(KEY_MODEL_TAG);
+            switch (modelTag) {
+                case Product.TAG:
+                    product = Parcels.unwrap(getArguments().getParcelable(KEY_PRODUCT));
+                    break;
+                case Recipe.TAG:
+                    recipe = Parcels.unwrap(getArguments().getParcelable(KEY_RECIPE));
+                    break;
+                case Review.TAG:
+                    product = Parcels.unwrap(getArguments().getParcelable(KEY_REVIEW));
+                    break;
+            }
         }
     }
 
@@ -152,7 +174,17 @@ public class PhotoFragment extends Fragment {
             Toast.makeText(getContext(), "You should include a photo!", Toast.LENGTH_SHORT).show();
             return;
         }
-        product.setParseFile(new ParseFile(photoFile));
+        switch (modelTag) {
+            case Product.TAG:
+                product.setParseFile(new ParseFile(photoFile));
+                break;
+            case Recipe.TAG:
+                recipe.setParseFile(new ParseFile(photoFile));
+                break;
+            case Review.TAG:
+                review.setParseFile(new ParseFile(photoFile));
+                break;
+        }
         Toast.makeText(getContext(), "Saved your photo!", Toast.LENGTH_SHORT).show();
         getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_CODE, new Intent());
         getFragmentManager().popBackStack();
