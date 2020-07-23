@@ -39,7 +39,7 @@ import java.util.List;
 public class CurrentRecipeDetailFragment extends Fragment {
 
     private static final String KEY_RECIPE = "Key Recipe";
-    public static final String title = "Your Recipe Detail";
+    public static final String title = "Recipe Detail";
 
     private Recipe recipe;
     private FragmentCurrentRecipeDetailBinding fragmentCurrentRecipeDetailBinding;
@@ -52,7 +52,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
     private FloatingActionButton btMenuOpen;
     private FloatingActionButton btRemove;
     private FloatingActionButton btCook;
-    private FloatingActionButton btShop;
+    private FloatingActionButton btReview;
     private TextView tvStatus;
     private TextView tvReviewCount;
     private RatingBar ratingBar;
@@ -87,7 +87,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
         btMenuOpen = fragmentCurrentRecipeDetailBinding.btMenuOpen;
         btCook = fragmentCurrentRecipeDetailBinding.btCook;
         btRemove = fragmentCurrentRecipeDetailBinding.btRemove;
-        btShop = fragmentCurrentRecipeDetailBinding.btShop;
+        btReview = fragmentCurrentRecipeDetailBinding.btReview;
         ratingBar = fragmentCurrentRecipeDetailBinding.ratingBar;
         tvStatus = fragmentCurrentRecipeDetailBinding.tvStatus;
         tvReviewCount = fragmentCurrentRecipeDetailBinding.tvReviewCount;
@@ -150,14 +150,14 @@ public class CurrentRecipeDetailFragment extends Fragment {
     }
 
     private void openOrCloseFabMenu() {
-        if (btShop.getVisibility() == View.INVISIBLE) {
+        if (btReview.getVisibility() == View.INVISIBLE) {
             btCook.setVisibility(View.VISIBLE);
             btRemove.setVisibility(View.VISIBLE);
-            btShop.setVisibility(View.VISIBLE);
+            btReview.setVisibility(View.VISIBLE);
         } else {
             btCook.setVisibility(View.INVISIBLE);
             btRemove.setVisibility(View.INVISIBLE);
-            btShop.setVisibility(View.INVISIBLE);
+            btReview.setVisibility(View.INVISIBLE);
         }
     }
 

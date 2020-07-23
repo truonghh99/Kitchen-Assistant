@@ -87,7 +87,7 @@
         android:layout_below="@id/btInstruction"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btShop"
+        android:id="@+id/btReview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btCook"
@@ -100,7 +100,7 @@
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/pastelPink0"
         app:borderWidth="0dp"
-        android:src="@drawable/ic_shop" />
+        android:src="@drawable/ic_review" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btCook"

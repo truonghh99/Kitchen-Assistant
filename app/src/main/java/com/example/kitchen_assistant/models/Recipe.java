@@ -210,4 +210,14 @@ public class Recipe extends ParseObject implements Parcelable {
     public void setCookable(boolean cookable) {
         this.cookable = cookable;
     }
+
+    public void addReview(String reviewContent, Float rating) {
+        Review review = new Review();
+        review.setRating(rating);
+        review.setReviewContent(reviewContent);
+        review.setRecipeId(recipeCode);
+        review.setUserId(ParseUser.getCurrentUser().getObjectId());
+        review.saveInfo();
+        this.rating.addRating(rating);
+    }
 }

@@ -52,7 +52,7 @@ public class NewRecipeDetailFragment extends Fragment {
     private Button btInstruction;
     private FloatingActionButton btAdd;
     private FloatingActionButton btCook;
-    private FloatingActionButton btShop;
+    private FloatingActionButton btReview;
     private FloatingActionButton btMenuOpen;
     private String instruction;
     private RecyclerView rvIngredients;
@@ -91,7 +91,7 @@ public class NewRecipeDetailFragment extends Fragment {
         btInstruction = fragmentNewRecipeDetailBinding.btInstruction;
         btAdd = fragmentNewRecipeDetailBinding.btAdd;
         btMenuOpen = fragmentNewRecipeDetailBinding.btMenuOpen;
-        btShop = fragmentNewRecipeDetailBinding.btShop;
+        btReview = fragmentNewRecipeDetailBinding.btReview;
         btCook = fragmentNewRecipeDetailBinding.btCook;
         rvIngredients = fragmentNewRecipeDetailBinding.rvIngredients;
         ratingBar = fragmentNewRecipeDetailBinding.ratingBar;
@@ -150,14 +150,14 @@ public class NewRecipeDetailFragment extends Fragment {
     }
 
     private void openOrCloseFabMenu() {
-        if (btShop.getVisibility() == View.INVISIBLE) {
+        if (btReview.getVisibility() == View.INVISIBLE) {
             btCook.setVisibility(View.VISIBLE);
             btAdd.setVisibility(View.VISIBLE);
-            btShop.setVisibility(View.VISIBLE);
+            btReview.setVisibility(View.VISIBLE);
         } else {
             btCook.setVisibility(View.INVISIBLE);
             btAdd.setVisibility(View.INVISIBLE);
-            btShop.setVisibility(View.INVISIBLE);
+            btReview.setVisibility(View.INVISIBLE);
         }
     }
 
