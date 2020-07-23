@@ -154,7 +154,7 @@ public class PhotoFragment extends Fragment {
         }
         product.setParseFile(new ParseFile(photoFile));
         Toast.makeText(getContext(), "Saved your photo!", Toast.LENGTH_SHORT).show();
-        getTargetFragment().getTargetRequestCode(), RESULT_CODE, new Intent());
+        getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_CODE, new Intent());
         getFragmentManager().popBackStack();
     }
 

@@ -114,9 +114,9 @@ public class NewProductDetailFragment extends Fragment {
             etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
             etNumProducts.setText(String.valueOf(product.getNumProducts()));
             etStatus.setText(product.getFoodStatus());
-            loadImage();
         }
 
+        loadImage();
         etPurchaseDate.setText(parseDate(new Date(), DATE_FORMAT));
 
         ivImg.setOnClickListener(new View.OnClickListener() {
