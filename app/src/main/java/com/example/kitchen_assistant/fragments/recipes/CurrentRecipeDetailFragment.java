@@ -1,7 +1,9 @@
 package com.example.kitchen_assistant.fragments.recipes;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -93,7 +95,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
         tvReviewCount = fragmentCurrentRecipeDetailBinding.tvReviewCount;
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
-        ratingBar.setRating(recipe.getNumericRating());
+        loadRating();
 
         ingredients = recipe.getIngredientList();
         adapter = new IngredientAdapter(getActivity(), ingredients);
@@ -145,13 +147,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
             tvStatus.setText("A few ingredients are still needed");
         }
 
-        tvReviewCount.setText(setUpReviewCount(recipe.getRating().getNumReviews()));
         return fragmentCurrentRecipeDetailBinding.getRoot();
-    }
-
-    private void goToReviewCompose() {
-        DialogFragment dialogFragment = ReviewComposeFragment.newInstance(Parcels.wrap(recipe));
-        dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 
     private String setUpReviewCount(long numReviews) {
@@ -173,6 +169,11 @@ public class CurrentRecipeDetailFragment extends Fragment {
         }
     }
 
+    private void goToReviewCompose() {
+        DialogFragment dialogFragment = ReviewComposeFragment.newInstance(Parcels.wrap(recipe));
+        dialogFragment.setTargetFragment(this, 0);
+        dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
+    }
 
     private void goToInstruction(String instruction) {
         DialogFragment dialogFragment = InstructionFragment.newInstance(instruction);
@@ -181,5 +182,16 @@ public class CurrentRecipeDetailFragment extends Fragment {
 
     public static void notifyChange() {
         if (adapter != null) adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        loadRating();
+    }
+
+    private void loadRating() {
+        tvReviewCount.setText(setUpReviewCount(recipe.getRating().getNumReviews()));
+        ratingBar.setRating(recipe.getNumericRating());
     }
 }

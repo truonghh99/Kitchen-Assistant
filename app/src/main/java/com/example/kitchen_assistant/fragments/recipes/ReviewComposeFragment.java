@@ -1,11 +1,13 @@
 package com.example.kitchen_assistant.fragments.recipes;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 
 import android.os.Parcelable;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +68,7 @@ public class ReviewComposeFragment extends DialogFragment {
                 String reviewContent = etReview.getText().toString();
                 Float rating = ratingBar.getRating();
                 recipe.addReview(reviewContent, rating);
+                getTargetFragment().onActivityResult(getTargetRequestCode(), 0, new Intent());
                 dismiss();
             }
         });
