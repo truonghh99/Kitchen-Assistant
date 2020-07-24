@@ -46,14 +46,16 @@ import java.util.List;
 
 public class CurrentFoodFragment extends Fragment {
 
-    private static final String TAG = "CurrentProductFragment";
     public static final String MANUALLY_INSERT_KEY = "Manually Insert";
-    private static final String AUTHORITY = "com.codepath.fileprovider.kitchenassistant";
-    public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
-    public String photoFileName = "barcode_photo.jpg";
-    private File photoFile;
-    public static String title = "Current Products";
 
+    private static final String TAG = "CurrentProductFragment";
+    private static final String AUTHORITY = "com.codepath.fileprovider.kitchenassistant";
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+    private static CurrentFoodAdapter adapter;
+
+    private String photoFileName = "barcode_photo.jpg";
+    private File photoFile;
+    private String title = "Current Products";
     private List<Product> products;
     private FragmentCurrentFoodBinding fragmentCurrentFoodBinding;
     private FloatingActionButton btMenuOpen;
@@ -61,7 +63,6 @@ public class CurrentFoodFragment extends Fragment {
     private FloatingActionButton btScan;
     private FloatingActionButton btWrite;
     private RecyclerView rvCurrentFood;
-    private static CurrentFoodAdapter adapter;
 
     public CurrentFoodFragment() {
     }
@@ -81,8 +82,14 @@ public class CurrentFoodFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_search_toolbar, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
+
+        setUpSearchView(menu);
+    }
+
+    // Set up search view in menu toolbar
+    private void setUpSearchView(Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         item.setActionView(searchView);
@@ -107,6 +114,7 @@ public class CurrentFoodFragment extends Fragment {
                 });
     }
 
+    // Filter product list based on given query in search bar
     private List<Product> filter(List<Product> products, String query) {
         final String lowerCaseQuery = query.toLowerCase();
         final List<Product> filteredModelList = new ArrayList<>();
@@ -122,18 +130,22 @@ public class CurrentFoodFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        products = CurrentProducts.products;
+
+        // Bind views
         fragmentCurrentFoodBinding = FragmentCurrentFoodBinding.inflate(getLayoutInflater());
         btMenuOpen = fragmentCurrentFoodBinding.btMenuOpen;
         btCook = fragmentCurrentFoodBinding.btCook;
         btScan = fragmentCurrentFoodBinding.btScan;
         btWrite = fragmentCurrentFoodBinding.btWrite;
-        rvCurrentFood = fragmentCurrentFoodBinding.rvCurrentFood;
 
-        products = CurrentProducts.products;
+        // Set up adapter & recycler view
+        rvCurrentFood = fragmentCurrentFoodBinding.rvCurrentFood;
         adapter = new CurrentFoodAdapter(getActivity(), products);
         rvCurrentFood.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         rvCurrentFood.setAdapter(adapter);
 
+        // Open or close floating menu
         btMenuOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,6 +153,7 @@ public class CurrentFoodFragment extends Fragment {
             }
         });
 
+        // Open camera for user to scan new products
         btScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,6 +161,7 @@ public class CurrentFoodFragment extends Fragment {
             }
         });
 
+        // Allow user to write new product without scanning barcode
         btWrite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,6 +169,7 @@ public class CurrentFoodFragment extends Fragment {
             }
         });
 
+        // Request recipes that contain given products
         btCook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,6 +180,7 @@ public class CurrentFoodFragment extends Fragment {
                 }
             }
         });
+
         return fragmentCurrentFoodBinding.getRoot();
     }
 

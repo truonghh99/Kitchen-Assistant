@@ -71,11 +71,7 @@ public class Recipe extends ParseObject implements Parcelable {
         }
         result.setCode(json.getString(KEY_ID_API));
         result.setInstructions("no instructions");
-        try {
-            Spoonacular.getIngredients(result);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Spoonacular.getIngredients(result);
         return result;
     }
 

@@ -105,6 +105,7 @@ public class NewProductDetailFragment extends Fragment {
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
 
+        // If product is scanned, display returned information from OpenFoodFacts. Otherwise leave views empty
         if (product.getProductCode() != CurrentFoodFragment.MANUALLY_INSERT_KEY) {
             etName.setText(product.getProductName());
             etFoodType.setText(product.getFoodItem().getName());
@@ -119,6 +120,7 @@ public class NewProductDetailFragment extends Fragment {
         loadImage();
         etPurchaseDate.setText(parseDate(new Date(), DATE_FORMAT));
 
+        // Allow user to change product's photo
         ivImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -210,6 +212,7 @@ public class NewProductDetailFragment extends Fragment {
     }
 
     private void saveProduct() {
+        // Extract information from user's input
         String productName = etName.getText().toString();
         String foodType = etFoodType.getText().toString();
         float originalQuantity = MetricConverter.extractQuantityVal(etOriginalQuantity.getText().toString());
@@ -266,12 +269,14 @@ public class NewProductDetailFragment extends Fragment {
         MainActivity.bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
     }
 
+    // Go to photo compose fragment
     private void goToPhoto() {
         Fragment fragment = PhotoFragment.newInstance(Parcels.wrap(product), Product.TAG);
         fragment.setTargetFragment(this, REQUEST_CODE);
         MainActivity.switchFragment(fragment);
     }
 
+    // Reload product's image using selected image from photo compose fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

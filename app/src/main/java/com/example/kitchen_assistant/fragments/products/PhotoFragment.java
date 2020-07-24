@@ -55,6 +55,7 @@ public class PhotoFragment extends Fragment {
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private static final int LOAD_IMAGE_ACTIVITY_REQUEST_CODE = 1512;
     private static final int RESULT_CODE = 0;
+    private final int IMAGE_QUALITY = 5;
 
     private String photoFileName = "photo.jpg";
     private ImageView ivCamera;
@@ -145,6 +146,7 @@ public class PhotoFragment extends Fragment {
         return fragmentPhotoBinding.getRoot();
     }
 
+    // Allow user to select image from device's library
     private void launchLibrary() {
         try {
             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -155,6 +157,7 @@ public class PhotoFragment extends Fragment {
         }
     }
 
+    // Allow user to capture new image
     public void launchCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -165,6 +168,7 @@ public class PhotoFragment extends Fragment {
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
+    // Save captured/selected image to proper model based on parent fragment's input
     public void savePhoto() {
         Log.e(TAG, "Saving selected file");
         if (photoFile == null) {
@@ -187,7 +191,7 @@ public class PhotoFragment extends Fragment {
         getFragmentManager().popBackStack();
     }
 
-
+    // Helper function to create directory for captured image
     public File getPhotoFileUri(String fileName) {
         File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
@@ -219,7 +223,7 @@ public class PhotoFragment extends Fragment {
                         // Compress & save selected to photoFile (used for loading)
                         OutputStream os = new BufferedOutputStream(new FileOutputStream(photoFile));
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, os);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, IMAGE_QUALITY, os);
                         os.close();
                         ivCamera.setImageBitmap(bitmap);
                     } catch (IOException e) {

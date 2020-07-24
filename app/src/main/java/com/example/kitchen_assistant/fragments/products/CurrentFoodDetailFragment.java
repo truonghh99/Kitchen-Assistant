@@ -99,7 +99,6 @@ public class CurrentFoodDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         fragmentCurrentFoodDetailBinding = FragmentCurrentFoodDetailBinding.inflate(getLayoutInflater());
         etName = fragmentCurrentFoodDetailBinding.etName;
         etFoodType = fragmentCurrentFoodDetailBinding.etFoodType;
@@ -116,8 +115,6 @@ public class CurrentFoodDetailFragment extends Fragment {
         btCook = fragmentCurrentFoodDetailBinding.btCook;
         btShop = fragmentCurrentFoodDetailBinding.btShop;
         btMenuOpen = fragmentCurrentFoodDetailBinding.btMenuOpen;
-
-        ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
 
         // Assign values to views using product's info
         etName.setText(product.getProductName());
@@ -186,6 +183,7 @@ public class CurrentFoodDetailFragment extends Fragment {
             }
         });
 
+        // Open or close floating menu
         btMenuOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -261,8 +259,8 @@ public class CurrentFoodDetailFragment extends Fragment {
         Float duration = MetricConverter.extractQuantityVal(etDuration.getText().toString());
         String durationUnit = MetricConverter.extractQuantityUnit(etDuration.getText().toString());
         String foodStatus = etStatus.getText().toString();
-        product.detachFoodItem();
 
+        product.detachFoodItem();
         product.setProductName(productName);
         product.setPurchaseDate(purchaseDate);
         product.setDuration(duration);
@@ -270,7 +268,6 @@ public class CurrentFoodDetailFragment extends Fragment {
         product.updateExpirationDate();
         product.setFoodStatus(foodStatus);
         product.printOutValues();
-        Log.e(TAG, "Updated quantity: " + product.getCurrentQuantity());
 
         FoodItem foodItem = new FoodItem();
         foodItem.setName(foodType);
@@ -315,12 +312,14 @@ public class CurrentFoodDetailFragment extends Fragment {
         MainActivity.switchFragment(recipeExploreFragment);
     }
 
+    // Go to photo compose fragment
     private void goToPhoto() {
         Fragment fragment = PhotoFragment.newInstance(Parcels.wrap(product), Product.TAG);
         fragment.setTargetFragment(this, REQUEST_CODE);
         MainActivity.switchFragment(fragment);
     }
 
+    // Reload image after user selects/take photo in photo fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
