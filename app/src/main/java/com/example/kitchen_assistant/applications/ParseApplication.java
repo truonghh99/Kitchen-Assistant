@@ -9,6 +9,7 @@ import com.example.kitchen_assistant.models.Rating;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.Review;
 import com.example.kitchen_assistant.models.ShoppingItem;
+import com.example.kitchen_assistant.models.User;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -27,6 +28,7 @@ public class ParseApplication extends Application {
         ParseObject.registerSubclass(Ingredient.class);
         ParseObject.registerSubclass(Rating.class);
         ParseObject.registerSubclass(Review.class);
+        ParseObject.registerSubclass(User.class);
 
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
 
