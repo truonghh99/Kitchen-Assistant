@@ -65,18 +65,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         private CardView cvRecipe;
         private TextView tvName;
         private TextView tvStatus;
-        private ItemRecipeBinding itemRecipeBinding;
         private ImageView ivImage;
         private RatingBar ratingBar;
+        private TextView tvCalories;
 
         public ViewHolder(@NonNull ItemRecipeBinding itemRecipeBinding) {
             super(itemRecipeBinding.getRoot());
-            this.itemRecipeBinding = itemRecipeBinding;
             tvName = itemRecipeBinding.tvName;
             tvStatus = itemRecipeBinding.tvStatus;
             ivImage = itemRecipeBinding.ivImage;
             cvRecipe = itemRecipeBinding.cvRecipe;
             ratingBar = itemRecipeBinding.ratingBar;
+            tvCalories = itemRecipeBinding.tvCalories;
         }
 
         public void bind(final Recipe recipe) {
@@ -99,6 +99,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 handleUncookableRecipe();
             }
             ratingBar.setRating(recipe.getNumericRating());
+            tvCalories.setText(recipe.getNutrition().getCalories() + " kcal");
         }
 
         private void goToCurrentRecipeDetail(Recipe recipe) {

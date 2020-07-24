@@ -264,4 +264,8 @@ public class Recipe extends ParseObject implements Parcelable {
         this.nutrition = nutrition;
         nutrition.saveInfo();
     }
+
+    public Nutrition getNutrition() {
+        return nutrition;
+    }
 }

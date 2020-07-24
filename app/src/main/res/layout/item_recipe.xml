@@ -25,7 +25,7 @@
 
         <TextView
             android:id="@+id/tvName"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/ivImage"
             android:layout_marginStart="5dp"
@@ -35,6 +35,14 @@
             android:textColor="@color/pastelPink2"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvCalories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:text="360 kcal"/>
 
         <RatingBar
             android:id="@+id/ratingBar"
