@@ -33,6 +33,7 @@ public class Spoonacular {
     private static final String GET_BY_INGREDIENTS_URL = "https://api.spoonacular.com/recipes/findByIngredients?";
     private static final String GET_INSTRUCTION_URL = "https://api.spoonacular.com/recipes/{id}/analyzedInstructions";
     private static final String GET_INGREDIENTS_URL = "https://api.spoonacular.com/recipes/{id}/ingredientWidget.json";
+    private static final String GET_NUTRITION_URL = "https://api.spoonacular.com/recipes/{id}/nutritionWidget.json";
 
     private static String NUM_RESULT_EACH_QUERY = "10";
 
@@ -190,6 +191,43 @@ public class Spoonacular {
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonData);
                                 recipe.setIngredients(Ingredient.extractIngredientsFromJson(jsonObject, recipe));
+                            } catch (JSONException e) {
+                            }
+                        }
+                    }
+                });
+    }
+
+    public static void getNutrition(final Recipe recipe) {
+        Log.i(TAG, "Start querying nutrient info for recipe " + recipe.getCode());
+
+        // Initialize network request
+        OkHttpClient client = new OkHttpClient();
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(GET_NUTRITION_URL.replace("{id}", recipe.getCode())).newBuilder();
+        urlBuilder.addQueryParameter("apiKey", API_KEY);
+        String url = urlBuilder.build().toString();
+        Log.e(TAG, url);
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        // Get nutrition from the API
+        client.newCall(request)
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+                        if (!response.isSuccessful()) {
+                            throw new IOException("Unexpected code " + response);
+                        } else {
+                            String jsonData = response.body().string();
+                            try {
+                                JSONObject jsonObject = new JSONObject(jsonData);
+                                //recipe.setNutrition(Ingredient.extractIngredientsFromJson(jsonObject, recipe));
                             } catch (JSONException e) {
                             }
                         }
