@@ -28,6 +28,7 @@ public class Review extends ParseObject implements Parcelable {
     private String imageUrl;
     private String title;
     private float rating;
+    private User user;
 
     public void saveInfo() {
         put(KEY_RECIPE_ID, recipeId);
@@ -42,6 +43,7 @@ public class Review extends ParseObject implements Parcelable {
     public void fetchInfo() {
         recipeId = getString(KEY_RECIPE_ID);
         userId = getString(KEY_USER_ID);
+        user = User.fetchFromUserId(userId);
         reviewContent = getString(KEY_REVIEW_CONTENT);
         parseFile = getParseFile(KEY_IMAGE);
         if (parseFile != null) {
@@ -117,4 +119,9 @@ public class Review extends ParseObject implements Parcelable {
     public ParseFile getParseFile() {
         return parseFile;
     }
+
+    public User getUser() {
+        return user;
+    }
+
 }

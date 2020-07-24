@@ -1,10 +1,13 @@
 package com.example.kitchen_assistant.models;
 
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import org.parceler.Parcel;
 
@@ -21,7 +24,20 @@ public class User extends ParseObject implements Parcelable {
     private String username;
     private ParseFile profileImage;
 
+    public static User fetchFromUserId(String userId) {
+        User user = new User();
+        user.setObjectId(userId);
+        user.fetchInfo();
+        return user;
+    }
+
     public void fetchInfo() {
+        try {
+            fetch();
+        } catch (ParseException e) {
+            Log.e(TAG, "CANNOT FETCH USER");
+            e.printStackTrace();
+        }
         username = getString(KEY_USERNAME);
         profileImage = getParseFile(KEY_PROFILE_IMG);
     }

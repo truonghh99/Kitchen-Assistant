@@ -24,6 +24,7 @@ import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.Review;
+import com.example.kitchen_assistant.models.User;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 
 import org.parceler.Parcels;
@@ -89,6 +90,13 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             tvReviewContent.setText(review.getReviewContent());
             ratingBar.setRating(review.getRating());
             loadImage(review);
+
+            User user = review.getUser();
+            loadAvatar(user);
+        }
+
+        private void loadAvatar(User user) {
+            GlideHelper.loadAvatar(user.getProfileImage().getUrl(), context, ivProfileImage);
         }
 
         public void loadImage(Review review) {
