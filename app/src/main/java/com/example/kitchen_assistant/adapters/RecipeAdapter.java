@@ -18,7 +18,6 @@ import com.example.kitchen_assistant.databinding.ItemRecipeBinding;
 import com.example.kitchen_assistant.fragments.recipes.CurrentRecipeDetailFragment;
 import com.example.kitchen_assistant.fragments.recipes.NewRecipeDetailFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
-import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 
@@ -61,7 +60,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private CardView cvRecipe;
@@ -89,23 +87,38 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 public void onClick(View view) {
                     Recipe recipe = recipes.get(getAdapterPosition());
                     if (CurrentRecipes.recipeHashMap.containsKey(recipe.getCode())) {
-                        CurrentRecipeDetailFragment currentRecipeDetailFragment = CurrentRecipeDetailFragment.newInstance(Parcels.wrap(recipe));
-                        MainActivity.switchFragmentWithTransition(currentRecipeDetailFragment, ivImage, "image");
+                        goToCurrentRecipeDetail(recipe);
                     } else {
-                        NewRecipeDetailFragment newRecipeDetailFragment = NewRecipeDetailFragment.newInstance(Parcels.wrap(recipe));
-                        MainActivity.switchFragmentWithTransition(newRecipeDetailFragment, ivImage, "image");
+                        goToNewRecipeDetail(recipe);
                     }
                 }
             });
             if (recipe.isCookable()) {
-                tvStatus.setText("You have enough ingredient to cook this recipe!");
-                cvRecipe.setCardBackgroundColor(context.getResources().getColor(R.color.available));
+                handleCookableRecipe();
             } else {
-                tvStatus.setText("A few ingredients are still needed");
-                cvRecipe.setCardBackgroundColor(context.getResources().getColor(R.color.unavailable));
+                handleUncookableRecipe();
             }
             ratingBar.setRating(recipe.getNumericRating());
         }
-    }
 
+        private void goToCurrentRecipeDetail(Recipe recipe) {
+            CurrentRecipeDetailFragment currentRecipeDetailFragment = CurrentRecipeDetailFragment.newInstance(Parcels.wrap(recipe));
+            MainActivity.switchFragmentWithTransition(currentRecipeDetailFragment, ivImage, "image");
+        }
+
+        private void goToNewRecipeDetail(Recipe recipe) {
+            NewRecipeDetailFragment newRecipeDetailFragment = NewRecipeDetailFragment.newInstance(Parcels.wrap(recipe));
+            MainActivity.switchFragmentWithTransition(newRecipeDetailFragment, ivImage, "image");
+        }
+
+        private void handleCookableRecipe() {
+            tvStatus.setText("You have enough ingredient to cook this recipe!");
+            cvRecipe.setCardBackgroundColor(context.getResources().getColor(R.color.available));
+        }
+
+        private void handleUncookableRecipe() {
+            tvStatus.setText("A few ingredients are still needed");
+            cvRecipe.setCardBackgroundColor(context.getResources().getColor(R.color.unavailable));
+        }
+    }
 }

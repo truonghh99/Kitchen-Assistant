@@ -87,12 +87,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         }
 
         public void bind(final Review review) {
+            // Bind review details
             review.fetchInfo();
             tvReviewTitle.setText(review.getTitle());
             tvReviewContent.setText(review.getReviewContent());
             ratingBar.setRating(review.getRating());
             loadImage(review);
 
+            // Bind user details
             User user = review.getUser();
             loadAvatar(user);
             tvUsername.setText(user.getUsername());

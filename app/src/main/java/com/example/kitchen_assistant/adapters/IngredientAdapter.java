@@ -70,7 +70,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
         public void bind(final Ingredient ingredient) {
             tvName.setText(ingredient.getName());
-            tvQuantity.setText("" + ingredient.getQuantity() + " " + ingredient.getQuantityUnit());
+            tvQuantity.setText(ingredient.getQuantity() + " " + ingredient.getQuantityUnit());
 
             if (ingredient.isAvailable()) {
                 handleAvailableProduct(ingredient);

@@ -47,11 +47,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ShoppingItem item = items.get(position);
-        try {
-            holder.bind(item);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        holder.bind(item);
     }
 
     @Override
@@ -81,9 +77,9 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             cbCheckbox = itemShoppingBinding.cbCheckbox;
         }
 
-        public void bind(final ShoppingItem item) throws ParseException {
+        public void bind(final ShoppingItem item) {
             tvName.setText(item.getName());
-            tvQuantity.setText(String.valueOf(item.getQuantity()) + " " + item.getQuantityUnit());
+            tvQuantity.setText(item.getQuantity() + " " + item.getQuantityUnit());
             cbCheckbox.setChecked(items.get(getAdapterPosition()).getChecked());
             cbCheckbox.setOnClickListener(new View.OnClickListener() {
                 @Override

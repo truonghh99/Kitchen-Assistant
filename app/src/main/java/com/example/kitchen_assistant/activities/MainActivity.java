@@ -25,9 +25,6 @@ import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.parse.LogOutCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 

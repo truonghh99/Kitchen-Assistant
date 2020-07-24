@@ -29,7 +29,7 @@ import java.util.List;
 
 public class IngredientComposeAdapter extends RecyclerView.Adapter<IngredientComposeAdapter.ViewHolder> {
 
-    private static final String TAG = "IngredientComposeAdapte";
+    private static final String TAG = "IngredientComposeAdapter";
     private Context context;
     public List<Ingredient> ingredients;
     private RecyclerView rvIngredients;
