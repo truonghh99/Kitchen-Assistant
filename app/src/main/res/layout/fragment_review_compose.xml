@@ -70,15 +70,34 @@
             android:textColor="@color/black"
             android:textSize="18sp" />
 
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etReview"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/btPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="Want to add a photo?" />
+
         <Button
             android:id="@+id/btPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_below="@id/etReview"
+            android:layout_below="@id/btPhoto"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="0dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/colorPrimary"
             android:text="Post" />
 

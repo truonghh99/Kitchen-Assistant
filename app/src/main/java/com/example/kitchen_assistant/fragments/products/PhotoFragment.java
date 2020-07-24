@@ -219,7 +219,7 @@ public class PhotoFragment extends Fragment {
                         // Compress & save selected to photoFile (used for loading)
                         OutputStream os = new BufferedOutputStream(new FileOutputStream(photoFile));
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, os);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, os);
                         os.close();
                         ivCamera.setImageBitmap(bitmap);
                     } catch (IOException e) {
