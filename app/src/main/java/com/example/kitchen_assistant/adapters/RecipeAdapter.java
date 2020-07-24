@@ -86,7 +86,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 @Override
                 public void onClick(View view) {
                     Recipe recipe = recipes.get(getAdapterPosition());
-                    if (CurrentRecipes.recipeHashMap.containsKey(recipe.getCode())) {
+                    if (CurrentRecipes.containsRecipe(recipe)) { // TODO: fix wrongly added recipe when clicked (not yet added)
                         goToCurrentRecipeDetail(recipe);
                     } else {
                         goToNewRecipeDetail(recipe);

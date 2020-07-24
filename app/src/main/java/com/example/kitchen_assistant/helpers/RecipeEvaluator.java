@@ -95,7 +95,7 @@ public class RecipeEvaluator {
     }
 
     public static void evaluateAllRecipe() {
-        for (Map.Entry mapElement : CurrentRecipes.recipeHashMap.entrySet()) {
+        for (Map.Entry mapElement : CurrentRecipes.getRecipeHashmap().entrySet()) {
             Recipe recipe = (Recipe) mapElement.getValue();
             evaluateRecipe(recipe);
         }

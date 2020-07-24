@@ -84,7 +84,6 @@ public class NewRecipeDetailFragment extends Fragment {
         if (getArguments() != null) {
             recipe = Parcels.unwrap(getArguments().getParcelable(KEY_RECIPE));
         }
-        RecipeEvaluator.evaluateRecipe(recipe);
     }
 
     @Override

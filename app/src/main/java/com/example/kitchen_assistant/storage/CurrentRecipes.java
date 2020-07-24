@@ -6,25 +6,27 @@ import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.fragments.products.CurrentFoodFragment;
 import com.example.kitchen_assistant.fragments.recipes.RecipeFragment;
 import com.example.kitchen_assistant.models.Ingredient;
-import com.example.kitchen_assistant.models.Rating;
 import com.example.kitchen_assistant.models.Recipe;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CurrentRecipes {
 
     private static final String TAG = "CurrentRecipes";
     public static List<Recipe> recipes;
-    public static HashMap<String, Recipe> recipeHashMap;
+    private static HashMap<String, Recipe> recipeHashMap;
 
     public static void addRecipe(Recipe recipe) {
+        Log.e(TAG, "ADDED RECIPE " + recipe.getCode());
         recipes.add(0, recipe);
         RecipeFragment.notifyDataChange();
         recipeHashMap.put(recipe.getCode(), recipe);
@@ -55,6 +57,7 @@ public class CurrentRecipes {
         recipes = new ArrayList<>();
         recipeHashMap = new HashMap<>();
         ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);
+        query.whereEqualTo(Recipe.KEY_USER_ID, ParseUser.getCurrentUser().getObjectId());
         query.addDescendingOrder(Recipe.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Recipe>() {
             @Override
@@ -121,5 +124,13 @@ public class CurrentRecipes {
         for (Recipe recipe : newRecipes) {
             addRecipe(recipe);
         }
+    }
+
+    public static boolean containsRecipe(Recipe recipe) {
+        return recipeHashMap.containsKey(recipe.getCode());
+    }
+
+    public static HashMap<String, Recipe> getRecipeHashmap() {
+        return recipeHashMap;
     }
 }

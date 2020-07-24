@@ -36,12 +36,11 @@ public class Recipe extends ParseObject implements Parcelable {
     public static final String KEY_ID = "objectId";
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_NAME = "recipeName";
-    public static final String KEY_AUTHOR = "author";
-    public static final String KEY_IMAGE_URL = "imgUrl";
     public static final String KEY_INSTRUCTIONS = "instructions";
     public static final String KEY_CODE = "recipeCode";
     public static final String KEY_COOKABLE = "cookable";
-    public static final String KEY_RATING = "rating";
+    public static final String KEY_USER_ID = "userId";
+
 
     // Keyword for Spoonacular
     private static final String KEY_NAME_JSON_API = "title";
@@ -53,6 +52,7 @@ public class Recipe extends ParseObject implements Parcelable {
     // Local properties
     private String name;
     private String recipeCode;
+    private String userId;
     private String imageUrl;
     private String instructions;
     private boolean cookable;
@@ -101,6 +101,7 @@ public class Recipe extends ParseObject implements Parcelable {
         instructions = getString(KEY_INSTRUCTIONS);
         recipeCode = getString(KEY_CODE);
         cookable = getBoolean(KEY_COOKABLE);
+        userId = getString(KEY_USER_ID);
         try {
             Rating.requestRating(this);
             Nutrition.requestNutrition(this);
@@ -121,6 +122,7 @@ public class Recipe extends ParseObject implements Parcelable {
         put(KEY_CODE, recipeCode);
         Log.e(TAG, "New code: " + recipeCode);
         put(KEY_COOKABLE, cookable);
+        put(KEY_USER_ID, ParseUser.getCurrentUser().getObjectId());
         for (Ingredient ingredient : getIngredientList()) {
             ingredient.saveInfo();
         }
