@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Ingredient;
+import com.example.kitchen_assistant.models.Nutrition;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 import com.parse.ParseException;
@@ -227,7 +228,7 @@ public class Spoonacular {
                             String jsonData = response.body().string();
                             try {
                                 JSONObject jsonObject = new JSONObject(jsonData);
-                                //recipe.setNutrition(Ingredient.extractIngredientsFromJson(jsonObject, recipe));
+                                recipe.setNutrition(Nutrition.extractNutritionFromJson(jsonObject, recipe));
                             } catch (JSONException e) {
                             }
                         }

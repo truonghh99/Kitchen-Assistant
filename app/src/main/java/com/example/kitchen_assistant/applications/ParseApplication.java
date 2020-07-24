@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Ingredient;
+import com.example.kitchen_assistant.models.Nutrition;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Rating;
 import com.example.kitchen_assistant.models.Recipe;
@@ -28,6 +29,7 @@ public class ParseApplication extends Application {
         ParseObject.registerSubclass(Ingredient.class);
         ParseObject.registerSubclass(Rating.class);
         ParseObject.registerSubclass(Review.class);
+        ParseObject.registerSubclass(Nutrition.class);
 
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
 

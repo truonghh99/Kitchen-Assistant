@@ -159,7 +159,7 @@ public class RecipeComposeFragment extends Fragment {
         recipe.setCode(etName.getText().toString());
 
         try {
-            recipe.setRating(Rating.requestRating(recipe));
+            Rating.requestRating(recipe);
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -106,6 +106,7 @@ public class Recipe extends ParseObject implements Parcelable {
             Nutrition.requestNutrition(this);
         } catch (ParseException e) {
             e.printStackTrace();
+            Log.e(TAG, "CANNOT REQUEST RATING OR NUTRITION INFO");
         }
     }
 
@@ -259,5 +260,6 @@ public class Recipe extends ParseObject implements Parcelable {
 
     public void setNutrition(Nutrition nutrition) {
         this.nutrition = nutrition;
+        nutrition.saveInfo();
     }
 }
