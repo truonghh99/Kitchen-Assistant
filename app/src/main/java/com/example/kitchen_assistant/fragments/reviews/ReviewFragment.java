@@ -44,6 +44,7 @@ public class ReviewFragment extends Fragment {
     public ReviewFragment() {
     }
 
+    // Initialize with a recipe to query all recipes of it
     public static ReviewFragment newInstance(Parcelable recipe) {
         ReviewFragment fragment = new ReviewFragment();
         Bundle args = new Bundle();
@@ -58,6 +59,7 @@ public class ReviewFragment extends Fragment {
         if (getArguments() != null) {
             recipe = Parcels.unwrap(getArguments().getParcelable(KEY_RECIPE));
         }
+        setHasOptionsMenu(true); //TODO: option menu wasn't called
     }
 
     @Override
@@ -67,6 +69,7 @@ public class ReviewFragment extends Fragment {
         btAdd = fragmentReviewBinding.btAdd;
         rvReviews = fragmentReviewBinding.rvReviews;
 
+        // Set up recycler view & adapter
         reviews = recipe.getReviews();
         adapter = new ReviewAdapter(getActivity(), reviews);
         rvReviews.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -80,8 +83,14 @@ public class ReviewFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_search_toolbar, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
+
+        setUpSearchBar(menu);
+    }
+
+    // Allow user to narrow down list of reviews with some keywords
+    private void setUpSearchBar(Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         item.setActionView(searchView);
@@ -106,6 +115,7 @@ public class ReviewFragment extends Fragment {
                 });
     }
 
+    // Filter list of review using query in search bar
     private List<Review> filter(List<Review> reviews, String query) {
         final String lowerCaseQuery = query.toLowerCase();
         final List<Review> filteredModelList = new ArrayList<>();

@@ -49,6 +49,7 @@ public class ReviewComposeFragment extends Fragment {
     public ReviewComposeFragment() {
     }
 
+    // Initialize with an empty review to modify & a recipe to attach to
     public static ReviewComposeFragment newInstance(Parcelable recipe, Parcelable review) {
         ReviewComposeFragment fragment = new ReviewComposeFragment();
         Bundle args = new Bundle();
@@ -80,6 +81,7 @@ public class ReviewComposeFragment extends Fragment {
 
         loadImage();
 
+        // Post input review
         btPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,12 +109,14 @@ public class ReviewComposeFragment extends Fragment {
         return fragmentReviewComposeBinding.getRoot();
     }
 
+    // Go to photo compose screen
     private void goToPhoto() {
         Fragment fragment = PhotoFragment.newInstance(Parcels.wrap(review), Review.TAG);
         fragment.setTargetFragment(this, REQUEST_CODE);
         MainActivity.switchFragment(fragment);
     }
 
+    // Attached selected photo to current screen
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
