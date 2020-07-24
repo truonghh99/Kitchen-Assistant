@@ -7,12 +7,13 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.parceler.Parcel;
 
-@ParseClassName("User")
-public class User extends ParseObject implements Parcelable {
+@Parcel
+public class User {
 
     public static final String TAG = "UserModel";
 
@@ -21,31 +22,46 @@ public class User extends ParseObject implements Parcelable {
     public static final String KEY_PROFILE_IMG = "profileImage";
 
     // Local values
+    private ParseUser user;
     private String username;
     private ParseFile profileImage;
 
     public static User fetchFromUserId(String userId) {
+        Log.e(TAG, "Finding user with user id: " + userId);
+        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
         User user = new User();
-        user.setObjectId(userId);
+        query.whereEqualTo("objectId", userId);
+        ParseUser parseUser = null;
+        try {
+            parseUser = query.find().get(0);
+        } catch (ParseException e) {
+            Log.e(TAG, "Cannot find user");
+            e.printStackTrace();
+        }
+        user.setParseUser(parseUser);
         user.fetchInfo();
         return user;
     }
 
+    private void setParseUser(ParseUser parseUser) {
+        user = parseUser;
+    }
+
     public void fetchInfo() {
         try {
-            fetch();
+            user.fetch();
         } catch (ParseException e) {
             Log.e(TAG, "CANNOT FETCH USER");
             e.printStackTrace();
         }
-        username = getString(KEY_USERNAME);
-        profileImage = getParseFile(KEY_PROFILE_IMG);
+        username = user.getString(KEY_USERNAME);
+        profileImage = user.getParseFile(KEY_PROFILE_IMG);
     }
 
     public void saveInfo() {
-        put(KEY_PROFILE_IMG, profileImage);
-        put(KEY_USERNAME, username);
-        saveInBackground();
+        user.put(KEY_PROFILE_IMG, profileImage);
+        user.put(KEY_USERNAME, username);
+        user.saveInBackground();
     }
 
     public String getUsername() {

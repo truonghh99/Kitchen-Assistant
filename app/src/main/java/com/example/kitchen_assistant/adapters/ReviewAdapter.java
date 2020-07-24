@@ -74,6 +74,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         private ImageView ivProfileImage;
         private RatingBar ratingBar;
         private ImageView ivImg;
+        private TextView tvUsername;
 
         public ViewHolder(@NonNull ItemReviewBinding itemReviewBinding) {
             super(itemReviewBinding.getRoot());
@@ -82,6 +83,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             ivProfileImage = itemReviewBinding.ivProfileImage;
             ratingBar = itemReviewBinding.ratingBar;
             ivImg = itemReviewBinding.ivImg;
+            tvUsername = itemReviewBinding.tvUsername;
         }
 
         public void bind(final Review review) {
@@ -93,6 +95,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
             User user = review.getUser();
             loadAvatar(user);
+            tvUsername.setText(user.getUsername());
         }
 
         private void loadAvatar(User user) {

@@ -7,19 +7,54 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:srcCompat="@drawable/default_avatar_file" />
+    <RelativeLayout
+        android:id="@+id/rlUser"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/default_avatar_file" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ivProfileImage"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp">
+
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hatruong"
+                android:textStyle="bold"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/tvUserStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvUsername"
+                android:layout_marginTop="2dp"
+                android:text="User has cooked this recipe"
+                android:textStyle="italic"
+                android:textSize="10sp"/>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rlReview"
         android:layout_width="match_parent"
         android:layout_marginLeft="10dp"
-        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/ivProfileImage">
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/rlUser">
 
         <TextView
             android:id="@+id/tvReviewTitle"
@@ -27,6 +62,7 @@
             android:layout_height="wrap_content"
             android:text="Love this recipe!"
             android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="15sp"/>
 
         <RatingBar

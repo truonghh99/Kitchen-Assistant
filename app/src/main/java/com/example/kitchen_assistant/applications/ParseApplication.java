@@ -28,7 +28,6 @@ public class ParseApplication extends Application {
         ParseObject.registerSubclass(Ingredient.class);
         ParseObject.registerSubclass(Rating.class);
         ParseObject.registerSubclass(Review.class);
-        ParseObject.registerSubclass(User.class);
 
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
 
