@@ -25,6 +25,7 @@ public class MetricConverter {
 
     public static final HashMap<String, Float> weight = new HashMap<String, Float>(){
         {
+            put("oz", (float) 1);
             put("lbs", (float) 16);
             put("g", (float) 0.035);
             put("kg", (float) 35.27);

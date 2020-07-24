@@ -49,6 +49,7 @@ public class MatchingHelper {
     }
 
     private static Product cloneProduct(Product original) {
+        // Get existing product's information
         Product product = new Product();
         product.setProductCode(original.getProductCode());
         product.setImageUrl(product.getImageUrl());
@@ -58,12 +59,14 @@ public class MatchingHelper {
         product.setDuration(original.getDuration());
         product.setDurationUnit(original.getDurationUnit());
 
+        // Assign values to new product
         product.setPurchaseDate(new Date());
         product.setNumProducts(1);
         product.updateCurrentQuantity();
         product.updateExpirationDate();
         product.updateFoodStatus();
 
+        // Get existing product's food item
         FoodItem foodItem = new FoodItem();
         FoodItem originalFoodItem = original.getFoodItem();
         try {
@@ -73,6 +76,7 @@ public class MatchingHelper {
         }
         Log.e(TAG, originalFoodItem.getName());
 
+        // Assign values to new food item
         foodItem.setName(originalFoodItem.getName());
         foodItem.setQuantity(originalFoodItem.getQuantity());
         foodItem.setQuantityUnit(originalFoodItem.getQuantityUnit());
@@ -93,7 +97,6 @@ public class MatchingHelper {
             CurrentFoodTypes.saveFoodItemInBackGround(foodItem);
             food = foodItem;
             Log.i(TAG, "New quantity: " + foodItem.getQuantity());
-
         } else {
             Log.e(TAG, "Created new food type!");
             CurrentFoodTypes.addFoodItem(food);

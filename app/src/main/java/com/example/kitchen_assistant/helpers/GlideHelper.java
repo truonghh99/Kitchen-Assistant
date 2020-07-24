@@ -14,8 +14,8 @@ import com.parse.ParseFile;
 public class GlideHelper {
 
     private static final String TAG = "Glide";
-    private static final int IMAGE_WIDTH = 350;
-    private static final int IMAGE_HEIGHT = 350;
+    private static final int IMAGE_WIDTH = 300;
+    private static final int IMAGE_HEIGHT = 300;
 
     public static void loadAvatar(String url, Context context, ImageView imgView) {
         if (url == null || url == "default") {
@@ -63,12 +63,5 @@ public class GlideHelper {
                 .load(R.drawable.default_food)
                 .override(IMAGE_WIDTH, IMAGE_HEIGHT)
                 .into(imgView);
-    }
-
-    public static void loadParseFile(Context context, ImageView imageView, ParseFile parseFile) throws ParseException {
-        Glide.with(context)
-                .load(parseFile.getFile())
-                .override(IMAGE_WIDTH, IMAGE_HEIGHT)
-                .into(imageView);
     }
 }

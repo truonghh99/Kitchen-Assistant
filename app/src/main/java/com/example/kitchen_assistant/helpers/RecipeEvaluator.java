@@ -19,6 +19,7 @@ public class RecipeEvaluator {
 
     private static final String TAG = "RecipeEvaluator";
 
+    // Subtract all the selected product within a recipe when cooked
     public static void updateFoodFromCookedRecipe(Recipe recipe) {
         List<Ingredient> ingredientList = recipe.getIngredientList();
         Log.e(TAG, String.valueOf(ingredientList.size()));
@@ -29,6 +30,7 @@ public class RecipeEvaluator {
         }
     }
 
+    // Check if ingredient is already in cart
     public static boolean ingredientIsInCart(Ingredient ingredient) {
         String name = ingredient.getName();
         Float quantity = ingredient.getQuantity();
@@ -45,6 +47,7 @@ public class RecipeEvaluator {
         return true;
     }
 
+    // Check if the ingredient is available or not and assign preferred product for it, if possible
     public static void evaluateIngredient(Ingredient ingredient) {
         Log.e(TAG, "Evaluating " + ingredient.getName());
         ingredient.setAvailable(true);
@@ -76,6 +79,7 @@ public class RecipeEvaluator {
         }
     }
 
+    // Check if recipe is cookable
     public static void evaluateRecipe(Recipe recipe) {
         recipe.setCookable(true);
         List<Ingredient> ingredientList = recipe.getIngredientList();
