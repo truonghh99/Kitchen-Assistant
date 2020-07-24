@@ -38,23 +38,23 @@ public class Spoonacular {
 
     private static List<Recipe> recipes;
 
+    // Get 10 recipes that contains the given ingredient list
     public static List<Recipe> getByIngredients(String ingredientsList) throws InterruptedException {
         Log.i(TAG, "Start querying recipes");
         recipes = new ArrayList<>();
 
-        Log.e(TAG, "Ingredient list: " + ingredientsList);
+        // Initialize network client
         OkHttpClient client = new OkHttpClient();
-
         HttpUrl.Builder urlBuilder = HttpUrl.parse(GET_BY_INGREDIENTS_URL).newBuilder();
         urlBuilder.addQueryParameter("apiKey", API_KEY);
         urlBuilder.addQueryParameter("number", NUM_RESULT_EACH_QUERY);
         urlBuilder.addQueryParameter("ingredients", ingredientsList);
-
         String url = urlBuilder.build().toString();
         Request request = new Request.Builder()
                 .url(url)
                 .build();
 
+        // Request recipes from API
         client.newCall(request)
                 .enqueue(new Callback() {
                     @Override
@@ -81,28 +81,28 @@ public class Spoonacular {
                     }
                 });
 
+        // Wait for async request to complete
         while (recipes.size() == 0) {
             Thread.currentThread().sleep(10);
         }
         return recipes;
     }
 
+    // Get instruction of given recipe
     public static String getInstruction(String recipeId) throws InterruptedException {
         Log.i(TAG, "Start querying instruction for recipe " + recipeId);
         final String[] instruction = {null};
 
+        // Initialize network client
         OkHttpClient client = new OkHttpClient();
-
         HttpUrl.Builder urlBuilder = HttpUrl.parse(GET_INSTRUCTION_URL.replace("{id}", recipeId)).newBuilder();
         urlBuilder.addQueryParameter("apiKey", API_KEY);
-
         String url = urlBuilder.build().toString();
-        Log.e(TAG, url);
-
         Request request = new Request.Builder()
                 .url(url)
                 .build();
 
+        // Request instruction from API
         client.newCall(request)
                 .enqueue(new Callback() {
                     @Override
@@ -130,12 +130,14 @@ public class Spoonacular {
                     }
                 });
 
+        // Wait for async request to complete
         while (instruction[0] == null) {
             Thread.currentThread().sleep(10);
         }
         return instruction[0];
     }
 
+    // Helper: convert returned instruction to displayable format
     private static String convertInstruction(JSONArray steps) throws JSONException {
         String instruction = "";
         for (int i = 0; i < steps.length(); ++i) {
@@ -157,11 +159,12 @@ public class Spoonacular {
         return result;
     }
 
-    public static void getIngredients(final Recipe recipe) throws InterruptedException {
+    // Get ingredient of given recipe. Result is attached directly to recipe object
+    public static void getIngredients(final Recipe recipe) {
         Log.i(TAG, "Start querying ingredient for recipe " + recipe.getCode());
-        HashMap<String, Ingredient> result = new HashMap<>();
-        OkHttpClient client = new OkHttpClient();
 
+        // Initialize network request
+        OkHttpClient client = new OkHttpClient();
         HttpUrl.Builder urlBuilder = HttpUrl.parse(GET_INGREDIENTS_URL.replace("{id}", recipe.getCode())).newBuilder();
         urlBuilder.addQueryParameter("apiKey", API_KEY);
         String url = urlBuilder.build().toString();
@@ -170,6 +173,7 @@ public class Spoonacular {
                 .url(url)
                 .build();
 
+        // Get ingredients from the API
         client.newCall(request)
                 .enqueue(new Callback() {
                     @Override

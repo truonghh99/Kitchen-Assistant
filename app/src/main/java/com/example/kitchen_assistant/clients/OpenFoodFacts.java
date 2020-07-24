@@ -30,6 +30,7 @@ public class OpenFoodFacts {
         product = new Product();
         String url = GET_PRODUCT_INFO_URL + productCode;
 
+        // Initialize network client
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
@@ -64,6 +65,7 @@ public class OpenFoodFacts {
                     }
                 });
 
+        // Wait for async request to complete
         while (product.getProductName() == null) {
             Thread.currentThread().sleep(10);
         }
