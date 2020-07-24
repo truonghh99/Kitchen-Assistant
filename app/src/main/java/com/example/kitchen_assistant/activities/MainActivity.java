@@ -131,6 +131,13 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.flContainer, fragment).commit();
     }
 
+    public static void addFragment(Fragment fragment) {
+        fragmentManager.beginTransaction()
+                .add(R.id.flContainer, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
     @Override
     public void onBackPressed(){
         if (fragmentManager.getBackStackEntryCount() > 0) {

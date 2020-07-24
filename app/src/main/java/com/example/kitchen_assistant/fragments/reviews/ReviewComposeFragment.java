@@ -28,7 +28,7 @@ import com.example.kitchen_assistant.models.Review;
 
 import org.parceler.Parcels;
 
-public class ReviewComposeFragment extends DialogFragment {
+public class ReviewComposeFragment extends Fragment {
 
     private static final String TAG = "InstructionCompose";
     private static final String KEY_RECIPE = "RECIPE";
@@ -93,7 +93,7 @@ public class ReviewComposeFragment extends DialogFragment {
 
                 recipe.addReview(review);
                 getTargetFragment().onActivityResult(getTargetRequestCode(), 0, new Intent());
-                dismiss();
+                getFragmentManager().popBackStack();
             }
         });
 
@@ -111,13 +111,11 @@ public class ReviewComposeFragment extends DialogFragment {
         Fragment fragment = PhotoFragment.newInstance(Parcels.wrap(review), Review.TAG);
         fragment.setTargetFragment(this, REQUEST_CODE);
         MainActivity.switchFragment(fragment);
-        getDialog().hide();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        getDialog().show();
         loadImage();
     }
 

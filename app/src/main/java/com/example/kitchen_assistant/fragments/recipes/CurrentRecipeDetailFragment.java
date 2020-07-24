@@ -181,9 +181,9 @@ public class CurrentRecipeDetailFragment extends Fragment {
 
     private void goToReviewCompose() {
         Review review = new Review();
-        DialogFragment dialogFragment = ReviewComposeFragment.newInstance(Parcels.wrap(recipe), Parcels.wrap(review));
-        dialogFragment.setTargetFragment(this, 0);
-        dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
+        Fragment fragment = ReviewComposeFragment.newInstance(Parcels.wrap(recipe), Parcels.wrap(review));
+        fragment.setTargetFragment(this, 0);
+        MainActivity.addFragment(fragment);
     }
 
     private void goToInstruction(String instruction) {

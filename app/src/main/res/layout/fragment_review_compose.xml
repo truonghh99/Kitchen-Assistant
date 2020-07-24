@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
     tools:context=".fragments.recipes.InstructionFragment">
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:padding="10dp"
+        android:background="@drawable/cell_shape"
         android:layout_height="wrap_content">
 
         <TextView
@@ -37,7 +40,8 @@
 
         <EditText
             android:id="@+id/etTitle"
-            android:layout_width="300dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/ratingBar"
             android:layout_marginStart="25dp"
@@ -55,7 +59,7 @@
 
         <EditText
             android:id="@+id/etReview"
-            android:layout_width="300dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/etTitle"
             android:layout_marginStart="25dp"
@@ -83,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ivImage"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="5dp"
             android:textSize="14sp"
             android:textStyle="italic"
             android:textColor="@color/colorPrimaryDark"
@@ -93,13 +97,11 @@
             android:id="@+id/btPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_below="@id/tvPhoto"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="15dp"
             android:background="@color/colorPrimary"
             android:text="Post" />
 
     </RelativeLayout>
-</ScrollView>
+</RelativeLayout>
