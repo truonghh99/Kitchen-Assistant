@@ -1,7 +1,9 @@
 package com.example.kitchen_assistant.fragments.recipes;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,11 +24,14 @@ import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.IngredientAdapter;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentNewRecipeDetailBinding;
+import com.example.kitchen_assistant.fragments.reviews.ReviewComposeFragment;
+import com.example.kitchen_assistant.fragments.reviews.ReviewFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Rating;
 import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.models.Review;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -119,6 +124,14 @@ public class NewRecipeDetailFragment extends Fragment {
             }
         });
 
+        // Allow user to read all reviews of current recipe
+        tvReviewCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToReview();
+            }
+        });
+
         // Open or close floating menu
         btMenuOpen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +149,13 @@ public class NewRecipeDetailFragment extends Fragment {
                 RecipeEvaluator.evaluateRecipe(recipe);
                 CurrentRecipes.addRecipe(recipe);
                 Toast.makeText(getContext(), "Recipe added to your library", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToReviewCompose();
             }
         });
 
@@ -178,6 +198,12 @@ public class NewRecipeDetailFragment extends Fragment {
             e.printStackTrace();
         }
     }
+    private void goToReviewCompose() {
+        Review review = new Review();
+        Fragment fragment = ReviewComposeFragment.newInstance(Parcels.wrap(recipe), Parcels.wrap(review));
+        fragment.setTargetFragment(this, 0);
+        MainActivity.addFragment(fragment);
+    }
 
     // Go to instruction fragment
     private void goToInstruction(String instruction) {
@@ -185,8 +211,23 @@ public class NewRecipeDetailFragment extends Fragment {
         dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 
+    private void goToReview() {
+        ReviewFragment fragment = ReviewFragment.newInstance(Parcels.wrap(recipe));
+        MainActivity.switchFragment(fragment);
+    }
+
     public static void notifyChange() {
         if (adapter != null) adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        loadRating();
+    }
+
+    private void loadRating() {
+        tvReviewCount.setText(setUpReviewCount(recipe.getRating().getNumReviews()));
+        ratingBar.setRating(recipe.getNumericRating());
+    }
 }
