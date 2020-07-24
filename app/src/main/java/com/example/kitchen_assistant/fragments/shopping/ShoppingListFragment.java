@@ -63,11 +63,26 @@ public class ShoppingListFragment extends Fragment {
         btSearch = fragmentShoppingListBinding.btSearch;
         rvShoppingList = fragmentShoppingListBinding.rvShoppingList;
 
+        // Set up recycler view & adapter
         items = CurrentShoppingList.items;
         adapter = new ShoppingListAdapter(getActivity(), items);
         rvShoppingList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvShoppingList.setAdapter(adapter);
 
+        setUpSlideToRemove();
+
+        // Add new shopping item
+        btAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToPreviewItem();
+            }
+        });
+
+        return fragmentShoppingListBinding.getRoot();
+    }
+
+    private void setUpSlideToRemove() {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -84,16 +99,6 @@ public class ShoppingListFragment extends Fragment {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(rvShoppingList);
-
-
-        btAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToPreviewItem();
-            }
-        });
-
-        return fragmentShoppingListBinding.getRoot();
     }
 
     @Override
@@ -101,8 +106,13 @@ public class ShoppingListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_search_toolbar, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
+        setUpSearchView(menu);
+    }
+
+    // Allow user to narrow down shopping list using search bar
+    private void setUpSearchView(Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         item.setActionView(searchView);
@@ -127,6 +137,7 @@ public class ShoppingListFragment extends Fragment {
                 });
     }
 
+    // Filter shopping list based on query in search bar
     private List<ShoppingItem> filter(List<ShoppingItem> items, String query) {
         final String lowerCaseQuery = query.toLowerCase();
         final List<ShoppingItem> filteredModelList = new ArrayList<>();

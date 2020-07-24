@@ -61,10 +61,9 @@ public class EditShoppingItemFragment extends DialogFragment {
         spinnerQuantityUnit = fragmentEditShoppingItemBinding.spinnerQuantityUnit;
         btUpdate = fragmentEditShoppingItemBinding.btUpdate;
 
+        // Bind views
         etName.setText(item.getName());
-
         etQuantity.setText(String.valueOf(item.getQuantity()));
-
         SpinnerHelper.setUpMetricSpinner(spinnerQuantityUnit, item.getQuantityUnit(), getContext(), etQuantity, item.getQuantity(), spinnerQuantityUnit);
 
         // Allow user to add modified item to shopping list via add button
