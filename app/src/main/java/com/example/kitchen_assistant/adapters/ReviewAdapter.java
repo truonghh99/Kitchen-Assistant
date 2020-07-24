@@ -2,6 +2,7 @@ package com.example.kitchen_assistant.adapters;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         private TextView tvReviewContent;
         private ImageView ivProfileImage;
         private RatingBar ratingBar;
+        private ImageView ivImg;
 
         public ViewHolder(@NonNull ItemReviewBinding itemReviewBinding) {
             super(itemReviewBinding.getRoot());
@@ -78,15 +80,24 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             tvReviewContent = itemReviewBinding.tvReviewContent;
             ivProfileImage = itemReviewBinding.ivProfileImage;
             ratingBar = itemReviewBinding.ratingBar;
+            ivImg = itemReviewBinding.ivImg;
         }
 
         public void bind(final Review review) {
-
             review.fetchInfo();
             tvReviewTitle.setText(review.getTitle());
             tvReviewContent.setText(review.getReviewContent());
             ratingBar.setRating(review.getRating());
+            loadImage(review);
+        }
 
+        public void loadImage(Review review) {
+            if (review.getParseFile() != null) {
+                Log.e(TAG, review.getImageUrl());
+                GlideHelper.loadImage(review.getImageUrl(), context, ivImg);
+            } else {
+                Log.e(TAG, "No image to load");
+            }
         }
     }
 
