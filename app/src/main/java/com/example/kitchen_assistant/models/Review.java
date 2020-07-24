@@ -113,4 +113,8 @@ public class Review extends ParseObject implements Parcelable {
         }
         setImageUrl(parseFile.getUrl());
     }
+
+    public ParseFile getParseFile() {
+        return parseFile;
+    }
 }

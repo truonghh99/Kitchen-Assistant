@@ -28,6 +28,7 @@ import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.models.Review;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.parceler.Parcels;
@@ -179,7 +180,8 @@ public class CurrentRecipeDetailFragment extends Fragment {
     }
 
     private void goToReviewCompose() {
-        DialogFragment dialogFragment = ReviewComposeFragment.newInstance(Parcels.wrap(recipe));
+        Review review = new Review();
+        DialogFragment dialogFragment = ReviewComposeFragment.newInstance(Parcels.wrap(recipe), Parcels.wrap(review));
         dialogFragment.setTargetFragment(this, 0);
         dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }

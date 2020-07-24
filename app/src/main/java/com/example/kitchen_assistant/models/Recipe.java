@@ -217,6 +217,13 @@ public class Recipe extends ParseObject implements Parcelable {
         this.rating.addRating(rating);
     }
 
+    public void addReview(Review review) {
+        review.setRecipeId(recipeCode);
+        review.setUserId(ParseUser.getCurrentUser().getObjectId());
+        review.saveInfo();
+        this.rating.addRating(review.getRating());
+    }
+
     public List<Review> getReviews() {
         List<Review> result = new ArrayList<>();
         ParseQuery<Review> query = ParseQuery.getQuery("Review");
