@@ -34,6 +34,7 @@ public class RecipeExploreFragment extends Fragment {
     public RecipeExploreFragment () {
     }
 
+    // Initialize with a query parameter to request OpenFoodFact and get recipe list to display
     public static RecipeExploreFragment newInstance(String queryParameter) {
         RecipeExploreFragment fragment = new RecipeExploreFragment();
         Bundle args = new Bundle();
@@ -65,18 +66,12 @@ public class RecipeExploreFragment extends Fragment {
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
 
+        // Set up recycler view and adapter
         adapter = new RecipeAdapter(getActivity(), recipes);
         rvRecipe.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvRecipe.setAdapter(adapter);
 
         return fragmentRecipeExploreBinding.getRoot();
-    }
-
-
-    public static void notifyDataChange() {
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
     }
 
     // Query recipes containing this current product

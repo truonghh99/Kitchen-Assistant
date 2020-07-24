@@ -33,7 +33,7 @@ public class InstructionComposeFragment extends DialogFragment {
     public InstructionComposeFragment() {
     }
 
-    // Initialize with a product to extract & display its food type
+    // Initialize with a recipe to show existing instruction or attach new one
     public static InstructionComposeFragment newInstance(Parcelable recipe) {
         InstructionComposeFragment fragment = new InstructionComposeFragment();
         Bundle args = new Bundle();

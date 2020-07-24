@@ -100,12 +100,14 @@ public class NewRecipeDetailFragment extends Fragment {
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
 
+        // Get information from recipe object
         ratingBar.setRating(recipe.getNumericRating());
         ingredients = recipe.getIngredientList();
         adapter = new IngredientAdapter(getActivity(), ingredients);
         rvIngredients.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         rvIngredients.setAdapter(adapter);
 
+        // Bind views
         GlideHelper.loadImage(recipe.getImageUrl(), getContext(), ivImage);
         tvName.setText(recipe.getName());
         btInstruction.setOnClickListener(new View.OnClickListener() {
@@ -116,12 +118,16 @@ public class NewRecipeDetailFragment extends Fragment {
                 goToInstruction(instruction);
             }
         });
+
+        // Open or close floating menu
         btMenuOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openOrCloseFabMenu();
             }
         });
+
+        // Allow user to add current recipe to personal library
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,6 +138,8 @@ public class NewRecipeDetailFragment extends Fragment {
                 Toast.makeText(getContext(), "Recipe added to your library", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Set recipe's status
         if (recipe.isCookable()) {
             tvStatus.setText("You have enough ingredient to cook this recipe!");
         } else {
@@ -142,6 +150,7 @@ public class NewRecipeDetailFragment extends Fragment {
         return fragmentNewRecipeDetailBinding.getRoot();
     }
 
+    // Helper class to properly display number of reviews
     private String setUpReviewCount(long numReviews) {
         if (numReviews < 2) {
             return numReviews + " review";
@@ -161,6 +170,7 @@ public class NewRecipeDetailFragment extends Fragment {
         }
     }
 
+    // Query instruction of given recipe when user chooses to
     private void queryInstruction() {
         try {
             instruction = Spoonacular.getInstruction(recipe.getCode());
@@ -169,6 +179,7 @@ public class NewRecipeDetailFragment extends Fragment {
         }
     }
 
+    // Go to instruction fragment
     private void goToInstruction(String instruction) {
         DialogFragment dialogFragment = InstructionFragment.newInstance(instruction);
         dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");

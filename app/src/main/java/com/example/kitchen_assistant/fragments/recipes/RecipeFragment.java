@@ -66,11 +66,36 @@ public class RecipeFragment extends Fragment {
         rvRecipe = fragmentRecipeBinding.rvRecipe;
         btMenuOpen = fragmentRecipeBinding.btMenuOpen;
 
+        // Set up recycler view & adapter
         recipes = CurrentRecipes.recipes;
         adapter = new RecipeAdapter(getActivity(), recipes);
         rvRecipe.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvRecipe.setAdapter(adapter);
 
+        setUpSlideToRemove();
+
+        // Open or close floating menu
+        btMenuOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openOrCloseFabMenu();
+            }
+        });
+
+        // Add new recipe to library (manual input)
+        btAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecipeComposeFragment recipeComposeFragment = RecipeComposeFragment.newInstance(Parcels.wrap(new Recipe()));
+                MainActivity.switchFragment(recipeComposeFragment);
+            }
+        });
+
+        return fragmentRecipeBinding.getRoot();
+    }
+
+    // Slide to remove recipe from library
+    private void setUpSlideToRemove() {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -84,25 +109,8 @@ public class RecipeFragment extends Fragment {
                 Toast.makeText(getContext(), "Recipe removed from your library", Toast.LENGTH_SHORT).show();
             }
         };
-
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(rvRecipe);
-
-        btMenuOpen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openOrCloseFabMenu();
-            }
-        });
-
-        btAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RecipeComposeFragment recipeComposeFragment = RecipeComposeFragment.newInstance(Parcels.wrap(new Recipe()));
-                MainActivity.switchFragment(recipeComposeFragment);
-            }
-        });
-        return fragmentRecipeBinding.getRoot();
     }
 
     @Override
@@ -110,11 +118,17 @@ public class RecipeFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_search_toolbar, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
+        setUpSearchView(menu);
+    }
+
+    // Allow user to narrow down list of recipes
+    private void setUpSearchView(Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         item.setActionView(searchView);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -128,6 +142,7 @@ public class RecipeFragment extends Fragment {
                 return true;
             }
         });
+
         searchView.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -136,6 +151,7 @@ public class RecipeFragment extends Fragment {
                 });
     }
 
+    // Modify list of recipes based on given query in search bar
     private List<Recipe> filter(List<Recipe> recipes, String query) {
         final String lowerCaseQuery = query.toLowerCase();
         final List<Recipe> filteredModelList = new ArrayList<>();

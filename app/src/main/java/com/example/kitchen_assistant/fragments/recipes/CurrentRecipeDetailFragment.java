@@ -107,6 +107,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
         GlideHelper.loadImage(recipe.getImageUrl(), getContext(), ivImage);
         tvName.setText(recipe.getName());
 
+        // Allow user to read all reviews of current recipe
         tvReviewCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,6 +115,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
             }
         });
 
+        // Open instruction view
         btInstruction.setOnClickListener(new View.OnClickListener() {
             // TODO: display existing instruction from recipe object
             @Override
@@ -123,6 +125,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
             }
         });
 
+        // Open or close floating menu
         btMenuOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,6 +133,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
             }
         });
 
+        // Cook this recipe (subtract all included ingredients)
         btCook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,6 +148,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
             }
         });
 
+        // Open review compose view for user to write review
         btReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,6 +156,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
             }
         });
 
+        // Set recipe status
         if (recipe.isCookable()) {
             tvStatus.setText("You have enough ingredient to cook this recipe!");
         } else {
@@ -160,6 +166,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
         return fragmentCurrentRecipeDetailBinding.getRoot();
     }
 
+    // Helper function to properly display number of reviews
     private String setUpReviewCount(long numReviews) {
         if (numReviews < 2) {
             return numReviews + " review";

@@ -68,16 +68,15 @@ public class RecipeComposeFragment extends Fragment {
     private EditText etName;
     private Button btInstruction;
     private FloatingActionButton btApprove;
-    private String instruction;
     private RecyclerView rvIngredients;
     private IngredientComposeAdapter adapter;
     private List<Ingredient> ingredients;
     public Recipe recipe;
-    private File photoFile;
 
     public RecipeComposeFragment() {
     }
 
+    // Initialize with an empty recipe to modify
     public static RecipeComposeFragment newInstance(Parcelable recipe) {
         RecipeComposeFragment fragment = new RecipeComposeFragment();
         Bundle args = new Bundle();
@@ -108,16 +107,17 @@ public class RecipeComposeFragment extends Fragment {
         loadImage();
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
-
         ingredients = new ArrayList<Ingredient>() {{
             Ingredient ingredient = new Ingredient();
             add(ingredient);
         }};
 
+        // Set up recycler view & adapter
         adapter = new IngredientComposeAdapter(getActivity(), ingredients, rvIngredients);
         rvIngredients.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvIngredients.setAdapter(adapter);
 
+        // Compose instruction
         btInstruction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,6 +125,7 @@ public class RecipeComposeFragment extends Fragment {
             }
         });
 
+        // Modify & save recipe based on given input
         btApprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,6 +135,7 @@ public class RecipeComposeFragment extends Fragment {
             }
         });
 
+        // Allow user to upload photo of recipe
         ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,6 +151,7 @@ public class RecipeComposeFragment extends Fragment {
         dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 
+    // Extract information from user's input and assign it to given recipe
     private void saveInfo() {
         HashMap<String, Ingredient> ingredientHashMap = generateIngredientHashMap(adapter.ingredients);
         recipe.setName(etName.getText().toString());
@@ -164,6 +167,7 @@ public class RecipeComposeFragment extends Fragment {
         RecipeEvaluator.evaluateRecipe(recipe);
     }
 
+    // Generate hashmap from list of ingredients to assign to recipe object
     private HashMap<String, Ingredient> generateIngredientHashMap(List<Ingredient> adapterIngredients) {
         HashMap<String, Ingredient> result = new HashMap<>();
         for (Ingredient ingredient : adapterIngredients) {
@@ -175,12 +179,14 @@ public class RecipeComposeFragment extends Fragment {
         return result;
     }
 
+    // Go to photo compose screen
     private void goToPhoto() {
         Fragment fragment = PhotoFragment.newInstance(Parcels.wrap(recipe), Recipe.TAG);
         fragment.setTargetFragment(this, REQUEST_CODE);
         MainActivity.switchFragment(fragment);
     }
 
+    // Update recipe's image using result of photo compose screen
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

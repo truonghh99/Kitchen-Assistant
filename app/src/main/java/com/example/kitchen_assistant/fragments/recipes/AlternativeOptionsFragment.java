@@ -32,9 +32,6 @@ import java.util.List;
 
 public class AlternativeOptionsFragment extends DialogFragment {
 
-    private static final String NAME_KEY = "NAME";
-    private static final String QUANTITY_KEY = "QUANTITY_KEY";
-    private static final String UNIT_KEY = "UNIT_KEY";
     private static final String INGREDIENT_KEY = "INGREDIENT_KEY";
 
     private static final String TAG = "AlternativeOptions";
@@ -56,7 +53,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
     public AlternativeOptionsFragment() {
     }
 
-    // Initialize with a product to extract & display its food type
+    // Initialize with an ingredient to add it to shopping list or modify its preferred product
     public static AlternativeOptionsFragment newInstance(Parcelable ingredient) {
         AlternativeOptionsFragment fragment = new AlternativeOptionsFragment();
         Bundle args = new Bundle();
@@ -92,6 +89,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
         rvAlternatives.setLayoutManager(layoutManager);
         rvAlternatives.setAdapter(adapter);
 
+        // Automatically scroll to next group of items
         ivRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,6 +101,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
             }
         });
 
+        // Automatically scroll to previous group of items
         ivLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,6 +114,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
             }
         });
 
+        // Add ingredient to shopping list
         btBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,8 +125,8 @@ public class AlternativeOptionsFragment extends DialogFragment {
             }
         });
 
+        // Search for item in product list
         etSearch.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void onTextChanged(CharSequence query, int start, int before, int count) {
                 List<Product> filteredProducts = filter(products, query.toString());
@@ -145,6 +145,7 @@ public class AlternativeOptionsFragment extends DialogFragment {
         return fragmentAlternativeOptionsBinding.getRoot();
     }
 
+    // Modify product list based on query given in search bar
     private List<Product> filter(List<Product> products, String query) {
         final String lowerCaseQuery = query.toLowerCase();
         final List<Product> filteredModelList = new ArrayList<>();

@@ -24,7 +24,7 @@ public class InstructionFragment extends DialogFragment {
     public InstructionFragment() {
     }
 
-    // Initialize with a product to extract & display its food type
+    // Initialize with an instruction to display
     public static InstructionFragment newInstance(String instruction) {
         InstructionFragment fragment = new InstructionFragment();
         Bundle args = new Bundle();
