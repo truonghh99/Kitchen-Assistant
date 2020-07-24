@@ -59,6 +59,7 @@ public class Recipe extends ParseObject implements Parcelable {
     private ParseFile parseFile;
     private HashMap<String, Ingredient> ingredients = new HashMap<>();
     private Rating rating;
+    private Nutrition nutrition;
 
     public static Recipe extractFromJsonObject(JSONObject json) throws JSONException {
         Recipe result = new Recipe();
@@ -72,6 +73,12 @@ public class Recipe extends ParseObject implements Parcelable {
         result.setCode(json.getString(KEY_ID_API));
         result.setInstructions("no instructions");
         Spoonacular.getIngredients(result);
+        try {
+            Rating.requestRating(result);
+            Nutrition.requestNutrition(result);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
@@ -80,12 +87,6 @@ public class Recipe extends ParseObject implements Parcelable {
         for (int i = 0; i < jsonArray.length(); ++i) {
             JSONObject json = jsonArray.getJSONObject(i);
             Recipe recipe = extractFromJsonObject(json);
-            try {
-                recipe.setRating(Rating.requestRating(recipe));
-            } catch (ParseException e) {
-                Log.e(TAG, "Cannot find/create associated rating");
-                e.printStackTrace();
-            }
             recipes.add(recipe);
         }
         return recipes;
@@ -100,6 +101,12 @@ public class Recipe extends ParseObject implements Parcelable {
         instructions = getString(KEY_INSTRUCTIONS);
         recipeCode = getString(KEY_CODE);
         cookable = getBoolean(KEY_COOKABLE);
+        try {
+            Rating.requestRating(this);
+            Nutrition.requestNutrition(this);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveInfo() {
@@ -248,5 +255,9 @@ public class Recipe extends ParseObject implements Parcelable {
 
     public ParseFile getParseFile() {
         return parseFile;
+    }
+
+    public void setNutrition(Nutrition nutrition) {
+        this.nutrition = nutrition;
     }
 }

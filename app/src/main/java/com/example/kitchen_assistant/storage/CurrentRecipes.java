@@ -77,27 +77,9 @@ public class CurrentRecipes {
             Log.e(TAG, "Find ingredient of: " + recipe.getName());
             recipes.add(recipe);
             recipeHashMap.put(recipe.getCode(), recipe);
-            queryRating(recipe);
             Log.e(TAG, "Find rating of: " + recipe.getName());
             queryIngredients(recipe);
         }
-    }
-
-    private static void queryRating(final Recipe recipe) {
-        ParseQuery<Rating> query = ParseQuery.getQuery(Rating.class);
-        query.whereContains(Rating.KEY_RECIPE_ID, recipe.getCode());
-        query.findInBackground(new FindCallback<Rating>() {
-            @Override
-            public void done(List<Rating> ratings, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error when querying rating");
-                    return;
-                } else {
-                    recipe.setRating(ratings.get(0));
-                    recipe.getRating().fetchInfo();
-                }
-            }
-        });
     }
 
     private static void queryIngredients(final Recipe recipe) {

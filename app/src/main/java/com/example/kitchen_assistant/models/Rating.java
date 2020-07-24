@@ -27,7 +27,7 @@ public class Rating extends ParseObject implements Parcelable {
     private Float rating;
     private long numReviews;
 
-    public static Rating requestRating(Recipe recipe) throws ParseException {
+    public static void requestRating(Recipe recipe) throws ParseException {
         Rating result = null;
         ParseQuery<Rating> query = ParseQuery.getQuery(Rating.class);
         query.whereEqualTo(KEY_RECIPE_ID, recipe.getCode());
@@ -43,7 +43,7 @@ public class Rating extends ParseObject implements Parcelable {
             result = ratings.get(0);
             result.fetchInfo();
         }
-        return result;
+        recipe.setRating(result);
     }
 
     public void fetchInfo() {
