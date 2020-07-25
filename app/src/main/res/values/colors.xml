@@ -28,5 +28,8 @@
 
     <color name="golden">#ffc971</color>
 
+    <color name="carbs">#b0d0d3</color>
+    <color name="protein">#c08497</color>
+    <color name="fat">#f7af9d</color>
 
 </resources>

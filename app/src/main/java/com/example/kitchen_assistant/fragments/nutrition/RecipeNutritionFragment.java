@@ -8,8 +8,10 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentRecipeNutritionBinding;
 import com.example.kitchen_assistant.helpers.ChartHelper;
 import com.example.kitchen_assistant.models.Recipe;
@@ -25,6 +27,7 @@ public class RecipeNutritionFragment extends Fragment {
 
     private FragmentRecipeNutritionBinding fragmentRecipeNutritionBinding;
     private BarChart bcNutrition;
+    private TextView tvCalories;
 
     public RecipeNutritionFragment() {
     }
@@ -50,8 +53,12 @@ public class RecipeNutritionFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentRecipeNutritionBinding = FragmentRecipeNutritionBinding.inflate(getLayoutInflater());
         bcNutrition = fragmentRecipeNutritionBinding.bcNutrition;
+        tvCalories = fragmentRecipeNutritionBinding.tvCalories;
 
-        ChartHelper.drawNutritionBarChart(recipe.getNutrition().getCarbs(), recipe.getNutrition().getProtein(), recipe.getNutrition().getFat(), bcNutrition);
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(recipe.getName());
+
+        tvCalories.setText(recipe.getNutrition().getCalories() + " kcal");
+        ChartHelper.drawNutritionBarChart(recipe.getNutrition().getCarbs(), recipe.getNutrition().getProtein(), recipe.getNutrition().getFat(), bcNutrition, getContext());
         return fragmentRecipeNutritionBinding.getRoot();
     }
 }
