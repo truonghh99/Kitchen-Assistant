@@ -63,7 +63,7 @@ public class RecipeNutritionFragment extends Fragment {
         tvCalories.setText(recipe.getNutrition().getCalories() + " kcal");
 
         ChartHelper.drawNutritionBarChart(recipe.getNutrition().getCarbs(), recipe.getNutrition().getProtein(), recipe.getNutrition().getFat(), bcNutrition, getContext());
-        ChartHelper.drawCaloriesPercentageChart(recipe.getNutrition().getCalories(), 1200, pcCalories, getContext());
+        ChartHelper.drawCaloriesPercentageChart(recipe.getNutrition().getCalories(), 1200, pcCalories, getContext()); // TODO: Change total to user's customized goal
 
         return fragmentRecipeNutritionBinding.getRoot();
     }

@@ -2,6 +2,7 @@ package com.example.kitchen_assistant.helpers;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -60,6 +61,7 @@ public class ChartHelper {
         dataSets.add(fatDataSet);
 
         BarData data = new BarData(dataSets);
+        data.setValueTextSize(11);
 
         barChart.setData(data);
         data.setBarWidth(0.75f); // set custom bar width
@@ -96,16 +98,19 @@ public class ChartHelper {
         entries.add(new PieEntry(caloriesPercentage));
         entries.add(new PieEntry(100 - caloriesPercentage));
 
-        PieDataSet set = new PieDataSet(entries, "Percentage of calories toward your daily goal");
+        PieDataSet set = new PieDataSet(entries, "Percentage of calories toward your daily goal (%)");
         set.setColors(new ArrayList<Integer>() {
             {
                 add(ContextCompat.getColor(context, R.color.occupied));
                 add(ContextCompat.getColor(context, R.color.left));
-
             }
         });
         PieData data = new PieData(set);
+        data.setValueTextSize(11);
+        data.setValueTextColor(ContextCompat.getColor(context, R.color.grey));
 
+        pieChart.setHoleRadius(40);
+        pieChart.animateX(500);
         pieChart.setData(data);
         pieChart.getDescription().setEnabled(false);
         pieChart.invalidate(); // refresh
