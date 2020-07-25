@@ -16,6 +16,7 @@ import com.example.kitchen_assistant.databinding.FragmentRecipeNutritionBinding;
 import com.example.kitchen_assistant.helpers.ChartHelper;
 import com.example.kitchen_assistant.models.Recipe;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
 
 import org.parceler.Parcels;
 
@@ -27,6 +28,7 @@ public class RecipeNutritionFragment extends Fragment {
 
     private FragmentRecipeNutritionBinding fragmentRecipeNutritionBinding;
     private BarChart bcNutrition;
+    private PieChart pcCalories;
     private TextView tvCalories;
 
     public RecipeNutritionFragment() {
@@ -54,11 +56,15 @@ public class RecipeNutritionFragment extends Fragment {
         fragmentRecipeNutritionBinding = FragmentRecipeNutritionBinding.inflate(getLayoutInflater());
         bcNutrition = fragmentRecipeNutritionBinding.bcNutrition;
         tvCalories = fragmentRecipeNutritionBinding.tvCalories;
+        pcCalories = fragmentRecipeNutritionBinding.pcCalories;
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(recipe.getName());
 
         tvCalories.setText(recipe.getNutrition().getCalories() + " kcal");
+
         ChartHelper.drawNutritionBarChart(recipe.getNutrition().getCarbs(), recipe.getNutrition().getProtein(), recipe.getNutrition().getFat(), bcNutrition, getContext());
+        ChartHelper.drawCaloriesPercentageChart(recipe.getNutrition().getCalories(), 1200, pcCalories, getContext());
+
         return fragmentRecipeNutritionBinding.getRoot();
     }
 }

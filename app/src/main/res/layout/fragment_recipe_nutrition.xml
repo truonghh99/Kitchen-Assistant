@@ -31,6 +31,14 @@
                 android:text="500 kcal"
                 android:textSize="20sp" />
 
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pcCalories"
+                android:layout_width="300dp"
+                android:layout_height="220dp"
+                android:layout_below="@id/tvCalories"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"/>
+
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/rlNutritionComparision"
@@ -54,7 +62,7 @@
                 android:layout_below="@id/tvNutritionComparisionText"
                 android:layout_marginTop="10dp"
                 android:layout_width="300dp"
-                android:layout_height="400dp" />
+                android:layout_height="300dp" />
 
         </RelativeLayout>
     </RelativeLayout>
