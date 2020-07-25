@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.databinding.FragmentRecipeNutritionBinding;
+import com.example.kitchen_assistant.helpers.ChartHelper;
 import com.example.kitchen_assistant.models.Recipe;
 import com.github.mikephil.charting.charts.BarChart;
 
@@ -49,6 +50,8 @@ public class RecipeNutritionFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentRecipeNutritionBinding = FragmentRecipeNutritionBinding.inflate(getLayoutInflater());
         bcNutrition = fragmentRecipeNutritionBinding.bcNutrition;
+
+        ChartHelper.drawNutritionBarChart(recipe.getNutrition().getCarbs(), recipe.getNutrition().getProtein(), recipe.getNutrition().getFat(), bcNutrition);
         return fragmentRecipeNutritionBinding.getRoot();
     }
 }

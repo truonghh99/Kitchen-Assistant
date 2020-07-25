@@ -7,7 +7,9 @@
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/bcNutrition"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="400dp"
+        android:layout_height="400dp" />
 
 </RelativeLayout>
