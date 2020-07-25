@@ -54,13 +54,13 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
 * [x] Display average rating of each recipe
 * [x] Allow user to attach image to their reviews
 * [x] Display all reviews of a recipe
-* [ ] Convert user setting account to a social, interactable account (with avatar, name, description, and the ability to follow/block)
-* [ ] Have a newsfeed screen for users to share their recipes & food-related posts
-* [ ] Allow users to like, comment, and share newsfeed post
-* [ ]Allow users to add other's recipes to their recipe list
+* [ ] Support live-scanning
 * [x] Get suggested recipe from external databse
 * [ ] Allow users to login using Facebook & Google account
 * [ ] Have a daily calorie tracking screen
+* [ ] ALlow user to view nutrition information of a recipe
+* [ ] Allow user to view their nutrition report
+* [ ] Allow user to set a personal nutrition goal
 
 ### 2. Screen Archetypes
 
