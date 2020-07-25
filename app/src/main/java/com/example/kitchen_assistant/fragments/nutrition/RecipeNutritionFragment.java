@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.databinding.FragmentRecipeNutritionBinding;
 import com.example.kitchen_assistant.models.Recipe;
+import com.github.mikephil.charting.charts.BarChart;
 
 import org.parceler.Parcels;
 
@@ -22,6 +23,7 @@ public class RecipeNutritionFragment extends Fragment {
     private Recipe recipe;
 
     private FragmentRecipeNutritionBinding fragmentRecipeNutritionBinding;
+    private BarChart bcNutrition;
 
     public RecipeNutritionFragment() {
     }
@@ -46,6 +48,7 @@ public class RecipeNutritionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentRecipeNutritionBinding = FragmentRecipeNutritionBinding.inflate(getLayoutInflater());
+        bcNutrition = fragmentRecipeNutritionBinding.bcNutrition;
         return fragmentRecipeNutritionBinding.getRoot();
     }
 }
