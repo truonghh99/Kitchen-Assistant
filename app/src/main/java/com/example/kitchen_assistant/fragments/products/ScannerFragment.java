@@ -1,8 +1,11 @@
 package com.example.kitchen_assistant.fragments.products;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -27,7 +30,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.databinding.FragmentScannerBinding;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.util.Collections;
 
@@ -41,6 +46,7 @@ import static androidx.core.content.ContextCompat.getSystemService;
 public class ScannerFragment extends DialogFragment {
 
     private static final int CAMERA_REQUEST_CODE = 0;
+    public static final String KEY_CODE = "Barcode";
     private FragmentScannerBinding fragmentScannerBinding;
     private CameraManager cameraManager;
     private int cameraFacing;
@@ -235,6 +241,17 @@ public class ScannerFragment extends DialogFragment {
                     }, backgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void detectBitmap() {
+        Bitmap bitmap = textureView.getBitmap();
+        String code = BarcodeReader.getCodeFromImg(bitmap, getContext());
+        if (code != null) {
+            Intent intent = new Intent();
+            intent.putExtra(KEY_CODE, code);
+            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+            dismiss();
         }
     }
 }

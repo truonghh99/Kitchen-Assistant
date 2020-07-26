@@ -55,6 +55,7 @@ public class CurrentFoodFragment extends Fragment {
     private static final String TAG = "CurrentProductFragment";
     private static final String AUTHORITY = "com.codepath.fileprovider.kitchenassistant";
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+    private static final int SCANNER_REQUEST_CODE = 0;
     private static CurrentFoodAdapter adapter;
 
     private String photoFileName = "barcode_photo.jpg";
@@ -202,6 +203,7 @@ public class CurrentFoodFragment extends Fragment {
 
     public void onLaunchScanner() {
         DialogFragment scannerFragment = ScannerFragment.newInstance();
+        scannerFragment.setTargetFragment(this, SCANNER_REQUEST_CODE);
         scannerFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 
@@ -247,6 +249,12 @@ public class CurrentFoodFragment extends Fragment {
                 }
             } else {
                 Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == SCANNER_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                String code = data.getStringExtra(ScannerFragment.KEY_CODE);
+                goToNewProductDetail(code);
             }
         }
     }
