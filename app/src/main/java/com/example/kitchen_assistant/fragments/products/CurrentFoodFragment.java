@@ -33,6 +33,7 @@ import com.example.kitchen_assistant.adapters.CurrentFoodAdapter;
 import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodBinding;
+import com.example.kitchen_assistant.databinding.FragmentScannerBinding;
 import com.example.kitchen_assistant.fragments.recipes.RecipeExploreFragment;
 import com.example.kitchen_assistant.helpers.MatchingHelper;
 import com.example.kitchen_assistant.models.FoodItem;
@@ -202,9 +203,10 @@ public class CurrentFoodFragment extends Fragment {
     }
 
     public void onLaunchScanner() {
-        DialogFragment scannerFragment = ScannerFragment.newInstance();
+        ScannerFragment scannerFragment = ScannerFragment.newInstance();
         scannerFragment.setTargetFragment(this, SCANNER_REQUEST_CODE);
-        scannerFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
+        MainActivity.switchFragment(scannerFragment);
+        //scannerFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 
     // Allow user to take photo using their camera

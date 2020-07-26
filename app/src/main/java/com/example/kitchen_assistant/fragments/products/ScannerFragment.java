@@ -6,30 +6,39 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
+import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.util.Size;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.databinding.FragmentScannerBinding;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
@@ -43,10 +52,11 @@ import static androidx.core.content.ContextCompat.getSystemService;
  * Use the {@link ScannerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ScannerFragment extends DialogFragment {
+public class ScannerFragment extends Fragment {
 
     private static final int CAMERA_REQUEST_CODE = 0;
     public static final String KEY_CODE = "Barcode";
+    private static final String TAG = "ScannerFragment";
     private FragmentScannerBinding fragmentScannerBinding;
     private CameraManager cameraManager;
     private int cameraFacing;
@@ -62,6 +72,9 @@ public class ScannerFragment extends DialogFragment {
     private CaptureRequest captureRequest;
     private SurfaceTexture surfaceTexture;
     private CameraDevice.StateCallback stateCallback;
+    private boolean mManualFocusEngaged;
+    CameraCharacteristics characteristics;
+    CameraCaptureSession.CaptureCallback captureCallback;
 
     public ScannerFragment() {
     }
@@ -212,9 +225,27 @@ public class ScannerFragment extends DialogFragment {
             surfaceTexture = textureView.getSurfaceTexture();
             surfaceTexture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             Surface previewSurface = new Surface(surfaceTexture);
-            captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            captureRequestBuilder.set(CaptureRequest.JPEG_QUALITY, (byte) 100);
+
+            captureRequestBuilder.set(CaptureRequest.EDGE_MODE, CameraMetadata.EDGE_MODE_HIGH_QUALITY);
+            captureRequestBuilder.set(CaptureRequest.SHADING_MODE, CameraMetadata.SHADING_MODE_HIGH_QUALITY);
+            captureRequestBuilder.set(CaptureRequest.TONEMAP_MODE, CameraMetadata.TONEMAP_MODE_HIGH_QUALITY);
+            captureRequestBuilder.set(CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE, CameraMetadata.COLOR_CORRECTION_ABERRATION_MODE_HIGH_QUALITY);
+            captureRequestBuilder.set(CaptureRequest.COLOR_CORRECTION_MODE, CameraMetadata.COLOR_CORRECTION_ABERRATION_MODE_HIGH_QUALITY);
+            captureRequestBuilder.set(CaptureRequest.HOT_PIXEL_MODE, CameraMetadata.HOT_PIXEL_MODE_HIGH_QUALITY);
+            captureRequestBuilder.set(CaptureRequest.NOISE_REDUCTION_MODE, CameraMetadata.NOISE_REDUCTION_MODE_HIGH_QUALITY);
+            captureRequestBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, CameraMetadata.LENS_OPTICAL_STABILIZATION_MODE_ON);
+
             captureRequestBuilder.addTarget(previewSurface);
 
+            final CameraCaptureSession.CaptureCallback captureCallback = new CameraCaptureSession.CaptureCallback() {
+                @Override
+                public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
+                    super.onCaptureCompleted(session, request, result);
+                    detectBitmap();
+                }
+            };
             cameraDevice.createCaptureSession(Collections.singletonList(previewSurface),
                     new CameraCaptureSession.StateCallback() {
 
@@ -227,8 +258,7 @@ public class ScannerFragment extends DialogFragment {
                             try {
                                 captureRequest = captureRequestBuilder.build();
                                 ScannerFragment.this.cameraCaptureSession = cameraCaptureSession;
-                                ScannerFragment.this.cameraCaptureSession.setRepeatingRequest(captureRequest,
-                                        null, backgroundHandler);
+                                ScannerFragment.this.cameraCaptureSession.setRepeatingRequest(captureRequest, captureCallback, backgroundHandler);
                             } catch (CameraAccessException e) {
                                 e.printStackTrace();
                             }
@@ -245,13 +275,18 @@ public class ScannerFragment extends DialogFragment {
     }
 
     private void detectBitmap() {
+        Log.e(TAG, "FINDING BITMAP");
         Bitmap bitmap = textureView.getBitmap();
-        String code = BarcodeReader.getCodeFromImg(bitmap, getContext());
+        String code = BarcodeReader.getCodeFromImg(bitmap, getTargetFragment().getContext());
         if (code != null) {
+            closeCamera();
+            closeBackgroundThread();
             Intent intent = new Intent();
             intent.putExtra(KEY_CODE, code);
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-            dismiss();
+            getActivity().getFragmentManager().popBackStack();
         }
     }
+
+
 }

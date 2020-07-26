@@ -27,6 +27,7 @@ public class BarcodeReader {
             Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
             SparseArray<Barcode> barcodes = detector.detect(frame);
             resultCode = barcodes.valueAt(0);
+            Log.e(TAG, "FOUND BAR CODE! " + resultCode.rawValue);
         } catch (Exception e) {
             Log.e(TAG, "Cannot identify barcode");
             return null;
