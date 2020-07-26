@@ -1,14 +1,17 @@
 package com.example.kitchen_assistant.fragments.products;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.camera2.CameraManager;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +38,7 @@ import com.example.kitchen_assistant.helpers.MatchingHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.storage.CurrentProducts;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseException;
 
@@ -157,7 +161,7 @@ public class CurrentFoodFragment extends Fragment {
         btScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onLaunchCamera();
+                onLaunchScanner();
             }
         });
 
@@ -194,6 +198,11 @@ public class CurrentFoodFragment extends Fragment {
             btWrite.setVisibility(View.INVISIBLE);
             btCook.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public void onLaunchScanner() {
+        DialogFragment scannerFragment = ScannerFragment.newInstance();
+        scannerFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 
     // Allow user to take photo using their camera

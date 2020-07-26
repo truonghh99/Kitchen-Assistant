@@ -30,6 +30,18 @@ import java.util.List;
 
 public class ChartHelper {
 
+    private static final float VALUE_TEXT_SIZE = 11;
+
+    // Bar charts
+    private static final float BAR_WIDTH = 0.75f;
+    private static final int BAR_ANIMATION_X = 300;
+    private static final int BAR_ANIMATION_Y = 800;
+
+    // Pie charts
+    private static final float HOLE_RADIUS = 30;
+    private static final float TRANSPARENT_RADIUS = 45;
+    private static final int PIE_ANIMATION = 500;
+
     private static final String TAG = "Chart Helper";
 
     public static void drawNutritionBarChart(float carbs, float protein, float fat, BarChart barChart, Context context) {
@@ -61,10 +73,10 @@ public class ChartHelper {
         dataSets.add(fatDataSet);
 
         BarData data = new BarData(dataSets);
-        data.setValueTextSize(11);
+        data.setValueTextSize(VALUE_TEXT_SIZE);
 
         barChart.setData(data);
-        data.setBarWidth(0.75f); // set custom bar width
+        data.setBarWidth(BAR_WIDTH); // set custom bar width
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setValueFormatter(getNutritionXAxisFormatter());
@@ -72,7 +84,7 @@ public class ChartHelper {
         barChart.getDescription().setEnabled(false);
         barChart.setTouchEnabled(false);
 
-        barChart.animateXY(300, 800);
+        barChart.animateXY(BAR_ANIMATION_X, BAR_ANIMATION_Y);
 
         barChart.invalidate();
     }
@@ -106,11 +118,12 @@ public class ChartHelper {
             }
         });
         PieData data = new PieData(set);
-        data.setValueTextSize(11);
+        data.setValueTextSize(VALUE_TEXT_SIZE);
         data.setValueTextColor(ContextCompat.getColor(context, R.color.grey));
 
-        pieChart.setHoleRadius(40);
-        pieChart.animateX(500);
+        pieChart.setHoleRadius(HOLE_RADIUS);
+        pieChart.animateX(PIE_ANIMATION);
+        pieChart.setTransparentCircleRadius(TRANSPARENT_RADIUS);
         pieChart.setData(data);
         pieChart.getDescription().setEnabled(false);
         pieChart.invalidate(); // refresh
