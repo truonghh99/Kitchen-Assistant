@@ -30,6 +30,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 import android.util.Size;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -41,6 +42,8 @@ import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.databinding.FragmentScannerBinding;
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.util.Collections;
@@ -73,8 +76,9 @@ public class ScannerFragment extends Fragment {
     private SurfaceTexture surfaceTexture;
     private CameraDevice.StateCallback stateCallback;
     private boolean mManualFocusEngaged;
-    CameraCharacteristics characteristics;
-    CameraCaptureSession.CaptureCallback captureCallback;
+    private CameraCharacteristics characteristics;
+    private CameraCaptureSession.CaptureCallback captureCallback;
+    private BarcodeDetector detector;
 
     public ScannerFragment() {
     }
@@ -90,6 +94,105 @@ public class ScannerFragment extends Fragment {
 
         fragmentScannerBinding = FragmentScannerBinding.inflate(getLayoutInflater());
         textureView = fragmentScannerBinding.textureView;
+
+        detector = new BarcodeDetector.Builder(getContext())
+                        .setBarcodeFormats(Barcode.EAN_13 | Barcode.UPC_A | Barcode.UPC_E | Barcode.QR_CODE)
+                        .build();
+
+        textureView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Log.e(TAG, "TOUCHED");
+                final int actionMasked = motionEvent.getActionMasked();
+                if (actionMasked != MotionEvent.ACTION_DOWN) {
+                    return false;
+                }
+                if (mManualFocusEngaged) {
+                    Log.d(TAG, "Manual focus already engaged");
+                    return true;
+                }
+                try {
+                    characteristics = cameraManager.getCameraCharacteristics(cameraId);
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
+                final Rect sensorArraySize = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+                final int y = (int)((motionEvent.getX() / (float)view.getWidth())  * (float)sensorArraySize.height());
+                final int x = (int)((motionEvent.getY() / (float)view.getHeight()) * (float)sensorArraySize.width());
+                final int halfTouchWidth  = (int)motionEvent.getTouchMajor();
+                final int halfTouchHeight = (int)motionEvent.getTouchMinor();
+                MeteringRectangle focusAreaTouch = new MeteringRectangle(Math.max(x - halfTouchWidth,  0),
+                        Math.max(y - halfTouchHeight, 0),
+                        halfTouchWidth  * 2,
+                        halfTouchHeight * 2,
+                        MeteringRectangle.METERING_WEIGHT_MAX - 1);
+
+                CameraCaptureSession.CaptureCallback captureCallbackHandler = new CameraCaptureSession.CaptureCallback() {
+                    @Override
+                    public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+                        super.onCaptureCompleted(session, request, result);
+                        mManualFocusEngaged = false;
+
+                        if (request.getTag() == "FOCUS_TAG") {
+                            //the focus trigger is complete -
+                            //resume repeating (preview surface will get frames), clear AF trigger
+                            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, null);
+                            try {
+                                cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), captureCallback, backgroundHandler);
+                            } catch (CameraAccessException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        detectBitmap();
+                    }
+
+                    @Override
+                    public void onCaptureFailed(CameraCaptureSession session, CaptureRequest request, CaptureFailure failure) {
+                        super.onCaptureFailed(session, request, failure);
+                        Log.e(TAG, "Manual AF failure: " + failure);
+                        mManualFocusEngaged = false;
+                    }
+                };
+
+                //first stop the existing repeating request
+                try {
+                    cameraCaptureSession.stopRepeating();
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
+
+                //cancel any existing AF trigger (repeated touches, etc.)
+                captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
+                captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF);
+                try {
+                    cameraCaptureSession.capture(captureRequestBuilder.build(), captureCallbackHandler, backgroundHandler);
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
+
+                //Now add a new AF trigger with focus region
+                if (isMeteringAreaAFSupported()) {
+                    captureRequestBuilder.set(CaptureRequest.CONTROL_AF_REGIONS, new MeteringRectangle[]{focusAreaTouch});
+                }
+                captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+                captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
+                captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+                captureRequestBuilder.setTag("FOCUS_TAG"); //we'll capture this later for resuming the preview
+
+                //then we ask for a single request (not repeating!)
+                try {
+                    cameraCaptureSession.capture(captureRequestBuilder.build(), captureCallbackHandler, backgroundHandler);
+                    Log.e(TAG, "CREATED SINGLE REQUEST");
+                } catch (CameraAccessException e) {
+                    Log.e(TAG, "CANNOT CREATE SINGLE REQUEST");
+                    e.printStackTrace();
+                }
+                mManualFocusEngaged = true;
+
+                return true;
+            }
+        });
 
         cameraManager = (CameraManager) getContext().getSystemService(Context.CAMERA_SERVICE);
         cameraFacing = CameraCharacteristics.LENS_FACING_BACK;
@@ -140,6 +243,9 @@ public class ScannerFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    private boolean isMeteringAreaAFSupported() {
+        return characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AF) >= 1;
+    }
 
     private void setUpCamera() {
         try {
@@ -228,15 +334,6 @@ public class ScannerFragment extends Fragment {
             captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
             captureRequestBuilder.set(CaptureRequest.JPEG_QUALITY, (byte) 100);
 
-            captureRequestBuilder.set(CaptureRequest.EDGE_MODE, CameraMetadata.EDGE_MODE_HIGH_QUALITY);
-            captureRequestBuilder.set(CaptureRequest.SHADING_MODE, CameraMetadata.SHADING_MODE_HIGH_QUALITY);
-            captureRequestBuilder.set(CaptureRequest.TONEMAP_MODE, CameraMetadata.TONEMAP_MODE_HIGH_QUALITY);
-            captureRequestBuilder.set(CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE, CameraMetadata.COLOR_CORRECTION_ABERRATION_MODE_HIGH_QUALITY);
-            captureRequestBuilder.set(CaptureRequest.COLOR_CORRECTION_MODE, CameraMetadata.COLOR_CORRECTION_ABERRATION_MODE_HIGH_QUALITY);
-            captureRequestBuilder.set(CaptureRequest.HOT_PIXEL_MODE, CameraMetadata.HOT_PIXEL_MODE_HIGH_QUALITY);
-            captureRequestBuilder.set(CaptureRequest.NOISE_REDUCTION_MODE, CameraMetadata.NOISE_REDUCTION_MODE_HIGH_QUALITY);
-            captureRequestBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, CameraMetadata.LENS_OPTICAL_STABILIZATION_MODE_ON);
-
             captureRequestBuilder.addTarget(previewSurface);
 
             final CameraCaptureSession.CaptureCallback captureCallback = new CameraCaptureSession.CaptureCallback() {
@@ -275,18 +372,24 @@ public class ScannerFragment extends Fragment {
     }
 
     private void detectBitmap() {
-        Log.e(TAG, "FINDING BITMAP");
         Bitmap bitmap = textureView.getBitmap();
-        String code = BarcodeReader.getCodeFromImg(bitmap, getTargetFragment().getContext());
-        if (code != null) {
+        Log.e(TAG, "Start extracting barcode");
+        Barcode resultCode = null;
+        try {
+            Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+            SparseArray<Barcode> barcodes = detector.detect(frame);
+            resultCode = barcodes.valueAt(0);
+            Log.e(TAG, "FOUND BAR CODE! " + resultCode.rawValue);
+        } catch (Exception e) {
+            Log.e(TAG, "Cannot identify barcode");
+        }
+        if (resultCode != null) {
             closeCamera();
             closeBackgroundThread();
             Intent intent = new Intent();
-            intent.putExtra(KEY_CODE, code);
+            intent.putExtra(KEY_CODE, resultCode.rawValue);
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             getActivity().getFragmentManager().popBackStack();
         }
     }
-
-
 }
