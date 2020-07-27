@@ -59,8 +59,7 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
 * [ ] Allow users to login using Facebook & Google account
 * [ ] Have a daily calorie tracking screen
 * [x] Allow user to view nutrition information of a recipe
-* [ ] Allow user to view their daily nutrition report
-* [ ] Allow user to view their cummulative nutrition report
+* [ ] Allow user to view their daily/weekly/monthly nutrition report
 * [ ] Allow user to set a personal nutrition goal
 
 ### 2. Screen Archetypes
