@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -17,6 +18,7 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.StreamConfigurationMap;
@@ -33,6 +35,7 @@ import android.os.HandlerThread;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseArray;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -242,13 +245,8 @@ public class ScannerFragment extends Fragment {
             captureRequestBuilder.set(CaptureRequest.JPEG_QUALITY, (byte) 100);
 
             captureRequestBuilder.addTarget(previewSurface);
+            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
 
-            captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
-            if (isAutoFocusSupported()) {
-                captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
-            } else {
-                captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-            }
             final CameraCaptureSession.CaptureCallback captureCallback = new CameraCaptureSession.CaptureCallback() {
                 @Override
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
@@ -303,80 +301,5 @@ public class ScannerFragment extends Fragment {
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             getActivity().getFragmentManager().popBackStack();
         }
-    }
-
-    public void lockAutoFocus() {
-        try {
-            // This is how to tell the camera to lock focus.
-            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
-            CaptureRequest captureRequest = captureRequestBuilder.build();
-            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, null); // prevent CONTROL_AF_TRIGGER_START from calling over and over again
-            cameraCaptureSession.capture(captureRequest, captureCallback, backgroundHandler);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean isAutoFocusSupported() {
-        return  isHardwareLevelSupported(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) || getMinimumFocusDistance() > 0;
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private boolean isHardwareLevelSupported(int requiredLevel) {
-        boolean res = false;
-        if (cameraId == null)
-            return res;
-        try {
-            CameraManager manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
-            CameraCharacteristics cameraCharacteristics = manager.getCameraCharacteristics(cameraId);
-
-            int deviceLevel = cameraCharacteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
-            switch (deviceLevel) {
-                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3:
-                    Log.d(TAG, "Camera support level: INFO_SUPPORTED_HARDWARE_LEVEL_3");
-                    break;
-                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL:
-                    Log.d(TAG, "Camera support level: INFO_SUPPORTED_HARDWARE_LEVEL_FULL");
-                    break;
-                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY:
-                    Log.d(TAG, "Camera support level: INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY");
-                    break;
-                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED:
-                    Log.d(TAG, "Camera support level: INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED");
-                    break;
-                default:
-                    Log.d(TAG, "Unknown INFO_SUPPORTED_HARDWARE_LEVEL: " + deviceLevel);
-                    break;
-            }
-
-
-            if (deviceLevel == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
-                res = requiredLevel == deviceLevel;
-            } else {
-                // deviceLevel is not LEGACY, can use numerical sort
-                res = requiredLevel <= deviceLevel;
-            }
-
-        } catch (Exception e) {
-            Log.e(TAG, "isHardwareLevelSupported Error", e);
-        }
-        return res;
-    }
-
-    private float getMinimumFocusDistance() {
-        if (cameraId == null)
-            return 0;
-
-        Float minimumLens = null;
-        try {
-            CameraManager manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
-            CameraCharacteristics c = manager.getCameraCharacteristics(cameraId);
-            minimumLens = c.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
-        } catch (Exception e) {
-            Log.e(TAG, "isHardwareLevelSupported Error", e);
-        }
-        if (minimumLens != null)
-            return minimumLens;
-        return 0;
     }
 }
