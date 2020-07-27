@@ -1,6 +1,7 @@
 package com.example.kitchen_assistant.fragments.products;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -98,101 +100,6 @@ public class ScannerFragment extends Fragment {
         detector = new BarcodeDetector.Builder(getContext())
                         .setBarcodeFormats(Barcode.EAN_13 | Barcode.UPC_A | Barcode.UPC_E | Barcode.QR_CODE)
                         .build();
-
-        textureView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                Log.e(TAG, "TOUCHED");
-                final int actionMasked = motionEvent.getActionMasked();
-                if (actionMasked != MotionEvent.ACTION_DOWN) {
-                    return false;
-                }
-                if (mManualFocusEngaged) {
-                    Log.d(TAG, "Manual focus already engaged");
-                    return true;
-                }
-                try {
-                    characteristics = cameraManager.getCameraCharacteristics(cameraId);
-                } catch (CameraAccessException e) {
-                    e.printStackTrace();
-                }
-                final Rect sensorArraySize = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-                final int y = (int)((motionEvent.getX() / (float)view.getWidth())  * (float)sensorArraySize.height());
-                final int x = (int)((motionEvent.getY() / (float)view.getHeight()) * (float)sensorArraySize.width());
-                final int halfTouchWidth  = (int)motionEvent.getTouchMajor();
-                final int halfTouchHeight = (int)motionEvent.getTouchMinor();
-                MeteringRectangle focusAreaTouch = new MeteringRectangle(Math.max(x - halfTouchWidth,  0),
-                        Math.max(y - halfTouchHeight, 0),
-                        halfTouchWidth  * 2,
-                        halfTouchHeight * 2,
-                        MeteringRectangle.METERING_WEIGHT_MAX - 1);
-
-                CameraCaptureSession.CaptureCallback captureCallbackHandler = new CameraCaptureSession.CaptureCallback() {
-                    @Override
-                    public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
-                        super.onCaptureCompleted(session, request, result);
-                        mManualFocusEngaged = false;
-
-                        if (request.getTag() == "FOCUS_TAG") {
-                            //the focus trigger is complete -
-                            //resume repeating (preview surface will get frames), clear AF trigger
-                            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, null);
-                            try {
-                                cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), captureCallback, backgroundHandler);
-                            } catch (CameraAccessException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        detectBitmap();
-                    }
-
-                    @Override
-                    public void onCaptureFailed(CameraCaptureSession session, CaptureRequest request, CaptureFailure failure) {
-                        super.onCaptureFailed(session, request, failure);
-                        Log.e(TAG, "Manual AF failure: " + failure);
-                        mManualFocusEngaged = false;
-                    }
-                };
-
-                //first stop the existing repeating request
-                try {
-                    cameraCaptureSession.stopRepeating();
-                } catch (CameraAccessException e) {
-                    e.printStackTrace();
-                }
-
-                //cancel any existing AF trigger (repeated touches, etc.)
-                captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
-                captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF);
-                try {
-                    cameraCaptureSession.capture(captureRequestBuilder.build(), captureCallbackHandler, backgroundHandler);
-                } catch (CameraAccessException e) {
-                    e.printStackTrace();
-                }
-
-                //Now add a new AF trigger with focus region
-                if (isMeteringAreaAFSupported()) {
-                    captureRequestBuilder.set(CaptureRequest.CONTROL_AF_REGIONS, new MeteringRectangle[]{focusAreaTouch});
-                }
-                captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
-                captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
-                captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
-                captureRequestBuilder.setTag("FOCUS_TAG"); //we'll capture this later for resuming the preview
-
-                //then we ask for a single request (not repeating!)
-                try {
-                    cameraCaptureSession.capture(captureRequestBuilder.build(), captureCallbackHandler, backgroundHandler);
-                    Log.e(TAG, "CREATED SINGLE REQUEST");
-                } catch (CameraAccessException e) {
-                    Log.e(TAG, "CANNOT CREATE SINGLE REQUEST");
-                    e.printStackTrace();
-                }
-                mManualFocusEngaged = true;
-
-                return true;
-            }
-        });
 
         cameraManager = (CameraManager) getContext().getSystemService(Context.CAMERA_SERVICE);
         cameraFacing = CameraCharacteristics.LENS_FACING_BACK;
@@ -336,6 +243,12 @@ public class ScannerFragment extends Fragment {
 
             captureRequestBuilder.addTarget(previewSurface);
 
+            captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
+            if (isAutoFocusSupported()) {
+                captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
+            } else {
+                captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+            }
             final CameraCaptureSession.CaptureCallback captureCallback = new CameraCaptureSession.CaptureCallback() {
                 @Override
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
@@ -345,7 +258,6 @@ public class ScannerFragment extends Fragment {
             };
             cameraDevice.createCaptureSession(Collections.singletonList(previewSurface),
                     new CameraCaptureSession.StateCallback() {
-
                         @Override
                         public void onConfigured(CameraCaptureSession cameraCaptureSession) {
                             if (cameraDevice == null) {
@@ -381,7 +293,7 @@ public class ScannerFragment extends Fragment {
             resultCode = barcodes.valueAt(0);
             Log.e(TAG, "FOUND BAR CODE! " + resultCode.rawValue);
         } catch (Exception e) {
-            Log.e(TAG, "Cannot identify barcode");
+            Log.e(TAG, "CANNOT DETECT BAR CODE!");
         }
         if (resultCode != null) {
             closeCamera();
@@ -391,5 +303,80 @@ public class ScannerFragment extends Fragment {
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             getActivity().getFragmentManager().popBackStack();
         }
+    }
+
+    public void lockAutoFocus() {
+        try {
+            // This is how to tell the camera to lock focus.
+            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+            CaptureRequest captureRequest = captureRequestBuilder.build();
+            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, null); // prevent CONTROL_AF_TRIGGER_START from calling over and over again
+            cameraCaptureSession.capture(captureRequest, captureCallback, backgroundHandler);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean isAutoFocusSupported() {
+        return  isHardwareLevelSupported(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) || getMinimumFocusDistance() > 0;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private boolean isHardwareLevelSupported(int requiredLevel) {
+        boolean res = false;
+        if (cameraId == null)
+            return res;
+        try {
+            CameraManager manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+            CameraCharacteristics cameraCharacteristics = manager.getCameraCharacteristics(cameraId);
+
+            int deviceLevel = cameraCharacteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
+            switch (deviceLevel) {
+                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3:
+                    Log.d(TAG, "Camera support level: INFO_SUPPORTED_HARDWARE_LEVEL_3");
+                    break;
+                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL:
+                    Log.d(TAG, "Camera support level: INFO_SUPPORTED_HARDWARE_LEVEL_FULL");
+                    break;
+                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY:
+                    Log.d(TAG, "Camera support level: INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY");
+                    break;
+                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED:
+                    Log.d(TAG, "Camera support level: INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED");
+                    break;
+                default:
+                    Log.d(TAG, "Unknown INFO_SUPPORTED_HARDWARE_LEVEL: " + deviceLevel);
+                    break;
+            }
+
+
+            if (deviceLevel == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
+                res = requiredLevel == deviceLevel;
+            } else {
+                // deviceLevel is not LEGACY, can use numerical sort
+                res = requiredLevel <= deviceLevel;
+            }
+
+        } catch (Exception e) {
+            Log.e(TAG, "isHardwareLevelSupported Error", e);
+        }
+        return res;
+    }
+
+    private float getMinimumFocusDistance() {
+        if (cameraId == null)
+            return 0;
+
+        Float minimumLens = null;
+        try {
+            CameraManager manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+            CameraCharacteristics c = manager.getCameraCharacteristics(cameraId);
+            minimumLens = c.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
+        } catch (Exception e) {
+            Log.e(TAG, "isHardwareLevelSupported Error", e);
+        }
+        if (minimumLens != null)
+            return minimumLens;
+        return 0;
     }
 }
