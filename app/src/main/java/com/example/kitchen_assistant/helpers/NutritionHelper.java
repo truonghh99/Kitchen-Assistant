@@ -1,5 +1,7 @@
 package com.example.kitchen_assistant.helpers;
 
+import android.util.Log;
+
 import com.example.kitchen_assistant.models.HistoryEntry;
 import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 
@@ -9,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class NutritionHelper {
+
+    private static final String TAG = "NutritionHelper";
 
     public static float caloriesFromCarbs(float carbs) {
         return carbs * 4;
@@ -54,6 +58,7 @@ public class NutritionHelper {
             result.add(dailyNutrition);
             startDate = TimeConverter.addOneDay(startDate);
             endDate = TimeConverter.addOneDay(endDate);
+            Log.e(TAG, startDate + " " + endDate);
         }
 
         return result;

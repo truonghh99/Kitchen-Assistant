@@ -6,18 +6,23 @@ import androidx.core.content.ContextCompat;
 
 import com.example.kitchen_assistant.R;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ChartHelper {
@@ -135,5 +140,19 @@ public class ChartHelper {
         pieChart.setData(data);
         pieChart.getDescription().setEnabled(false);
         pieChart.invalidate(); // refresh
+    }
+
+    public static void drawCaloriesLineChart(List<HashMap<String, Float>> nutritionEntries, Float goal, LineChart lineChart, final Context context) {
+        ArrayList<Entry> values = new ArrayList<>();
+        int i = 1;
+        for (HashMap<String, Float> entry : nutritionEntries) {
+            values.add(new Entry(i, entry.get("calories")));
+            ++i;
+        }
+        LineDataSet dataSet = new LineDataSet(values, "Daily Calories Intake");
+        LineData data = new LineData(dataSet);
+
+        lineChart.setData(data);
+        lineChart.invalidate();
     }
 }

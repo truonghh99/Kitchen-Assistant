@@ -17,6 +17,7 @@ import com.example.kitchen_assistant.databinding.FragmentDailyReportBinding;
 import com.example.kitchen_assistant.databinding.FragmentHistoryReportBinding;
 import com.example.kitchen_assistant.databinding.FragmentRecipeNutritionBinding;
 import com.example.kitchen_assistant.helpers.ChartHelper;
+import com.example.kitchen_assistant.helpers.NutritionHelper;
 import com.example.kitchen_assistant.models.HistoryEntry;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.User;
@@ -31,6 +32,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class HistoryReportFragment extends Fragment {
 
@@ -40,6 +42,7 @@ public class HistoryReportFragment extends Fragment {
     private FragmentHistoryReportBinding fragmentHistoryReportBinding;
     private LineChart lcNutrition;
     private LineChart lcCalories;
+    private User user;
 
     public HistoryReportFragment() {
     }
@@ -52,7 +55,7 @@ public class HistoryReportFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        User user = User.fetchFromUserId(ParseUser.getCurrentUser().getObjectId());
+        user = User.fetchFromUserId(ParseUser.getCurrentUser().getObjectId());
     }
 
     @Override
@@ -63,6 +66,10 @@ public class HistoryReportFragment extends Fragment {
         lcNutrition = fragmentHistoryReportBinding.lcNutrition;
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(TITLE);
+
+        List<HashMap<String, Float>> dailyHistory = NutritionHelper.getAllDailyNutritionInfo();
+
+        ChartHelper.drawCaloriesLineChart(dailyHistory, user.getCaloriesGoal(), lcCalories, getContext());
 
         return fragmentHistoryReportBinding.getRoot();
     }
