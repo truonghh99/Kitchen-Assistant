@@ -18,9 +18,11 @@ import com.example.kitchen_assistant.databinding.FragmentRecipeNutritionBinding;
 import com.example.kitchen_assistant.helpers.ChartHelper;
 import com.example.kitchen_assistant.models.HistoryEntry;
 import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.models.User;
 import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -43,6 +45,7 @@ public class DailyReportFragment extends Fragment {
     private float protein;
     private float carbs;
     private float fat;
+    private float goal;
 
     public DailyReportFragment() {
     }
@@ -62,9 +65,9 @@ public class DailyReportFragment extends Fragment {
         if (getArguments() != null) {
             startDate = (Date) getArguments().getSerializable(KEY_START_DATE);
             endDate = (Date) getArguments().getSerializable(KEY_END_DATE);
-            Log.e(TAG, startDate.toString());
-            Log.e(TAG, endDate.toString());
         }
+        User user = User.fetchFromUserId(ParseUser.getCurrentUser().getObjectId());
+        goal = user.getCaloriesGoal();
     }
 
     @Override
@@ -77,7 +80,7 @@ public class DailyReportFragment extends Fragment {
         ((MainActivity) getContext()).getSupportActionBar().setTitle(TITTLE);
         getNutritionInfo(startDate, endDate);
 
-        ChartHelper.drawCaloriesByNutritionChart(calories, carbs, protein, fat, 1200, pcCalories, getContext());
+        ChartHelper.drawCaloriesByNutritionChart(calories, carbs, protein, fat, goal, pcCalories, getContext());
         ChartHelper.drawNutritionBarChart(carbs, protein, fat, bcNutrition, getContext());
 
         return fragmentDailyReportBinding.getRoot();

@@ -15,8 +15,10 @@ import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentRecipeNutritionBinding;
 import com.example.kitchen_assistant.helpers.ChartHelper;
 import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.models.User;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -30,6 +32,7 @@ public class RecipeNutritionFragment extends Fragment {
     private BarChart bcNutrition;
     private PieChart pcCalories;
     private TextView tvCalories;
+    private Float goal;
 
     public RecipeNutritionFragment() {
     }
@@ -48,6 +51,8 @@ public class RecipeNutritionFragment extends Fragment {
         if (getArguments() != null) {
             recipe = Parcels.unwrap(getArguments().getParcelable(KEY_RECIPE));
         }
+        User user = User.fetchFromUserId(ParseUser.getCurrentUser().getObjectId());
+        goal = user.getCaloriesGoal();
     }
 
     @Override
@@ -61,7 +66,7 @@ public class RecipeNutritionFragment extends Fragment {
 
         ChartHelper.drawNutritionBarChart(recipe.getNutrition().getCarbs(), recipe.getNutrition().getProtein(), recipe.getNutrition().getFat(), bcNutrition, getContext());
         ChartHelper.drawCaloriesByNutritionChart(recipe.getNutrition().getCalories(), recipe.getNutrition().getCarbs(), recipe.getNutrition().getProtein(),
-                recipe.getNutrition().getFat(), 1200, pcCalories, getContext()); // TODO: Change total to user's customized goal
+                recipe.getNutrition().getFat(), goal, pcCalories, getContext());
 
         return fragmentRecipeNutritionBinding.getRoot();
     }
