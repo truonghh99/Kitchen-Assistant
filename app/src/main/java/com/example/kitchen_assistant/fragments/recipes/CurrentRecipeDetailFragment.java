@@ -31,9 +31,11 @@ import com.example.kitchen_assistant.fragments.reviews.ReviewComposeFragment;
 import com.example.kitchen_assistant.fragments.reviews.ReviewFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
+import com.example.kitchen_assistant.models.HistoryEntry;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.Review;
+import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.parceler.Parcels;
@@ -147,6 +149,8 @@ public class CurrentRecipeDetailFragment extends Fragment {
                     RecipeEvaluator.updateFoodFromCookedRecipe(recipe);
                     Toast.makeText(getContext(), "Subtracted all the ingredients used in this recipe", Toast.LENGTH_SHORT).show();
                     RecipeEvaluator.evaluateRecipe(recipe);
+                    HistoryEntry entry = HistoryEntry.createEntryFromRecipe(recipe);
+                    CurrentHistoryEntries.addEntry(entry);
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "Please select product for each ingredient", Toast.LENGTH_SHORT).show();

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.Date;
 
@@ -30,6 +31,18 @@ public class HistoryEntry extends ParseObject {
     private float cumulativeProtein;
     private float cumulativeCarbs;
     private float cumulativeFat;
+
+    public static HistoryEntry createEntryFromRecipe(Recipe recipe) {
+        HistoryEntry entry = new HistoryEntry();
+        entry.setRecipeId(recipe.getCode());
+        entry.setUserId(ParseUser.getCurrentUser().getObjectId());
+        entry.setTimestamp(new Date());
+        entry.setCumulativeCalories(recipe.getNutrition().getCalories());
+        entry.setCumulativeCarbs(recipe.getNutrition().getCarbs());
+        entry.setCumulativeProtein(recipe.getNutrition().getProtein());
+        entry.setCumulativeFat(recipe.getNutrition().getFat());
+        return entry;
+    }
 
     public void fetchInfo() {
         try {
