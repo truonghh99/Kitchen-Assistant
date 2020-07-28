@@ -15,6 +15,7 @@ import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentDailyReportBinding;
 import com.example.kitchen_assistant.databinding.FragmentRecipeNutritionBinding;
 import com.example.kitchen_assistant.helpers.ChartHelper;
+import com.example.kitchen_assistant.models.HistoryEntry;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 import com.github.mikephil.charting.charts.BarChart;
@@ -68,18 +69,21 @@ public class DailyReportFragment extends Fragment {
         bcNutrition = fragmentDailyReportBinding.bcNutrition;
         pcCalories = fragmentDailyReportBinding.pcCalories;
 
-        ((MainActivity) getContext()).getSupportActionBar().setTitle(recipe.getName());
-
         getNutritionInfo(startDate, endDate);
 
-        ChartHelper.drawNutritionBarChart(recipe.getNutrition().getCarbs(), recipe.getNutrition().getProtein(), recipe.getNutrition().getFat(), bcNutrition, getContext());
-        ChartHelper.drawCaloriesPercentageChart(recipe.getNutrition().getCalories(), 1200, pcCalories, getContext()); // TODO: Change total to user's customized goal
+        ChartHelper.drawCaloriesByNutritionChart(calories, carbs, protein, fat, 1200, pcCalories, getContext());
+        ChartHelper.drawNutritionBarChart(carbs, protein, fat, bcNutrition, getContext());
 
         return fragmentDailyReportBinding.getRoot();
     }
 
     private void getNutritionInfo(Date startDate, Date endDate) {
-        startDate = CurrentHistoryEntries.getFirstWithLowerBound(startDate);
-        endDate = CurrentHistoryEntries.getLastWithUpperBound(endDate);
+        HistoryEntry firstEntry = CurrentHistoryEntries.getFirstWithLowerBound(startDate);
+        HistoryEntry lastEntry = CurrentHistoryEntries.getLastWithUpperBound(endDate);
+
+        calories = lastEntry.getCumulativeCalories() - firstEntry.getCumulativeCalories();
+        protein = lastEntry.getCumulativeProtein() - firstEntry.getCumulativeProtein();
+        carbs = lastEntry.getCumulativeCarbs() - firstEntry.getCumulativeCarbs();
+        fat = lastEntry.getCumulativeFat() - firstEntry.getCumulativeFat();
     }
 }

@@ -80,16 +80,16 @@ public class CurrentHistoryEntries {
     }
 
     // Array binary search return (-(insertion point) – 1) with insertion point =  index of the first element greater than the key
-    public static Date getFirstWithLowerBound(Date startDate) {
+    public static HistoryEntry getFirstWithLowerBound(Date startDate) {
         int pos = Arrays.binarySearch(getListOfDates(entries), startDate);
         if (pos < 0) pos *= -1; // First date within bound + 1;
-        return entries.get(pos - 1).getTimestamp();
+        return entries.get(pos - 1);
     }
 
-    public static Date getLastWithUpperBound(Date endDate) {
+    public static HistoryEntry getLastWithUpperBound(Date endDate) {
         int pos = Arrays.binarySearch(getListOfDates(entries), endDate);
         if (pos < 0) pos *= -1; // First date out of bound + 1
-        return entries.get(pos - 2).getTimestamp();
+        return entries.get(pos - 2);
     }
 
     private static Date[] getListOfDates(List<HistoryEntry> entries) {
