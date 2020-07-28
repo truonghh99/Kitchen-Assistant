@@ -16,6 +16,7 @@ import com.example.kitchen_assistant.databinding.FragmentDailyReportBinding;
 import com.example.kitchen_assistant.databinding.FragmentRecipeNutritionBinding;
 import com.example.kitchen_assistant.helpers.ChartHelper;
 import com.example.kitchen_assistant.models.Recipe;
+import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 
@@ -25,23 +26,28 @@ import java.util.Date;
 
 public class DailyReportFragment extends Fragment {
 
-    private static final String KEY_DATE = "date";
-
-    private Recipe recipe;
+    private static final String KEY_START_DATE = "startDate";
+    private static final String KEY_END_DATE = "endDate";
 
     private FragmentDailyReportBinding fragmentDailyReportBinding;
     private BarChart bcNutrition;
     private PieChart pcCalories;
-    private TextView tvCalories;
-    private Date date;
+    private Date startDate;
+    private Date endDate;
+
+    private float calories;
+    private float protein;
+    private float carbs;
+    private float fat;
 
     public DailyReportFragment() {
     }
 
-    public static DailyReportFragment newInstance(Parcelable date) {
+    public static DailyReportFragment newInstance(Parcelable startDate, Parcelable endDate) {
         DailyReportFragment fragment = new DailyReportFragment();
         Bundle args = new Bundle();
-        args.putParcelable(KEY_DATE, date);
+        args.putParcelable(KEY_START_DATE, startDate);
+        args.putParcelable(KEY_END_DATE, endDate);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +56,8 @@ public class DailyReportFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            date = Parcels.unwrap(getArguments().getParcelable(KEY_DATE));
+            startDate = Parcels.unwrap(getArguments().getParcelable(KEY_START_DATE));
+            endDate = Parcels.unwrap(getArguments().getParcelable(KEY_END_DATE));
         }
     }
 
@@ -63,11 +70,16 @@ public class DailyReportFragment extends Fragment {
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(recipe.getName());
 
-        tvCalories.setText(recipe.getNutrition().getCalories() + " kcal");
+        getNutritionInfo(startDate, endDate);
 
         ChartHelper.drawNutritionBarChart(recipe.getNutrition().getCarbs(), recipe.getNutrition().getProtein(), recipe.getNutrition().getFat(), bcNutrition, getContext());
         ChartHelper.drawCaloriesPercentageChart(recipe.getNutrition().getCalories(), 1200, pcCalories, getContext()); // TODO: Change total to user's customized goal
 
         return fragmentDailyReportBinding.getRoot();
+    }
+
+    private void getNutritionInfo(Date startDate, Date endDate) {
+        startDate = CurrentHistoryEntries.getFirstWithLowerBound(startDate);
+        endDate = CurrentHistoryEntries.getLastWithUpperBound(endDate);
     }
 }

@@ -130,6 +130,35 @@ public class ChartHelper {
     }
 
     public static void drawCaloriesByNutritionChart(float calories, float carbs, float protein, float fat, float total, PieChart pieChart, final Context context) {
+        float proteinPercentage = NutritionConverter.caloriesFromProtein(protein) / total * 100;
+        float carbsPercentage = NutritionConverter.caloriesFromCarbs(carbs) / total * 100;
+        float fatPercentage = NutritionConverter.caloriesFromFat(fat) / total * 100;
 
+        List<PieEntry> entries = new ArrayList<>();
+        entries.add(new PieEntry(carbsPercentage));
+        entries.add(new PieEntry(proteinPercentage));
+        entries.add(new PieEntry(fatPercentage));
+        entries.add(new PieEntry(100 - carbsPercentage - proteinPercentage - fatPercentage));
+
+        PieDataSet set = new PieDataSet(entries, "Percentage of calories toward your daily goal (%)");
+        set.setColors(new ArrayList<Integer>() {
+            {
+                add(ContextCompat.getColor(context, R.color.carbs));
+                add(ContextCompat.getColor(context, R.color.protein));
+                add(ContextCompat.getColor(context, R.color.fat));
+                add(ContextCompat.getColor(context, R.color.left));
+            }
+        });
+
+        PieData data = new PieData(set);
+        data.setValueTextSize(VALUE_TEXT_SIZE);
+        data.setValueTextColor(ContextCompat.getColor(context, R.color.grey));
+
+        pieChart.setHoleRadius(HOLE_RADIUS);
+        pieChart.animateX(PIE_ANIMATION);
+        pieChart.setTransparentCircleRadius(TRANSPARENT_RADIUS);
+        pieChart.setData(data);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.invalidate(); // refresh
     }
 }
