@@ -23,19 +23,12 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimary"/>
-            <TextView
-                android:id="@+id/tvCalories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/tvCaloriesText"
-                android:text="500 kcal"
-                android:textSize="20sp" />
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pcCalories"
                 android:layout_width="300dp"
                 android:layout_height="230dp"
-                android:layout_below="@id/tvCalories"
+                android:layout_below="@id/tvCaloriesText"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"/>
 
@@ -44,7 +37,7 @@
             android:id="@+id/rlNutritionComparision"
             android:layout_width="match_parent"
             android:layout_below="@id/rlCaloriesInfo"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_height="wrap_content">
 
             <TextView

@@ -32,7 +32,7 @@
     <color name="protein">#c08497</color>
     <color name="fat">#f7af9d</color>
 
-    <color name="occupied">#c08497</color>
+    <color name="occupied">#e56b6f</color>
     <color name="left">#ced4da</color>
 
 </resources>

@@ -55,7 +55,6 @@ public class GlideHelper {
         } catch (Exception e) {
             loadDefaultImage(context, imgView);
         }
-        Log.e(TAG, "LOADED");
     }
 
     private static void loadDefaultImage(Context context, ImageView imgView) {

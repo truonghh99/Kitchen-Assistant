@@ -55,15 +55,13 @@ public class RecipeNutritionFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentRecipeNutritionBinding = FragmentRecipeNutritionBinding.inflate(getLayoutInflater());
         bcNutrition = fragmentRecipeNutritionBinding.bcNutrition;
-        tvCalories = fragmentRecipeNutritionBinding.tvCalories;
         pcCalories = fragmentRecipeNutritionBinding.pcCalories;
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(recipe.getName());
 
-        tvCalories.setText(recipe.getNutrition().getCalories() + " kcal");
-
         ChartHelper.drawNutritionBarChart(recipe.getNutrition().getCarbs(), recipe.getNutrition().getProtein(), recipe.getNutrition().getFat(), bcNutrition, getContext());
-        ChartHelper.drawCaloriesPercentageChart(recipe.getNutrition().getCalories(), 1200, pcCalories, getContext()); // TODO: Change total to user's customized goal
+        ChartHelper.drawCaloriesByNutritionChart(recipe.getNutrition().getCalories(), recipe.getNutrition().getCarbs(), recipe.getNutrition().getProtein(),
+                recipe.getNutrition().getFat(), 1200, pcCalories, getContext()); // TODO: Change total to user's customized goal
 
         return fragmentRecipeNutritionBinding.getRoot();
     }

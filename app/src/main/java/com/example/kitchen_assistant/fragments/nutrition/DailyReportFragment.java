@@ -29,6 +29,7 @@ public class DailyReportFragment extends Fragment {
 
     private static final String KEY_START_DATE = "startDate";
     private static final String KEY_END_DATE = "endDate";
+    private static final String TITTLE = "Today Nutrition Report";
 
     private FragmentDailyReportBinding fragmentDailyReportBinding;
     private BarChart bcNutrition;
@@ -69,9 +70,10 @@ public class DailyReportFragment extends Fragment {
         bcNutrition = fragmentDailyReportBinding.bcNutrition;
         pcCalories = fragmentDailyReportBinding.pcCalories;
 
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(TITTLE);
         getNutritionInfo(startDate, endDate);
 
-        ChartHelper.drawCaloriesByNutritionChart(calories, carbs, protein, fat, 1200, pcCalories, getContext());
+        ChartHelper.drawCaloriesByNutritionChart(calories, carbs, protein, fat, 500, pcCalories, getContext());
         ChartHelper.drawNutritionBarChart(carbs, protein, fat, bcNutrition, getContext());
 
         return fragmentDailyReportBinding.getRoot();
