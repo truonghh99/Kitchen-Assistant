@@ -31,7 +31,7 @@ public class HistoryEntry extends ParseObject {
     private float cumulativeCarbs;
     private float cumulativeFat;
 
-    private void fetchInfo() {
+    public void fetchInfo() {
         try {
             fetch();
         } catch (ParseException e) {
@@ -47,7 +47,7 @@ public class HistoryEntry extends ParseObject {
         cumulativeFat = getNumber(KEY_FAT).floatValue();
     }
 
-    private void saveInfo() {
+    public void saveInfo() {
         put(KEY_RECIPE_ID, recipeId);
         put(KEY_USER_ID, userId);
         put(KEY_TIMESTAMP, timestamp);
