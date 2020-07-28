@@ -1,9 +1,13 @@
 package com.example.kitchen_assistant.helpers;
 
+import android.util.Log;
+
 import java.util.Calendar;
 import java.util.Date;
 
 public class TimeConverter {
+
+    private static final String TAG = "TimeConverter";
 
     public static Date getFirstOfDate(Date date) {
         Calendar calendar = Calendar.getInstance();

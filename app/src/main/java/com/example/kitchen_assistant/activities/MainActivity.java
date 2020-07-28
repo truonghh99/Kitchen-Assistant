@@ -22,6 +22,7 @@ import com.example.kitchen_assistant.fragments.nutrition.DailyReportFragment;
 import com.example.kitchen_assistant.fragments.products.CurrentFoodFragment;
 import com.example.kitchen_assistant.fragments.recipes.RecipeFragment;
 import com.example.kitchen_assistant.fragments.shopping.ShoppingListFragment;
+import com.example.kitchen_assistant.helpers.TimeConverter;
 import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     final Fragment currentFoodFragment = CurrentFoodFragment.newInstance();
     final Fragment recipeFragment = RecipeFragment.newInstance();
     final Fragment shoppingListFragment = ShoppingListFragment.newInstance();
-    final Fragment dailyReportFragment = DailyReportFragment.newInstance(getFirstToday(), getLastToday());
+    final Fragment dailyReportFragment = DailyReportFragment.newInstance(TimeConverter.getFirstOfDate(new Date()), TimeConverter.getLastOfDate(new Date()));
 
     private ActivityMainBinding activityMainBinding;
     public static BottomNavigationView bottomNavigation;

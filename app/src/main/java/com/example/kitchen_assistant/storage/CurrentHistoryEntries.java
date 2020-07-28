@@ -25,7 +25,7 @@ public class CurrentHistoryEntries {
 
     public static void addEntry(HistoryEntry entry) {
         saveEntryInBackGround(entry);
-        entries.add(0, entry);
+        entries.add(entry);
     }
 
     public static void saveEntryInBackGround(HistoryEntry entry) {
@@ -70,7 +70,7 @@ public class CurrentHistoryEntries {
             entry.fetchInfo();
             entries.add(entry);
         }
-        HistoryEntry.updateLatestEntry(entries.get(0));
+        HistoryEntry.updateLatestEntry(entries.get(entries.size() - 1));
     }
 
     public static void removeEntry(HistoryEntry entry) {
@@ -83,13 +83,15 @@ public class CurrentHistoryEntries {
     public static HistoryEntry getFirstWithLowerBound(Date startDate) {
         int pos = Arrays.binarySearch(getListOfDates(entries), startDate);
         if (pos < 0) pos *= -1; // First date within bound + 1;
-        return entries.get(pos - 1);
+        //Log.e(TAG, "FIRST: " + (pos - 2));
+        return entries.get(pos - 2); // Last day before startDate
     }
 
     public static HistoryEntry getLastWithUpperBound(Date endDate) {
         int pos = Arrays.binarySearch(getListOfDates(entries), endDate);
         if (pos < 0) pos *= -1; // First date out of bound + 1
-        return entries.get(pos - 2);
+        //Log.e(TAG, "LAST: " + (pos - 2));
+        return entries.get(pos - 2); // Last date within bound
     }
 
     private static Date[] getListOfDates(List<HistoryEntry> entries) {

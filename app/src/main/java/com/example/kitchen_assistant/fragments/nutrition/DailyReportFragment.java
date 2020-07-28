@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class DailyReportFragment extends Fragment {
     private static final String KEY_START_DATE = "startDate";
     private static final String KEY_END_DATE = "endDate";
     private static final String TITTLE = "Today Nutrition Report";
+    private static final String TAG = "DailyReportFragment";
 
     private FragmentDailyReportBinding fragmentDailyReportBinding;
     private BarChart bcNutrition;
@@ -60,6 +62,8 @@ public class DailyReportFragment extends Fragment {
         if (getArguments() != null) {
             startDate = (Date) getArguments().getSerializable(KEY_START_DATE);
             endDate = (Date) getArguments().getSerializable(KEY_END_DATE);
+            Log.e(TAG, startDate.toString());
+            Log.e(TAG, endDate.toString());
         }
     }
 

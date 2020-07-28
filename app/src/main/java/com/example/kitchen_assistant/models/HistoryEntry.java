@@ -2,6 +2,7 @@ package com.example.kitchen_assistant.models;
 
 import android.util.Log;
 
+import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -38,7 +39,7 @@ public class HistoryEntry extends ParseObject {
     private static float lastCarbs = 0;
     private static float lastFat = 0;
 
-    public static HistoryEntry createEntryFromRecipe(Recipe recipe) {
+    public static void addEntryFromRecipe(Recipe recipe) {
         HistoryEntry entry = new HistoryEntry();
         entry.setRecipeId(recipe.getCode());
         entry.setUserId(ParseUser.getCurrentUser().getObjectId());
@@ -48,7 +49,7 @@ public class HistoryEntry extends ParseObject {
         entry.setCumulativeProtein(lastProtein + recipe.getNutrition().getProtein());
         entry.setCumulativeFat(lastFat + recipe.getNutrition().getFat());
         updateLatestEntry(entry);
-        return entry;
+        CurrentHistoryEntries.addEntry(entry);
     }
 
     public static void updateLatestEntry(HistoryEntry entry) {

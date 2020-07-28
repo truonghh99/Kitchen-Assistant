@@ -148,8 +148,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
                 if (recipe.isCookable()) {
                     RecipeEvaluator.updateFoodFromCookedRecipe(recipe);
                     RecipeEvaluator.evaluateRecipe(recipe);
-                    HistoryEntry entry = HistoryEntry.createEntryFromRecipe(recipe);
-                    CurrentHistoryEntries.addEntry(entry);
+                    HistoryEntry.addEntryFromRecipe(recipe);
                     Toast.makeText(getContext(), "Added this recipe to your diet history!", Toast.LENGTH_SHORT).show();
                     adapter.notifyDataSetChanged();
                 } else {
