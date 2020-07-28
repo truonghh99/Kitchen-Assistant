@@ -3,8 +3,10 @@ package com.example.kitchen_assistant.helpers;
 import com.example.kitchen_assistant.models.HistoryEntry;
 import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class NutritionHelper {
 
@@ -39,5 +41,21 @@ public class NutritionHelper {
         };
 
         return nutrition;
+    }
+
+    public static List<HashMap<String, Float>> getAllDailyNutritionInfo() {
+        List<HashMap<String, Float>> result = new ArrayList<>();
+
+        Date startDate = TimeConverter.getFirstOfDate(CurrentHistoryEntries.getFirstDate());
+        Date endDate = TimeConverter.getLastOfDate(CurrentHistoryEntries.getFirstDate());
+
+        while (startDate.before(CurrentHistoryEntries.getLastDate())) {
+            HashMap<String, Float> dailyNutrition = getNutritionInfoInDuration(startDate, endDate);
+            result.add(dailyNutrition);
+            startDate = TimeConverter.addOneDay(startDate);
+            endDate = TimeConverter.addOneDay(endDate);
+        }
+
+        return result;
     }
 }

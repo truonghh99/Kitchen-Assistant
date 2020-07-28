@@ -101,4 +101,12 @@ public class CurrentHistoryEntries {
         }
         return result;
     }
+
+    public static Date getFirstDate() {
+        return entries.get(0).getTimestamp();
+    }
+
+    public static Date getLastDate() {
+        return entries.get(entries.size() - 1).getTimestamp();
+    }
 }
