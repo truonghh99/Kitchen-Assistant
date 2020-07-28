@@ -1,8 +1,9 @@
-package com.example.kitchen_assistant.fragments.nutrition;
+package com.example.kitchen_assistant.fragments.profile;
 
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,11 +15,8 @@ import android.widget.TextView;
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentProfileBinding;
-import com.example.kitchen_assistant.fragments.products.CurrentFoodFragment;
-import com.example.kitchen_assistant.fragments.recipes.RecipeFragment;
-import com.example.kitchen_assistant.fragments.shopping.ShoppingListFragment;
+import com.example.kitchen_assistant.fragments.recipes.InstructionFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
-import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.User;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
@@ -53,6 +51,7 @@ public class ProfileFragment extends Fragment {
     private TextView tvNumRecipes;
     private TextView tvHistory;
     private TextView tvShoppingItems;
+    private ImageView ivEdit;
 
     public ProfileFragment() {
     }
@@ -88,6 +87,7 @@ public class ProfileFragment extends Fragment {
         tvNumProducts = fragmentProfileBinding.tvNumProducts;
         tvHistory = fragmentProfileBinding.tvHistory;
         tvShoppingItems = fragmentProfileBinding.tvShoppingItems;
+        ivEdit = fragmentProfileBinding.ivEdit;
 
         GlideHelper.loadAvatar(user.getProfileImage().getUrl(), getContext(), ivProfileImage);
         tvUsername.setText("@" + user.getUsername());
@@ -119,6 +119,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        ivEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToEdit();
+            }
+        });
         return fragmentProfileBinding.getRoot();
     }
 
@@ -132,5 +138,10 @@ public class ProfileFragment extends Fragment {
 
     private void goToShoppingList() {
         MainActivity.bottomNavigation.setSelectedItemId(R.id.miShoppingList);
+    }
+
+    private void goToEdit() {
+        DialogFragment dialogFragment = EditProfileFragment.newInstance();
+        dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 }

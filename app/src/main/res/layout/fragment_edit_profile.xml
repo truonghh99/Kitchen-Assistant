@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="25dp"
+    tools:context=".fragments.profile.EditProfileFragment">
+
+    <RelativeLayout
+        android:id="@+id/rlName"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:text="Name: " />
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tvName"
+            android:layout_centerVertical="true"
+            android:text="Ha Truong" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlUserName"
+        android:padding="10dp"
+        android:layout_below="@id/rlName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:text="Username: " />
+
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tvUsername"
+            android:layout_centerVertical="true"
+            android:text="hatruong" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlCaloriesGoal"
+        android:padding="10dp"
+        android:layout_below="@id/rlUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvCaloriesGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:text="Calories goal: " />
+
+        <EditText
+            android:id="@+id/etCaloriesGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tvCaloriesGoal"
+            android:layout_centerVertical="true"
+            android:inputType="number"
+            android:text="1200" />
+
+        <TextView
+            android:id="@+id/tvCaloriesUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/etCaloriesGoal"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/black"
+            android:inputType="number"
+            android:text="kcal/day" />
+
+    </RelativeLayout>
+</RelativeLayout>
