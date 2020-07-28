@@ -3,6 +3,7 @@ package com.example.kitchen_assistant.applications;
 import android.app.Application;
 
 import com.example.kitchen_assistant.models.FoodItem;
+import com.example.kitchen_assistant.models.HistoryEntry;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Nutrition;
 import com.example.kitchen_assistant.models.Product;
@@ -30,6 +31,7 @@ public class ParseApplication extends Application {
         ParseObject.registerSubclass(Rating.class);
         ParseObject.registerSubclass(Review.class);
         ParseObject.registerSubclass(Nutrition.class);
+        ParseObject.registerSubclass(HistoryEntry.class);
 
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
 
