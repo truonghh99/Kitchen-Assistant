@@ -88,13 +88,12 @@ public class CurrentFoodFragment extends Fragment {
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
 
         setUpSearchView(menu);
+        setUpProfile(menu);
     }
 
     // Set up search view in menu toolbar
     private void setUpSearchView(Menu menu) {
         MenuItem miSearch = menu.findItem(R.id.miSearch);
-        MenuItem miProfile = menu.findItem(R.id.miProfile);
-
         SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
         miSearch.setActionView(searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -116,7 +115,10 @@ public class CurrentFoodFragment extends Fragment {
                     public void onClick(View v) {
                     }
                 });
+    }
 
+    private void setUpProfile(Menu menu) {
+        MenuItem miProfile = menu.findItem(R.id.miProfile);
         miProfile.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {

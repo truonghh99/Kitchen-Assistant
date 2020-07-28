@@ -23,6 +23,7 @@ import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.ShoppingListAdapter;
 import com.example.kitchen_assistant.databinding.FragmentShoppingListBinding;
+import com.example.kitchen_assistant.fragments.nutrition.ProfileFragment;
 import com.example.kitchen_assistant.models.ShoppingItem;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -109,6 +110,7 @@ public class ShoppingListFragment extends Fragment {
         inflater.inflate(R.menu.menu_main_toolbar, menu);
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
         setUpSearchView(menu);
+        setUpProfile(menu);
     }
 
     // Allow user to narrow down shopping list using search bar
@@ -153,6 +155,23 @@ public class ShoppingListFragment extends Fragment {
         }
         return filteredModelList;
     }
+
+    private void setUpProfile(Menu menu) {
+        MenuItem miProfile = menu.findItem(R.id.miProfile);
+        miProfile.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                goToProfile();
+                return true;
+            }
+        });
+    }
+
+    private void goToProfile() {
+        ProfileFragment profileFragment = ProfileFragment.newInstance();
+        MainActivity.switchFragment(profileFragment);
+    }
+
     public static void notifyDataChange() {
         if (adapter != null) {
             adapter.replaceAll(items);

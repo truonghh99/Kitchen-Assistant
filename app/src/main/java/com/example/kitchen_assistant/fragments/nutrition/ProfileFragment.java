@@ -12,7 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentProfileBinding;
+import com.example.kitchen_assistant.fragments.products.CurrentFoodFragment;
+import com.example.kitchen_assistant.fragments.recipes.RecipeFragment;
+import com.example.kitchen_assistant.fragments.shopping.ShoppingListFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.User;
@@ -86,14 +90,50 @@ public class ProfileFragment extends Fragment {
         tvShoppingItems = fragmentProfileBinding.tvShoppingItems;
 
         GlideHelper.loadAvatar(user.getProfileImage().getUrl(), getContext(), ivProfileImage);
-        tvUsername.setText(user.getUsername());
+        tvUsername.setText("@" + user.getUsername());
         tvName.setText(user.getName());
-        tvCaloriesGoal.setText("" + user.getCaloriesGoal());
+        tvCaloriesGoal.setText(user.getCaloriesGoal() + " kcal");
 
         tvNumRecipes.setText(numRecipes + " recipes");
         tvNumProducts.setText(numProducts + " products");
         tvShoppingItems.setText(numShoppingItems + " items in shopping list");
 
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        cvProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToProducts();
+            }
+        });
+
+        cvRecipes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToRecipe();
+            }
+        });
+
+        cvShoppingList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToShoppingList();
+            }
+        });
+
+        return fragmentProfileBinding.getRoot();
+    }
+
+    private void goToProducts() {
+        CurrentFoodFragment currentFoodFragment = CurrentFoodFragment.newInstance();
+        MainActivity.switchFragment(currentFoodFragment);
+    }
+
+    private void goToRecipe() {
+        RecipeFragment recipeFragment = RecipeFragment.newInstance();
+        MainActivity.switchFragment(recipeFragment);
+    }
+
+    private void goToShoppingList() {
+        ShoppingListFragment shoppingListFragment = ShoppingListFragment.newInstance();
+        MainActivity.switchFragment(shoppingListFragment);
     }
 }

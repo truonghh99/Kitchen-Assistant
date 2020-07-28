@@ -125,10 +125,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:text="26 products"
                 android:textColor="@color/colorPrimary"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
         </androidx.cardview.widget.CardView>
@@ -150,10 +150,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:text="45 recipes"
                 android:textColor="@color/colorPrimary"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
         </androidx.cardview.widget.CardView>
@@ -175,10 +175,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:text="36 shopping items"
                 android:textColor="@color/colorPrimary"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
         </androidx.cardview.widget.CardView>
@@ -200,10 +200,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:text="178 days using Kitchen Assistant"
                 android:textColor="@color/colorPrimary"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
         </androidx.cardview.widget.CardView>

@@ -21,6 +21,7 @@ import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.RecipeAdapter;
 import com.example.kitchen_assistant.databinding.FragmentRecipeBinding;
+import com.example.kitchen_assistant.fragments.nutrition.ProfileFragment;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -120,6 +121,7 @@ public class RecipeFragment extends Fragment {
         inflater.inflate(R.menu.menu_main_toolbar, menu);
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
         setUpSearchView(menu);
+        setUpProfile(menu);
     }
 
     // Allow user to narrow down list of recipes
@@ -165,6 +167,22 @@ public class RecipeFragment extends Fragment {
             }
         }
         return filteredModelList;
+    }
+
+    private void setUpProfile(Menu menu) {
+        MenuItem miProfile = menu.findItem(R.id.miProfile);
+        miProfile.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                goToProfile();
+                return true;
+            }
+        });
+    }
+
+    private void goToProfile() {
+        ProfileFragment profileFragment = ProfileFragment.newInstance();
+        MainActivity.switchFragment(profileFragment);
     }
 
     private void openOrCloseFabMenu() {
