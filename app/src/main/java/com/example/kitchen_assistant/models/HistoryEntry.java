@@ -8,6 +8,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.Date;
+import java.util.Map;
 
 @ParseClassName("HistoryEntry")
 public class HistoryEntry extends ParseObject {
@@ -32,16 +33,30 @@ public class HistoryEntry extends ParseObject {
     private float cumulativeCarbs;
     private float cumulativeFat;
 
+    private static float lastCalories = 0;
+    private static float lastProtein = 0;
+    private static float lastCarbs = 0;
+    private static float lastFat = 0;
+
     public static HistoryEntry createEntryFromRecipe(Recipe recipe) {
         HistoryEntry entry = new HistoryEntry();
         entry.setRecipeId(recipe.getCode());
         entry.setUserId(ParseUser.getCurrentUser().getObjectId());
         entry.setTimestamp(new Date());
-        entry.setCumulativeCalories(recipe.getNutrition().getCalories());
-        entry.setCumulativeCarbs(recipe.getNutrition().getCarbs());
-        entry.setCumulativeProtein(recipe.getNutrition().getProtein());
-        entry.setCumulativeFat(recipe.getNutrition().getFat());
+        entry.setCumulativeCalories(lastCalories + recipe.getNutrition().getCalories());
+        entry.setCumulativeCarbs(lastCarbs + recipe.getNutrition().getCarbs());
+        entry.setCumulativeProtein(lastProtein + recipe.getNutrition().getProtein());
+        entry.setCumulativeFat(lastFat + recipe.getNutrition().getFat());
+        updateLatestEntry(entry);
         return entry;
+    }
+
+    public static void updateLatestEntry(HistoryEntry entry) {
+        lastCalories += entry.getCumulativeCalories();
+        lastProtein += entry.getCumulativeProtein();
+        lastCarbs += entry.getCumulativeCarbs();
+        lastFat += entry.getCumulativeFat();
+        Log.e(TAG, lastCalories + " " + lastCarbs + " " + lastProtein + " " + lastFat);
     }
 
     public void fetchInfo() {
@@ -56,7 +71,7 @@ public class HistoryEntry extends ParseObject {
         timestamp = getDate(KEY_TIMESTAMP);
         cumulativeCalories = getNumber(KEY_CALORIES).floatValue();
         cumulativeCarbs = getNumber(KEY_CARBS).floatValue();
-        cumulativeCalories = getNumber(KEY_PROTEIN).floatValue();
+        cumulativeProtein = getNumber(KEY_PROTEIN).floatValue();
         cumulativeFat = getNumber(KEY_FAT).floatValue();
     }
 

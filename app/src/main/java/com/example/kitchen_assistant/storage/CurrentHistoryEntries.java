@@ -68,6 +68,7 @@ public class CurrentHistoryEntries {
             entry.fetchInfo();
             entries.add(entry);
         }
+        HistoryEntry.updateLatestEntry(entries.get(0));
     }
 
     public static void removeEntry(HistoryEntry entry) {

@@ -147,10 +147,10 @@ public class CurrentRecipeDetailFragment extends Fragment {
             public void onClick(View view) {
                 if (recipe.isCookable()) {
                     RecipeEvaluator.updateFoodFromCookedRecipe(recipe);
-                    Toast.makeText(getContext(), "Subtracted all the ingredients used in this recipe", Toast.LENGTH_SHORT).show();
                     RecipeEvaluator.evaluateRecipe(recipe);
                     HistoryEntry entry = HistoryEntry.createEntryFromRecipe(recipe);
                     CurrentHistoryEntries.addEntry(entry);
+                    Toast.makeText(getContext(), "Added this recipe to your diet history!", Toast.LENGTH_SHORT).show();
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "Please select product for each ingredient", Toast.LENGTH_SHORT).show();
