@@ -44,11 +44,11 @@ public class DailyReportFragment extends Fragment {
     public DailyReportFragment() {
     }
 
-    public static DailyReportFragment newInstance(Parcelable startDate, Parcelable endDate) {
+    public static DailyReportFragment newInstance(Date startDate, Date endDate) {
         DailyReportFragment fragment = new DailyReportFragment();
         Bundle args = new Bundle();
-        args.putParcelable(KEY_START_DATE, startDate);
-        args.putParcelable(KEY_END_DATE, endDate);
+        args.putSerializable(KEY_START_DATE, startDate);
+        args.putSerializable(KEY_END_DATE, endDate);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,8 +57,8 @@ public class DailyReportFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            startDate = Parcels.unwrap(getArguments().getParcelable(KEY_START_DATE));
-            endDate = Parcels.unwrap(getArguments().getParcelable(KEY_END_DATE));
+            startDate = (Date) getArguments().getSerializable(KEY_START_DATE);
+            endDate = (Date) getArguments().getSerializable(KEY_END_DATE);
         }
     }
 
@@ -78,8 +78,8 @@ public class DailyReportFragment extends Fragment {
     }
 
     private void getNutritionInfo(Date startDate, Date endDate) {
-        HistoryEntry firstEntry = CurrentHistoryEntries.getFirstWithLowerBound(startDate);
-        HistoryEntry lastEntry = CurrentHistoryEntries.getLastWithUpperBound(endDate);
+        HistoryEntry lastEntry = CurrentHistoryEntries.getFirstWithLowerBound(startDate);
+        HistoryEntry firstEntry = CurrentHistoryEntries.getLastWithUpperBound(endDate);
 
         calories = lastEntry.getCumulativeCalories() - firstEntry.getCumulativeCalories();
         protein = lastEntry.getCumulativeProtein() - firstEntry.getCumulativeProtein();

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.databinding.ActivityMainBinding;
+import com.example.kitchen_assistant.fragments.nutrition.DailyReportFragment;
 import com.example.kitchen_assistant.fragments.products.CurrentFoodFragment;
 import com.example.kitchen_assistant.fragments.recipes.RecipeFragment;
 import com.example.kitchen_assistant.fragments.shopping.ShoppingListFragment;
@@ -27,6 +28,11 @@ import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.parceler.Parcels;
+
+import java.util.Calendar;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
@@ -34,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     final Fragment currentFoodFragment = CurrentFoodFragment.newInstance();
     final Fragment recipeFragment = RecipeFragment.newInstance();
-    final Fragment toDoListFragment = ShoppingListFragment.newInstance();
+    final Fragment shoppingListFragment = ShoppingListFragment.newInstance();
+    final Fragment dailyReportFragment = DailyReportFragment.newInstance(getFirstToday(), getLastToday());
 
     private ActivityMainBinding activityMainBinding;
     public static BottomNavigationView bottomNavigation;
@@ -62,8 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        Fragment fragment;
-                        String title;
+                        Fragment fragment = null;
                         switch (item.getItemId()) {
                             case R.id.miCurrentFood:
                                 fragment = currentFoodFragment;
@@ -72,8 +78,12 @@ public class MainActivity extends AppCompatActivity {
                                 fragment = recipeFragment;
                                 break;
                             case R.id.miShoppingList:
+                                fragment = shoppingListFragment;
+                                break;
+                            case R.id.miReport:
+                                fragment = dailyReportFragment;
+                                break;
                             default:
-                                fragment = toDoListFragment;
                                 break;
                         }
                         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
@@ -138,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         if (fragmentManager.getBackStackEntryCount() > 0) {
             Log.i("MainActivity", "popping backstack");
             fragmentManager.popBackStack();
@@ -146,4 +156,25 @@ public class MainActivity extends AppCompatActivity {
             Log.i("MainActivity", "nothing on backstack, calling super");
             super.onBackPressed();
         }
-    }}
+    }
+
+    public Date getFirstToday() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        return calendar.getTime();
+    }
+
+    public Date getLastToday() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.MILLISECOND, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        return calendar.getTime();
+    }
+}
