@@ -28,7 +28,9 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class HistoryReportFragment extends Fragment {
 
@@ -63,15 +65,5 @@ public class HistoryReportFragment extends Fragment {
         ((MainActivity) getContext()).getSupportActionBar().setTitle(TITLE);
 
         return fragmentHistoryReportBinding.getRoot();
-    }
-
-    private void getNutritionInfo(Date startDate, Date endDate) {
-        HistoryEntry firstEntry = CurrentHistoryEntries.getFirstWithLowerBound(startDate);
-        HistoryEntry lastEntry = CurrentHistoryEntries.getLastWithUpperBound(endDate);
-
-        calories = lastEntry.getCumulativeCalories() - firstEntry.getCumulativeCalories();
-        protein = lastEntry.getCumulativeProtein() - firstEntry.getCumulativeProtein();
-        carbs = lastEntry.getCumulativeCarbs() - firstEntry.getCumulativeCarbs();
-        fat = lastEntry.getCumulativeFat() - firstEntry.getCumulativeFat();
     }
 }

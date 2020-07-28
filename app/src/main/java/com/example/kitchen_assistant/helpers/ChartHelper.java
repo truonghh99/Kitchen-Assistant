@@ -1,21 +1,14 @@
 package com.example.kitchen_assistant.helpers;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import com.example.kitchen_assistant.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -23,7 +16,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,9 +96,9 @@ public class ChartHelper {
     }
 
     public static void drawCaloriesByNutritionChart(float calories, float carbs, float protein, float fat, float total, PieChart pieChart, final Context context) {
-        float proteinPercentage = NutritionConverter.caloriesFromProtein(protein) / total * 100;
-        float carbsPercentage = NutritionConverter.caloriesFromCarbs(carbs) / total * 100;
-        float fatPercentage = NutritionConverter.caloriesFromFat(fat) / total * 100;
+        float proteinPercentage = NutritionHelper.caloriesFromProtein(protein) / total * 100;
+        float carbsPercentage = NutritionHelper.caloriesFromCarbs(carbs) / total * 100;
+        float fatPercentage = NutritionHelper.caloriesFromFat(fat) / total * 100;
 
         List<PieEntry> entries = new ArrayList<>();
         PieDataSet set = new PieDataSet(entries, "Percentage of calories toward your daily goal (%)");

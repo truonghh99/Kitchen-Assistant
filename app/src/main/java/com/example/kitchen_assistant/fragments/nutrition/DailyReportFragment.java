@@ -16,6 +16,7 @@ import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentDailyReportBinding;
 import com.example.kitchen_assistant.databinding.FragmentRecipeNutritionBinding;
 import com.example.kitchen_assistant.helpers.ChartHelper;
+import com.example.kitchen_assistant.helpers.NutritionHelper;
 import com.example.kitchen_assistant.models.HistoryEntry;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.User;
@@ -27,6 +28,7 @@ import com.parse.ParseUser;
 import org.parceler.Parcels;
 
 import java.util.Date;
+import java.util.HashMap;
 
 public class DailyReportFragment extends Fragment {
 
@@ -78,21 +80,11 @@ public class DailyReportFragment extends Fragment {
         pcCalories = fragmentDailyReportBinding.pcCalories;
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(TITTLE);
-        getNutritionInfo(startDate, endDate);
+        HashMap<String, Float> nutrition = NutritionHelper.getNutritionInfoInDuration(startDate, endDate);
 
-        ChartHelper.drawCaloriesByNutritionChart(calories, carbs, protein, fat, goal, pcCalories, getContext());
-        ChartHelper.drawNutritionBarChart(carbs, protein, fat, bcNutrition, getContext());
+        ChartHelper.drawCaloriesByNutritionChart(nutrition.get("calories"), nutrition.get("carbs"), nutrition.get("protein"), nutrition.get("fat"), goal, pcCalories, getContext());
+        ChartHelper.drawNutritionBarChart(nutrition.get("carbs"), nutrition.get("protein"), nutrition.get("fat"), bcNutrition, getContext());
 
         return fragmentDailyReportBinding.getRoot();
-    }
-
-    private void getNutritionInfo(Date startDate, Date endDate) {
-        HistoryEntry firstEntry = CurrentHistoryEntries.getFirstWithLowerBound(startDate);
-        HistoryEntry lastEntry = CurrentHistoryEntries.getLastWithUpperBound(endDate);
-
-        calories = lastEntry.getCumulativeCalories() - firstEntry.getCumulativeCalories();
-        protein = lastEntry.getCumulativeProtein() - firstEntry.getCumulativeProtein();
-        carbs = lastEntry.getCumulativeCarbs() - firstEntry.getCumulativeCarbs();
-        fat = lastEntry.getCumulativeFat() - firstEntry.getCumulativeFat();
     }
 }
