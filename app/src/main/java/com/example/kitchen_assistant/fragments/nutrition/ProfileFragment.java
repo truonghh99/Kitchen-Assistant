@@ -123,17 +123,14 @@ public class ProfileFragment extends Fragment {
     }
 
     private void goToProducts() {
-        CurrentFoodFragment currentFoodFragment = CurrentFoodFragment.newInstance();
-        MainActivity.switchFragment(currentFoodFragment);
+        MainActivity.bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
     }
 
     private void goToRecipe() {
-        RecipeFragment recipeFragment = RecipeFragment.newInstance();
-        MainActivity.switchFragment(recipeFragment);
+        MainActivity.bottomNavigation.setSelectedItemId(R.id.miRecipe);
     }
 
     private void goToShoppingList() {
-        ShoppingListFragment shoppingListFragment = ShoppingListFragment.newInstance();
-        MainActivity.switchFragment(shoppingListFragment);
+        MainActivity.bottomNavigation.setSelectedItemId(R.id.miShoppingList);
     }
 }

@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                             default:
                                 break;
                         }
-                        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                        switchFragment(fragment);
                         return true;
                     }
                 });
