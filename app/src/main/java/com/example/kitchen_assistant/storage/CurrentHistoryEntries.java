@@ -49,7 +49,7 @@ public class CurrentHistoryEntries {
 
         entries = new ArrayList<>();
         ParseQuery<HistoryEntry> query = ParseQuery.getQuery(HistoryEntry.class);
-        query.addDescendingOrder("createdAt");
+        query.addAscendingOrder("createdAt");
 
         query.findInBackground(new FindCallback<HistoryEntry>() {
             @Override

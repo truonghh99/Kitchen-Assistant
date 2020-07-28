@@ -18,7 +18,7 @@ public class HistoryEntry extends ParseObject {
     // Parse key
     public static final String KEY_RECIPE_ID = "recipeId";
     public static final String KEY_USER_ID = "userId";
-    public static final String KEY_TIMESTAMP = "timestamp";
+    public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_CALORIES = "cumulativeCalories";
     public static final String KEY_CARBS = "cumulativeCarbs";
     public static final String KEY_PROTEIN = "cumulativeProtein";
@@ -67,7 +67,7 @@ public class HistoryEntry extends ParseObject {
         }
         recipeId = getString(KEY_RECIPE_ID);
         userId = getString(KEY_USER_ID);
-        timestamp = getDate(KEY_TIMESTAMP);
+        timestamp = getDate(KEY_CREATED_AT);
         cumulativeCalories = getNumber(KEY_CALORIES).floatValue();
         cumulativeCarbs = getNumber(KEY_CARBS).floatValue();
         cumulativeProtein = getNumber(KEY_PROTEIN).floatValue();
@@ -77,7 +77,7 @@ public class HistoryEntry extends ParseObject {
     public void saveInfo() {
         put(KEY_RECIPE_ID, recipeId);
         put(KEY_USER_ID, userId);
-        put(KEY_TIMESTAMP, timestamp);
+        put(KEY_CREATED_AT, timestamp);
         put(KEY_CALORIES, cumulativeCalories);
         put(KEY_CARBS, cumulativeCarbs);
         put(KEY_PROTEIN, cumulativeProtein);

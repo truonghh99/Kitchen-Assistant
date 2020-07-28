@@ -117,7 +117,7 @@ public class RecipeFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.menu_search_toolbar, menu);
+        inflater.inflate(R.menu.menu_main_toolbar, menu);
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
         setUpSearchView(menu);
     }
