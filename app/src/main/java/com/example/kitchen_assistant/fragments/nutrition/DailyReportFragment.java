@@ -73,7 +73,7 @@ public class DailyReportFragment extends Fragment {
         ((MainActivity) getContext()).getSupportActionBar().setTitle(TITTLE);
         getNutritionInfo(startDate, endDate);
 
-        ChartHelper.drawCaloriesByNutritionChart(calories, carbs, protein, fat, 500, pcCalories, getContext());
+        ChartHelper.drawCaloriesByNutritionChart(calories, carbs, protein, fat, 1200, pcCalories, getContext());
         ChartHelper.drawNutritionBarChart(carbs, protein, fat, bcNutrition, getContext());
 
         return fragmentDailyReportBinding.getRoot();

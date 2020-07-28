@@ -40,7 +40,7 @@ public class RecipeFragment extends Fragment {
     private FloatingActionButton btSearch;
     private FloatingActionButton btAdd;
     private FloatingActionButton btMenuOpen;
-    private List<Recipe> recipes;
+    private static List<Recipe> recipes;
     private static RecipeAdapter adapter;
 
     public RecipeFragment() {
@@ -153,6 +153,9 @@ public class RecipeFragment extends Fragment {
 
     // Modify list of recipes based on given query in search bar
     private List<Recipe> filter(List<Recipe> recipes, String query) {
+        if (query == "") {
+            adapter.replaceAll(this.recipes);
+        }
         final String lowerCaseQuery = query.toLowerCase();
         final List<Recipe> filteredModelList = new ArrayList<>();
         for (Recipe recipe : recipes) {
@@ -176,6 +179,7 @@ public class RecipeFragment extends Fragment {
 
     public static void notifyDataChange() {
         if (adapter != null) {
+            adapter.replaceAll(recipes);
             adapter.notifyDataSetChanged();
         }
     }

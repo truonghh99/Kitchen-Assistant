@@ -92,7 +92,11 @@ public class CurrentShoppingList {
         items.remove(item);
         itemHashMap.remove(item.getName());
         ParseObject productParse = ParseObject.createWithoutData("ShoppingItem", item.getObjectId());
-        productParse.deleteEventually();
+        try {
+            productParse.delete();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         ShoppingListFragment.notifyDataChange();
     }
 

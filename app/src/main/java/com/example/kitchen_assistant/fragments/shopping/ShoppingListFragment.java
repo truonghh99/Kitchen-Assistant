@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,7 +39,7 @@ public class ShoppingListFragment extends Fragment {
     private RecyclerView rvShoppingList;
     private FloatingActionButton btSearch;
     private FloatingActionButton btAdd;
-    private List<ShoppingItem> items;
+    private static List<ShoppingItem> items;
     private static ShoppingListAdapter adapter;
 
     public ShoppingListFragment () {
@@ -139,6 +140,9 @@ public class ShoppingListFragment extends Fragment {
 
     // Filter shopping list based on query in search bar
     private List<ShoppingItem> filter(List<ShoppingItem> items, String query) {
+        if (query == "") {
+            adapter.replaceAll(this.items);
+        }
         final String lowerCaseQuery = query.toLowerCase();
         final List<ShoppingItem> filteredModelList = new ArrayList<>();
         for (ShoppingItem item : items) {
@@ -151,7 +155,8 @@ public class ShoppingListFragment extends Fragment {
     }
     public static void notifyDataChange() {
         if (adapter != null) {
-            adapter.notifyDataSetChanged();
+            adapter.replaceAll(items);
+            Log.e(TAG, "NOTIFIED, have " + items.size() + " here and " + adapter.getItemCount() + " in adapter");
         }
     }
 

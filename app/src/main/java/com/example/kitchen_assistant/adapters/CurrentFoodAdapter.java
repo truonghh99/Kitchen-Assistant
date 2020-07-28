@@ -27,7 +27,7 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
 
     private static final String TAG = "CurrentFoodAdapter";
     private Context context;
-    private List<Product> products;
+    public static List<Product> products;
 
     @NonNull
     @Override

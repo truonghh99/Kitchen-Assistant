@@ -113,6 +113,7 @@ public class CurrentProducts {
         saveProductInBackGround(product);
         CurrentFoodTypes.saveFoodItemInBackGround(product.getFoodItem());
         RecipeEvaluator.evaluateAllRecipe();
+        CurrentFoodFragment.notifyDataChange();
     }
 
     public static String getNameWithCode(String code) {
