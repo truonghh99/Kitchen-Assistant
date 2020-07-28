@@ -27,7 +27,9 @@ import com.example.kitchen_assistant.fragments.nutrition.HistoryReportFragment;
 import com.example.kitchen_assistant.fragments.nutrition.RecipeNutritionFragment;
 import com.example.kitchen_assistant.fragments.recipes.InstructionFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
+import com.example.kitchen_assistant.helpers.TimeConverter;
 import com.example.kitchen_assistant.models.User;
+import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
@@ -220,5 +222,11 @@ public class ProfileFragment extends Fragment {
         tvUsername.setText("@" + user.getUsername());
         tvName.setText(user.getName());
         tvCaloriesGoal.setText(user.getCaloriesGoal() + " kcal");
+        tvHistory.setText(getHistory() + " days using Kitchen Assistant");
+    }
+
+    private String getHistory() {
+        long days = TimeConverter.dayDifference(CurrentHistoryEntries.getFirstDate(), CurrentHistoryEntries.getLastDate());
+        return String.valueOf(days);
     }
 }
