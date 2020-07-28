@@ -10,20 +10,28 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.activities.LoginActivity;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentProfileBinding;
+import com.example.kitchen_assistant.fragments.nutrition.RecipeNutritionFragment;
 import com.example.kitchen_assistant.fragments.recipes.InstructionFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.models.User;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -37,6 +45,7 @@ public class ProfileFragment extends Fragment {
 
     private static final int REQUEST_CODE = 100;
     private final String TAG = "ProfileFragment";
+    private final String TITLE = "Profile";
     private User user;
 
     private int numProducts;
@@ -74,7 +83,44 @@ public class ProfileFragment extends Fragment {
         numProducts = CurrentProducts.getCurrentNumProducts();
         numRecipes = CurrentRecipes.getCurrentNumRecipes();
         numShoppingItems = CurrentShoppingList.getCurrentNumItems();
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(TITLE);
+        inflater.inflate(R.menu.menu_profile_toolbar, menu);
+        MenuItem miLogout = menu.findItem(R.id.miLogout);
+        miLogout.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                logOut();
+                return true;
+            }
+        });
+    }
+
+    private void logOut() {
+        ParseUser.logOutInBackground(new LogOutCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.i(TAG, String.valueOf(e));
+                    return;
+                }
+                Log.i(TAG, "Logged out!");
+                Toast.makeText(getContext(), "Logged out successfully", Toast.LENGTH_SHORT).show();
+                goLogIn();
+            }
+        });
+    }
+
+    private void goLogIn() {
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override
