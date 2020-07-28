@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,10 +23,12 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.IngredientAdapter;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentNewRecipeDetailBinding;
+import com.example.kitchen_assistant.fragments.nutrition.RecipeNutritionFragment;
 import com.example.kitchen_assistant.fragments.reviews.ReviewComposeFragment;
 import com.example.kitchen_assistant.fragments.reviews.ReviewFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
@@ -84,6 +89,7 @@ public class NewRecipeDetailFragment extends Fragment {
         if (getArguments() != null) {
             recipe = Parcels.unwrap(getArguments().getParcelable(KEY_RECIPE));
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -167,6 +173,27 @@ public class NewRecipeDetailFragment extends Fragment {
 
         tvReviewCount.setText(setUpReviewCount(recipe.getRating().getNumReviews()));
         return fragmentNewRecipeDetailBinding.getRoot();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
+        inflater.inflate(R.menu.menu_recipe_toolbar, menu);
+        MenuItem miChart = menu.findItem(R.id.miChart);
+        miChart.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                goToNutritionChart();
+                return true;
+            }
+        });
+    }
+
+    private void goToNutritionChart() {
+        Fragment fragment = RecipeNutritionFragment.newInstance(Parcels.wrap(recipe));
+        MainActivity.switchFragment(fragment);
     }
 
     // Helper class to properly display number of reviews

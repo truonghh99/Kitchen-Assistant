@@ -35,7 +35,6 @@ import com.example.kitchen_assistant.models.HistoryEntry;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.Review;
-import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.parceler.Parcels;
@@ -180,7 +179,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
-        inflater.inflate(R.menu.menu_nutrition_toolbar, menu);
+        inflater.inflate(R.menu.menu_recipe_toolbar, menu);
         MenuItem miChart = menu.findItem(R.id.miChart);
         miChart.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
