@@ -128,4 +128,8 @@ public class ChartHelper {
         pieChart.getDescription().setEnabled(false);
         pieChart.invalidate(); // refresh
     }
+
+    public static void drawCaloriesByNutritionChart(float calories, float carbs, float protein, float fat, float total, PieChart pieChart, final Context context) {
+
+    }
 }
