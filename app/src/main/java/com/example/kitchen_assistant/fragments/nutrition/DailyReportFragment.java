@@ -4,46 +4,44 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.activities.MainActivity;
+import com.example.kitchen_assistant.databinding.FragmentDailyReportBinding;
+import com.example.kitchen_assistant.databinding.FragmentRecipeNutritionBinding;
+import com.example.kitchen_assistant.helpers.ChartHelper;
+import com.example.kitchen_assistant.models.Recipe;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DailyReportFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.parceler.Parcels;
+
+import java.util.Date;
+
 public class DailyReportFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String KEY_DATE = "date";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Recipe recipe;
+
+    private FragmentDailyReportBinding fragmentDailyReportBinding;
+    private BarChart bcNutrition;
+    private PieChart pcCalories;
+    private TextView tvCalories;
+    private Date date;
 
     public DailyReportFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DailyReportFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DailyReportFragment newInstance(String param1, String param2) {
+    public static DailyReportFragment newInstance(Parcelable date) {
         DailyReportFragment fragment = new DailyReportFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable(KEY_DATE, date);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,15 +50,24 @@ public class DailyReportFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            date = Parcels.unwrap(getArguments().getParcelable(KEY_DATE));
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_daily_report, container, false);
+        fragmentDailyReportBinding = FragmentDailyReportBinding.inflate(getLayoutInflater());
+        bcNutrition = fragmentDailyReportBinding.bcNutrition;
+        pcCalories = fragmentDailyReportBinding.pcCalories;
+
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(recipe.getName());
+
+        tvCalories.setText(recipe.getNutrition().getCalories() + " kcal");
+
+        ChartHelper.drawNutritionBarChart(recipe.getNutrition().getCarbs(), recipe.getNutrition().getProtein(), recipe.getNutrition().getFat(), bcNutrition, getContext());
+        ChartHelper.drawCaloriesPercentageChart(recipe.getNutrition().getCalories(), 1200, pcCalories, getContext()); // TODO: Change total to user's customized goal
+
+        return fragmentDailyReportBinding.getRoot();
     }
 }

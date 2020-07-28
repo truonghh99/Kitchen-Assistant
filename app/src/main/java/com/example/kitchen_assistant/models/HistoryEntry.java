@@ -56,7 +56,6 @@ public class HistoryEntry extends ParseObject {
         lastProtein += entry.getCumulativeProtein();
         lastCarbs += entry.getCumulativeCarbs();
         lastFat += entry.getCumulativeFat();
-        Log.e(TAG, lastCalories + " " + lastCarbs + " " + lastProtein + " " + lastFat);
     }
 
     public void fetchInfo() {
