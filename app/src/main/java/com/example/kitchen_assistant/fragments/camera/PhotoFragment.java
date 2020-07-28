@@ -1,4 +1,4 @@
-package com.example.kitchen_assistant.fragments.products;
+package com.example.kitchen_assistant.fragments.camera;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,30 +18,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentPhotoBinding;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.Review;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import static android.app.Activity.RESULT_OK;

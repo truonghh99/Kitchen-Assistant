@@ -1,22 +1,15 @@
 package com.example.kitchen_assistant.fragments.recipes;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,16 +17,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kitchen_assistant.activities.MainActivity;
-import com.example.kitchen_assistant.adapters.IngredientAdapter;
 import com.example.kitchen_assistant.adapters.IngredientComposeAdapter;
-import com.example.kitchen_assistant.clients.Spoonacular;
-import com.example.kitchen_assistant.databinding.FragmentNewRecipeDetailBinding;
 import com.example.kitchen_assistant.databinding.FragmentRecipeComposeBinding;
-import com.example.kitchen_assistant.fragments.products.PhotoFragment;
+import com.example.kitchen_assistant.fragments.camera.PhotoFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;
@@ -45,15 +34,9 @@ import com.parse.ParseException;
 
 import org.parceler.Parcels;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import static android.app.Activity.RESULT_OK;
 
 public class RecipeComposeFragment extends Fragment {
 

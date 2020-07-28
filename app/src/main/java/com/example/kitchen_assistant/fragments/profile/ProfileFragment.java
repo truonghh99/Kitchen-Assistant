@@ -1,11 +1,14 @@
 package com.example.kitchen_assistant.fragments.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,8 @@ import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.parse.ParseUser;
 
+import org.parceler.Parcels;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ProfileFragment#newInstance} factory method to
@@ -30,6 +35,7 @@ import com.parse.ParseUser;
  */
 public class ProfileFragment extends Fragment {
 
+    private static final int REQUEST_CODE = 100;
     private final String TAG = "ProfileFragment";
     private User user;
 
@@ -89,10 +95,7 @@ public class ProfileFragment extends Fragment {
         tvShoppingItems = fragmentProfileBinding.tvShoppingItems;
         ivEdit = fragmentProfileBinding.ivEdit;
 
-        GlideHelper.loadAvatar(user.getProfileImage().getUrl(), getContext(), ivProfileImage);
-        tvUsername.setText("@" + user.getUsername());
-        tvName.setText(user.getName());
-        tvCaloriesGoal.setText(user.getCaloriesGoal() + " kcal");
+        bindFromUserInfo();
 
         tvNumRecipes.setText(numRecipes + " recipes");
         tvNumProducts.setText(numProducts + " products");
@@ -141,7 +144,22 @@ public class ProfileFragment extends Fragment {
     }
 
     private void goToEdit() {
-        DialogFragment dialogFragment = EditProfileFragment.newInstance();
+        DialogFragment dialogFragment = EditProfileFragment.newInstance(Parcels.wrap(user));
+        dialogFragment.setTargetFragment(this, REQUEST_CODE);
         dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        bindFromUserInfo();
+    }
+
+    private void bindFromUserInfo() {
+        Log.e(TAG, "BINDING");
+        GlideHelper.loadAvatar(user.getProfileImage().getUrl(), getContext(), ivProfileImage);
+        tvUsername.setText("@" + user.getUsername());
+        tvName.setText(user.getName());
+        tvCaloriesGoal.setText(user.getCaloriesGoal() + " kcal");
     }
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
@@ -20,9 +19,8 @@ import android.widget.TextView;
 
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentReviewComposeBinding;
-import com.example.kitchen_assistant.fragments.products.PhotoFragment;
+import com.example.kitchen_assistant.fragments.camera.PhotoFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
-import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.Review;
 

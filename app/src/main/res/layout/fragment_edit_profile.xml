@@ -95,7 +95,17 @@
             android:layout_marginStart="5dp"
             android:textColor="@color/black"
             android:inputType="number"
-            android:text="kcal/day" />
+            android:text="kcal" />
 
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/btSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/rlCaloriesGoal"
+        android:layout_marginTop="10dp"
+        android:text="Save"
+        android:backgroundTint="@color/colorPrimary"/>
 </RelativeLayout>

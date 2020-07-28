@@ -1,33 +1,24 @@
-package com.example.kitchen_assistant.fragments.products;
+package com.example.kitchen_assistant.fragments.camera;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
-import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
-import android.hardware.camera2.CameraMetadata;
-import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
-import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -35,25 +26,18 @@ import android.os.HandlerThread;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseArray;
-import android.util.SparseIntArray;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.kitchen_assistant.R;
-import com.example.kitchen_assistant.activities.MainActivity;
-import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.databinding.FragmentScannerBinding;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.util.Collections;
-
-import static androidx.core.content.ContextCompat.getSystemService;
 
 /**
  * A simple {@link Fragment} subclass.

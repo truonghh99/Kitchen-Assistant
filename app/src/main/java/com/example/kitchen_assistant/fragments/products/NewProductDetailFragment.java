@@ -7,8 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -17,16 +15,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentNewProductDetailBinding;
+import com.example.kitchen_assistant.fragments.camera.PhotoFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.MatchingHelper;
 import com.example.kitchen_assistant.helpers.MetricConverter;
-import com.example.kitchen_assistant.helpers.SpinnerHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.storage.CurrentProducts;

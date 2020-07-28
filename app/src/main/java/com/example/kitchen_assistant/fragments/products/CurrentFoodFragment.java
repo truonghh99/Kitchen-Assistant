@@ -30,6 +30,7 @@ import com.example.kitchen_assistant.adapters.CurrentFoodAdapter;
 import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodBinding;
+import com.example.kitchen_assistant.fragments.camera.ScannerFragment;
 import com.example.kitchen_assistant.fragments.profile.ProfileFragment;
 import com.example.kitchen_assistant.fragments.recipes.RecipeExploreFragment;
 import com.example.kitchen_assistant.helpers.MatchingHelper;
