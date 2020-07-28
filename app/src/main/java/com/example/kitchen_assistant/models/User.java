@@ -19,12 +19,16 @@ public class User {
 
     // Keys for Parse
     public static final String KEY_USERNAME = "username";
+    public static final String KEY_NAME = "name";
     public static final String KEY_PROFILE_IMG = "profileImage";
+    public static final String KEY_CALORIES_GOAL = "caloriesGoal";
 
     // Local values
     private ParseUser user;
     private String username;
     private ParseFile profileImage;
+    private String name;
+    private Float caloriesGoal;
 
     public static User fetchFromUserId(String userId) {
         Log.e(TAG, "Finding user with user id: " + userId);
@@ -56,11 +60,15 @@ public class User {
         }
         username = user.getString(KEY_USERNAME);
         profileImage = user.getParseFile(KEY_PROFILE_IMG);
+        name = user.getString(KEY_NAME);
+        caloriesGoal = user.getNumber(KEY_CALORIES_GOAL).floatValue();
     }
 
     public void saveInfo() {
         user.put(KEY_PROFILE_IMG, profileImage);
         user.put(KEY_USERNAME, username);
+        user.put(KEY_NAME, name);
+        user.put(KEY_CALORIES_GOAL, caloriesGoal);
         user.saveInBackground();
     }
 
@@ -79,4 +87,21 @@ public class User {
     public void setProfileImage(ParseFile profileImage) {
         this.profileImage = profileImage;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public float getCaloriesGoal() {
+        return caloriesGoal;
+    }
+
+    public void setCaloriesGoal(float goal) {
+        caloriesGoal = goal;
+    }
+
 }

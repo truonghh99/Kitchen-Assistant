@@ -131,4 +131,8 @@ public class CurrentProducts {
     public static Product getProductWithCode(String code) {
         return productHashMap.get(code);
     }
+
+    public static int getCurrentNumProducts() {
+        return products.size();
+    }
 }

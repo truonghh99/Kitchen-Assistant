@@ -100,4 +100,7 @@ public class CurrentShoppingList {
         ShoppingListFragment.notifyDataChange();
     }
 
+    public static int getCurrentNumItems() {
+        return items.size();
+    }
 }

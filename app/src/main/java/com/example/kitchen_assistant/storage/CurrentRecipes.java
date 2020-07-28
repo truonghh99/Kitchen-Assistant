@@ -133,4 +133,8 @@ public class CurrentRecipes {
     public static HashMap<String, Recipe> getRecipeHashmap() {
         return recipeHashMap;
     }
+
+    public static int getCurrentNumRecipes() {
+        return recipes.size();
+    }
 }

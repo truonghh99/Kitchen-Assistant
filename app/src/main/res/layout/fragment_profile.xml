@@ -94,7 +94,7 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tvCaloriesGOal"
+                    android:id="@+id/tvCaloriesGoal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -171,7 +171,7 @@
             app:cardCornerRadius="10dp">
 
             <TextView
-                android:id="@+id/tvShoppingItem"
+                android:id="@+id/tvShoppingItems"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"

@@ -2,13 +2,24 @@ package com.example.kitchen_assistant.fragments.nutrition;
 
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.databinding.FragmentProfileBinding;
+import com.example.kitchen_assistant.helpers.GlideHelper;
+import com.example.kitchen_assistant.models.Product;
+import com.example.kitchen_assistant.models.User;
+import com.example.kitchen_assistant.storage.CurrentProducts;
+import com.example.kitchen_assistant.storage.CurrentRecipes;
+import com.example.kitchen_assistant.storage.CurrentShoppingList;
+import com.parse.ParseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,50 +28,72 @@ import com.example.kitchen_assistant.R;
  */
 public class ProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private final String TAG = "ProfileFragment";
+    private User user;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int numProducts;
+    private int numRecipes;
+    private int numShoppingItems;
+    private int usingDays;
+
+    private FragmentProfileBinding fragmentProfileBinding;
+    private ImageView ivProfileImage;
+    private TextView tvName;
+    private TextView tvUsername;
+    private TextView tvCaloriesGoal;
+    private CardView cvProducts;
+    private CardView cvRecipes;
+    private CardView cvHistory;
+    private CardView cvShoppingList;
+    private TextView tvNumProducts;
+    private TextView tvNumRecipes;
+    private TextView tvHistory;
+    private TextView tvShoppingItems;
 
     public ProfileFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
+    public static ProfileFragment newInstance() {
         ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        String userId = ParseUser.getCurrentUser().getObjectId();
+        user = User.fetchFromUserId(userId);
+        numProducts = CurrentProducts.getCurrentNumProducts();
+        numRecipes = CurrentRecipes.getCurrentNumRecipes();
+        numShoppingItems = CurrentShoppingList.getCurrentNumItems();
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        fragmentProfileBinding = FragmentProfileBinding.inflate(getLayoutInflater());
+        ivProfileImage = fragmentProfileBinding.ivProfileImage;
+        tvName = fragmentProfileBinding.tvName;
+        tvUsername = fragmentProfileBinding.tvUsername;
+        tvCaloriesGoal = fragmentProfileBinding.tvCaloriesGoal;
+        cvProducts = fragmentProfileBinding.cvProducts;
+        cvRecipes = fragmentProfileBinding.cvRecipe;
+        cvHistory = fragmentProfileBinding.cvHistory;
+        cvShoppingList = fragmentProfileBinding.cvShoppingList;
+        tvNumRecipes = fragmentProfileBinding.tvNumRecipes;
+        tvNumProducts = fragmentProfileBinding.tvNumProducts;
+        tvHistory = fragmentProfileBinding.tvHistory;
+        tvShoppingItems = fragmentProfileBinding.tvShoppingItems;
+
+        GlideHelper.loadAvatar(user.getProfileImage().getUrl(), getContext(), ivProfileImage);
+        tvUsername.setText(user.getUsername());
+        tvName.setText(user.getName());
+        tvCaloriesGoal.setText("" + user.getCaloriesGoal());
+
+        tvNumRecipes.setText(numRecipes + " recipes");
+        tvNumProducts.setText(numProducts + " products");
+        tvShoppingItems.setText(numShoppingItems + " items in shopping list");
+
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 }
