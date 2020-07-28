@@ -47,8 +47,8 @@ public class HistoryReportFragment extends Fragment {
     public HistoryReportFragment() {
     }
 
-    public static DailyReportFragment newInstance() {
-        DailyReportFragment fragment = new DailyReportFragment();
+    public static HistoryReportFragment newInstance() {
+        HistoryReportFragment fragment = new HistoryReportFragment();
         return fragment;
     }
 

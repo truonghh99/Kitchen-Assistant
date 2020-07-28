@@ -32,7 +32,7 @@ public class TimeConverter {
     public static Date addOneDay(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.set(Calendar.DATE, 1);
+        calendar.add(Calendar.DATE, 1);
         return calendar.getTime();
     }
 }

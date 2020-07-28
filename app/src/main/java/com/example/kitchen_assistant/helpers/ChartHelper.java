@@ -150,9 +150,17 @@ public class ChartHelper {
             ++i;
         }
         LineDataSet dataSet = new LineDataSet(values, "Daily Calories Intake");
-        LineData data = new LineData(dataSet);
+        dataSet.setLineWidth(2);
+        dataSet.setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
 
+        LineData data = new LineData(dataSet);
+        data.setValueTextSize(VALUE_TEXT_SIZE);
+        data.setValueTextColor(ContextCompat.getColor(context, R.color.grey));
+
+        lineChart.getXAxis().setValueFormatter(getNutritionXAxisFormatter());
         lineChart.setData(data);
+        lineChart.getDescription().setEnabled(false);
+        lineChart.setTouchEnabled(false);
         lineChart.invalidate();
     }
 }

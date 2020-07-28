@@ -53,10 +53,10 @@ public class HistoryEntry extends ParseObject {
     }
 
     public static void updateLatestEntry(HistoryEntry entry) {
-        lastCalories += entry.getCumulativeCalories();
-        lastProtein += entry.getCumulativeProtein();
-        lastCarbs += entry.getCumulativeCarbs();
-        lastFat += entry.getCumulativeFat();
+        lastCalories = entry.getCumulativeCalories();
+        lastProtein = entry.getCumulativeProtein();
+        lastCarbs = entry.getCumulativeCarbs();
+        lastFat = entry.getCumulativeFat();
     }
 
     public void fetchInfo() {

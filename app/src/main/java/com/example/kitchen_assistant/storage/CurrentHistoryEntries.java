@@ -84,14 +84,14 @@ public class CurrentHistoryEntries {
         int pos = Arrays.binarySearch(getListOfDates(entries), startDate);
         if (pos < 0) pos *= -1; // First date within bound + 1;
         //Log.e(TAG, "FIRST: " + (pos - 2));
-        return entries.get(pos - 2); // Last day before startDate
+        return entries.get(Math.max(0, pos - 2)); // Last day before startDate
     }
 
     public static HistoryEntry getLastWithUpperBound(Date endDate) {
         int pos = Arrays.binarySearch(getListOfDates(entries), endDate);
         if (pos < 0) pos *= -1; // First date out of bound + 1
         //Log.e(TAG, "LAST: " + (pos - 2));
-        return entries.get(pos - 2); // Last date within bound
+        return entries.get(Math.max(0, pos - 2)); // Last date within bound
     }
 
     private static Date[] getListOfDates(List<HistoryEntry> entries) {

@@ -23,6 +23,7 @@ import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.LoginActivity;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentProfileBinding;
+import com.example.kitchen_assistant.fragments.nutrition.HistoryReportFragment;
 import com.example.kitchen_assistant.fragments.nutrition.RecipeNutritionFragment;
 import com.example.kitchen_assistant.fragments.recipes.InstructionFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
@@ -168,6 +169,13 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        cvHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToHistory();
+            }
+        });
+
         ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,6 +195,11 @@ public class ProfileFragment extends Fragment {
 
     private void goToShoppingList() {
         MainActivity.bottomNavigation.setSelectedItemId(R.id.miShoppingList);
+    }
+
+    private void goToHistory() {
+        HistoryReportFragment historyReportFragment = HistoryReportFragment.newInstance();
+        MainActivity.switchFragment(historyReportFragment);
     }
 
     private void goToEdit() {
