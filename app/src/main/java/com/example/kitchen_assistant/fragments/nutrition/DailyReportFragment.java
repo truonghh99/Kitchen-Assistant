@@ -80,8 +80,8 @@ public class DailyReportFragment extends Fragment {
     }
 
     private void getNutritionInfo(Date startDate, Date endDate) {
-        HistoryEntry lastEntry = CurrentHistoryEntries.getFirstWithLowerBound(startDate);
-        HistoryEntry firstEntry = CurrentHistoryEntries.getLastWithUpperBound(endDate);
+        HistoryEntry firstEntry = CurrentHistoryEntries.getFirstWithLowerBound(startDate);
+        HistoryEntry lastEntry = CurrentHistoryEntries.getLastWithUpperBound(endDate);
 
         calories = lastEntry.getCumulativeCalories() - firstEntry.getCumulativeCalories();
         protein = lastEntry.getCumulativeProtein() - firstEntry.getCumulativeProtein();
