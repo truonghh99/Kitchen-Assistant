@@ -2,11 +2,15 @@ package com.example.kitchen_assistant.fragments.nutrition;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -15,6 +19,7 @@ import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentDailyReportBinding;
 import com.example.kitchen_assistant.databinding.FragmentRecipeNutritionBinding;
+import com.example.kitchen_assistant.fragments.profile.ProfileFragment;
 import com.example.kitchen_assistant.helpers.ChartHelper;
 import com.example.kitchen_assistant.helpers.NutritionHelper;
 import com.example.kitchen_assistant.models.HistoryEntry;
@@ -34,7 +39,7 @@ public class DailyReportFragment extends Fragment {
 
     private static final String KEY_START_DATE = "startDate";
     private static final String KEY_END_DATE = "endDate";
-    private static final String TITTLE = "Today Nutrition Report";
+    private static final String TITLE = "Today Nutrition Report";
     private static final String TAG = "DailyReportFragment";
 
     private FragmentDailyReportBinding fragmentDailyReportBinding;
@@ -70,6 +75,44 @@ public class DailyReportFragment extends Fragment {
         }
         User user = User.fetchFromUserId(ParseUser.getCurrentUser().getObjectId());
         goal = user.getCaloriesGoal();
+        setHasOptionsMenu(true);
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_report_toolbar, menu);
+        ((MainActivity) getContext()).getSupportActionBar().setTitle(TITLE);
+
+        MenuItem miProfile = menu.findItem(R.id.miProfile);
+        MenuItem miHistory = menu.findItem(R.id.miHistory);
+
+        miProfile.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                goToProfile();
+                return true;
+            }
+        });
+
+        miHistory.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                goToHistory();
+                return true;
+            }
+        });
+    }
+
+    private void goToHistory() {
+        HistoryReportFragment fragment = HistoryReportFragment.newInstance();
+        MainActivity.switchFragment(fragment);
+    }
+
+    private void goToProfile() {
+        ProfileFragment fragment = ProfileFragment.newInstance();
+        MainActivity.switchFragment(fragment);
     }
 
     @Override
@@ -79,7 +122,6 @@ public class DailyReportFragment extends Fragment {
         bcNutrition = fragmentDailyReportBinding.bcNutrition;
         pcCalories = fragmentDailyReportBinding.pcCalories;
 
-        ((MainActivity) getContext()).getSupportActionBar().setTitle(TITTLE);
         HashMap<String, Float> nutrition = NutritionHelper.getNutritionInfoInDuration(startDate, endDate);
 
         ChartHelper.drawCaloriesByNutritionChart(nutrition.get("calories"), nutrition.get("carbs"), nutrition.get("protein"), nutrition.get("fat"), goal, pcCalories, getContext());
