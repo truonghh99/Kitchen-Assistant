@@ -90,7 +90,7 @@ public class ReviewFragment extends Fragment {
 
     // Allow user to narrow down list of reviews with some keywords
     private void setUpSearchBar(Menu menu) {
-        MenuItem item = menu.findItem(R.id.action_search);
+        MenuItem item = menu.findItem(R.id.miSearch);
         SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         item.setActionView(searchView);

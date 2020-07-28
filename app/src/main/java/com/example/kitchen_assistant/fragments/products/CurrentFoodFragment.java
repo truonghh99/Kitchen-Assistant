@@ -30,6 +30,8 @@ import com.example.kitchen_assistant.adapters.CurrentFoodAdapter;
 import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodBinding;
+import com.example.kitchen_assistant.databinding.FragmentProfileBinding;
+import com.example.kitchen_assistant.fragments.nutrition.ProfileFragment;
 import com.example.kitchen_assistant.fragments.recipes.RecipeExploreFragment;
 import com.example.kitchen_assistant.helpers.MatchingHelper;
 import com.example.kitchen_assistant.models.FoodItem;
@@ -90,10 +92,11 @@ public class CurrentFoodFragment extends Fragment {
 
     // Set up search view in menu toolbar
     private void setUpSearchView(Menu menu) {
-        MenuItem item = menu.findItem(R.id.action_search);
+        MenuItem miSearch = menu.findItem(R.id.miSearch);
+        MenuItem miProfile = menu.findItem(R.id.miProfile);
+
         SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        item.setActionView(searchView);
+        miSearch.setActionView(searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -113,6 +116,19 @@ public class CurrentFoodFragment extends Fragment {
                     public void onClick(View v) {
                     }
                 });
+
+        miProfile.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                goToProfile();
+                return true;
+            }
+        });
+    }
+
+    private void goToProfile() {
+        ProfileFragment profileFragment = ProfileFragment.newInstance();
+        MainActivity.switchFragment(profileFragment);
     }
 
     // Filter product list based on given query in search bar
