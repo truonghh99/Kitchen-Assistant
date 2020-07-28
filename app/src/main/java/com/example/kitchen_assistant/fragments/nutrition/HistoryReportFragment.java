@@ -70,6 +70,7 @@ public class HistoryReportFragment extends Fragment {
         List<HashMap<String, Float>> dailyHistory = NutritionHelper.getAllDailyNutritionInfo();
 
         ChartHelper.drawCaloriesLineChart(dailyHistory, user.getCaloriesGoal(), lcCalories, getContext());
+        ChartHelper.drawNutritionLineChart(dailyHistory, lcNutrition, getContext());
 
         return fragmentHistoryReportBinding.getRoot();
     }

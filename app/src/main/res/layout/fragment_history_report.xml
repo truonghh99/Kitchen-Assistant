@@ -26,8 +26,8 @@
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/lcCalories"
-                android:layout_width="300dp"
-                android:layout_height="230dp"
+                android:layout_width="350dp"
+                android:layout_height="260dp"
                 android:layout_below="@id/tvCaloriesText"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"/>
@@ -54,8 +54,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/tvNutritionComparisionText"
                 android:layout_marginTop="10dp"
-                android:layout_width="300dp"
-                android:layout_height="300dp" />
+                android:layout_width="350dp"
+                android:layout_height="260dp" />
 
         </RelativeLayout>
     </RelativeLayout>

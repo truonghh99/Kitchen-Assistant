@@ -31,7 +31,7 @@ public class NutritionHelper {
         HistoryEntry lastEntry = CurrentHistoryEntries.getLastWithUpperBound(endDate);
 
         final float calories = lastEntry.getCumulativeCalories() - firstEntry.getCumulativeCalories();
-        final  float protein = lastEntry.getCumulativeProtein() - firstEntry.getCumulativeProtein();
+        final float protein = lastEntry.getCumulativeProtein() - firstEntry.getCumulativeProtein();
         final float carbs = lastEntry.getCumulativeCarbs() - firstEntry.getCumulativeCarbs();
         final float fat = lastEntry.getCumulativeFat() - firstEntry.getCumulativeFat();
 

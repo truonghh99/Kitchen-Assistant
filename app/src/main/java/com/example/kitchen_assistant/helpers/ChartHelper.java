@@ -151,9 +151,55 @@ public class ChartHelper {
         }
         LineDataSet dataSet = new LineDataSet(values, "Daily Calories Intake");
         dataSet.setLineWidth(2);
-        dataSet.setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+        dataSet.setColor(ContextCompat.getColor(context, R.color.calories));
+        dataSet.setDrawValues(false);
 
         LineData data = new LineData(dataSet);
+        data.setValueTextSize(VALUE_TEXT_SIZE);
+        data.setValueTextColor(ContextCompat.getColor(context, R.color.grey));
+
+        lineChart.getXAxis().setValueFormatter(getNutritionXAxisFormatter());
+        lineChart.setData(data);
+        lineChart.getDescription().setEnabled(false);
+        lineChart.setTouchEnabled(false);
+        lineChart.invalidate();
+    }
+
+    public static void drawNutritionLineChart(List<HashMap<String, Float>> nutritionEntries, LineChart lineChart, final Context context) {
+        ArrayList<Entry> carbs = new ArrayList<>();
+        ArrayList<Entry> protein = new ArrayList<>();
+        ArrayList<Entry> fat = new ArrayList<>();
+        int i = 1;
+        for (HashMap<String, Float> entry : nutritionEntries) {
+            carbs.add(new Entry(i, entry.get("carbs")));
+            protein.add(new Entry(i, entry.get("protein")));
+            fat.add(new Entry(i, entry.get("fat")));
+            ++i;
+        }
+
+        LineDataSet carbsSet = new LineDataSet(carbs, "Carbs");
+        LineDataSet proteinSet = new LineDataSet(protein, "Protein");
+        LineDataSet fatSet = new LineDataSet(fat, "Fat");
+
+        carbsSet.setDrawValues(false);
+        proteinSet.setDrawValues(false);
+        fatSet.setDrawValues(false);
+
+        carbsSet.setColor(ContextCompat.getColor(context, R.color.carbs));
+        proteinSet.setColor(ContextCompat.getColor(context, R.color.protein));
+        fatSet.setColor(ContextCompat.getColor(context, R.color.fat));
+
+        carbsSet.setLineWidth(2);
+        proteinSet.setLineWidth(2);
+        fatSet.setLineWidth(2);
+
+        ArrayList dataSets = new ArrayList();
+        dataSets.add(carbsSet);
+        dataSets.add(proteinSet);
+        dataSets.add(fatSet);
+
+        LineData data = new LineData(dataSets);
+
         data.setValueTextSize(VALUE_TEXT_SIZE);
         data.setValueTextColor(ContextCompat.getColor(context, R.color.grey));
 
