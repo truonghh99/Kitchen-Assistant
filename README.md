@@ -54,9 +54,9 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
 * [x] Display average rating of each recipe
 * [x] Allow user to attach image to their reviews
 * [x] Display all reviews of a recipe
-* [ ] Support live-scanning
+* [x] Support live-scanning
 * [x] Get suggested recipe from external databse
-* [ ] Allow users to login using Facebook & Google account
+* [x] Allow users to login using Facebook account
 * [x] Have a daily calorie tracking screen
 * [x] Allow user to view nutrition information of a recipe
 * [x] Allow user to view their daily/weekly/monthly nutrition report
