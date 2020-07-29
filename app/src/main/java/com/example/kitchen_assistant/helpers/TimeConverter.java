@@ -43,8 +43,8 @@ public class TimeConverter {
     }
 
     public static long dayDifference(Date date1, Date date2) {
-        long difference =  date2.getTime() - date1.getTime();
+        long difference = getLastOfDate(date2).getTime() - getFirstOfDate(date1).getTime();
         difference = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
-        return difference + 2;
+        return difference + 1;
     }
 }

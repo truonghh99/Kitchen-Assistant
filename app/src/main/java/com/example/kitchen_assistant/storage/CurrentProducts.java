@@ -64,6 +64,7 @@ public class CurrentProducts {
         ParseQuery<Product> query = ParseQuery.getQuery(Product.class);
         query.whereGreaterThan("currentQuantity", 0);
         query.addDescendingOrder("createdAt");
+        query.whereContains("owner", ParseUser.getCurrentUser().getObjectId());
         query.include("foodType");
 
         query.findInBackground(new FindCallback<Product>() {

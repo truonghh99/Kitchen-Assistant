@@ -176,7 +176,7 @@ public class CurrentFoodFragment extends Fragment {
         btScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onLaunchScanner();
+                onLaunchCamera();
             }
         });
 
