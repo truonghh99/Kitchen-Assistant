@@ -10,6 +10,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class CurrentHistoryEntries {
         entries = new ArrayList<>();
         ParseQuery<HistoryEntry> query = ParseQuery.getQuery(HistoryEntry.class);
         query.addAscendingOrder("createdAt");
-
+        query.whereContains("userId", ParseUser.getCurrentUser().getObjectId());
         query.findInBackground(new FindCallback<HistoryEntry>() {
             @Override
             public void done(List<HistoryEntry> newItems, ParseException e) {
@@ -70,7 +71,7 @@ public class CurrentHistoryEntries {
             entry.fetchInfo();
             entries.add(entry);
         }
-        HistoryEntry.updateLatestEntry(entries.get(entries.size() - 1));
+        if (entries.size() > 0) HistoryEntry.updateLatestEntry(entries.get(entries.size() - 1));
     }
 
     public static void removeEntry(HistoryEntry entry) {

@@ -9,6 +9,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public class CurrentShoppingList {
         itemHashMap = new HashMap<>();
         ParseQuery<ShoppingItem> query = ParseQuery.getQuery(ShoppingItem.class);
         query.addDescendingOrder("createdAt");
+        query.whereContains("owner", ParseUser.getCurrentUser().getObjectId());
 
         query.findInBackground(new FindCallback<ShoppingItem>() {
             @Override
