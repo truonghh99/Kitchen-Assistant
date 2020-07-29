@@ -217,7 +217,7 @@ public class CurrentFoodFragment extends Fragment {
 
     public void onLaunchScanner() {
         ScannerFragment scannerFragment = ScannerFragment.newInstance();
-//        scannerFragment.setTargetFragment(this, SCANNER_REQUEST_CODE);
+        scannerFragment.setTargetFragment(this, SCANNER_REQUEST_CODE);
 //        MainActivity.switchFragment(scannerFragment);
         scannerFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
@@ -268,6 +268,7 @@ public class CurrentFoodFragment extends Fragment {
         }
         if (requestCode == SCANNER_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
+                Log.e(TAG, "GOT CODE FROM SCANNER");
                 String code = data.getStringExtra(ScannerFragment.KEY_CODE);
                 goToNewProductDetail(code);
             }

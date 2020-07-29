@@ -475,12 +475,11 @@ public class ScannerFragment extends DialogFragment {
             Log.e(TAG, "CANNOT DETECT BAR CODE!");
         }
         if (resultCode != null) {
-            closeCamera();
-            stopBackgroundThread();
             Intent intent = new Intent();
             intent.putExtra(KEY_CODE, resultCode.rawValue);
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-            getActivity().getFragmentManager().popBackStack();
+            closeCamera();
+            dismiss();
         }
     }
 }
