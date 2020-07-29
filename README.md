@@ -78,9 +78,9 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
     * Support converting current food to shopping list item
     * Be able to suggest recipes based on selected food item 
 * Food scanner
-    * Be able to read food information via QR code
+    * Be able to read food information via barcode
 * New food detail
-    * Be able to read food information via QR code
+    * Be able to read food information via barcode
     * Allow user to update their current food (add, delete, edit)
 * Recipes
     * Be able to store recipe list of each user
