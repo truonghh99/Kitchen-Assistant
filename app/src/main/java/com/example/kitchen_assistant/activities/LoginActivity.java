@@ -25,6 +25,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.facebook.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -53,6 +54,8 @@ public class LoginActivity extends AppCompatActivity {
     private String password;
     private Button btLoginFacebook;
     private CallbackManager callbackManager;
+    private String name;
+    private ParseFile profileImg;
 
     private ActivityLoginBinding activityLoginBinding;
     @Override
@@ -121,32 +124,37 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
     private void getUserDetailsFromFB() {
+
         Bundle parameters = new Bundle();
         parameters.putString("fields", "email,name,picture");
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me",
-                parameters,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
+        new GraphRequest(AccessToken.getCurrentAccessToken(), "/me", parameters, HttpMethod.GET, new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
+                        /* handle the result */
                         try {
 
                             email = response.getJSONObject().getString("email");
                             name = response.getJSONObject().getString("name");
+
                             JSONObject picture = response.getJSONObject().getJSONObject("picture");
                             JSONObject data = picture.getJSONObject("data");
 
-                            //  Returns a 50x50 profile picture
-                            String pictureUrl = data.getString("url");
+                            saveNewUser(email, name);
+                            // Get profile image. Link: https://blog.iamsuleiman.com/facebook-login-with-parse-part-2/
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }
         ).executeAsync();
+    }
+
+    private void saveNewUser(String email, String name) {
+        ParseUser parseUser = ParseUser.getCurrentUser();
+        parseUser.setUsername(name);
+        parseUser.setEmail(email);
+        parseUser.saveInBackground();
+        goMainActivity();
     }
 
     private void loginUser(String username, String password) {

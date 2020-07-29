@@ -25,10 +25,10 @@ public class User {
 
     // Local values
     private ParseUser user;
-    private String username;
+    private String username = "nousername";
     private ParseFile profileImage;
-    private String name;
-    private Float caloriesGoal;
+    private String name = "No name available";
+    private Float caloriesGoal = (float) 1200;
 
     public static User fetchFromUserId(String userId) {
         Log.e(TAG, "Finding user with user id: " + userId);
@@ -61,7 +61,7 @@ public class User {
         username = user.getString(KEY_USERNAME);
         profileImage = user.getParseFile(KEY_PROFILE_IMG);
         name = user.getString(KEY_NAME);
-        caloriesGoal = user.getNumber(KEY_CALORIES_GOAL).floatValue();
+        if (user.getNumber(KEY_CALORIES_GOAL) != null) caloriesGoal = user.getNumber(KEY_CALORIES_GOAL).floatValue();
     }
 
     public void saveInfo() {
