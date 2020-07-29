@@ -14,6 +14,7 @@ import com.example.kitchen_assistant.models.ShoppingItem;
 import com.example.kitchen_assistant.models.User;
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.facebook.ParseFacebookUtils;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -51,5 +52,7 @@ public class ParseApplication extends Application {
                 .clientKey("kitchen-assistant-hatruong99")  // set explicitly unless clientKey is explicitly configured on Parse server
                 .clientBuilder(builder)
                 .server("https://kitchen-assistant-hatruong99.herokuapp.com/parse/").build());
+
+        ParseFacebookUtils.initialize(getApplicationContext());
     }
 }

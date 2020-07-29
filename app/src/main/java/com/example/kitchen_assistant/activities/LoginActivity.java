@@ -14,14 +14,33 @@ import android.widget.Toast;
 import com.example.kitchen_assistant.databinding.ActivityLoginBinding;
 import com.example.kitchen_assistant.models.User;
 import com.example.kitchen_assistant.storage.CurrentProducts;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.facebook.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
+import javax.annotation.Nullable;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -32,11 +51,14 @@ public class LoginActivity extends AppCompatActivity {
     private RelativeLayout rlSignup;
     private String email;
     private String password;
+    private Button btLoginFacebook;
+    private CallbackManager callbackManager;
 
     private ActivityLoginBinding activityLoginBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         activityLoginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(activityLoginBinding.getRoot());
 
@@ -49,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = activityLoginBinding.etPassword;
         btnLogin = activityLoginBinding.btnLogin;
         rlSignup = activityLoginBinding.rlSignUp;
+        btLoginFacebook = activityLoginBinding.btLoginFacebook;
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +92,61 @@ public class LoginActivity extends AppCompatActivity {
                 goSignUpActivity();
             }
         });
+
+        final ArrayList<String> permissions = new ArrayList<String>() {
+            {
+                add("public_profile");
+            }
+        };
+        btLoginFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e(TAG, "CLICKED");
+                ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this, permissions, new LogInCallback() {
+                    @Override
+                    public void done(ParseUser user, ParseException err) {
+                        if (user == null) {
+                            ParseUser.logOut();
+                            Log.e(TAG, "The user cancelled the Facebook login.");
+                        } else if (user.isNew()) {
+                            Log.e(TAG, "User signed up and logged in through Facebook!");
+                            getUserDetailsFromFB();
+                        } else {
+                            Log.e(TAG, "User logged in through Facebook!");
+                            Toast.makeText(getApplicationContext(), "Successfully Logged In!", Toast.LENGTH_SHORT);
+                            goMainActivity();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void getUserDetailsFromFB() {
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "email,name,picture");
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me",
+                parameters,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        try {
+
+                            email = response.getJSONObject().getString("email");
+                            name = response.getJSONObject().getString("name");
+                            JSONObject picture = response.getJSONObject().getJSONObject("picture");
+                            JSONObject data = picture.getJSONObject("data");
+
+                            //  Returns a 50x50 profile picture
+                            String pictureUrl = data.getString("url");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        ).executeAsync();
     }
 
     private void loginUser(String username, String password) {
@@ -95,5 +173,11 @@ public class LoginActivity extends AppCompatActivity {
     private void goSignUpActivity() {
         startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
 }

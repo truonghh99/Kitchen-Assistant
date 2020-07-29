@@ -53,8 +53,6 @@
         android:background="@color/colorPrimary"
         android:text="Log In" />
 
-
-
     <RelativeLayout
         android:id="@+id/rlSignUp"
         android:layout_width="wrap_content"
@@ -84,6 +82,19 @@
             android:textStyle="bold" />
 
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/btLoginFacebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlSignUp"
+        android:backgroundTint="@color/com_facebook_blue"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:padding="15dp"
+        android:text="Log in with Facebook"
+        android:textColor="@color/white"
+        android:layout_marginBottom="30dp" />
 
 
 </RelativeLayout>
