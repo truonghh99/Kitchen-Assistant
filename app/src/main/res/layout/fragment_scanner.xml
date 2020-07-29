@@ -6,7 +6,9 @@
 
     <TextureView
         android:id="@+id/texture_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="300dp"
+        android:layout_height="400dp" />
 
 </RelativeLayout>
