@@ -38,8 +38,9 @@ public class ShoppingListFragment extends Fragment {
 
     private FragmentShoppingListBinding fragmentShoppingListBinding;
     private RecyclerView rvShoppingList;
-    private FloatingActionButton btSearch;
+    private FloatingActionButton btShare;
     private FloatingActionButton btAdd;
+    private FloatingActionButton btMenuOpen;
     private static List<ShoppingItem> items;
     private static ShoppingListAdapter adapter;
 
@@ -62,7 +63,8 @@ public class ShoppingListFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentShoppingListBinding = FragmentShoppingListBinding.inflate(getLayoutInflater());
         btAdd = fragmentShoppingListBinding.btAdd;
-        btSearch = fragmentShoppingListBinding.btSearch;
+        btShare = fragmentShoppingListBinding.btShare;
+        btMenuOpen = fragmentShoppingListBinding.btMenuOpen;
         rvShoppingList = fragmentShoppingListBinding.rvShoppingList;
 
         // Set up recycler view & adapter
@@ -81,7 +83,23 @@ public class ShoppingListFragment extends Fragment {
             }
         });
 
+        btMenuOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openOrCloseFabMenu();
+            }
+        });
         return fragmentShoppingListBinding.getRoot();
+    }
+
+    private void openOrCloseFabMenu() {
+        if (btAdd.getVisibility() == View.INVISIBLE) {
+            btAdd.setVisibility(View.VISIBLE);
+            btShare.setVisibility(View.VISIBLE);
+        } else {
+            btAdd.setVisibility(View.INVISIBLE);
+            btShare.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void setUpSlideToRemove() {
