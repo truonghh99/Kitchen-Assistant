@@ -42,10 +42,13 @@ public class ChartHelper {
     private static final String TAG = "Chart Helper";
 
     public static void drawNutritionBarChart(float carbs, float protein, float fat, BarChart barChart, Context context) {
+
+        // Create chart entries (each value should be plotted as a different entry)
         BarEntry beCarbs = new BarEntry(1, carbs);
         BarEntry beProtein = new BarEntry(2, protein);
         BarEntry beFat = new BarEntry(3, fat);
 
+        // Create value set from entries (here, each of my set only contains one entry)
         ArrayList carbSet = new ArrayList();
         carbSet.add(beCarbs);
 
@@ -55,15 +58,16 @@ public class ChartHelper {
         ArrayList fatSet = new ArrayList();
         fatSet.add(beFat);
 
+        // Create data sets for each value set with customized labels
         BarDataSet carbDataSet = new BarDataSet(carbSet, "Carbs");
-        carbDataSet.setColors(ContextCompat.getColor(context, R.color.carbs));
-
         BarDataSet proteinDataSet = new BarDataSet(proteinSet, "Protein");
-        proteinDataSet.setColors(ContextCompat.getColor(context, R.color.protein));
-
         BarDataSet fatDataSet = new BarDataSet(fatSet, "Fat");
-        fatDataSet.setColors(ContextCompat.getColor(context, R.color.fat));
 
+        carbDataSet.setColor(ContextCompat.getColor(context, R.color.carbs));
+        proteinDataSet.setColor(ContextCompat.getColor(context, R.color.protein));
+        fatDataSet.setColor(ContextCompat.getColor(context, R.color.fat));
+
+        // Create chart data. Here I have multiple groups and hence, a collection of data sets
         ArrayList dataSets = new ArrayList();
         dataSets.add(carbDataSet);
         dataSets.add(proteinDataSet);
@@ -73,6 +77,7 @@ public class ChartHelper {
         data.setValueTextSize(VALUE_TEXT_SIZE);
 
         barChart.setData(data);
+
         data.setBarWidth(BAR_WIDTH); // set custom bar width
 
         XAxis xAxis = barChart.getXAxis();

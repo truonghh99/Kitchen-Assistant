@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (user == null) {
                             ParseUser.logOut();
                             Log.e(TAG, "The user cancelled the Facebook login.");
+                            Toast.makeText(getApplicationContext(), "Facebook log in was unsuccessful. Please try again.", Toast.LENGTH_SHORT);
                         } else if (user.isNew()) {
                             Log.e(TAG, "User signed up and logged in through Facebook!");
                             getUserDetailsFromFB();
@@ -130,7 +131,6 @@ public class LoginActivity extends AppCompatActivity {
         parameters.putString("fields", "email,name,picture");
         new GraphRequest(AccessToken.getCurrentAccessToken(), "/me", parameters, HttpMethod.GET, new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-                        /* handle the result */
                         try {
 
                             email = response.getJSONObject().getString("email");
