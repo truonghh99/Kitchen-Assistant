@@ -32,6 +32,7 @@ import org.parceler.Parcels;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -201,8 +202,15 @@ public class PhotoFragment extends Fragment {
             // If user chose to capture new image
             case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
-                    Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                    ivCamera.setImageBitmap(takenImage);
+                    OutputStream os = null;
+                    try {
+                        os = new BufferedOutputStream(new FileOutputStream(photoFile));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, IMAGE_QUALITY, os);
+                    ivCamera.setImageBitmap(bitmap);
                 } else {
                     Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
                 }
