@@ -198,19 +198,12 @@ public class PhotoFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Bitmap bitmap = null;
         switch (requestCode) {
             // If user chose to capture new image
             case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
-                    OutputStream os = null;
-                    try {
-                        os = new BufferedOutputStream(new FileOutputStream(photoFile));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, IMAGE_QUALITY, os);
-                    ivCamera.setImageBitmap(bitmap);
+                    bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 } else {
                     Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
                 }
@@ -220,12 +213,7 @@ public class PhotoFragment extends Fragment {
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
                     try {
-                        // Compress & save selected to photoFile (used for loading)
-                        OutputStream os = new BufferedOutputStream(new FileOutputStream(photoFile));
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, IMAGE_QUALITY, os);
-                        os.close();
-                        ivCamera.setImageBitmap(bitmap);
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
                     } catch (IOException e) {
                         Log.i("TAG", "Picture wasn't selected " + e);
                     }
@@ -237,5 +225,13 @@ public class PhotoFragment extends Fragment {
             default:
                 Log.e(TAG, "Cannot identify activity result");
         }
+        OutputStream os = null;
+        try {
+            os = new BufferedOutputStream(new FileOutputStream(photoFile));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        bitmap.compress(Bitmap.CompressFormat.JPEG, IMAGE_QUALITY, os);
+        ivCamera.setImageBitmap(bitmap);
     }
 }
