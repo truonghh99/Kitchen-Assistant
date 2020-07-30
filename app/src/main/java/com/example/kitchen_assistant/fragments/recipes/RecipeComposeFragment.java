@@ -26,6 +26,7 @@ import com.example.kitchen_assistant.fragments.camera.PhotoFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;
+import com.example.kitchen_assistant.models.Nutrition;
 import com.example.kitchen_assistant.models.Rating;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
@@ -143,6 +144,7 @@ public class RecipeComposeFragment extends Fragment {
 
         try {
             Rating.requestRating(recipe);
+            Nutrition.requestManualNutrition(recipe);
         } catch (ParseException e) {
             e.printStackTrace();
         }
