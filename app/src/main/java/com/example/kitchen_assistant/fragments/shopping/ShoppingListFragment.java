@@ -1,5 +1,6 @@
 package com.example.kitchen_assistant.fragments.shopping;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -89,7 +90,24 @@ public class ShoppingListFragment extends Fragment {
                 openOrCloseFabMenu();
             }
         });
+        
+        btShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareShoppingList();
+            }
+        });
         return fragmentShoppingListBinding.getRoot();
+    }
+
+    private void shareShoppingList() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        startActivity(shareIntent);
     }
 
     private void openOrCloseFabMenu() {
