@@ -54,13 +54,15 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
 * [x] Display average rating of each recipe
 * [x] Allow user to attach image to their reviews
 * [x] Display all reviews of a recipe
-* [ ] Support live-scanning
+* [x] Support live-scanning
 * [x] Get suggested recipe from external databse
-* [ ] Allow users to login using Facebook & Google account
+* [x] Allow users to login using Facebook account
 * [x] Have a daily calorie tracking screen
 * [x] Allow user to view nutrition information of a recipe
 * [x] Allow user to view their daily/weekly/monthly nutrition report
 * [x] Allow user to set a personal nutrition goal
+* [ ] Allow user to share shopping list via Messenger
+* [ ] Allow user to view detailed history (instead of general report)
 
 ### 2. Screen Archetypes
 
@@ -76,9 +78,9 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
     * Support converting current food to shopping list item
     * Be able to suggest recipes based on selected food item 
 * Food scanner
-    * Be able to read food information via QR code
+    * Be able to read food information via barcode
 * New food detail
-    * Be able to read food information via QR code
+    * Be able to read food information via barcode
     * Allow user to update their current food (add, delete, edit)
 * Recipes
     * Be able to store recipe list of each user
