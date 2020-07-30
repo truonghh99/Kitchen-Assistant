@@ -105,4 +105,12 @@ public class CurrentShoppingList {
     public static int getCurrentNumItems() {
         return items.size();
     }
+
+    public static String generateString() {
+        String result = "To buy:\n";
+        for (ShoppingItem item : items) {
+            result += "- " + item.getName() + " (" + item.getQuantity() + " " + item.getQuantityUnit() + ")\n";
+        }
+        return result;
+    }
 }

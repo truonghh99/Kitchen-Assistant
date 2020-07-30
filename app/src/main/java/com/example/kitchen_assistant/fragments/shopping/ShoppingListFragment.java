@@ -26,6 +26,7 @@ import com.example.kitchen_assistant.adapters.ShoppingListAdapter;
 import com.example.kitchen_assistant.databinding.FragmentShoppingListBinding;
 import com.example.kitchen_assistant.fragments.profile.ProfileFragment;
 import com.example.kitchen_assistant.models.ShoppingItem;
+import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -103,7 +104,7 @@ public class ShoppingListFragment extends Fragment {
     private void shareShoppingList() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, CurrentShoppingList.generateString());
         sendIntent.setType("text/plain");
 
         Intent shareIntent = Intent.createChooser(sendIntent, null);
