@@ -61,7 +61,7 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
 * [x] Allow user to view nutrition information of a recipe
 * [x] Allow user to view their daily/weekly/monthly nutrition report
 * [x] Allow user to set a personal nutrition goal
-* [ ] Allow user to share shopping list via Messenger
+* [x] Allow user to share shopping list via other apps
 
 ### 2. Screen Archetypes
 
