@@ -29,23 +29,38 @@
         android:textSize="22sp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btInstruction"
+    <RelativeLayout
+        android:id="@+id/rlButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/etName"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/pastelPink2"
-        android:textColor="@color/white"
-        android:text="Add an instruction"/>
+        android:layout_marginTop="10dp">
+        <Button
+            android:id="@+id/btInstruction"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/pastelPink2"
+            android:textColor="@color/white"
+            android:text="Instruction"/>
+
+        <Button
+            android:id="@+id/btNutrition"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@id/btInstruction"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="@color/pastelPink2"
+            android:textColor="@color/white"
+            android:text="Nutrition"/>
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvIngredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/btInstruction"/>
+        android:layout_below="@id/rlButtons"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btApprove"

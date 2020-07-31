@@ -215,7 +215,7 @@ public class Product extends ParseObject implements Parcelable {
 
     public void updateFoodStatus() {
         Date today = new Date();
-        z difference = getExpirationDate().getTime() - today.getTime();
+        float difference = getExpirationDate().getTime() - today.getTime();
         float numDaysLeft = difference / (1000 * 60 * 60 * 24);
         float numDaysSafe = (long) MetricConverter.convertTime(getDuration(), getDurationUnit(), "day");
         float ratio = numDaysLeft / numDaysSafe;
