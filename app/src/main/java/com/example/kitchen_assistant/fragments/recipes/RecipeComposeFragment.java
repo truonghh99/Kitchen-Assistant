@@ -23,6 +23,7 @@ import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.IngredientComposeAdapter;
 import com.example.kitchen_assistant.databinding.FragmentRecipeComposeBinding;
 import com.example.kitchen_assistant.fragments.camera.PhotoFragment;
+import com.example.kitchen_assistant.fragments.nutrition.NutritionComposeFragment;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;
@@ -51,6 +52,7 @@ public class RecipeComposeFragment extends Fragment {
     private ImageView ivImage;
     private EditText etName;
     private Button btInstruction;
+    private Button btNutrition;
     private FloatingActionButton btApprove;
     private RecyclerView rvIngredients;
     private IngredientComposeAdapter adapter;
@@ -87,6 +89,7 @@ public class RecipeComposeFragment extends Fragment {
         btInstruction = fragmentRecipeComposeBinding.btInstruction;
         btApprove = fragmentRecipeComposeBinding.btApprove;
         rvIngredients = fragmentRecipeComposeBinding.rvIngredients;
+        btNutrition = fragmentRecipeComposeBinding.btNutrition;
 
         loadImage();
 
@@ -109,6 +112,13 @@ public class RecipeComposeFragment extends Fragment {
             }
         });
 
+        btNutrition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToNutritionCompose();
+            }
+        });
+
         // Modify & save recipe based on given input
         btApprove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +138,11 @@ public class RecipeComposeFragment extends Fragment {
         });
 
         return fragmentRecipeComposeBinding.getRoot();
+    }
+
+    private void goToNutritionCompose() {
+        DialogFragment dialogFragment = NutritionComposeFragment.newInstance(Parcels.wrap(recipe));
+        dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
     }
 
     private void goToInstructionCompose() {
