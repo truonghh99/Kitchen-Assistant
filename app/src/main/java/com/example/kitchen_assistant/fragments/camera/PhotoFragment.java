@@ -31,6 +31,7 @@ import com.parse.ParseFile;
 import org.parceler.Parcels;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -48,7 +49,7 @@ public class PhotoFragment extends Fragment {
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private static final int LOAD_IMAGE_ACTIVITY_REQUEST_CODE = 1512;
     private static final int RESULT_CODE = 0;
-    private final int IMAGE_QUALITY = 5;
+    private final int IMAGE_QUALITY = 10;
 
     private String photoFileName = "photo.jpg";
     private ImageView ivCamera;
@@ -62,6 +63,7 @@ public class PhotoFragment extends Fragment {
     private Product product;
     private Recipe recipe;
     private Review review;
+    private Object BitmapScaler;
 
     public PhotoFragment() {
     }
@@ -198,12 +200,28 @@ public class PhotoFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bitmap = null;
         switch (requestCode) {
             // If user chose to capture new image
             case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
-                    bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                    Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName));
+                    Bitmap rawTakenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    rawTakenImage.compress(Bitmap.CompressFormat.JPEG, IMAGE_QUALITY, bytes);
+                    photoFile = getPhotoFileUri(photoFileName + "_resized");
+                    FileOutputStream fos = null;
+                    try {
+                        photoFile.createNewFile();
+                        fos = new FileOutputStream(photoFile);
+                        fos.write(bytes.toByteArray());
+                        fos.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                    ivCamera.setImageBitmap(takenImage);
                 } else {
                     Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
                 }
@@ -213,7 +231,12 @@ public class PhotoFragment extends Fragment {
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
                     try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+                        // Compress & save selected to photoFile (used for loading)
+                        OutputStream os = new BufferedOutputStream(new FileOutputStream(photoFile));
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, IMAGE_QUALITY, os);
+                        os.close();
+                        ivCamera.setImageBitmap(bitmap);
                     } catch (IOException e) {
                         Log.i("TAG", "Picture wasn't selected " + e);
                     }
@@ -225,13 +248,5 @@ public class PhotoFragment extends Fragment {
             default:
                 Log.e(TAG, "Cannot identify activity result");
         }
-        OutputStream os = null;
-        try {
-            os = new BufferedOutputStream(new FileOutputStream(photoFile));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        bitmap.compress(Bitmap.CompressFormat.JPEG, IMAGE_QUALITY, os);
-        ivCamera.setImageBitmap(bitmap);
     }
 }
