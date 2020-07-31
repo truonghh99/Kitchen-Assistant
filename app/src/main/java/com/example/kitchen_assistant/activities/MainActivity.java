@@ -11,8 +11,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,12 +50,14 @@ public class MainActivity extends AppCompatActivity {
     public static BottomNavigationView bottomNavigation;
     private static FragmentManager fragmentManager;
     private static ProgressBar progressBar;
+    private static FrameLayout flContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        flContainer = activityMainBinding.flContainer;
         setContentView(activityMainBinding.getRoot());
 
         setUpBottomBar();
@@ -110,12 +114,16 @@ public class MainActivity extends AppCompatActivity {
 
     // Allow other fragments to show progress bar while needed
     public static void showProgressBar() {
-        progressBar.setVisibility(ProgressBar.VISIBLE);
+        Log.e(TAG, "SHOW PROGRESS BAR");
+        progressBar.bringToFront();
+        //flContainer.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     // Allow other fragments to hide progress bar while needed
     public static void hideProgressBar() {
-        progressBar.setVisibility(ProgressBar.INVISIBLE);
+        Log.e(TAG, "HIDE PROGRESS BAR");
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     // Go to log in activity when use logged out

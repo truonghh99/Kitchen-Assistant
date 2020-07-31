@@ -295,6 +295,7 @@ public class CurrentFoodFragment extends Fragment {
 
     // Query recipes containing all current products
     private void goToExplore() throws ParseException {
+        MainActivity.showProgressBar();
         List<FoodItem> ingredientList = new ArrayList<FoodItem>() {
             {
                 for (Product product : products) {

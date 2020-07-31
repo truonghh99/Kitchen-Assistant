@@ -296,6 +296,7 @@ public class CurrentFoodDetailFragment extends Fragment {
 
     // Query recipes containing this current product
     private void goToExplore() throws InterruptedException, com.parse.ParseException {
+        MainActivity.showProgressBar();
         // Create a one-element list contains only this current food item to fit query's format
         List<FoodItem> ingredientList = new ArrayList<FoodItem>() {
             {

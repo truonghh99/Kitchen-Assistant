@@ -18,10 +18,10 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="0dp"
         android:id="@+id/progressBar"
         android:title="Loading..."
-        android:visible="false"
+        android:visibility="visible"
+        android:elevation="100dp"
         android:orderInCategory="100"
         app:showAsAction="always" />
 

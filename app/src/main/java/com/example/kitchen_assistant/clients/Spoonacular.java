@@ -80,6 +80,7 @@ public class Spoonacular {
                                 e.printStackTrace();
                             }
                         }
+                        MainActivity.hideProgressBar();
                     }
                 });
 
