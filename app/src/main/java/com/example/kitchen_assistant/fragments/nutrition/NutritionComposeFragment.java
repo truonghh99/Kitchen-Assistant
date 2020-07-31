@@ -17,6 +17,7 @@ import com.example.kitchen_assistant.databinding.FragmentInstructionBinding;
 import com.example.kitchen_assistant.databinding.FragmentInstructionComposeBinding;
 import com.example.kitchen_assistant.databinding.FragmentNutritionComposeBinding;
 import com.example.kitchen_assistant.databinding.FragmentRecipeComposeBinding;
+import com.example.kitchen_assistant.models.Nutrition;
 import com.example.kitchen_assistant.models.Recipe;
 
 import org.parceler.Parcels;
@@ -30,6 +31,10 @@ public class NutritionComposeFragment extends DialogFragment {
 
     private Recipe recipe;
     private Button btSave;
+    private EditText etCalories;
+    private EditText etCarbs;
+    private EditText etProtein;
+    private EditText etFat;
 
     public NutritionComposeFragment() {
     }
@@ -56,14 +61,28 @@ public class NutritionComposeFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         fragmentNutritionComposeBinding = fragmentNutritionComposeBinding.inflate(getLayoutInflater());
         btSave = fragmentNutritionComposeBinding.btSave;
+        etCalories = fragmentNutritionComposeBinding.etCalories;
+        etProtein = fragmentNutritionComposeBinding.etProtein;
+        etCarbs = fragmentNutritionComposeBinding.etCarbs;
+        etFat = fragmentNutritionComposeBinding.etFat;
 
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                saveInfo();
+                dismiss();
             }
         });
 
         return fragmentNutritionComposeBinding.getRoot();
+    }
+
+    private void saveInfo() {
+        Float calories = Float.parseFloat(etCalories.getText().toString());
+        Float carbs = Float.parseFloat(etCarbs.getText().toString());
+        Float protein = Float.parseFloat(etProtein.getText().toString());
+        Float fat = Float.parseFloat(etFat.getText().toString());
+
+        Nutrition.requestManualNutrition(recipe, calories, carbs, protein, fat);
     }
 }

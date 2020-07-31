@@ -159,7 +159,11 @@ public class RecipeComposeFragment extends Fragment {
 
         try {
             Rating.requestRating(recipe);
-            Nutrition.requestManualNutrition(recipe);
+            if (recipe.getNutrition() == null) {
+                Nutrition.requestManualNutrition(recipe, 0, 0, 0, 0);
+            }
+            recipe.getNutrition().setRecipeId(recipe.getCode());
+            recipe.getNutrition().saveInfo();
         } catch (ParseException e) {
             e.printStackTrace();
         }

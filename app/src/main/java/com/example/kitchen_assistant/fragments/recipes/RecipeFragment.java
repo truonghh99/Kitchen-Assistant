@@ -35,6 +35,7 @@ public class RecipeFragment extends Fragment {
 
     private static final String TAG = "RecipeFragment";
     public static final String title = "My Recipes";
+    private final String DEFAULT_CODE = "Default code";
 
     private FragmentRecipeBinding fragmentRecipeBinding;
     private RecyclerView rvRecipe;
@@ -87,7 +88,9 @@ public class RecipeFragment extends Fragment {
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RecipeComposeFragment recipeComposeFragment = RecipeComposeFragment.newInstance(Parcels.wrap(new Recipe()));
+                Recipe recipe = new Recipe();
+                recipe.setCode(DEFAULT_CODE);
+                RecipeComposeFragment recipeComposeFragment = RecipeComposeFragment.newInstance(Parcels.wrap(recipe));
                 MainActivity.switchFragment(recipeComposeFragment);
             }
         });

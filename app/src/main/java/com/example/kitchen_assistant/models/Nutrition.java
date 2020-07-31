@@ -77,15 +77,14 @@ public class Nutrition extends ParseObject implements Parcelable {
         return result;
     }
 
-    public static void requestManualNutrition(Recipe recipe) {
+    public static void requestManualNutrition(Recipe recipe, float calories, float carbs, float protein, float fat) {
         Nutrition result = new Nutrition();
 
-        // TODO: ALLOW USER TO CUSTOMIZE THESE NUTRITION VALUES
         result.setRecipeId(recipe.getCode());
-        result.setCalories(500f);
-        result.setCarbs(50f);
-        result.setProtein(20f);
-        result.setFat(5f);
+        result.setCalories(calories);
+        result.setCarbs(carbs);
+        result.setProtein(protein);
+        result.setFat(fat);
         result.saveInfo();
 
         recipe.setNutrition(result);

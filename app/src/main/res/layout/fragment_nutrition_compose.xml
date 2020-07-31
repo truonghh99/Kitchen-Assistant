@@ -23,15 +23,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Calories: "
+                android:layout_centerVertical="true"
                 android:textStyle="bold"
                 android:textSize="18dp"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/etCalories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tvCalories"
                 android:hint="100"
+                android:layout_centerVertical="true"
                 android:inputType="number"
                 android:textSize="18dp"/>
 
@@ -40,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/etCalories"
+                android:layout_centerVertical="true"
                 android:text=" kcal"
                 android:textSize="18dp"/>
         </RelativeLayout>
@@ -56,16 +59,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Carbs: "
+                android:layout_centerVertical="true"
                 android:textStyle="bold"
                 android:textSize="18dp"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/etCarbs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tvCarbs"
                 android:hint="100"
                 android:inputType="number"
+                android:layout_centerVertical="true"
                 android:textSize="18dp"/>
 
             <TextView
@@ -73,6 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/etCarbs"
+                android:layout_centerVertical="true"
                 android:text=" g"
                 android:textSize="18dp"/>
         </RelativeLayout>
@@ -89,16 +95,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Protein: "
+                android:layout_centerVertical="true"
                 android:textStyle="bold"
                 android:textSize="18dp"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/etProtein"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tvProtein"
                 android:hint="100"
                 android:inputType="number"
+                android:layout_centerVertical="true"
                 android:textSize="18dp"/>
 
             <TextView
@@ -107,6 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/etProtein"
                 android:text=" g"
+                android:layout_centerVertical="true"
                 android:textSize="18dp"/>
         </RelativeLayout>
 
@@ -124,15 +133,17 @@
                 android:layout_height="wrap_content"
                 android:text="Fat: "
                 android:textStyle="bold"
+                android:layout_centerVertical="true"
                 android:textSize="18dp"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/etFat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tvFat"
                 android:hint="100"
                 android:inputType="number"
+                android:layout_centerVertical="true"
                 android:textSize="18dp"/>
 
             <TextView
@@ -141,6 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/etFat"
                 android:text=" g"
+                android:layout_centerVertical="true"
                 android:textSize="18dp"/>
         </RelativeLayout>
 
