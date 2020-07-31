@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentPhotoBinding;
 import com.example.kitchen_assistant.models.Product;
 import com.example.kitchen_assistant.models.Recipe;
@@ -170,6 +171,7 @@ public class PhotoFragment extends Fragment {
             Toast.makeText(getContext(), "You should include a photo!", Toast.LENGTH_SHORT).show();
             return;
         }
+        MainActivity.showProgressBar();
         switch (modelTag) {
             case Product.TAG:
                 product.setParseFile(new ParseFile(photoFile));
@@ -183,6 +185,7 @@ public class PhotoFragment extends Fragment {
         }
         Toast.makeText(getContext(), "Saved your photo!", Toast.LENGTH_SHORT).show();
         getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_CODE, new Intent());
+        MainActivity.hideProgressBar();
         getFragmentManager().popBackStack();
     }
 

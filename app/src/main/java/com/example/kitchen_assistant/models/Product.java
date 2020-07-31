@@ -216,18 +216,19 @@ public class Product extends ParseObject implements Parcelable {
     public void updateFoodStatus() {
         Date today = new Date();
         long difference = getExpirationDate().getTime() - today.getTime();
-        long numDaysLeft = difference / (1000 * 60 * 60 * 24);
-        long numDaysSafe = (long) MetricConverter.convertTime(getDuration(), getDurationUnit(), "day");
-        long ratio = numDaysLeft / numDaysSafe;
-        if (ratio > 0.6) {
+        float numDaysLeft = difference / (1000 * 60 * 60 * 24);
+        float numDaysSafe = (long) MetricConverter.convertTime(getDuration(), getDurationUnit(), "day");
+        float ratio = numDaysLeft / numDaysSafe;
+        Log.e(TAG, "Ration: " + ratio);
+        if (ratio >= 0.1) {
             setFoodStatus(STATUS_BEST);
-            return;
+        } else {
+            if (ratio >= 0) {
+                setFoodStatus(STATUS_SAFE);
+            } else {
+                setFoodStatus(STATUS_BAD);
+            }
         }
-        if (ratio > 0.4) {
-            setFoodStatus(STATUS_SAFE);
-            return;
-        }
-        setFoodStatus(STATUS_BAD);
     }
 
     public void updateExpirationDate() {
