@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.ItemProductBinding;
 import com.example.kitchen_assistant.fragments.products.CurrentFoodDetailFragment;
 import com.example.kitchen_assistant.fragments.products.NewProductDetailFragment;
+import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.models.Product;
 
 import org.parceler.Parcels;
@@ -63,20 +65,19 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
         private CardView cvProduct;
         private TextView tvName;
         private TextView tvQuantity;
-        private TextView tvExpirationDate;
+        private ImageView ivImage;
 
         public ViewHolder(@NonNull ItemProductBinding itemProductBinding) {
             super(itemProductBinding.getRoot());
             tvName = itemProductBinding.tvName;
             tvQuantity = itemProductBinding.tvQuantity;
-            tvExpirationDate = itemProductBinding.tvExpirationDate;
+            ivImage = itemProductBinding.ivImage;
             cvProduct = itemProductBinding.cvProduct;
         }
 
         public void bind(final Product product) {
             tvName.setText(product.getProductName());
             tvQuantity.setText("" + product.getCurrentQuantity() + " " + product.getQuantityUnit());
-            tvExpirationDate.setText("Expiration date: " + NewProductDetailFragment.parseDate(product.getExpirationDate(), NewProductDetailFragment.DATE_FORMAT));
             cvProduct.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -84,6 +85,7 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
                 }
             });
 
+            GlideHelper.loadAvatar(product.getImageUrl(), context, ivImage);
             // Change card background to indicate current status of products
             switch (product.getFoodStatus().toLowerCase()) {
                 case Product.STATUS_BEST:
