@@ -35,6 +35,7 @@ import com.example.kitchen_assistant.models.HistoryEntry;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.Review;
+import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.parceler.Parcels;
@@ -140,6 +141,15 @@ public class CurrentRecipeDetailFragment extends Fragment {
             }
         });
 
+        btRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CurrentRecipes.removeRecipe(recipe);
+                Toast.makeText(getContext(), "Recipe removed from your library", Toast.LENGTH_SHORT).show();
+                goToRecipes();
+            }
+        });
+
         // Cook this recipe (subtract all included ingredients)
         btCook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,6 +182,11 @@ public class CurrentRecipeDetailFragment extends Fragment {
         }
 
         return fragmentCurrentRecipeDetailBinding.getRoot();
+    }
+
+    private void goToRecipes() {
+        Fragment recipeFragment = RecipeFragment.newInstance();
+        MainActivity.switchFragment(recipeFragment);
     }
 
     @Override
