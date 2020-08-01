@@ -58,7 +58,7 @@ public class CurrentRecipes {
         recipeHashMap = new HashMap<>();
         ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);
         query.whereEqualTo(Recipe.KEY_USER_ID, ParseUser.getCurrentUser().getObjectId());
-        query.addDescendingOrder(Recipe.KEY_CREATED_AT);
+        query.addDescendingOrder(Recipe.KEY_COOKABLE);
         query.findInBackground(new FindCallback<Recipe>() {
             @Override
             public void done(List<Recipe> newRecipes, ParseException e) {
