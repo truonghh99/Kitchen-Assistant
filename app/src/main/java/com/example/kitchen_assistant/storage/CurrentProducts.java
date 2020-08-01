@@ -62,10 +62,10 @@ public class CurrentProducts {
         products = new ArrayList<>();
         productHashMap = new HashMap<>();
         ParseQuery<Product> query = ParseQuery.getQuery(Product.class);
-        query.whereGreaterThan("currentQuantity", 0);
-        query.addDescendingOrder("createdAt");
-        query.whereContains("owner", ParseUser.getCurrentUser().getObjectId());
-        query.include("foodType");
+        query.whereGreaterThan(Product.KEY_CURRENT_QUANTITY, 0);
+        query.addDescendingOrder(Product.KEY_FOOD_STATUS);
+        query.whereContains(Product.KEY_OWNER, ParseUser.getCurrentUser().getObjectId());
+        query.include(Product.KEY_FOOD_TYPE);
 
         query.findInBackground(new FindCallback<Product>() {
             @Override
