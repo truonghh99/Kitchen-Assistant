@@ -32,6 +32,7 @@ import com.example.kitchen_assistant.databinding.FragmentCurrentFoodBinding;
 import com.example.kitchen_assistant.fragments.camera.ScannerFragment;
 import com.example.kitchen_assistant.fragments.profile.ProfileFragment;
 import com.example.kitchen_assistant.fragments.recipes.RecipeExploreFragment;
+import com.example.kitchen_assistant.helpers.FabAnimationHelper;
 import com.example.kitchen_assistant.helpers.MatchingHelper;
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Product;
@@ -206,39 +207,18 @@ public class CurrentFoodFragment extends Fragment {
 
     private void openOrCloseFabMenu() {
         if (!fabMenuOpen) {
-            showFab(btScan);
-            showFab(btWrite);
-            showFab(btCook);
-            rotateOpenFab(btMenuOpen);
+            FabAnimationHelper.showFab(btScan, getContext());
+            FabAnimationHelper.showFab(btWrite, getContext());
+            FabAnimationHelper.showFab(btCook, getContext());
+            FabAnimationHelper.rotateOpenFab(btMenuOpen, getContext());
             fabMenuOpen = true;
         } else {
-            hideFab(btScan);
-            hideFab(btWrite);
-            hideFab(btCook);
+            FabAnimationHelper.hideFab(btScan, getContext());
+            FabAnimationHelper.hideFab(btWrite, getContext());
+            FabAnimationHelper.hideFab(btCook, getContext());
             fabMenuOpen = false;
-            rotateCloseFab(btMenuOpen);
+            FabAnimationHelper.rotateCloseFab(btMenuOpen, getContext());
         }
-    }
-
-    private void showFab(FloatingActionButton button) {
-        Animation showAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_show_animation);
-        button.startAnimation(showAnimation);
-    }
-
-
-    private void hideFab(FloatingActionButton button) {
-        Animation hideAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_hide_animation);
-        button.startAnimation(hideAnimation);
-    }
-
-    private void rotateOpenFab(FloatingActionButton button) {
-        Animation rotateAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_open_animation);
-        button.startAnimation(rotateAnimation);
-    }
-
-    private void rotateCloseFab(FloatingActionButton button) {
-        Animation rotateAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_close_animation);
-        button.startAnimation(rotateAnimation);
     }
 
 
