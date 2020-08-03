@@ -21,6 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/circle"
+            android:padding="5dp"
             android:src="@drawable/default_food"/>
 
         <TextView

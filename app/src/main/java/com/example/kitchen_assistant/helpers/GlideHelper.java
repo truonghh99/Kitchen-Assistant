@@ -36,7 +36,7 @@ public class GlideHelper {
     private static void loadDefaultAvatar(Context context, ImageView imgView) {
         Glide.with(context)
                 .load(R.drawable.default_avatar_file)
-                .circleCrop()
+                .apply(RequestOptions.circleCropTransform())
                 .into(imgView);
     }
 
