@@ -69,6 +69,8 @@ public class CurrentFoodFragment extends Fragment {
     private FloatingActionButton btWrite;
     private RecyclerView rvCurrentFood;
 
+    private Boolean fabMenuOpen = false;
+
     public CurrentFoodFragment() {
     }
 
@@ -206,22 +208,30 @@ public class CurrentFoodFragment extends Fragment {
     }
 
     private void openOrCloseFabMenu() {
-        if (btScan.getVisibility() == View.INVISIBLE) {
+        if (!fabMenuOpen) {
             showFab(btScan);
             showFab(btWrite);
             showFab(btCook);
+            fabMenuOpen = true;
         } else {
-            btScan.setVisibility(View.INVISIBLE);
-            btWrite.setVisibility(View.INVISIBLE);
-            btCook.setVisibility(View.INVISIBLE);
+            hideFab(btScan);
+            hideFab(btWrite);
+            hideFab(btCook);
+            fabMenuOpen = false;
         }
     }
 
     private void showFab(FloatingActionButton button) {
         Animation showAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_show_animation);
-        button.setVisibility(View.VISIBLE);
         button.startAnimation(showAnimation);
     }
+
+
+    private void hideFab(FloatingActionButton button) {
+        Animation hideAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_hide_animation);
+        button.startAnimation(hideAnimation);
+    }
+
     public void onLaunchScanner() {
         ScannerFragment scannerFragment = ScannerFragment.newInstance();
         scannerFragment.setTargetFragment(this, SCANNER_REQUEST_CODE);
