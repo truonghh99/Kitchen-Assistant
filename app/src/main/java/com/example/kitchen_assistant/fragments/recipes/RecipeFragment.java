@@ -46,6 +46,7 @@ public class RecipeFragment extends Fragment {
     private static List<Recipe> recipes;
     private static RecipeAdapter adapter;
     private Boolean fabMenuOpen;
+    private MenuItem item;
 
     public RecipeFragment() {
     }
@@ -98,6 +99,12 @@ public class RecipeFragment extends Fragment {
             }
         });
 
+        btSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                item.expandActionView();
+            }
+        });
         return fragmentRecipeBinding.getRoot();
     }
 
@@ -132,7 +139,7 @@ public class RecipeFragment extends Fragment {
 
     // Allow user to narrow down list of recipes
     private void setUpSearchView(Menu menu) {
-        MenuItem item = menu.findItem(R.id.miSearch);
+        item = menu.findItem(R.id.miSearch);
         SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         item.setActionView(searchView);
