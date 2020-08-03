@@ -4,17 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -212,12 +209,14 @@ public class CurrentFoodFragment extends Fragment {
             showFab(btScan);
             showFab(btWrite);
             showFab(btCook);
+            rotateOpenFab(btMenuOpen);
             fabMenuOpen = true;
         } else {
             hideFab(btScan);
             hideFab(btWrite);
             hideFab(btCook);
             fabMenuOpen = false;
+            rotateCloseFab(btMenuOpen);
         }
     }
 
@@ -231,6 +230,17 @@ public class CurrentFoodFragment extends Fragment {
         Animation hideAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_hide_animation);
         button.startAnimation(hideAnimation);
     }
+
+    private void rotateOpenFab(FloatingActionButton button) {
+        Animation rotateAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_open_animation);
+        button.startAnimation(rotateAnimation);
+    }
+
+    private void rotateCloseFab(FloatingActionButton button) {
+        Animation rotateAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_close_animation);
+        button.startAnimation(rotateAnimation);
+    }
+
 
     public void onLaunchScanner() {
         ScannerFragment scannerFragment = ScannerFragment.newInstance();
