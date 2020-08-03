@@ -71,7 +71,7 @@ public class CurrentFoodDetailFragment extends Fragment {
     private FloatingActionButton btShop;
     private FloatingActionButton btCook;
 
-    private Boolean fabMenuOpen = false;
+    private Boolean fabMenuOpen;
 
 
     public CurrentFoodDetailFragment() {
@@ -182,6 +182,7 @@ public class CurrentFoodDetailFragment extends Fragment {
         });
 
         // Open or close floating menu
+        fabMenuOpen = false;
         btMenuOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

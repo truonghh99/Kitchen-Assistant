@@ -67,7 +67,7 @@ public class CurrentFoodFragment extends Fragment {
     private FloatingActionButton btWrite;
     private RecyclerView rvCurrentFood;
 
-    private Boolean fabMenuOpen = false;
+    private Boolean fabMenuOpen;
 
     public CurrentFoodFragment() {
     }
@@ -167,6 +167,7 @@ public class CurrentFoodFragment extends Fragment {
         rvCurrentFood.setAdapter(adapter);
 
         // Open or close floating menu
+        fabMenuOpen = false;
         btMenuOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

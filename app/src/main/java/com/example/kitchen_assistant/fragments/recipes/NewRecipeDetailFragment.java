@@ -72,7 +72,7 @@ public class NewRecipeDetailFragment extends Fragment {
     private TextView tvStatus;
     private TextView tvReviewCount;
     private List<Ingredient> ingredients;
-    private Boolean fabMenuOpen = false;
+    private Boolean fabMenuOpen;
 
     public NewRecipeDetailFragment() {
     }
@@ -109,6 +109,8 @@ public class NewRecipeDetailFragment extends Fragment {
         ratingBar = fragmentNewRecipeDetailBinding.ratingBar;
         tvStatus = fragmentNewRecipeDetailBinding.tvStatus;
         tvReviewCount = fragmentNewRecipeDetailBinding.tvReviewCount;
+
+        fabMenuOpen = false;
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
 

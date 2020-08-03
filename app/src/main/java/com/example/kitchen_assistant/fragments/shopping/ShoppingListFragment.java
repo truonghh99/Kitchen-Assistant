@@ -46,7 +46,7 @@ public class ShoppingListFragment extends Fragment {
     private FloatingActionButton btMenuOpen;
     private static List<ShoppingItem> items;
     private static ShoppingListAdapter adapter;
-    private Boolean fabMenuOpen = false;
+    private Boolean fabMenuOpen;
 
     public ShoppingListFragment () {
     }
@@ -87,6 +87,7 @@ public class ShoppingListFragment extends Fragment {
             }
         });
 
+        fabMenuOpen = false;
         btMenuOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

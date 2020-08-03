@@ -45,7 +45,7 @@ public class RecipeFragment extends Fragment {
     private FloatingActionButton btMenuOpen;
     private static List<Recipe> recipes;
     private static RecipeAdapter adapter;
-    private Boolean fabMenuOpen = false;
+    private Boolean fabMenuOpen;
 
     public RecipeFragment() {
     }
@@ -69,6 +69,7 @@ public class RecipeFragment extends Fragment {
         btSearch = fragmentRecipeBinding.btSearch;
         rvRecipe = fragmentRecipeBinding.rvRecipe;
         btMenuOpen = fragmentRecipeBinding.btMenuOpen;
+        fabMenuOpen = false;
 
         // Set up recycler view & adapter
         recipes = CurrentRecipes.recipes;

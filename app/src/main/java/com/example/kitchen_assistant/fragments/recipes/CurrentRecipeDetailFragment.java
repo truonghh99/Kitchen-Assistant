@@ -68,7 +68,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
     private TextView tvStatus;
     private TextView tvReviewCount;
     private RatingBar ratingBar;
-    private Boolean fabMenuOpen = false;
+    private Boolean fabMenuOpen;
 
     public CurrentRecipeDetailFragment() {
     }
@@ -108,6 +108,8 @@ public class CurrentRecipeDetailFragment extends Fragment {
 
         ((MainActivity) getContext()).getSupportActionBar().setTitle(title);
         loadRating();
+
+        fabMenuOpen = false;
 
         ingredients = recipe.getIngredientList();
         adapter = new IngredientAdapter(getActivity(), ingredients);
