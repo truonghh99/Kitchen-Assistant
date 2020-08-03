@@ -1,6 +1,7 @@
 package com.example.kitchen_assistant.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -85,19 +87,26 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
                 }
             });
 
-            GlideHelper.loadAvatar(product.getImageUrl(), context, ivImage);
             // Change card background to indicate current status of products
             switch (product.getFoodStatus().toLowerCase()) {
                 case Product.STATUS_BEST:
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.best));
+                    ivImage.setBackground(ContextCompat.getDrawable(context, R.drawable.circle_best));
+                    tvName.setTextColor(context.getResources().getColor(R.color.best_dark));
                     break;
                 case Product.STATUS_SAFE:
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.fair));
+                    ivImage.setBackground(ContextCompat.getDrawable(context, R.drawable.circle_safe));
+                    tvName.setTextColor(context.getResources().getColor(R.color.fair_dark));
                     break;
                 case Product.STATUS_BAD:
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.bad));
+                    ivImage.setBackground(ContextCompat.getDrawable(context, R.drawable.circle_bad));
+                    tvName.setTextColor(context.getResources().getColor(R.color.bad_dark));
                     break;
             }
+
+            GlideHelper.loadAvatar(product.getImageUrl(), context, ivImage);
         }
     }
 
