@@ -103,6 +103,11 @@ public class CurrentHistoryEntries {
         return result;
     }
 
+    public static void removeLastEntry() {
+        HistoryEntry entry = entries.get(entries.size() - 1);
+        removeEntry(entry);
+    }
+
     public static Date getFirstDate() {
         return entries.get(0).getTimestamp();
     }

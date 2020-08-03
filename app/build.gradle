@@ -70,7 +70,8 @@ dependencies {
 
     // Facebook SDK
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
-
     implementation "com.github.parse-community.Parse-SDK-Android:facebook:1.24.2"
 
+    // Material Design
+    implementation "com.google.android.material:material:1.1.0"
 }

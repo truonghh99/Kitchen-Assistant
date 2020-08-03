@@ -266,7 +266,7 @@ public class Product extends ParseObject implements Parcelable {
     public void detachFoodItem() {
         Log.e(TAG, "Start detaching");
         FoodItem foodItem = getFoodItem();
-        foodItem.increaseQuantity(getCurrentQuantity() * -1, getQuantityUnit());
+        foodItem.addQuantity(getCurrentQuantity() * -1, getQuantityUnit());
         CurrentFoodTypes.saveFoodItemInBackGround(foodItem);
     }
 
@@ -409,5 +409,11 @@ public class Product extends ParseObject implements Parcelable {
 
     public ParseFile getParseFile() {
         return parseFile;
+    }
+
+    public void addQuantity(float quantity, String quantityUnit) {
+        float toAdd = MetricConverter.convertGeneral(quantity, quantityUnit, getQuantityUnit());
+        setCurrentQuantity(Math.max(0, getCurrentQuantity() + toAdd));
+        getFoodItem().addQuantity(toAdd, getQuantityUnit());
     }
 }

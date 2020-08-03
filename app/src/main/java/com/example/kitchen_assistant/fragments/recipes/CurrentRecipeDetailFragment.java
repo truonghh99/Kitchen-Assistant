@@ -36,8 +36,10 @@ import com.example.kitchen_assistant.models.HistoryEntry;
 import com.example.kitchen_assistant.models.Ingredient;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.models.Review;
+import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.parceler.Parcels;
 
@@ -69,6 +71,16 @@ public class CurrentRecipeDetailFragment extends Fragment {
     private TextView tvReviewCount;
     private RatingBar ratingBar;
     private Boolean fabMenuOpen;
+
+    private  View.OnClickListener undoCookAction = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            CurrentHistoryEntries.removeLastEntry();
+            RecipeEvaluator.updateFoodFromUncookedRecipe(recipe);
+            RecipeEvaluator.evaluateRecipe(recipe);
+            adapter.notifyDataSetChanged();
+        }
+    };
 
     public CurrentRecipeDetailFragment() {
     }
@@ -162,7 +174,9 @@ public class CurrentRecipeDetailFragment extends Fragment {
                     RecipeEvaluator.updateFoodFromCookedRecipe(recipe);
                     RecipeEvaluator.evaluateRecipe(recipe);
                     HistoryEntry.addEntryFromRecipe(recipe);
-                    Toast.makeText(getContext(), "Added this recipe to your diet history!", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(getView(), "Added this recipe to your history", Snackbar.LENGTH_LONG)
+                            .setAction("Undo", undoCookAction)
+                            .show();
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "Please select product for each ingredient", Toast.LENGTH_SHORT).show();

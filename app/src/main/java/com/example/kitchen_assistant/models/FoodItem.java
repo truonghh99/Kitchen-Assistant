@@ -77,7 +77,7 @@ public class FoodItem extends ParseObject implements Parcelable {
         this.owner = owner;
     }
 
-    public void increaseQuantity(Float currentQuantity, String quantityUnit) {
+    public void addQuantity(Float currentQuantity, String quantityUnit) {
         Log.e(TAG, "Before adding: " + getQuantity());
         float toIncrease = MetricConverter.convertGeneral(currentQuantity, getQuantityUnit(), quantityUnit);
         setQuantity(getQuantity() + toIncrease);

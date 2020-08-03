@@ -22,7 +22,6 @@ public class RecipeEvaluator {
     // Subtract all the selected product within a recipe when cooked
     public static void updateFoodFromCookedRecipe(Recipe recipe) {
         List<Ingredient> ingredientList = recipe.getIngredientList();
-        Log.e(TAG, String.valueOf(ingredientList.size()));
         for (Ingredient ingredient : ingredientList) {
             String productCode = ingredient.getPreferredProduct();
             Product product = CurrentProducts.productHashMap.get(productCode);
@@ -98,6 +97,16 @@ public class RecipeEvaluator {
         for (Map.Entry mapElement : CurrentRecipes.getRecipeHashmap().entrySet()) {
             Recipe recipe = (Recipe) mapElement.getValue();
             evaluateRecipe(recipe);
+        }
+    }
+
+    // Re-add all the selected product within a recipe when uncooked
+    public static void updateFoodFromUncookedRecipe(Recipe recipe) {
+        List<Ingredient> ingredientList = recipe.getIngredientList();
+        for (Ingredient ingredient : ingredientList) {
+            String productCode = ingredient.getPreferredProduct();
+            Product product = CurrentProducts.productHashMap.get(productCode);
+            product.addQuantity(ingredient.getQuantity(), ingredient.getQuantityUnit());
         }
     }
 }

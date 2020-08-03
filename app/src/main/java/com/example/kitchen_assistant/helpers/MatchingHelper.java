@@ -93,7 +93,7 @@ public class MatchingHelper {
             Log.i(TAG, "Food type exists!" + name);
             FoodItem foodItem = CurrentFoodTypes.foodItems.get(name);
             Log.i(TAG, "Old quantity: " + foodItem.getQuantity());
-            foodItem.increaseQuantity(food.getQuantity(), food.getQuantityUnit());
+            foodItem.addQuantity(food.getQuantity(), food.getQuantityUnit());
             CurrentFoodTypes.saveFoodItemInBackGround(foodItem);
             food = foodItem;
             Log.i(TAG, "New quantity: " + foodItem.getQuantity());
