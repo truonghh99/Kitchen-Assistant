@@ -22,6 +22,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
@@ -205,9 +207,9 @@ public class CurrentFoodFragment extends Fragment {
 
     private void openOrCloseFabMenu() {
         if (btScan.getVisibility() == View.INVISIBLE) {
-            btScan.setVisibility(View.VISIBLE);
-            btWrite.setVisibility(View.VISIBLE);
-            btCook.setVisibility(View.VISIBLE);
+            showFab(btScan);
+            showFab(btWrite);
+            showFab(btCook);
         } else {
             btScan.setVisibility(View.INVISIBLE);
             btWrite.setVisibility(View.INVISIBLE);
@@ -215,24 +217,15 @@ public class CurrentFoodFragment extends Fragment {
         }
     }
 
+    private void showFab(FloatingActionButton button) {
+        Animation showAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_show_animation);
+        button.setVisibility(View.VISIBLE);
+        button.startAnimation(showAnimation);
+    }
     public void onLaunchScanner() {
         ScannerFragment scannerFragment = ScannerFragment.newInstance();
         scannerFragment.setTargetFragment(this, SCANNER_REQUEST_CODE);
-//        MainActivity.switchFragment(scannerFragment);
         scannerFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
-    }
-
-    // Allow user to take photo using their camera
-    public void onLaunchCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photoFile = getPhotoFileUri(photoFileName);
-
-        Uri fileProvider = FileProvider.getUriForFile(getActivity(), AUTHORITY, photoFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-        }
     }
 
     // Helper function to create storing directory for taken image
