@@ -18,12 +18,12 @@
     <color name="pastelYellow">#fdffb6</color>
     <color name="pastelPink">#ffcad4</color>
 
-    <color name="best">#fdffb6</color>
-    <color name="fair">#d7f9ff</color>
+    <color name="best">#cdeac0</color>
+    <color name="fair">#fdffb6</color>
     <color name="bad">#ffede1</color>
 
-    <color name="best_dark">#ee964b</color>
-    <color name="fair_dark">#64a6bd</color>
+    <color name="best_dark">#1a936f</color>
+    <color name="fair_dark">#ee964b</color>
     <color name="bad_dark">#b5838d</color>
 
     <color name="available">#fdffb6</color>

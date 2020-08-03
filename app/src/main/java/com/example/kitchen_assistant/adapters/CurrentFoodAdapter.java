@@ -91,17 +91,17 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
             switch (product.getFoodStatus().toLowerCase()) {
                 case Product.STATUS_BEST:
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.best));
-                    ivImage.setBackground(ContextCompat.getDrawable(context, R.drawable.circle_best));
+                    //ivImage.setBackground(ContextCompat.getDrawable(context, R.drawable.circle_best));
                     tvName.setTextColor(context.getResources().getColor(R.color.best_dark));
                     break;
                 case Product.STATUS_SAFE:
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.fair));
-                    ivImage.setBackground(ContextCompat.getDrawable(context, R.drawable.circle_safe));
+                    //ivImage.setBackground(ContextCompat.getDrawable(context, R.drawable.circle_safe));
                     tvName.setTextColor(context.getResources().getColor(R.color.fair_dark));
                     break;
                 case Product.STATUS_BAD:
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.bad));
-                    ivImage.setBackground(ContextCompat.getDrawable(context, R.drawable.circle_bad));
+                    //ivImage.setBackground(ContextCompat.getDrawable(context, R.drawable.circle_bad));
                     tvName.setTextColor(context.getResources().getColor(R.color.bad_dark));
                     break;
             }
