@@ -31,6 +31,7 @@ import com.example.kitchen_assistant.databinding.FragmentNewRecipeDetailBinding;
 import com.example.kitchen_assistant.fragments.nutrition.RecipeNutritionFragment;
 import com.example.kitchen_assistant.fragments.reviews.ReviewComposeFragment;
 import com.example.kitchen_assistant.fragments.reviews.ReviewFragment;
+import com.example.kitchen_assistant.helpers.FabAnimationHelper;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.RecipeEvaluator;
 import com.example.kitchen_assistant.models.Ingredient;
@@ -71,6 +72,7 @@ public class NewRecipeDetailFragment extends Fragment {
     private TextView tvStatus;
     private TextView tvReviewCount;
     private List<Ingredient> ingredients;
+    private Boolean fabMenuOpen = false;
 
     public NewRecipeDetailFragment() {
     }
@@ -205,14 +207,18 @@ public class NewRecipeDetailFragment extends Fragment {
     }
 
     private void openOrCloseFabMenu() {
-        if (btReview.getVisibility() == View.INVISIBLE) {
-            btCook.setVisibility(View.VISIBLE);
-            btAdd.setVisibility(View.VISIBLE);
-            btReview.setVisibility(View.VISIBLE);
+        if (!fabMenuOpen) {
+            FabAnimationHelper.showFab(btAdd, getContext());
+            FabAnimationHelper.showFab(btReview, getContext());
+            FabAnimationHelper.showFab(btCook, getContext());
+            FabAnimationHelper.rotateOpenFab(btMenuOpen, getContext());
+            fabMenuOpen = true;
         } else {
-            btCook.setVisibility(View.INVISIBLE);
-            btAdd.setVisibility(View.INVISIBLE);
-            btReview.setVisibility(View.INVISIBLE);
+            FabAnimationHelper.hideFab(btAdd, getContext());
+            FabAnimationHelper.hideFab(btReview, getContext());
+            FabAnimationHelper.hideFab(btCook, getContext());
+            FabAnimationHelper.rotateCloseFab(btMenuOpen, getContext());
+            fabMenuOpen = false;
         }
     }
 

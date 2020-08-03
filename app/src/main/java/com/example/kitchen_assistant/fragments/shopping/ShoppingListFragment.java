@@ -25,6 +25,7 @@ import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.ShoppingListAdapter;
 import com.example.kitchen_assistant.databinding.FragmentShoppingListBinding;
 import com.example.kitchen_assistant.fragments.profile.ProfileFragment;
+import com.example.kitchen_assistant.helpers.FabAnimationHelper;
 import com.example.kitchen_assistant.models.ShoppingItem;
 import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
@@ -45,6 +46,7 @@ public class ShoppingListFragment extends Fragment {
     private FloatingActionButton btMenuOpen;
     private static List<ShoppingItem> items;
     private static ShoppingListAdapter adapter;
+    private Boolean fabMenuOpen = false;
 
     public ShoppingListFragment () {
     }
@@ -112,12 +114,16 @@ public class ShoppingListFragment extends Fragment {
     }
 
     private void openOrCloseFabMenu() {
-        if (btAdd.getVisibility() == View.INVISIBLE) {
-            btAdd.setVisibility(View.VISIBLE);
-            btShare.setVisibility(View.VISIBLE);
+        if (!fabMenuOpen) {
+            FabAnimationHelper.showFab(btAdd, getContext());
+            FabAnimationHelper.showFab(btShare, getContext());
+            FabAnimationHelper.rotateOpenFab(btMenuOpen, getContext());
+            fabMenuOpen = true;
         } else {
-            btAdd.setVisibility(View.INVISIBLE);
-            btShare.setVisibility(View.INVISIBLE);
+            FabAnimationHelper.hideFab(btAdd, getContext());
+            FabAnimationHelper.hideFab(btShare, getContext());
+            FabAnimationHelper.rotateCloseFab(btMenuOpen, getContext());
+            fabMenuOpen = false;
         }
     }
 

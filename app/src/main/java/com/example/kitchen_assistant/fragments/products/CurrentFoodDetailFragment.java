@@ -24,6 +24,7 @@ import com.example.kitchen_assistant.databinding.FragmentCurrentFoodDetailBindin
 import com.example.kitchen_assistant.fragments.camera.PhotoFragment;
 import com.example.kitchen_assistant.fragments.shopping.PreviewShoppingItemFragment;
 import com.example.kitchen_assistant.fragments.recipes.RecipeExploreFragment;
+import com.example.kitchen_assistant.helpers.FabAnimationHelper;
 import com.example.kitchen_assistant.helpers.GlideHelper;
 import com.example.kitchen_assistant.helpers.MatchingHelper;
 import com.example.kitchen_assistant.helpers.MetricConverter;
@@ -69,6 +70,8 @@ public class CurrentFoodDetailFragment extends Fragment {
     private FloatingActionButton btRemove;
     private FloatingActionButton btShop;
     private FloatingActionButton btCook;
+
+    private Boolean fabMenuOpen = false;
 
 
     public CurrentFoodDetailFragment() {
@@ -228,16 +231,20 @@ public class CurrentFoodDetailFragment extends Fragment {
     }
 
     private void openOrCloseFabMenu() {
-        if (btApprove.getVisibility() == View.INVISIBLE) {
-            btApprove.setVisibility(View.VISIBLE);
-            btCook.setVisibility(View.VISIBLE);
-            btRemove.setVisibility(View.VISIBLE);
-            btShop.setVisibility(View.VISIBLE);
+        if (!fabMenuOpen) {
+            FabAnimationHelper.showFab(btApprove, getContext());
+            FabAnimationHelper.showFab(btRemove, getContext());
+            FabAnimationHelper.showFab(btCook, getContext());
+            FabAnimationHelper.showFab(btShop, getContext());
+            FabAnimationHelper.rotateOpenFab(btMenuOpen, getContext());
+            fabMenuOpen = true;
         } else {
-            btApprove.setVisibility(View.INVISIBLE);
-            btCook.setVisibility(View.INVISIBLE);
-            btRemove.setVisibility(View.INVISIBLE);
-            btShop.setVisibility(View.INVISIBLE);
+            FabAnimationHelper.hideFab(btApprove, getContext());
+            FabAnimationHelper.hideFab(btRemove, getContext());
+            FabAnimationHelper.hideFab(btCook, getContext());
+            FabAnimationHelper.hideFab(btShop, getContext());
+            FabAnimationHelper.rotateCloseFab(btMenuOpen, getContext());
+            fabMenuOpen = false;
         }
     }
 

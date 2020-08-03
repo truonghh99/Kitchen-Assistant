@@ -22,6 +22,7 @@ import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.RecipeAdapter;
 import com.example.kitchen_assistant.databinding.FragmentRecipeBinding;
 import com.example.kitchen_assistant.fragments.profile.ProfileFragment;
+import com.example.kitchen_assistant.helpers.FabAnimationHelper;
 import com.example.kitchen_assistant.models.Recipe;
 import com.example.kitchen_assistant.storage.CurrentRecipes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,6 +45,7 @@ public class RecipeFragment extends Fragment {
     private FloatingActionButton btMenuOpen;
     private static List<Recipe> recipes;
     private static RecipeAdapter adapter;
+    private Boolean fabMenuOpen = false;
 
     public RecipeFragment() {
     }
@@ -189,12 +191,16 @@ public class RecipeFragment extends Fragment {
     }
 
     private void openOrCloseFabMenu() {
-        if (btAdd.getVisibility() == View.INVISIBLE) {
-            btAdd.setVisibility(View.VISIBLE);
-            btSearch.setVisibility(View.VISIBLE);
+        if (!fabMenuOpen) {
+            FabAnimationHelper.showFab(btAdd, getContext());
+            FabAnimationHelper.showFab(btSearch, getContext());
+            FabAnimationHelper.rotateOpenFab(btMenuOpen, getContext());
+            fabMenuOpen = true;
         } else {
-            btAdd.setVisibility(View.INVISIBLE);
-            btSearch.setVisibility(View.INVISIBLE);
+            FabAnimationHelper.hideFab(btAdd, getContext());
+            FabAnimationHelper.hideFab(btSearch, getContext());
+            FabAnimationHelper.rotateCloseFab(btMenuOpen, getContext());
+            fabMenuOpen = false;
         }
     }
 
