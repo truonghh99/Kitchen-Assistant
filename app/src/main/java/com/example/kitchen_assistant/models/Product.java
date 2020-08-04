@@ -402,16 +402,9 @@ public class Product extends ParseObject implements Parcelable {
         setCurrentQuantity(Math.max(0, getCurrentQuantity() - toSubtract));
         getFoodItem().subtractQuantity(toSubtract, getQuantityUnit());
 
-        if (currentQuantity == 0) {
-            sendNotification(context);
+        if (currentQuantity <= originalQuantity * 0.01) {
+            Notification.createShoppingNotification(this, context);
         }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void sendNotification(Context context) {
-        String title = "Restock needed!";
-        String content = "You're running out of " + productName  + ". Add to shopping list?";
-        Notification.createShoppingNotification(title, content , context);
     }
 
     public void setParseFile(ParseFile parseFile) {
