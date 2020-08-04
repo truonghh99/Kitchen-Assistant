@@ -2,8 +2,6 @@ package com.example.kitchen_assistant.fragments.products;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
@@ -19,14 +17,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.adapters.CurrentFoodAdapter;
-import com.example.kitchen_assistant.clients.BarcodeReader;
 import com.example.kitchen_assistant.clients.Spoonacular;
 import com.example.kitchen_assistant.databinding.FragmentCurrentFoodBinding;
 import com.example.kitchen_assistant.fragments.camera.ScannerFragment;
@@ -52,7 +47,6 @@ public class CurrentFoodFragment extends Fragment {
 
     private static final String TAG = "CurrentProductFragment";
     private static final String AUTHORITY = "com.codepath.fileprovider.kitchenassistant";
-    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private static final int SCANNER_REQUEST_CODE = 0;
     private static CurrentFoodAdapter adapter;
 
@@ -243,29 +237,10 @@ public class CurrentFoodFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                String code = BarcodeReader.getCodeFromImg(takenImage, getActivity().getApplicationContext());
-                if (code == null) {
-                    Log.e(TAG, "Couldn't identify barcode");
-                    Toast.makeText(getActivity(), "Couldn't identify barcode, please scan again", Toast.LENGTH_SHORT).show();
-                    goToNewProductDetail("0041789002519");
-                    return;
-                } else {
-                    Log.i(TAG, "Got product with code: " + code);
-                    goToNewProductDetail(code);
-                }
-            } else {
-                Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
-            }
-        }
-        if (requestCode == SCANNER_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                Log.e(TAG, "GOT CODE FROM SCANNER");
-                String code = data.getStringExtra(ScannerFragment.KEY_CODE);
-                goToNewProductDetail(code);
-            }
+        if (resultCode == Activity.RESULT_OK) {
+            Log.e(TAG, "GOT CODE FROM SCANNER");
+            String code = data.getStringExtra(ScannerFragment.KEY_CODE);
+            goToNewProductDetail(code);
         }
     }
 

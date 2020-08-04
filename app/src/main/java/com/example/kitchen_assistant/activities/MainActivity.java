@@ -24,6 +24,7 @@ import com.example.kitchen_assistant.fragments.nutrition.DailyReportFragment;
 import com.example.kitchen_assistant.fragments.products.CurrentFoodFragment;
 import com.example.kitchen_assistant.fragments.recipes.RecipeFragment;
 import com.example.kitchen_assistant.fragments.shopping.ShoppingListFragment;
+import com.example.kitchen_assistant.helpers.Notification;
 import com.example.kitchen_assistant.helpers.TimeConverter;
 import com.example.kitchen_assistant.storage.CurrentHistoryEntries;
 import com.example.kitchen_assistant.storage.CurrentProducts;
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
+
+        Notification.createNotification("Hello", "Testing", this);
 
         setUpBottomBar();
         setUpProgressBar();
