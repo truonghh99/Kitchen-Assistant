@@ -39,6 +39,8 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String INTENT_NAME = "NotificationIntent";
+    public static final String SHOPPING_NOTIFICATION_TAG = "ShoppingFragment";
     private static final String TAG = "MainActivity";
 
     final Fragment currentFoodFragment = CurrentFoodFragment.newInstance();
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public static BottomNavigationView bottomNavigation;
     private static FragmentManager fragmentManager;
     private static ProgressBar progressBar;
+    private String menuFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
+
+        menuFragment = getIntent().getStringExtra(INTENT_NAME);
 
         setUpBottomBar();
         setUpProgressBar();
@@ -66,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
     // Switch between different screens using the same bottom bar
     private void setUpBottomBar() {
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContainer, currentFoodFragment).commit();
         bottomNavigation = activityMainBinding.bottomNavigation;
         bottomNavigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -93,7 +97,13 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-        bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
+
+        if (menuFragment != null && menuFragment.equals(SHOPPING_NOTIFICATION_TAG)) {
+            hideProgressBar();
+            bottomNavigation.setSelectedItemId(R.id.miShoppingList);
+        } else {
+            bottomNavigation.setSelectedItemId(R.id.miCurrentFood);
+        }
     }
 
     // Retrieve saved information about products, recipes, and shopping list from Parse

@@ -1,5 +1,6 @@
 package com.example.kitchen_assistant.helpers;
 
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,6 +12,8 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.example.kitchen_assistant.R;
+import com.example.kitchen_assistant.activities.LoginActivity;
+import com.example.kitchen_assistant.activities.MainActivity;
 
 public class Notification {
 
@@ -24,11 +27,17 @@ public class Notification {
     public static void createShoppingNotification(String title, String content, Context context) {
         createNotificationChannel(context);
 
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(MainActivity.INTENT_NAME, MainActivity.SHOPPING_NOTIFICATION_TAG);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
         notificationManager.notify(0, builder.build());
