@@ -171,7 +171,7 @@ public class CurrentRecipeDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (recipe.isCookable()) {
-                    RecipeEvaluator.updateFoodFromCookedRecipe(recipe);
+                    RecipeEvaluator.updateFoodFromCookedRecipe(recipe, getContext());
                     RecipeEvaluator.evaluateRecipe(recipe);
                     HistoryEntry.addEntryFromRecipe(recipe);
                     Snackbar.make(getView(), "Added this recipe to your history", Snackbar.LENGTH_LONG)

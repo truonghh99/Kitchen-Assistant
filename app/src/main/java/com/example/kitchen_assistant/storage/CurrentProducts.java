@@ -1,5 +1,6 @@
 package com.example.kitchen_assistant.storage;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.kitchen_assistant.activities.MainActivity;
@@ -108,10 +109,10 @@ public class CurrentProducts {
         }
     }
 
-    public static void removeProduct(Product product) {
+    public static void removeProduct(Product product, Context context) {
         productHashMap.remove(product.getProductCode());
         products.remove(product);
-        product.subtractQuantity(product.getCurrentQuantity(), product.getQuantityUnit());
+        product.subtractQuantity(product.getCurrentQuantity(), product.getQuantityUnit(), context);
         saveProductInBackGround(product);
         CurrentFoodTypes.saveFoodItemInBackGround(product.getFoodItem());
         RecipeEvaluator.evaluateAllRecipe();

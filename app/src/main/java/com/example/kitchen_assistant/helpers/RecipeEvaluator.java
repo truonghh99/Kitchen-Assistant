@@ -1,5 +1,6 @@
 package com.example.kitchen_assistant.helpers;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.kitchen_assistant.models.FoodItem;
@@ -20,12 +21,12 @@ public class RecipeEvaluator {
     private static final String TAG = "RecipeEvaluator";
 
     // Subtract all the selected product within a recipe when cooked
-    public static void updateFoodFromCookedRecipe(Recipe recipe) {
+    public static void updateFoodFromCookedRecipe(Recipe recipe, Context context) {
         List<Ingredient> ingredientList = recipe.getIngredientList();
         for (Ingredient ingredient : ingredientList) {
             String productCode = ingredient.getPreferredProduct();
             Product product = CurrentProducts.productHashMap.get(productCode);
-            product.subtractQuantity(ingredient.getQuantity(), ingredient.getQuantityUnit());
+            product.subtractQuantity(ingredient.getQuantity(), ingredient.getQuantityUnit(), context);
         }
     }
 

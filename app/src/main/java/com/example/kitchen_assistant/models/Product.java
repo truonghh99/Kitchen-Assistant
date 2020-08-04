@@ -1,13 +1,19 @@
 package com.example.kitchen_assistant.models;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
+
 import com.example.kitchen_assistant.helpers.MetricConverter;
+import com.example.kitchen_assistant.helpers.Notification;
 import com.example.kitchen_assistant.storage.CurrentFoodTypes;
 import com.example.kitchen_assistant.storage.CurrentProducts;
 import com.parse.ParseClassName;
@@ -390,10 +396,22 @@ public class Product extends ParseObject implements Parcelable {
         }
     }
 
-    public void subtractQuantity(float quantity, String quantityUnit) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void subtractQuantity(float quantity, String quantityUnit, Context context) {
         float toSubtract = MetricConverter.convertGeneral(quantity, quantityUnit, getQuantityUnit());
         setCurrentQuantity(Math.max(0, getCurrentQuantity() - toSubtract));
         getFoodItem().subtractQuantity(toSubtract, getQuantityUnit());
+
+        if (currentQuantity == 0) {
+            sendNotification(context);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void sendNotification(Context context) {
+        String title = "Restock needed!";
+        String content = "You're running out of " + productName  + ". Add to shopping list?";
+        Notification.createShoppingNotification(title, content , context);
     }
 
     public void setParseFile(ParseFile parseFile) {

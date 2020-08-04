@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
-        Notification.createNotification("Hello", "Testing", this);
-
         setUpBottomBar();
         setUpProgressBar();
         fetchInfoFromLastUse();

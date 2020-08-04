@@ -203,7 +203,7 @@ public class CurrentFoodDetailFragment extends Fragment {
         btRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CurrentProducts.removeProduct(product);
+                CurrentProducts.removeProduct(product, getContext());
                 goToCurrentFood();
             }
         });
