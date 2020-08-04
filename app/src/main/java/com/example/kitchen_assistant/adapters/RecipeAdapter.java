@@ -104,12 +104,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
         private void goToCurrentRecipeDetail(Recipe recipe) {
             CurrentRecipeDetailFragment currentRecipeDetailFragment = CurrentRecipeDetailFragment.newInstance(Parcels.wrap(recipe));
-            MainActivity.switchFragmentWithTransition(currentRecipeDetailFragment, ivImage, "image");
+            MainActivity.switchFragment(currentRecipeDetailFragment);
         }
 
         private void goToNewRecipeDetail(Recipe recipe) {
             NewRecipeDetailFragment newRecipeDetailFragment = NewRecipeDetailFragment.newInstance(Parcels.wrap(recipe));
-            MainActivity.switchFragmentWithTransition(newRecipeDetailFragment, ivImage, "image");
+            MainActivity.switchFragment(newRecipeDetailFragment);
         }
 
         private void handleCookableRecipe() {

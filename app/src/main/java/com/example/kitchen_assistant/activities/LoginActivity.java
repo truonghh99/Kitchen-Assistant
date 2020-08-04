@@ -53,29 +53,28 @@ public class LoginActivity extends AppCompatActivity {
     private String email;
     private String password;
     private Button btLoginFacebook;
-    private CallbackManager callbackManager;
     private String name;
-    private ParseFile profileImg;
 
     private ActivityLoginBinding activityLoginBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Initialize views
         activityLoginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(activityLoginBinding.getRoot());
-
-        // Allow previously logged in user to skip the log in screen
-        if (ParseUser.getCurrentUser() != null) {
-            goMainActivity();
-        }
-
         etUsername = activityLoginBinding.etUsername;
         etPassword = activityLoginBinding.etPassword;
         btnLogin = activityLoginBinding.btnLogin;
         rlSignup = activityLoginBinding.rlSignUp;
         btLoginFacebook = activityLoginBinding.btLoginFacebook;
 
+        // Allow previously logged in user to skip the log in screen
+        if (ParseUser.getCurrentUser() != null) {
+            goMainActivity();
+        }
+
+        // Allow user to log in with manual input
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Allow user to sign up
         rlSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,27 +96,26 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Set up permission to access Facebook account
         final ArrayList<String> permissions = new ArrayList<String>() {
             {
                 add("public_profile");
             }
         };
+
+        // ALlow user to log in with Facebook profile
         btLoginFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e(TAG, "CLICKED");
                 ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this, permissions, new LogInCallback() {
                     @Override
                     public void done(ParseUser user, ParseException err) {
                         if (user == null) {
                             ParseUser.logOut();
-                            Log.e(TAG, "The user cancelled the Facebook login.");
                             Toast.makeText(getApplicationContext(), "Facebook log in was unsuccessful. Please try again.", Toast.LENGTH_SHORT);
                         } else if (user.isNew()) {
-                            Log.e(TAG, "User signed up and logged in through Facebook!");
                             getUserDetailsFromFB();
                         } else {
-                            Log.e(TAG, "User logged in through Facebook!");
                             Toast.makeText(getApplicationContext(), "Successfully Logged In!", Toast.LENGTH_SHORT);
                             goMainActivity();
                         }
@@ -125,22 +124,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    private void getUserDetailsFromFB() {
 
+    // Get information from Facebook profile
+    private void getUserDetailsFromFB() {
         Bundle parameters = new Bundle();
         parameters.putString("fields", "email,name,picture");
         new GraphRequest(AccessToken.getCurrentAccessToken(), "/me", parameters, HttpMethod.GET, new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         try {
-
                             email = response.getJSONObject().getString("email");
                             name = response.getJSONObject().getString("name");
-
-                            JSONObject picture = response.getJSONObject().getJSONObject("picture");
-                            JSONObject data = picture.getJSONObject("data");
-
                             saveNewUser(email, name);
-                            // Get profile image. Link: https://blog.iamsuleiman.com/facebook-login-with-parse-part-2/
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -149,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
         ).executeAsync();
     }
 
+    // Save information to create new ParseUser profile
     private void saveNewUser(String email, String name) {
         ParseUser parseUser = ParseUser.getCurrentUser();
         parseUser.setUsername(name);
@@ -157,6 +152,7 @@ public class LoginActivity extends AppCompatActivity {
         goMainActivity();
     }
 
+    // Allow user to log in with username & password
     private void loginUser(String username, String password) {
         Log.e(TAG, "Attempt to login");
         ParseUser.logInInBackground(username, password, new LogInCallback() {

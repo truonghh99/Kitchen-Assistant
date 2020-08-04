@@ -39,7 +39,6 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    public final String APP_TAG = "MyCustomApp";
 
     final Fragment currentFoodFragment = CurrentFoodFragment.newInstance();
     final Fragment recipeFragment = RecipeFragment.newInstance();
@@ -50,14 +49,12 @@ public class MainActivity extends AppCompatActivity {
     public static BottomNavigationView bottomNavigation;
     private static FragmentManager fragmentManager;
     private static ProgressBar progressBar;
-    private static FrameLayout flContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        flContainer = activityMainBinding.flContainer;
         setContentView(activityMainBinding.getRoot());
 
         setUpBottomBar();
@@ -139,14 +136,6 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.flContainer, fragment)
                 .addToBackStack(null)
                 .commit();
-    }
-
-    public static void switchFragmentWithTransition(Fragment fragment, View view, String transitionName) {
-        // TODO: create shared element before calling this, otherwise it won't work
-        fragmentManager.beginTransaction()
-                .addSharedElement(view, transitionName)
-                .addToBackStack(null)
-                .replace(R.id.flContainer, fragment).commit();
     }
 
     public static void addFragment(Fragment fragment) {

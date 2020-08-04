@@ -41,6 +41,7 @@ public class SignUpActivity extends AppCompatActivity {
         activitySignUpBinding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(activitySignUpBinding.getRoot());
 
+        // Initalize views
         ivAvatar = activitySignUpBinding.ivAvatar;
         etName = activitySignUpBinding.etName;
         etEmail = activitySignUpBinding.etEmail;
@@ -49,6 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp = activitySignUpBinding.btnSignup;
         rlLogIn = activitySignUpBinding.rlLogIn;
 
+        // Allow user to sign up
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +63,8 @@ public class SignUpActivity extends AppCompatActivity {
                 registerUser(email, password);
             }
         });
+
+        // Allow user to log in
         rlLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +74,7 @@ public class SignUpActivity extends AppCompatActivity {
         GlideHelper.loadAvatar("default", getApplicationContext(), ivAvatar);
     }
 
+    // Allow user to create new ParseUser profile
     private void registerUser(String username, String password) {
         Log.e(TAG, "Attempt to register");
         ParseUser user = new ParseUser();
