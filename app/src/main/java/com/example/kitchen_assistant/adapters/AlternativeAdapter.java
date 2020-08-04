@@ -78,18 +78,22 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
             tvQuantity.setText("" + product.getCurrentQuantity() + " " + product.getQuantityUnit());
 
             // Change card background to indicate current status of products
-            switch (product.getFoodStatus()) {
+            switch (product.getFoodStatus().toLowerCase()) {
                 case Product.STATUS_BEST:
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.best));
+                    tvName.setTextColor(context.getResources().getColor(R.color.best_dark));
                     break;
                 case Product.STATUS_SAFE:
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.fair));
+                    tvName.setTextColor(context.getResources().getColor(R.color.fair_dark));
                     break;
                 case Product.STATUS_BAD:
                     cvProduct.setCardBackgroundColor(context.getResources().getColor(R.color.bad));
+                    tvName.setTextColor(context.getResources().getColor(R.color.bad_dark));
                     break;
             }
 
+            // Re-evaluate recipe after user selects a preferred product
             cvProduct.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
