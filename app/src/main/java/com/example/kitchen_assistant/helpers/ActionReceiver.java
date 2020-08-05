@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.fragment.app.Fragment;
+
+import com.example.kitchen_assistant.activities.MainActivity;
+import com.example.kitchen_assistant.fragments.shopping.ShoppingListFragment;
 import com.example.kitchen_assistant.storage.CurrentShoppingList;
 
 public class ActionReceiver extends BroadcastReceiver {
@@ -23,11 +27,17 @@ public class ActionReceiver extends BroadcastReceiver {
 
         if (name != null) {
             MatchingHelper.attemptToCreateShoppingItem(name, quantity, unit);
-
             Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             context.sendBroadcast(it);
+            goToShoppingList();
+            Notification.notificationManager.cancel(0);
         } else {
             return;
         }
+    }
+
+    private void goToShoppingList() {
+        Fragment fragment = ShoppingListFragment.newInstance();
+        MainActivity.switchFragment(fragment);
     }
 }

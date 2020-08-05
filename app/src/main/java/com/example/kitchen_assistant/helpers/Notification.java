@@ -30,7 +30,7 @@ public class Notification {
     public static final String KEY_UNIT = "QuantityUnit";
     public static final String KEY_PRODUCT_NAME = "Product Name";
     private static NotificationChannel notificationChannel = null;
-    private static NotificationManager notificationManager = null;
+    public static NotificationManager notificationManager = null;
     private static String SHOPPING_NOTIFICATION_TITLE = "Restock needed!";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -53,13 +53,6 @@ public class Notification {
         androidx.core.app.NotificationCompat.Action action = new androidx.core.app.NotificationCompat.Action.Builder(
                 R.drawable.ic_shop, "ADD TO SHOPPING LIST", actionIntent)
                 .build();
-
-/*        BroadcastReceiver broadcastReceiver = new ActionReceiver();
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-        context.getApplicationContext().registerReceiver(broadcastReceiver, filter);*/
-
-        //context.getApplicationContext().registerReceiver(new ActionReceiver() , new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         String content = "You're running out of " + product.getProductName();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
