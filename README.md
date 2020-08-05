@@ -63,7 +63,7 @@ A mobile app that keeps track of your food to recommend recipes, minimize number
 * [x] Allow user to set a personal nutrition goal
 * [x] Allow user to share shopping list via other apps
 * [x] Send notification when user runs out of some products
-* [ ] Allow user to add product to shopping list directly from notification
+* [x] Allow user to add product to shopping list directly from notification
 
 ### 2. Screen Archetypes
 
