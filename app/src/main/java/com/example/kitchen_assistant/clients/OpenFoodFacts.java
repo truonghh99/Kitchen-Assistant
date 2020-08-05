@@ -25,7 +25,7 @@ public class OpenFoodFacts {
     public static String HEADER = "KitchenAssistant - Android - Version 1.0 - https://github.com/truonghh99/Kitchen-Assistant/blob/master/README.md";
     private static Product product;
 
-    public static Product getProductInfo(final String productCode) throws IOException, InterruptedException {
+    public static Product getProductInfo(final String productCode) throws InterruptedException {
         Log.i(TAG, "Start querying product info. Product code: " + productCode);
         product = new Product();
         String url = GET_PRODUCT_INFO_URL + productCode;

@@ -40,7 +40,7 @@ public class MatchingHelper {
                 Log.e(TAG, "Look up new product");
                 try {
                     product = OpenFoodFacts.getProductInfo(code);
-                } catch (IOException | InterruptedException e) {
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }

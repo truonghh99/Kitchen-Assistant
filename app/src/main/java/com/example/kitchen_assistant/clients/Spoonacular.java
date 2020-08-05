@@ -200,6 +200,7 @@ public class Spoonacular {
                 });
     }
 
+    // Get nutrition info of given recipe. Result is attached directly to recipe object
     public static void getNutrition(final Recipe recipe) {
         Log.i(TAG, "Start querying nutrient info for recipe " + recipe.getCode());
 

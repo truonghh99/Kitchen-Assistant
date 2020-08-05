@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
-        // ALlow user to log in with Facebook profile
+        // Allow user to log in with Facebook profile
         btLoginFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
