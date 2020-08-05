@@ -1,7 +1,10 @@
 package com.example.kitchen_assistant.storage;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.fragments.products.CurrentFoodFragment;
@@ -109,6 +112,7 @@ public class CurrentProducts {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void removeProduct(Product product, Context context) {
         productHashMap.remove(product.getProductCode());
         products.remove(product);

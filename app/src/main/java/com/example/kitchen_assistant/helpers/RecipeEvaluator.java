@@ -1,7 +1,10 @@
 package com.example.kitchen_assistant.helpers;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.kitchen_assistant.models.FoodItem;
 import com.example.kitchen_assistant.models.Ingredient;
@@ -21,12 +24,15 @@ public class RecipeEvaluator {
     private static final String TAG = "RecipeEvaluator";
 
     // Subtract all the selected product within a recipe when cooked
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void updateFoodFromCookedRecipe(Recipe recipe, Context context) {
         List<Ingredient> ingredientList = recipe.getIngredientList();
         for (Ingredient ingredient : ingredientList) {
             String productCode = ingredient.getPreferredProduct();
             Product product = CurrentProducts.productHashMap.get(productCode);
             product.subtractQuantity(ingredient.getQuantity(), ingredient.getQuantityUnit(), context);
+            CurrentProducts.saveProductInBackGround(product);
+            CurrentFoodTypes.saveFoodItemInBackGround(product.getFoodItem());
         }
     }
 
@@ -108,6 +114,8 @@ public class RecipeEvaluator {
             String productCode = ingredient.getPreferredProduct();
             Product product = CurrentProducts.productHashMap.get(productCode);
             product.addQuantity(ingredient.getQuantity(), ingredient.getQuantityUnit());
+            CurrentProducts.saveProductInBackGround(product);
+            CurrentFoodTypes.saveFoodItemInBackGround(product.getFoodItem());
         }
     }
 }
