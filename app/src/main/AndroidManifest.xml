@@ -63,6 +63,8 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".helpers.ActionReceiver" />
+
     </application>
 
 </manifest>
