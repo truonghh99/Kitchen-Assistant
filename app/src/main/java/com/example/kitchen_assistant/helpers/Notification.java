@@ -43,20 +43,23 @@ public class Notification {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-        Intent shoppingIntent = new Intent();
+        Intent shoppingIntent = new Intent(context, ActionReceiver.class);
         shoppingIntent.putExtra(KEY_QUANTITY_INPUT, product.getOriginalQuantity());
         shoppingIntent.putExtra(KEY_UNIT, product.getQuantityUnit());
         shoppingIntent.putExtra(KEY_PRODUCT_NAME, product.getProductName());
 
-        BroadcastReceiver broadcastReceiver = new ActionReceiver();
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-        context.getApplicationContext().registerReceiver(broadcastReceiver, filter);
-
         PendingIntent actionIntent = PendingIntent.getBroadcast(context, 0, shoppingIntent, 0);
+
         androidx.core.app.NotificationCompat.Action action = new androidx.core.app.NotificationCompat.Action.Builder(
                 R.drawable.ic_shop, "ADD TO SHOPPING LIST", actionIntent)
                 .build();
+
+/*        BroadcastReceiver broadcastReceiver = new ActionReceiver();
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        context.getApplicationContext().registerReceiver(broadcastReceiver, filter);*/
+
+        //context.getApplicationContext().registerReceiver(new ActionReceiver() , new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         String content = "You're running out of " + product.getProductName();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
