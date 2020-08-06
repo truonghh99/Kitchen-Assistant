@@ -23,6 +23,7 @@ import com.example.kitchen_assistant.R;
 import com.example.kitchen_assistant.activities.LoginActivity;
 import com.example.kitchen_assistant.activities.MainActivity;
 import com.example.kitchen_assistant.databinding.FragmentProfileBinding;
+import com.example.kitchen_assistant.fragments.nutrition.DailyReportFragment;
 import com.example.kitchen_assistant.fragments.nutrition.HistoryReportFragment;
 import com.example.kitchen_assistant.fragments.nutrition.RecipeNutritionFragment;
 import com.example.kitchen_assistant.fragments.recipes.InstructionFragment;

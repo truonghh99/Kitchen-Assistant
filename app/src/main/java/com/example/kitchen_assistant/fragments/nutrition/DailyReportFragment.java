@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Parcelable;
 import android.util.Log;
@@ -47,11 +48,9 @@ public class DailyReportFragment extends Fragment {
     private PieChart pcCalories;
     private Date startDate;
     private Date endDate;
+    private SwipeRefreshLayout swipeContainer;
 
-    private float calories;
-    private float protein;
-    private float carbs;
-    private float fat;
+
     private float goal;
 
     public DailyReportFragment() {
@@ -73,9 +72,13 @@ public class DailyReportFragment extends Fragment {
             startDate = (Date) getArguments().getSerializable(KEY_START_DATE);
             endDate = (Date) getArguments().getSerializable(KEY_END_DATE);
         }
+        getUserInfo();
+        setHasOptionsMenu(true);
+    }
+
+    private void getUserInfo() {
         User user = User.fetchFromUserId(ParseUser.getCurrentUser().getObjectId());
         goal = user.getCaloriesGoal();
-        setHasOptionsMenu(true);
     }
 
 
@@ -121,12 +124,34 @@ public class DailyReportFragment extends Fragment {
         fragmentDailyReportBinding = FragmentDailyReportBinding.inflate(getLayoutInflater());
         bcNutrition = fragmentDailyReportBinding.bcNutrition;
         pcCalories = fragmentDailyReportBinding.pcCalories;
+        swipeContainer = fragmentDailyReportBinding.swipeContainer;
 
+        drawCharts();
+        setUpSwipeContainer();
+        return fragmentDailyReportBinding.getRoot();
+    }
+
+    private void setUpSwipeContainer() {
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.e(TAG, "REFRESHING");
+                getUserInfo();
+                drawCharts();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+    }
+
+    private void drawCharts() {
         HashMap<String, Float> nutrition = NutritionHelper.getNutritionInfoInDuration(startDate, endDate);
 
         ChartHelper.drawCaloriesByNutritionChart(nutrition.get("calories"), nutrition.get("carbs"), nutrition.get("protein"), nutrition.get("fat"), goal, pcCalories, getContext());
         ChartHelper.drawNutritionBarChart(nutrition.get("carbs"), nutrition.get("protein"), nutrition.get("fat"), bcNutrition, getContext());
-
-        return fragmentDailyReportBinding.getRoot();
     }
 }
