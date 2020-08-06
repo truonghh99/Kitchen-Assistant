@@ -52,7 +52,7 @@ public class MatchingHelper {
         // Get existing product's information
         Product product = new Product();
         product.setProductCode(original.getProductCode());
-        product.setImageUrl(product.getImageUrl());
+        product.setImageUrl(original.getImageUrl());
         product.setProductName(original.getProductName());
         product.setOriginalQuantity(original.getOriginalQuantity());
         product.setQuantityUnit(original.getQuantityUnit());

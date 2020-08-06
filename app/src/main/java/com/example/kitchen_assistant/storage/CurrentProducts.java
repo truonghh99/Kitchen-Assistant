@@ -88,9 +88,9 @@ public class CurrentProducts {
 
     public static Product fetchProductWithCode(final String code) throws ParseException {
         Log.e(TAG, "Start querying for product with code " + code);
-        final boolean[] completed = {false};
         Product product = new Product();
         ParseQuery<Product> query = ParseQuery.getQuery(Product.class);
+        query.addDescendingOrder(Product.KEY_CREATED_AT);
         query.whereEqualTo(Product.KEY_CODE, code);
         List<Product> results = query.find();
         Log.e(TAG, "Found " + results.size());

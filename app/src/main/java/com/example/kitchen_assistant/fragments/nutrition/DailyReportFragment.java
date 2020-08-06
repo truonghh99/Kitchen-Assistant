@@ -135,7 +135,6 @@ public class DailyReportFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Log.e(TAG, "REFRESHING");
                 getUserInfo();
                 drawCharts();
                 swipeContainer.setRefreshing(false);

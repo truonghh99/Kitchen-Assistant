@@ -281,7 +281,7 @@ public class NewProductDetailFragment extends Fragment {
     }
 
     public void loadImage() {
-        if (product.getParseFile() != null) {
+        if (product.getImageUrl() != null) {
             Log.e(TAG, product.getImageUrl());
             GlideHelper.loadImage(product.getImageUrl(), getContext(), ivImg);
         } else {
