@@ -163,7 +163,7 @@ public class NewProductDetailFragment extends Fragment {
                     String durationUnit = MetricConverter.extractQuantityUnit(etDuration.getText().toString());
                     product.setDuration(duration);
                     product.setDurationUnit(durationUnit);
-                    if (product.getExpirationDate() != null) {
+                    if (product.getPurchaseDate() != null) {
                         product.updateExpirationDate();
                         product.updateFoodStatus();
                         etExpirationDate.setText(parseDate(product.getExpirationDate(), DATE_FORMAT));
