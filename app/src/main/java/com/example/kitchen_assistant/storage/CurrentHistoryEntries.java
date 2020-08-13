@@ -109,10 +109,16 @@ public class CurrentHistoryEntries {
     }
 
     public static Date getFirstDate() {
+        if (entries.size() == 0) {
+            return new Date();
+        }
         return entries.get(0).getTimestamp();
     }
 
     public static Date getLastDate() {
+        if (entries.size() == 0) {
+            return new Date();
+        }
         return entries.get(entries.size() - 1).getTimestamp();
     }
 }
